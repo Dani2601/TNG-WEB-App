@@ -14,14 +14,12 @@ module.exports = {
     darkMode: "class",
     extend: {
       colors: {
-        light: {
-          Background: "#FFFFFF",
-          Text: "#000000"
-        },
-        dark: {
-          Background: "#06091A",
-          Text: "#FFFFFF"
-        },
+        tdm: {
+          pink: "#FF98C3",
+          darkerpink: "#F987BA",
+          lightpink: "#F7B7D3",
+          darkpink: "#ec5084"
+        }
       },
     },
   },

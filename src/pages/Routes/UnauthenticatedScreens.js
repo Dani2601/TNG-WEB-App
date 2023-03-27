@@ -2,8 +2,9 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Helmet } from "react-helmet";
 import routes from '../../constants/routes';
-import Landing from '../Landing';
 import PageNotFound from './PageNotFound';
+import LandingDesert from '../LandingDesert';
+import { DessertBooking } from '../Booking/DessertBooking';
 
 export default function UnauthenticatedScreens() {
   return (
@@ -12,7 +13,8 @@ export default function UnauthenticatedScreens() {
             <title>Template | Unauthenticated</title>
         </Helmet>
         <Routes>
-          <Route path={routes.Landing} element={<Landing/>} />
+          <Route path={routes.LandingDesert} element={<LandingDesert/>} />
+          <Route path={routes.DessertBooking} element={<DessertBooking/>} />
           <Route path={routes.PageNotFound} element={<PageNotFound/>} />
         </Routes>
     </>

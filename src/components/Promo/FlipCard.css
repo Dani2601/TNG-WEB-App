@@ -1,0 +1,20 @@
+.flip-countdown .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec .card__top {
+    color: black;
+}
+
+.flip-countdown .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec .card__bottom {
+    color: black;
+}
+
+.flip-countdown .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec .card__top, .flip-countdown .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec .card__bottom, .flip-countdown .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec .card__back::before, .flip-countdown .flip-countdown-piece .flip-countdown-card .flip-countdown-card-sec .card__back::after{
+    color: black;
+}
+
+.tracking-wider-custom {
+  letter-spacing: 0.2em;
+}
+
+.flip-countdown.size-medium .flip-countdown-piece .flip-countdown-title{
+    display: none;
+}
+  

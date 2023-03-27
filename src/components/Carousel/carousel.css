@@ -1,0 +1,58 @@
+.slick-dots {
+    bottom: 14px;
+}
+
+.slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 1;
+  }
+  
+  .slick-prev {
+    left: 70px;
+  }
+  
+  .slick-next {
+    right: 70px;
+  }
+  
+  .slick-arrow svg {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+  }
+
+
+.slick-prev::before,
+.slick-next::before {
+  display: none !important;
+}
+
+.slick-track {
+    height: 512px;
+}
+
+@media (max-width: 767px) {
+    .slick-track {
+        height: 112px;
+    }    
+  }
+   
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .slick-track {
+        height: 278px;
+    }    
+  }
+
+  @media (min-width: 1024px) {
+    .slick-track {
+        height: 512px;
+    }    
+  }
