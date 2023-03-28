@@ -8,7 +8,7 @@ export default function GootopiaContainer({children}) {
         <Topbar/>
         <GootopiaMenubar/>
         {children}
-        <DessertFooter/>
+        {/* <DessertFooter/> */}
     </div>
   )
 }

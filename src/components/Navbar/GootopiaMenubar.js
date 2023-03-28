@@ -29,7 +29,7 @@ export default function DesertMuseumMenubar() {
                   />
                 </div>
               )}
-              <div className="hidden w-1/2 md:block">
+              <div className="hidden w-full md:block">
                 <div className="vg flex items-baseline">
                   <a
                     href={routes.LandingGootopia}
@@ -53,33 +53,18 @@ export default function DesertMuseumMenubar() {
                     href="#"
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
                   >
+                    How to book
+                  </a>
+                  <a
+                    href="#"
+                    className="w-1/3 text-center text-black rounded-md text-sm font-medium"
+                  >
                     FAQs
                   </a>
                 </div>
               </div>
 
-              <div className="w-1/2 hidden md:block">
-                <div className="vg flex items-baseline space-x-4">
-                  <a
-                    href="#"
-                    className="w-1/3 text-center text-black rounded-md text-sm font-medium"
-                  >
-                    HOW TO BOOK
-                  </a>
-                  <a
-                    href="#"
-                    className="w-1/3 text-center text-black rounded-md text-sm font-medium"
-                  >
-                    FAQS
-                  </a>
-                  <a
-                    href="#"
-                    className="w-1/3 text-center text-black rounded-md text-sm font-medium"
-                  >
-                    LOGIN
-                  </a>
-                </div>
-              </div>
+           
             </div>
             <div className="-mr-2 flex md:hidden">
               <button onClick={toggleMenu} type="button" aria-expanded="false">
@@ -127,7 +112,7 @@ export default function DesertMuseumMenubar() {
           </div>
         </div>
       </nav>
-      {isOpen ? <></> : <img className=" " src={dripping} alt="dripping" />}
+    
     </>
   );
 }

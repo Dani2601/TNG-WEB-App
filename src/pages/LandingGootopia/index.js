@@ -10,6 +10,7 @@ import CertifiedSection from "../../components/Features/CertifiedSection";
 import { ImageSection } from "../../components/Features/ImageSection";
 import FAQ from "../../components/Features/FAQ";
 import GootopiaContainer from "../../components/Container/GootopiaContainter";
+import { LandingPage } from "../../components/Gootopia/LandingPage";
 
 const carouselData = [
   {
@@ -35,14 +36,8 @@ function LandingGootopia() {
   
   return (
     <GootopiaContainer>
-      <CarouselBanner items={carouselData}/>
-      <PromoBanner/>
-      <PartnerSection/>
-      <DesertFeatures/>
-      <BookOnline/>
-      <CertifiedSection/>
-      <ImageSection/>
-      <FAQ/>
+      <LandingPage/>
+    
     </GootopiaContainer>
   );
 }
