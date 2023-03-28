@@ -3,7 +3,7 @@ import { Accordion } from '../../pages/Accordion/Accordion'
 
 export default function FAQ() {
   return (
-    <div className='flex justify-center py-4 lg:py-12'>
+    <div className='flex justify-center py-4 lg:py-12 font-quicksand'>
         <div className='w-[90vw] lg:w-[70vw]'>
             <div className='py-5 font-bold text-tdm-darkpink tracking-widest text-center text-[1.2em]'>FREQUENTLY ASKED QUESTIONS</div>
             <div>

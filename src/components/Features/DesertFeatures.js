@@ -3,7 +3,7 @@ import { banana, camera, claw, dessert, gumball, heart, rooms } from '../../asse
 
 export function DesertFeatures() {
   return (
-    <div className='flex flex-col sm:flex-row px-10 sm:px-0 lg:px-56 pb-4 bg-[url("https://static.wixstatic.com/media/00f21d_1f6812164a5b4d2994b32fdfb3fcbfd6~mv2.png/v1/fill/w_1899,h_369,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/00f21d_1f6812164a5b4d2994b32fdfb3fcbfd6~mv2.png")]'>
+    <div className='flex flex-col sm:flex-row px-10 sm:px-0 lg:px-56 pb-4 font-quicksand bg-[url("https://static.wixstatic.com/media/00f21d_1f6812164a5b4d2994b32fdfb3fcbfd6~mv2.png/v1/fill/w_1899,h_369,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/00f21d_1f6812164a5b4d2994b32fdfb3fcbfd6~mv2.png")]'>
         <div className='w-1/7 flex flex-col items-center px-2 lg:px-3 justify-center'>
             <img src={rooms} className="object-cover w-[195px] h-[195px]"/>
             <span className='text-white text-center font-bold text-sm tracking-widest'>ENTER THE PINK<br/>DOORWAY TO 8 MOUTHWATERING ROOMS</span>

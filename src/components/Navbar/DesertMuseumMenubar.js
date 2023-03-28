@@ -11,7 +11,7 @@ export default function DesertMuseumMenubar() {
   }
 
   return (
-    <nav className="bg-tdm-pink">
+    <nav className="bg-tdm-pink font-quicksand">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex w-full justify-center items-center">

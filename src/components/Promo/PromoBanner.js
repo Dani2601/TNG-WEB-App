@@ -4,7 +4,7 @@ import "./FlipCard.css";
 export function PromoBanner() {
 
   return (
-    <div className='w-full py-10 bg-tdm-lightpink'>
+    <div className='w-full py-10 bg-tdm-lightpink font-quicksand'>
         <div className='flex justify-center pb-3'>
             <span className='cursor-pointer text-center font-bold text-tdm-darkpink underline tracking-wider-custom text-[30px] leading-1'>FREE MARCH BABIES PROMO ENDS IN</span>
         </div>

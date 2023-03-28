@@ -11,7 +11,7 @@ export function ImageSection() {
     }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col font-quicksand'>
         <div className='flex flex-col md:flex-row w-full md:h-[512px]'>
             <img src={bakery} className="object-cover w-full md:w-1/2"/>
             <div className='flex flex-col justify-center items-center py-4 w-full md:w-1/2 bg-[#a161ad]'>

@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet";
 import routes from '../../constants/routes';
 import PageNotFound from './PageNotFound';
 import LandingDesert from '../LandingDesert';
+import LandingGootopia from '../LandingGootopia';
+
 import { DessertBooking } from '../Booking/DessertBooking';
 
 export default function UnauthenticatedScreens() {
@@ -13,6 +15,9 @@ export default function UnauthenticatedScreens() {
             <title>Template | Unauthenticated</title>
         </Helmet>
         <Routes>
+        <Route path={routes.LandingGootopia} element={<LandingGootopia/>} />
+
+
           <Route path={routes.LandingDesert} element={<LandingDesert/>} />
           <Route path={routes.DessertBooking} element={<DessertBooking/>} />
           <Route path={routes.PageNotFound} element={<PageNotFound/>} />

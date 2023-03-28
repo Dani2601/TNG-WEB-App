@@ -19,7 +19,15 @@ module.exports = {
           darkerpink: "#F987BA",
           lightpink: "#F7B7D3",
           darkpink: "#ec5084"
-        }
+        },
+        gootopia:{
+          green:"#BDCA7A"
+        },
+      },
+      fontFamily: {
+        quicksand: ['Quicksand', 'sans-serif'],
+        flavors: ['Flavors', 'sans-serif'],
+
       },
     },
   },

@@ -3,6 +3,7 @@ const routes = {
   LandingDesert: "/",
   Login: "/Login",
   DessertBooking: "/TheDessertMuseum/Booking",
+  LandingGootopia: "/Gootopia",
 
   // authenticated
   Home: "/",

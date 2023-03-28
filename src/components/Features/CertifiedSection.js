@@ -3,7 +3,7 @@ import { allpink, cannoisseur, instagramtodeath, playground } from '../../assets
 
 export default function CertifiedSection() {
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col font-quicksand font-quicksand'>
         <div className={`flex py-2 flex-col items-center md:flex-row object-cover justify-center w-full md:h-[137px] bg-[url("https://static.wixstatic.com/media/00f21d_d064cef478c84bc2b6a84b02af2702d0~mv2.png/v1/fill/w_1899,h_171,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/00f21d_d064cef478c84bc2b6a84b02af2702d0~mv2.png")]`}>
             <span className='font-bold text-[#e83384] tracking-widest text-[20px]'>CERTIFIED:</span>
             <img src={cannoisseur} className="mt-[-10px] object-cover w-[149px] h-[160px]"/>

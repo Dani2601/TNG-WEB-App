@@ -3,7 +3,7 @@ import { chicago, forbes, metropolitan, outlook, southchina } from '../../assets
 
 export function PartnerSection() {
   return (
-    <div className='py-10 flex justify-center'>
+    <div className='py-10 flex justify-center font-quicksand'>
         <div className='flex flex-col w-[80vw] md:w-[65vw] lg:w-[50vw] justify-center'>
           <span className='tracking-widest text-[20px] font-bold text-center'>
             <span className='text-[#ec548a]'>THE DESSERT MUSEUM </span><span className='text-[#C1B1DD]'>IS AN INTERACTIVE TASTING </span><br/>
