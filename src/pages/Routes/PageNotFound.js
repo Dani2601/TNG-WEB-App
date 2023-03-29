@@ -1,12 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import { Topbar } from "../../components/Navbar";
+import routes from "../../constants/routes";
 
 export default function PageNotFound() {
   return (
-    <div className='w-screen h-screen flex flex-col items-center justify-center'>
-      <h1>404 Not Found</h1>
-      <p>Sorry, the page you are looking for does not exist.</p>
-      <Link to="/">Go back to the homepage</Link>
-    </div>
-  )
+    <>
+    <Topbar/>
+      <div className={`flex flex-col justify-center items-center mt-10`}>
+        <div className="text-[30px] sm:text-[50px]  font-extrabold  bg-clip-text bg-gradient-to-r from-primary sm:mt-10 sm:mb  sm:-mb-0 ">
+          Oooops!
+        </div>
+        <div className="text-[12px] sm:text-[18px] font-thin sm:md">
+          Page Not Found
+        </div>
+        <div className="text-[12px] sm:text-[18px] font-thin text-slate-400 sm:md">
+          This page probably doesn't exist or under Construction
+        </div>
+        <Link to={routes.Home}>
+        <button
+          type="button"
+          class="mt-10 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+        >
+          Back
+        </button>
+        </Link>
+      </div>
+    </>
+  );
 }
