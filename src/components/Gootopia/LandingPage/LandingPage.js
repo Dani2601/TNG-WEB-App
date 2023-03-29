@@ -13,7 +13,7 @@ import pipeleft from "../../../assets/Gootopia/pipeleft.png";
 export default function LandingPage() {
   return (
     <div>
-      <div className="h-[50000px] bg-gootopia-purp">
+      <div className="max-h-full min-h-screen bg-gootopia-purp">
         <img class="w-full " src={gootopialanding} alt="gootopialanding" />
 
         <div className="flex flex-col  mx-auto mt-10  mb-10">

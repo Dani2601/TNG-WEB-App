@@ -1,5 +1,6 @@
 import React from 'react'
 import { DessertFooter } from '../Footer/DessertFooter'
+import GootopiaFooter from '../Footer/GootopiaFooter'
 import { DesertMuseumMenubar, GootopiaMenubar, Menubar, Topbar } from '../Navbar'
 
 export default function GootopiaContainer({children}) {
@@ -8,7 +9,7 @@ export default function GootopiaContainer({children}) {
         <Topbar/>
         <GootopiaMenubar/>
         {children}
-        {/* <DessertFooter/> */}
+        <GootopiaFooter/>
     </div>
   )
 }
