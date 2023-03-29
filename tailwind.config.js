@@ -28,6 +28,8 @@ module.exports = {
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
         flavors: ["Flavors", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+
       },
     },
   },

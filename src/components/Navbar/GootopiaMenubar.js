@@ -112,7 +112,11 @@ export default function DesertMuseumMenubar() {
           </div>
         </div>
       </nav>
-    
+      {/* {isOpen ? (
+                  <></>
+                ) : (
+                  <img className="" src={dripping} alt="Workflow" />
+                )} */}
     </>
   );
 }
