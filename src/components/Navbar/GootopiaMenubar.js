@@ -52,7 +52,7 @@ export default function DesertMuseumMenubar() {
                   </Link>
                   <Link
                     to={routes.FaqsGootopia}
-                    className="block px-3 py-2 w-full text-left text-base"
+                    className="w-1/3 text-center text-black rounded-md text-sm font-medium"
                   >
                     FAQs
                   </Link>
