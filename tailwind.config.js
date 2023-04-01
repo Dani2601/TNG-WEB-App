@@ -10,6 +10,8 @@ module.exports = {
       sm: "700px",
       md: "1025px",
       lg: "1374px",
+      tablet:"768px",
+      laptop:"1024px"
     },
     darkMode: "class",
     extend: {
