@@ -9,22 +9,30 @@ import fog from "../../../assets/Gootopia/fog.png";
 import slimetower from "../../../assets/Gootopia/slimetower.png";
 import piperight from "../../../assets/Gootopia/piperight.png";
 import pipeleft from "../../../assets/Gootopia/pipeleft.png";
+import { Link } from "react-router-dom";
+import routes from "../../../constants/routes";
 
 export default function LandingPage() {
   return (
     <div>
-      <div className="max-h-full min-h-screen bg-gootopia-purp">
-        <img class="w-full " src={gootopialanding} alt="gootopialanding" />
+      <div className="max-h-full min-h-screen bg-gootopia-purp ">
+        <div className="relative">
+          {/* <img class="absolute" src={book1} alt="Workplace" width="" /> */}
+          <Link className="cursor-pointer" to={routes.GootopiaBooking}>
+            <img class="booknow" src={book1} alt="Workplace" width="600" />
+          </Link>
+        </div>
+        <img class="w-full" src={gootopialanding} alt="gootopialanding" />
 
-        <div className="flex flex-col  mx-auto mt-10  mb-10">
+        <div className="flex flex-col  mx-auto mt-10 mb-10 ">
           <div className="self-center">
             <img
-              className=" w-[360px] h-[42px] sm:w-[600px] sm:h-[70px] sm:md"
+              className="px-5 tablet:w-[600px] tablet:h-[70px] tablet:laptop"
               src={WeirdandWonderful}
               alt="WeirdandWonderful"
             />
           </div>
-          <div className="self-center text-center font-bold text-[#F8E17C]">
+          <div className="self-center text-center font-bold text-[#F8E17C] px-7 mt-3 text-[10px] tablet:text-[18px]">
             Are you ready to take on a bewildering adventure? Enter Gootopia at
             your risk - this world is full of mischief and mayhem. You will be
             sentenced to get slimed! The only wait to escape unscathed is to
@@ -35,28 +43,36 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="flex flex-col mt-10">
-          <div className="md:flex md:flex-row">
-            <div className="sm:flex sm:flex-row">
-              <div className="self-center">
+        <div className="flex flex-col mt-10 justify-center ">
+          <div className="laptop:flex laptop:flex-row  tablet:mx-2 gap-2">
+            <div className="tablet:flex tablet:flex-row  gap-2 justify-center">
+              <div className="mb-2">
                 <img
-                  className=""
+                  className="mx-auto"
                   src={balloonblaster}
                   alt="WeirdandWonderful"
                 />
               </div>
-              <div className="self-center">
-                <img className="" src={bowling} alt="WeirdandWonderful" />
+              <div className="mb-2">
+                <img
+                  className="mx-auto"
+                  src={bowling}
+                  alt="WeirdandWonderful"
+                />
               </div>
             </div>
 
-            <div className="sm:flex sm:flex-row">
-              <div className="self-center">
-                <img className="" src={slimetower} alt="WeirdandWonderful" />
-              </div>
-              <div className="self-center">
+            <div className="tablet:flex tablet:flex-row  gap-2 justify-center">
+              <div className="mb-2 ">
                 <img
-                  className="bg-[#57B42D]"
+                  className="mx-auto"
+                  src={slimetower}
+                  alt="WeirdandWonderful"
+                />
+              </div>
+              <div className="mb-2">
+                <img
+                  className="bg-[#57B42D] mx-auto"
                   src={fog}
                   alt="WeirdandWonderful"
                 />
@@ -65,13 +81,13 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="bg-[#F8E71C] mt-10">
+        <div className="bg-[#F8E71C] pt-10">
           <div className="flex flex-row justify-center">
             <div>
               {" "}
               <img className="" src={pipeleft} alt="WeirdandWonderful" />
             </div>
-            <div className="text-[#FF5141] font-flavors mx-3 -rotate-12 self-center sm:text-[32px] sm:md">
+            <div className="text-[#FF5141] font-flavors mx-3 -rotate-12 self-center tablet:text-[32px] tablet:laptop">
               An Attraction Unlike <br />
               Anywhere You've Been
             </div>
@@ -81,8 +97,8 @@ export default function LandingPage() {
             </div>
           </div>
           <div>
-            <div className=" flex flex-col justify-center font-poppins gap-5 mt-10">
-              <div className="text-[#1427B8] font-light text-center self-center ">
+            <div className=" flex flex-col justify-center font-poppins gap-5 mt-10 text-[12px] tablet:text-[16px] tablet:laptop:laptopL:laptop4k  ">
+              <div className="text-[#1427B8] font-light text-center self-center px-5">
                 This slime carnival will test both your physical and mental
                 limits! One thing’s for sure though, <br /> this Instagrammable
                 Fun House is an attraction unlike anywhere you’ve been!
@@ -90,14 +106,14 @@ export default function LandingPage() {
               <div className="text-white font-bold bg-[#B45AD3] text-center self-center px-2 ">
                 PLEASE READ: AGE RESTRICTIONS
               </div>
-              <div className="text-[#1427B8] font-light text-center self-center">
+              <div className="text-[#1427B8] font-light text-center self-center px-5">
                 12 years old and below must be accompanied by a fully vaccinated
                 paying adult <br /> at all times.
               </div>
               <div className="text-white font-bold bg-[#B45AD3] text-center self-center px-2 mx-10">
                 PLEASE READ: HEIGHT RESTRICTIONS
               </div>
-              <div className="text-[#1427B8] font-light text-center self-center">
+              <div className="text-[#1427B8] font-light text-center self-center px-5">
                 3.5 feet and above - paying guest , and will be given the
                 Gootopia Scorecard <br /> in order to play all games and claim
                 our slime kit ​<br />
@@ -110,8 +126,7 @@ export default function LandingPage() {
               </div>
 
               <div className="text-[#1427B8] font-light text-center self-center">
-                <span className="font-bold text-black">
-                  {" "}
+                <span className="font-bold text-black px-5 text-center">
                   Playable for kids 3.5 feet and below with guardian assistance:
                 </span>
                 <br />
@@ -122,15 +137,25 @@ export default function LandingPage() {
                 Goozooka <br />
                 Balloon Blaster (4 yo may need assistance depending on height)
                 <br />
-                
-                <span className="font-bold text-black">
+                <span className="font-bold text-black px-5">
                   {" "}
                   Not playable for kids below 3.5 feet:
-                </span>  <br />
+                </span>{" "}
+                <br />
                 Boom Boxer <br />
                 Goolectic Challenge
                 <br />
                 Slime Tower
+              </div>
+              <div className="py-10 flex flex-row justify-center">
+                <Link className="cursor-pointer" to={routes.GootopiaBooking}>
+                  <img
+                    class="w-[140px] tablet:w-[180px] tablet:laptop:laptopL:laptop4k"
+                    src={book1}
+                    alt="Workplace"
+                    width="600"
+                  />
+                </Link>
               </div>
             </div>
           </div>

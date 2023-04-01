@@ -77,7 +77,7 @@ export default function DesertMuseumMenubar() {
             </div>
           </div>
         </div>
-        <div className={`${isOpen ? "" : "hidden"} md:hidden w-full h-screen`}>
+        <div className={`${isOpen ? "" : "hidden"} md:hidden w-full h-screen z-50`}>
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
             <a
               href={routes.LandingGootopia}

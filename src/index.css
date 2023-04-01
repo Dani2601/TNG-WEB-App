@@ -5,3 +5,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Flavors&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:wght@300;400;700&display=swap");
 
+@layer components {
+    .booknow{
+        @apply z-0 absolute top-[45px] right-[12px] w-[71px] h-[39px]
+        mobileM:top-[55px] mobileM:right-[15px] mobileM:w-[71px] mobileM:h-[39px]
+        mobileL:top-[65px] mobileL:right-[18px] mobileL:w-[71px] mobileL:h-[39px]
+        tablet:top-[100px] tablet:right-[10px] tablet:w-[182px] tablet:h-[100.01px]
+        laptop:top-[150px] laptop:right-[60px] laptop:w-[182px] laptop:h-[100.01px]
+        laptopL:top-[200px] laptopL:right-[100px] laptopL:w-[182px] laptopL:h-[100.01px]
+        laptop4k:top-[350px] laptop4k:right-[200px] laptop4k:w-[371px] laptop4k:h-[204px]
+
+    }
+}
+
+/* 
+mobileS:"320px",
+mobileM:"375px",
+mobileL:"425px",
+tablet:"768px",
+laptop:"1024px",
+laptopL:"1440px",
+laptop4k:'2560px' */
