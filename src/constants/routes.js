@@ -6,7 +6,10 @@ const routes = {
 
   //Gootopia
   LandingGootopia: "/Gootopia",
-  ObstaclesGootopia: "/Obstacles",
+  ObstaclesGootopia: "/Gootopia/Obstacles",
+  PackagesGootopia: "/Gootopia/Packages",
+  FaqsGootopia: "/Gootopia/Faqs",
+
 
   // authenticated
   Home: "/",

@@ -7,7 +7,8 @@ import LandingDesert from "../LandingDesert";
 import LandingGootopia from "../LandingGootopia";
 
 import { DessertBooking } from "../Booking/DessertBooking";
-import { Obstacles } from "../../components/Gootopia";
+import { FAQS, Obstacles } from "../../components/Gootopia";
+import Packages from "../../components/Gootopia/Packages/Packages";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -19,6 +20,9 @@ export default function UnauthenticatedScreens() {
         {/* Gootopia */}
         <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
         <Route path={routes.ObstaclesGootopia} element={<Obstacles />} />
+        <Route path={routes.PackagesGootopia} element={<Packages />} />
+        <Route path={routes.FaqsGootopia} element={<FAQS />} />
+
 
         {/* DessertMusuem */}
         <Route path={routes.LandingDesert} element={<LandingDesert />} />

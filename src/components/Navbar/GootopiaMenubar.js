@@ -44,6 +44,18 @@ export default function DesertMuseumMenubar() {
                   >
                     Obstacles
                   </Link>
+                  <Link
+                    to={routes.PackagesGootopia}
+                    className="w-1/3 text-center text-black rounded-md text-sm font-medium"
+                  >
+                    Packages
+                  </Link>
+                  <Link
+                    to={routes.FaqsGootopia}
+                    className="block px-3 py-2 w-full text-left text-base"
+                  >
+                    FAQs
+                  </Link>
                   <a
                     href="#"
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
@@ -55,12 +67,6 @@ export default function DesertMuseumMenubar() {
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
                   >
                     How to book
-                  </a>
-                  <a
-                    href="#"
-                    className="w-1/3 text-center text-black rounded-md text-sm font-medium"
-                  >
-                    FAQs
                   </a>
                 </div>
               </div>
@@ -82,28 +88,29 @@ export default function DesertMuseumMenubar() {
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
             <Link
               to={routes.LandingGootopia}
-              className="  block px-3 py-2 w-full text-left text-base"
+              className="block px-3 py-2 w-full text-left text-base"
             >
               Home
             </Link>
             <Link
               to={routes.ObstaclesGootopia}
-              className="  block px-3 py-2 w-full text-left text-base"
+              className="block px-3 py-2 w-full text-left text-base"
             >
               Obstacles
             </Link>
-            <a
-              href="#"
-              className="  block px-3 py-2 w-full text-left text-base"
-            >
-              FAQs
-            </a>
-            <a
-              href="#"
-              className="  block px-3 py-2 w-full text-left text-base"
+            <Link
+              to={routes.PackagesGootopia}
+              className="block px-3 py-2 w-full text-left text-base"
             >
               Packages
-            </a>
+            </Link>
+            <Link
+              to={routes.FaqsGootopia}
+              className="block px-3 py-2 w-full text-left text-base"
+            >
+              FAQs
+            </Link>
+
             <a
               href="#"
               className="  block px-3 py-2 w-full text-left text-base"

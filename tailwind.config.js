@@ -30,7 +30,8 @@ module.exports = {
         gootopia: {
           green: "#BDCA7A",
           purp: "#972F78",
-          pinkText:"#E677AA"
+          pinkText:"#E677AA",
+          yellowText:"#F8E71C"
         },
       },
       fontFamily: {

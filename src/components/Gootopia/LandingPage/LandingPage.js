@@ -18,7 +18,7 @@ export default function LandingPage() {
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
         <div className="relative">
           {/* <img class="absolute" src={book1} alt="Workplace" width="" /> */}
-          <Link className="cursor-pointer" to={routes.ObstaclesGootopia}>
+          <Link className="cursor-pointer" to={routes.GootopiaBooking}>
             <img class="booknow" src={book1} alt="Workplace" width="600" />
           </Link>
         </div>
@@ -148,7 +148,7 @@ export default function LandingPage() {
                 Slime Tower
               </div>
               <div className="py-10 flex flex-row justify-center">
-                <Link className="cursor-pointer" to={routes.ObstaclesGootopia}>
+                <Link className="cursor-pointer" to={routes.GootopiaBooking}>
                   <img
                     class="w-[140px] tablet:w-[180px] tablet:laptop:laptopL:laptop4k"
                     src={book1}
