@@ -2,8 +2,7 @@ const routes = {
   // unauthenticated
   LandingDesert: "/",
   Login: "/Login",
-  DessertBooking: "/TheDessertMuseum/Booking",
-
+  DessertBooking: "/the-dessert-museum/booking",
   // authenticated
   Home: "/",
 

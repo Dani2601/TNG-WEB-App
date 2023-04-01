@@ -9,6 +9,7 @@ import BookOnline from "../../components/Features/BookOnline";
 import CertifiedSection from "../../components/Features/CertifiedSection";
 import { ImageSection } from "../../components/Features/ImageSection";
 import FAQ from "../../components/Features/FAQ";
+import { Instagram } from "../../components/Embed";
 
 const carouselData = [
   {
@@ -42,6 +43,7 @@ function LandingDesert() {
       <CertifiedSection/>
       <ImageSection/>
       <FAQ/>
+      <Instagram/>
     </Container>
   );
 }

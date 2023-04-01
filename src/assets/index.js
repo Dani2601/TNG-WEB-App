@@ -39,8 +39,14 @@ const marker = require('./Vector (1).png')
 const fb = require('./Vector (2).png')
 const insta = require('./Vector (3).png')
 const twitter = require('./Vector (4).png')
+const tnglogo = require('./MAIN LOGO TNG.png')
+const paynamics = require('./newpaynamics-logo 1.png')
+const paypal = require('./paypal 1.png')
 
 export {
+    paynamics,
+    paypal,
+    tnglogo,
     phone,
     email,
     marker,

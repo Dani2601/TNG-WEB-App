@@ -14,7 +14,7 @@ export function TDMLocation({setStep}) {
 
   return (
     <div className='w-full h-[60vh] flex justify-center'>
-      <div className='w-[50vw]'>
+      <div className='w-[80vw] sm:w-[50vw]'>
         <div className='h-1/2 text-center flex gap-6 flex-col justify-center items-center'>
             <p className='text-[30px] text-[#FF98C3]'>Select Location</p>
             <p className='text-sm'>Please note that our TWO HOUR TOUR starts every 15 minutes.<br/>Guests are required to come 20 minutes before their scheduled slot<br/>for processing of tickets.</p>
