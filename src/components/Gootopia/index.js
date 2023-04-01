@@ -1,4 +1,4 @@
 import LandingPage from "./LandingPage/LandingPage";
-import Section2 from "./2ndSection/2ndSection";
+import Obstacles from "./Obstacles/Obstacles";
 
-export { LandingPage, Section2 };
+export { LandingPage, Obstacles };

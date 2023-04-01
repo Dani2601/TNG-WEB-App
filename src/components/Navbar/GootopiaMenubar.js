@@ -6,6 +6,7 @@ import hamburger from "../../assets/Gootopia/hamburgericon.png";
 import gootopia from "../../assets/Gootopia/gootopiamobile.png";
 import dripping from "../../assets/Gootopia/slimedripping.png";
 import routes from "../../constants/routes";
+import { Link } from "react-router-dom";
 
 export default function DesertMuseumMenubar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,18 +32,18 @@ export default function DesertMuseumMenubar() {
               )}
               <div className="hidden w-full md:block">
                 <div className="vg flex items-baseline">
-                  <a
-                    href={routes.LandingGootopia}
+                  <Link
+                    to={routes.LandingGootopia}
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
                   >
                     Home
-                  </a>
-                  <a
-                    href="#"
+                  </Link>
+                  <Link
+                    to={routes.ObstaclesGootopia}
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
                   >
                     Obstacles
-                  </a>
+                  </Link>
                   <a
                     href="#"
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
@@ -63,8 +64,6 @@ export default function DesertMuseumMenubar() {
                   </a>
                 </div>
               </div>
-
-           
             </div>
             <div className="-mr-2 flex md:hidden">
               <button onClick={toggleMenu} type="button" aria-expanded="false">
@@ -77,20 +76,22 @@ export default function DesertMuseumMenubar() {
             </div>
           </div>
         </div>
-        <div className={`${isOpen ? "" : "hidden"} md:hidden w-full h-screen z-50`}>
+        <div
+          className={`${isOpen ? "" : "hidden"} md:hidden w-full h-screen z-50`}
+        >
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
-            <a
-              href={routes.LandingGootopia}
+            <Link
+              to={routes.LandingGootopia}
               className="  block px-3 py-2 w-full text-left text-base"
             >
               Home
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to={routes.ObstaclesGootopia}
               className="  block px-3 py-2 w-full text-left text-base"
             >
               Obstacles
-            </a>
+            </Link>
             <a
               href="#"
               className="  block px-3 py-2 w-full text-left text-base"
