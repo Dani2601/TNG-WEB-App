@@ -10,6 +10,7 @@ import { DessertBooking } from "../Booking/DessertBooking";
 import { FAQS, Obstacles } from "../../components/Gootopia";
 import Packages from "../../components/Gootopia/Packages/Packages";
 import Contacts from "../../components/Gootopia/Contacts/Contacts";
+import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -24,7 +25,7 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.PackagesGootopia} element={<Packages />} />
         <Route path={routes.FaqsGootopia} element={<FAQS />} />
         <Route path={routes.ContactsGootopia} element={<Contacts />} />
-
+        <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
 
 
         {/* DessertMusuem */}

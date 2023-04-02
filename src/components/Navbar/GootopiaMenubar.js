@@ -62,12 +62,12 @@ export default function DesertMuseumMenubar() {
                   >
                     Contacts
                   </Link>
-                  <a
-                    href="#"
+                  <Link
+                    to={routes.SelectLocationGootopia}
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
                   >
-                    How to book
-                  </a>
+                    Book Now
+                  </Link>
                 </div>
               </div>
             </div>
@@ -116,12 +116,12 @@ export default function DesertMuseumMenubar() {
             >
               Contacts
             </Link>
-            <a
-              href="#"
-              className="  block px-3 py-2 w-full text-left text-base"
+            <Link
+              to={routes.SelectLocationGootopia}
+              className="block px-3 py-2 w-full text-left text-base"
             >
               Book Now
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

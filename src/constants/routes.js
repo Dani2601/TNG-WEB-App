@@ -10,6 +10,7 @@ const routes = {
   PackagesGootopia: "/Gootopia/Packages",
   FaqsGootopia: "/Gootopia/Faqs",
   ContactsGootopia: "/Gootopia/Contacts",
+  SelectLocationGootopia: "/Gootopia/Booking/SelectLocation",
 
 
   // authenticated
