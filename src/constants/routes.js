@@ -9,6 +9,7 @@ const routes = {
   ObstaclesGootopia: "/Gootopia/Obstacles",
   PackagesGootopia: "/Gootopia/Packages",
   FaqsGootopia: "/Gootopia/Faqs",
+  ContactsGootopia: "/Gootopia/Contacts",
 
 
   // authenticated
