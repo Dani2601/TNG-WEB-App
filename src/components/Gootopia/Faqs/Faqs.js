@@ -1,6 +1,7 @@
 import React from "react";
 import GootopiaContainer from "../../Container/GootopiaContainter";
 import dripping from "../../../assets/Gootopia/Obstacles/SlimeDown.png";
+import abouts from "../../../assets/Gootopia/FAQ's/about.png";
 import { Accordion } from "../Accordion/Accordion";
 import { FaFacebook, FaLink, FaTwitter } from "react-icons/fa";
 export default function Faqs() {
@@ -224,6 +225,13 @@ export default function Faqs() {
               <hr class="h-px bg-[#E677AA] border-0"></hr>
             </div>
           </div>
+        </div>
+        <div className="flex flex-row justify-center">
+          <img
+            class="laptop:w-[800px] w-[300px] tablet:w-[600px]"
+            src={abouts}
+            alt="gootopialanding "
+          />
         </div>
         <img class="w-full rotate-180 " src={dripping} alt="gootopialanding " />
       </div>
