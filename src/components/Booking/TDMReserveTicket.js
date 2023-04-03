@@ -6,7 +6,7 @@ export function TDMReserveTicket({setStep}) {
 
     function handleBack(){
         setStep(1)
-      }
+    }
     
     function handleNext(){
         setShowModal(true)
@@ -17,42 +17,45 @@ export function TDMReserveTicket({setStep}) {
     }
 
     function handleProceed(){
+        setStep(3)
         setShowModal(false)
     }
     
     return (
         <div className='w-full py-10 flex justify-center'>
-        <TDMModalBooking showModal={showModal} handleCloseModal={handleCloseModal} handleProceed={handleProceed}/>
-        <div className='w-[50vw]'>
+        <TDMModalBooking showModal={showModal} handleCloseModal={handleCloseModal} setStep={setStep} handleProceed={handleProceed}/>
+        <div className='w-[80vw] sm:w-[50vw]'>
             <div className='text-center flex gap-6 flex-col justify-center items-center'>
                 <p className='text-[30px] text-[#FF98C3]'>Select Location</p>
                 <p className='text-sm'>Please note that our TWO HOUR TOUR starts every 15 minutes.<br/>Guests are required to come 20 minutes before their scheduled slot<br/>for processing of tickets.</p>
             </div>
             
-            <div className='flex py-10 gap-4'>
-                <div className='relative max-h-[400px] text-center leading-6 text-sm w-1/3 bg-[#FF73B9] p-6'>
-                    <div class="absolute top-5 px-8 right-[-26px] bg-white transform rotate-45">
-                        <span class="text-xs font-bold">SAVE P100!</span>
+            <div className='flex flex-col sm:flex-row py-10 gap-4'>
+                <div className='relative text-center leading-6 text-sm w-full sm:w-1/3'>
+                    <div className='bg-[#FF73B9] p-6'>
+                        <div class="absolute top-5 px-8 right-[-26px] bg-white transform rotate-45">
+                            <span class="text-xs font-bold">SAVE P100!</span>
+                        </div>
+                        <p className='text-lg'>Online Promo - SAVEP100!</p>
+                        <p className='mb-4 mt-4'>Book ONLINE and come on<br/>
+                            any day!
+                        </p>
+                        <p className='font-bold mb-4'>
+                        *For advance reservation<br/>
+                        only, not applicable for<br/>
+                        walk-ins.
+                        </p>
+                        <p className='font-bold'>
+                        *Advisable to bring socks for<br/>
+                        the Jelly Room
+                        </p>
+                        <p className='mt-10'>
+                        FROM<br/>
+                        <span className='text-lg font-bold'>PHP 699.00</span>
+                        </p>
                     </div>
-                    <p className='text-lg'>Online Promo - SAVEP100!</p>
-                    <p className='mb-4 mt-4'>Book ONLINE and come on<br/>
-                        any day!
-                    </p>
-                    <p className='font-bold mb-4'>
-                    *For advance reservation<br/>
-                    only, not applicable for<br/>
-                    walk-ins.
-                    </p>
-                    <p className='font-bold'>
-                    *Advisable to bring socks for<br/>
-                    the Jelly Room
-                    </p>
-                    <p className='mt-10'>
-                    FROM<br/>
-                    <span className='text-lg font-bold'>PHP 699.00</span>
-                    </p>
                 </div>
-                <div className='w-1/3 bg-[#F9DCED] p-6 text-center leading-6 leading-6 text-sm'>
+                <div className='w-full sm:w-1/3 bg-[#F9DCED] p-6 text-center leading-6 leading-6 text-sm'>
                     <p className='text-lg'>Top Fans are FREE!!!</p>
                     <p className='mt-4 mb-4'>
                     Top Fans are FREE + One paying friend.<br/><br/>
@@ -76,7 +79,7 @@ export function TDMReserveTicket({setStep}) {
                     </p>
                 </div>
                 
-                <div className='w-1/3 bg-[#F9DCED] p-6 text-center leading-6 leading-6 text-sm'>
+                <div className='w-full sm:w-1/3 bg-[#F9DCED] p-6 text-center leading-6 leading-6 text-sm'>
                     <p className='text-lg'>Top Fans are FREE!!!</p>
                     <p className='mt-4 mb-4'>
                     Top Fans are FREE + One paying friend.<br/><br/>
