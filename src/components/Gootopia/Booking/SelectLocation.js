@@ -8,22 +8,20 @@ import { Link } from "react-router-dom";
 
 let location = [
   {
-    Moa: "SM MOA",
-  },
-  {
-    Moa: "SM MOA",
+    id: 1,
+    Location: "SM Mall Of Asia",
   },
 ];
 
 export default function SelectLocation() {
   // const [location, setLocation] = useState(location)
-  const [selectedLocation, setSelectedLocation] = useState(false)
+  const [selectedLocation, setSelectedLocation] = useState(false);
 
   const handleSelectLocation = () => {
-    setSelectedLocation(!selectedLocation)
-  }
+    setSelectedLocation(!selectedLocation);
+  };
 
-  console.log(selectedLocation)
+  console.log(selectedLocation);
 
   return (
     <GootopiaContainer>
@@ -36,28 +34,37 @@ export default function SelectLocation() {
         </div>
 
         <div className="flex flex-row justify-center">
-          <div className="bg-white w-[300px] rounded-md p-3">
+          <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
                 {location.map((data, index) => {
                   return (
-                    <button className="mr-2 outline-4 " onClick={()=> handleSelectLocation()} key={index}>
-                      <img
-                        className={`rounded-[7px] w-[75px] h-[75px] ${selectedLocation === true ? "border-[3px] border-[#E677AA]" : ""} `}
-                        src={moa}
-                        alt="gootopialanding "
-                      />
-                    </button>
+                    <div className="flex flex-col">
+                      <button
+                        className="outline-4 self-center"
+                        onClick={() => handleSelectLocation()}
+                        key={index}
+                      >
+                        <img
+                          className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]${
+                            selectedLocation === true
+                              ? "border-[3px] border-[#E677AA]"
+                              : ""
+                          } `}
+                          src={moa}
+                          alt="gootopialanding "
+                        />
+                      </button>
+                      <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center">{data?.Location}</div>
+                    </div>
                   );
                 })}
               </div>
 
               <div className="flex flex-row justify-end">
                 <div>
-                  <button className="text-white bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl">
-                    <Link to={routes.Home}>
-                    Next
-                    </Link>
+                  <button className="text-white text-[12px] tablet:text-[14px] bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl">
+                    <Link to={routes.SelectTicketGootopia}>Next</Link>
                   </button>
                 </div>
               </div>

@@ -11,6 +11,7 @@ const routes = {
   FaqsGootopia: "/Gootopia/Faqs",
   ContactsGootopia: "/Gootopia/Contacts",
   SelectLocationGootopia: "/Gootopia/Booking/SelectLocation",
+  SelectTicketGootopia: "/Gootopia/Booking/SelectTicket",
 
 
   // authenticated

@@ -11,6 +11,7 @@ import { FAQS, Obstacles } from "../../components/Gootopia";
 import Packages from "../../components/Gootopia/Packages/Packages";
 import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
+import { SelectTicket } from "../../components/Gootopia/Booking";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -26,6 +27,7 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.FaqsGootopia} element={<FAQS />} />
         <Route path={routes.ContactsGootopia} element={<Contacts />} />
         <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
+        <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} />
 
 
         {/* DessertMusuem */}

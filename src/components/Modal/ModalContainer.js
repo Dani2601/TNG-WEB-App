@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 export function ModalContainer({isOpen, modalWidth, onRequestClose, children}) {
     const [width, setWidth] = useState(window.innerWidth)
 
+
     useEffect(() => {
         const handleResize = () => {
         setWidth(window.innerWidth);
