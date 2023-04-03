@@ -14,7 +14,6 @@ const routes = {
   SelectTicketGootopia: "/Gootopia/Booking/SelectTicket",
 
 
-  DessertBooking: "/the-dessert-museum/booking",
   // authenticated
   Home: "/",
 
