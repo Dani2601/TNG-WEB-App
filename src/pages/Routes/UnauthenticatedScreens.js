@@ -12,14 +12,20 @@ import Packages from "../../components/Gootopia/Packages/Packages";
 import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
 import { SelectTicket } from "../../components/Gootopia/Booking";
+import { DessertPackages } from "../Package";
 
 export default function UnauthenticatedScreens() {
   return (
     <>
       <Helmet>
-        <title>Template | Unauthenticated</title>
+        <title>The Next Experience</title>
       </Helmet>
       <Routes>
+        {/* DessertMusuem */}
+        <Route path={routes.LandingDesert} element={<LandingDesert />} />
+        <Route path={routes.DessertBooking} element={<DessertBooking />} />
+        <Route path={routes.Packages} element={<DessertPackages />} />
+        
         {/* Gootopia */}
         <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
         <Route path={routes.ObstaclesGootopia} element={<Obstacles />} />
@@ -29,10 +35,6 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
         <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} />
 
-
-        {/* DessertMusuem */}
-        <Route path={routes.LandingDesert} element={<LandingDesert />} />
-        <Route path={routes.DessertBooking} element={<DessertBooking />} />
         <Route path={routes.PageNotFound} element={<PageNotFound />} />
       </Routes>
     </>

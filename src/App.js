@@ -6,7 +6,7 @@ import { AuthenticatedScreens, UnauthenticatedScreens } from './pages/Routes';
 function App() {
   const { loggedIn } = useAuth();
   
-  return loggedIn ? <AuthenticatedScreens/> : <UnauthenticatedScreens/>;
+  return !loggedIn ? <AuthenticatedScreens/> : <UnauthenticatedScreens/>;
 }
 
 export default App;

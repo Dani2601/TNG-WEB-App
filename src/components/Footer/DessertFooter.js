@@ -1,5 +1,5 @@
 import React from 'react'
-import { desertlogo, email, fb, insta, marker, phone, twitter } from '../../assets'
+import { desertlogo, email, fb, insta, marker, phone, twitter } from '../../assets/Dessert'
 
 export function DessertFooter() {
   return (

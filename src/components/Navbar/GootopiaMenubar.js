@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
-import { desertlogo, tdmnav } from "../../assets";
+import { desertlogo, tdmnav } from "../../assets/Dessert";
 import close from "../../assets/Gootopia/closebutton.png";
 import hamburger from "../../assets/Gootopia/hamburgericon.png";
 import gootopia from "../../assets/Gootopia/gootopiamobile.png";

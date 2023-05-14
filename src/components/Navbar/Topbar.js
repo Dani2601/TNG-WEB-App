@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { bakebenav, gootopianav, isnav, logo, nx, tdmnav } from "../../assets";
+import { bakebenav, gootopianav, isnav, logo, nx, tdmnav } from "../../assets/Dessert";
 import { MdMenu } from "react-icons/md";
 import routes from "../../constants/routes";
 import { Link } from "react-router-dom";
 
-export default function Topbar() {
+export default function Topbar({scroll}) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
 
@@ -45,7 +45,7 @@ export default function Topbar() {
               <div className="cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]">
                 <img src={tdmnav} className="w-full h-full object-contain" />
               </div>
-            </Link>
+            </Link>  
           </div>
 
           <div>

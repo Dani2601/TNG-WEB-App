@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { MdClose, MdMenu } from 'react-icons/md';
-import { desertlogo, tdmnav } from '../../assets'
+import { desertlogo, tdmnav } from '../../assets/Dessert'
+import { Link } from 'react-router-dom';
+import routes from '../../constants/routes';
 
-export default function DesertMuseumMenubar() {
+export default function DesertMuseumMenubar({scroll}) {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,58 +18,36 @@ export default function DesertMuseumMenubar() {
         <div className="flex items-center justify-between">
           <div className="flex w-full justify-center items-center">
               <div className="hidden w-1/2 md:block">
-                <div className="vg flex items-baseline">
-                  <a
-                    href="#"
-                    className="w-1/3 text-center text-white rounded-md text-sm font-medium"
+                <div className="vg flex justify-end">
+                  <Link
+                    to={routes.Packages}
+                    className="cursor-pointer w-1/3 text-center text-center rounded-md text-sm font-bold"
                   >
-                    HOME
-                  </a>
-                  <a
-                    href="#"
-                    className="w-1/3 text-center text-center text-white rounded-md text-sm font-medium"
-                  >
-                    PACKAGES
-                  </a>
-                  <a
-                    href="#"
-                    className="w-1/3 text-center text-white rounded-md text-sm font-medium"
-                  >
-                    MEDIA
-                  </a>
+                    EVENTS
+                  </Link>
                   </div>
                 </div>
                 {
                   !isOpen &&
                   <div className="flex-shrink-0">
-                    <img
-                      className="w-60 object-contain"
-                      src={desertlogo}
-                      alt="Workflow"
-                    />
+                    <Link to={routes.LandingDesert}>
+                      <img
+                        className="w-60 object-contain"
+                        src={desertlogo}
+                        alt="Workflow"
+                      />
+                    </Link>
                   </div>
                 }
               <div className="w-1/2 hidden md:block">
                 <div className="vg flex items-baseline space-x-4">
-                <a
-                  href="#"
-                  className="w-1/3 text-center text-white rounded-md text-sm font-medium"
-                >
-                  HOW TO BOOK
-                </a>
-                <a
-                  href="#"
-                  className="w-1/3 text-center text-white rounded-md text-sm font-medium"
+                <div
+                  onClick={scroll}
+                  className="cursor-pointer w-1/3 text-center rounded-md text-sm font-bold"
                 >
                   FAQS
-                </a>
-                <a
-                  href="#"
-                  className="w-1/3 text-center text-white rounded-md text-sm font-medium"
-                >
-                  LOGIN
-                </a>
-              </div>
+                </div>
+                </div>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">

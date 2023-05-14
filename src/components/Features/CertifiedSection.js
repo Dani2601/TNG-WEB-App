@@ -1,5 +1,5 @@
 import React from 'react'
-import { allpink, cannoisseur, instagramtodeath, playground } from '../../assets'
+import { allpink, cannoisseur, instagramtodeath, playground } from '../../assets/Dessert'
 
 export default function CertifiedSection() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { banana, camera, claw, dessert, gumball, heart, rooms } from '../../assets'
+import { banana, camera, claw, dessert, gumball, heart, rooms } from '../../assets/Dessert'
 
 export function DesertFeatures() {
   return (

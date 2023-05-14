@@ -1,5 +1,5 @@
 import React from 'react'
-import { chicago, forbes, metropolitan, outlook, southchina } from '../../assets'
+import { chicago, forbes, metropolitan, outlook, southchina } from '../../assets/Dessert'
 
 export function PartnerSection() {
   return (

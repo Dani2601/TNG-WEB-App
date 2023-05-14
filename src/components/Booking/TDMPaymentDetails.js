@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { logo, nx, paynamics, paypal, tnglogo } from '../../assets'
+import { logo, nx, paynamics, paypal, tnglogo } from '../../assets/Dessert'
 import { FiTrash, FiTrash2 } from 'react-icons/fi'
 import { MdRestoreFromTrash } from 'react-icons/md'
 
@@ -56,11 +56,11 @@ export function TDMPaymentDetails({setStep}) {
                         <div className='flex gap-3 py-3'>
                             <div className='flex gap-2'>
                                 <input type='checkbox'/>
-                                <img src={paypal} className='w-16 object-contain'/>
+                                <img src={paypal} alt='paypal' className='w-16 object-contain'/>
                             </div>
                             <div className='flex gap-2'>
                                 <input type='checkbox'/>
-                                <img src={paynamics} className='w-16 object-contain'/>
+                                <img src={paynamics} alt='paynamics' className='w-16 object-contain'/>
                             </div>
                         </div>
                     </div>

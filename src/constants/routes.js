@@ -3,6 +3,7 @@ const routes = {
   LandingDesert: "/",
   Login: "/Login",
   DessertBooking: "/TheDessertMuseum/Booking",
+  Packages: "/TheDessertMuseum/Packages",
 
   //Gootopia
   LandingGootopia: "/Gootopia",
@@ -12,11 +13,6 @@ const routes = {
   ContactsGootopia: "/Gootopia/Contacts",
   SelectLocationGootopia: "/Gootopia/Booking/SelectLocation",
   SelectTicketGootopia: "/Gootopia/Booking/SelectTicket",
-
-
-  // authenticated
-  Home: "/",
-
 
   PageNotFound: "*"
 };

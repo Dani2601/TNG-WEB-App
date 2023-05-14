@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { booknow, bookonline } from '../../assets'
+import { booknow, bookonline } from '../../assets/Dessert'
 import routes from '../../constants/routes'
 
 export default function BookOnline() {

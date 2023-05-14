@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { bakery, banana1, bananabeach, BEWITCHED, bubbles, gumball1, kakepop, kheart } from '../../assets'
+import { bakery, banana1, bananabeach, BEWITCHED, bubbles, gumball1, kakepop, kheart } from '../../assets/Dessert'
 import routes from '../../constants/routes'
 
 export function ImageSection() {

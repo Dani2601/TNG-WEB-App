@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Container from "../../components/Container";
 import { CarouselBanner } from "../../components/Carousel/CarouselBanner";
 import { PromoBanner } from "../../components/Promo/PromoBanner";
@@ -31,9 +31,15 @@ const carouselData = [
 
 
 function LandingDesert() {
+
+  const faq = useRef(null)
+
+  const handleScroll = () => {
+    faq.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   
   return (
-    <Container>
+    <Container scroll={handleScroll}>
       <CarouselBanner items={carouselData}/>
       <PromoBanner/>
       <PartnerSection/>
@@ -41,7 +47,7 @@ function LandingDesert() {
       <BookOnline/>
       <CertifiedSection/>
       <ImageSection/>
-      <FAQ/>
+      <FAQ setRef={faq}/>
       {/* <Instagram/> */}
     </Container>
   );

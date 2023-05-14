@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { logo, nx, tnglogo } from '../../assets'
+import { logo, nx, tnglogo } from '../../assets/Dessert'
 import { FiTrash, FiTrash2 } from 'react-icons/fi'
 import { MdRestoreFromTrash } from 'react-icons/md'
 
