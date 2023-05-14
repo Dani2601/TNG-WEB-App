@@ -32,8 +32,8 @@ export function CarouselBanner({items}) {
     return (
         <Slider {...settings}>
             {items.map((item) => (
-                <div key={item.id}>
-                <img src={item.imageSrc} alt={item.id} className="h-full"/>
+                <div key={item.id} className="h-full">
+                    <img src={item.imageSrc} alt={item.id} className="h-full"/>
                 </div>
             ))}
         </Slider>

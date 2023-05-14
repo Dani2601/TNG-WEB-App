@@ -15,7 +15,7 @@ export function PartnerSection() {
             <span className='text-[#C1B1DD]'>ONE EPIC IMAGINATIVE WONDERLAND.</span><br/>
           </span>
           
-        <div className='flex justify-center gap-3 pt-10'>
+        <div className='flex flex-wrap justify-center gap-3 pt-10'>
           <img src={chicago} className="object-contain w-14  md:w-28"/>
           <img src={metropolitan} className="object-contain w-14  md:w-28 w-42"/>
           <img src={forbes} className="object-contain w-14  md:w-28 w-32"/>

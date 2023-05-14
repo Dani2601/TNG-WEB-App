@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export function TDMLocation({setStep}) {
+export function TDMLocation({setStep, location, setLocation}) {
   const navigate = useNavigate()
 
   function handleBack(){
@@ -22,7 +22,7 @@ export function TDMLocation({setStep}) {
         
         <div className='h-1/2'>
             <p>Choose where you want to book your appointment</p>
-            <input type={'text'} className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"/>
+            <input value={location} onChange={(e) => setLocation(e.target.value)} type={'text'} className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"/>
             <div className='flex justify-end gap-5'>
               <button onClick={handleBack} className='shadow-md text-sm py-2 px-6 border-[#FF98C3] border-2 text-[#FF98C3]'>Back</button>
               <button onClick={handleNext} className='shadow-md text-sm py-2 px-6 bg-[#FF98C3] text-white'>Next</button>

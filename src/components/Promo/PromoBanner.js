@@ -1,29 +1,20 @@
-import FlipCountdown from '@rumess/react-flip-countdown';
-import "./FlipCard.css";
+
+import FlipClockCountdown from '@leenguyen/react-flip-clock-countdown';
+import '@leenguyen/react-flip-clock-countdown/dist/index.css';
 
 export function PromoBanner() {
 
   return (
-    <div className='w-full py-10 bg-tdm-lightpink font-quicksand'>
+    <div className='w-full py-10 mt-[-10px] bg-tdm-lightpink font-quicksand'>
         <div className='flex justify-center pb-3'>
             <span className='cursor-pointer text-center font-bold text-tdm-darkpink underline tracking-wider-custom text-[30px] leading-1'>FREE MARCH BABIES PROMO ENDS IN</span>
         </div>
-        <FlipCountdown
-            showLabel={false}
-            hideYear
-            hideMonth
-            size={'medium'}
-            endAt={'2023-12-12 01:26:58'} // Date/Time
-            onTimeUp={() => console.log("Time's up ⏳")}
-            theme={'light'}
-        />
-        <div className='w-full flex justify-center mt-4'>
-            <div className='flex w-[480px] justify-center bg-white'>
-                <div className='w-1/4 text-center font-bold text-[16px]'>Days</div>
-                <div className='w-1/4 text-center font-bold text-[16px]'>Hours</div>
-                <div className='w-1/4 text-center font-bold text-[16px]'>Mins</div>
-                <div className='w-1/4 text-center font-bold text-[16px]'>Secs</div>
-            </div>
+        <div className='flex justify-center items-center'>
+          <FlipClockCountdown to={new Date().getTime() + 24 * 3600 * 1000 + 5000}
+            labelStyle={{ fontSize: 12, fontWeight: 500, textTransform: 'uppercase' }}
+            digitBlockStyle={{ width: 30, height: 50, fontSize: 30 }}
+            duration={0.5}
+          />
         </div>
     </div>
   );

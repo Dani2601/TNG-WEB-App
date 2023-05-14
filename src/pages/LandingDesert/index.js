@@ -1,6 +1,5 @@
 import React from "react";
 import Container from "../../components/Container";
-import BannerImg from "../../assets/BEWITCHED2.png"
 import { CarouselBanner } from "../../components/Carousel/CarouselBanner";
 import { PromoBanner } from "../../components/Promo/PromoBanner";
 import { PartnerSection } from "../../components/Partner/PartnerSection";
@@ -43,7 +42,7 @@ function LandingDesert() {
       <CertifiedSection/>
       <ImageSection/>
       <FAQ/>
-      <Instagram/>
+      {/* <Instagram/> */}
     </Container>
   );
 }

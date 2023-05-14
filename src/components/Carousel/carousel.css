@@ -35,24 +35,24 @@
   display: none !important;
 }
 
-.slick-track {
+/* .slick-track {
     height: 512px;
-}
+} */
 
 @media (max-width: 767px) {
-    .slick-track {
+    /* .slick-track {
         height: 112px;
-    }    
+    }     */
   }
    
   @media (min-width: 768px) and (max-width: 1023px) {
-    .slick-track {
+    /* .slick-track {
         height: 278px;
-    }    
+    }     */
   }
 
   @media (min-width: 1024px) {
-    .slick-track {
+    /* .slick-track {
         height: 512px;
-    }    
+    }     */
   }

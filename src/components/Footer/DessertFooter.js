@@ -22,14 +22,14 @@ export function DessertFooter() {
                     <input type='text' placeholder='Subject' className='border-2 border-[#F2F5BE] p-2'/>
                 </div>
                 <div className='w-full'>
-                    <textarea placeholder='Message' className='border-2 border-[#F2F5BE] p-2 w-full h-full'></textarea>
+                    <textarea placeholder='Message' className='border-2 border-[#F2F5BE] p-2 w-full h-[145px]'></textarea>
                 </div>
             </div>
             <div className='flex justify-end mt-2'>
                 <button className='px-4 py-1 border-2 border-[#FF98C3] text-[#FF98C3]'>Submit</button>
             </div>
         </div>
-        <div className='flex flex-col justify-center w-full lg:w-1/4 px-10 lg:px-4 gap-3'>
+        <div className='flex flex-col justify-center w-full md:w-1/4 px-10 lg:px-4 gap-3'>
             <div className='flex items-center'>
                 <img src={phone} className="object-contain h-7 w-7 mr-10"/>
                 <span className='text-sm'>(+63) 966 210 6010</span>

@@ -8,11 +8,12 @@ import { TDMPaymentDetails } from '../../components/Booking/TDMPaymentDetails'
 
 export function DessertBooking() {
   const [step, setStep] = useState(1)
+  const [location, setLocation] = useState('')
   return (
     <DesertMuseumContainer>
       {
         step == 1 &&
-        <TDMLocation setStep={setStep}/>
+        <TDMLocation setStep={setStep} location={location} setLocation={setLocation}/>
       }
       {
         step == 2 &&
