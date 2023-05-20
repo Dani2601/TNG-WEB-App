@@ -9,10 +9,10 @@ import LandingGootopia from "../LandingGootopia";
 import { DessertBooking } from "../Booking/DessertBooking";
 import { FAQS, Obstacles } from "../../components/Gootopia";
 import Packages from "../../components/Gootopia/Packages/Packages";
-import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
 import { SelectTicket } from "../../components/Gootopia/Booking";
 import { DessertPackages } from "../Package";
+import Login from "../Login/Login";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -21,21 +21,16 @@ export default function UnauthenticatedScreens() {
         <title>The Next Experience</title>
       </Helmet>
       <Routes>
-        {/* DessertMusuem */}
-        <Route path={routes.LandingDesert} element={<LandingDesert />} />
-        <Route path={routes.DessertBooking} element={<DessertBooking />} />
-        <Route path={routes.Packages} element={<DessertPackages />} />
-        
-        {/* Gootopia */}
-        <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
-        <Route path={routes.ObstaclesGootopia} element={<Obstacles />} />
-        <Route path={routes.PackagesGootopia} element={<Packages />} />
-        <Route path={routes.FaqsGootopia} element={<FAQS />} />
-        <Route path={routes.ContactsGootopia} element={<Contacts />} />
-        <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
+        <Route
+          path={routes.SelectLocationGootopia}
+          element={<SelectLocation />}
+        />
         <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} />
 
+        <Route path={routes.DessertBooking} element={<DessertBooking />} />
+
         <Route path={routes.PageNotFound} element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

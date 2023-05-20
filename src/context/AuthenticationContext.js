@@ -11,7 +11,6 @@ const AuthProvider = (props) => {
     const [loggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate();
     const { token } = useSelector((state) => state.record);
-  
     useEffect(() => {
         let userToken = token;
         if (userToken != null) {

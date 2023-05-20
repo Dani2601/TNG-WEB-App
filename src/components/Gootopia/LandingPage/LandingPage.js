@@ -11,14 +11,20 @@ import piperight from "../../../assets/Gootopia/piperight.png";
 import pipeleft from "../../../assets/Gootopia/pipeleft.png";
 import { Link } from "react-router-dom";
 import routes from "../../../constants/routes";
+import { useSelector } from "react-redux";
 
 export default function LandingPage() {
+  const { user } = useSelector((state) => state);
+  console.log("user", user);
   return (
     <div>
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
         <div className="relative">
           {/* <img class="absolute" src={book1} alt="Workplace" width="" /> */}
-          <Link className="cursor-pointer" to={routes.SelectLocationGootopia}>
+          <Link
+            className="cursor-pointer"
+            to={user ? routes.SelectLocationGootopia : routes.Login}
+          >
             <img class="booknow" src={book1} alt="Workplace" width="600" />
           </Link>
         </div>
@@ -148,7 +154,10 @@ export default function LandingPage() {
                 Slime Tower
               </div>
               <div className="py-10 flex flex-row justify-center">
-                <Link className="cursor-pointer" to={routes.SelectLocationGootopia}>
+                <Link
+                  className="cursor-pointer"
+                  to={user ? routes.SelectLocationGootopia : routes.Login}
+                >
                   <img
                     class="w-[140px] tablet:w-[180px] tablet:laptop:laptopL:laptop4k"
                     src={book1}

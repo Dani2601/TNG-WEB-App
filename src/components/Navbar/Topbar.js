@@ -1,13 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { bakebenav, gootopianav, isnav, logo, nx, tdmnav } from "../../assets/Dessert";
+import {
+  bakebenav,
+  gootopianav,
+  isnav,
+  logo,
+  nx,
+  tdmnav,
+} from "../../assets/Dessert";
 import { MdMenu } from "react-icons/md";
 import routes from "../../constants/routes";
 import { Link, useLocation } from "react-router-dom";
 
-export default function Topbar({scroll}) {
+export default function Topbar({ scroll }) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -34,68 +41,86 @@ export default function Topbar({scroll}) {
               <img src={nx} alt="" className="h-10 w-10 object-contain" />
             </div>
             <div>
-              <img src={logo} alt="" className="hidden tablet:block w-[281px] h-[34px] mt-1" />
+              <img
+                src={logo}
+                alt=""
+                className="hidden tablet:block w-[281px] h-[34px] mt-1"
+              />
             </div>
           </div>
 
           <div class="h-[40px]  bg-white w-[2px] mr-[3px]"></div>
 
           <div className="flex flex-row gap-1 laptop:gap-2 flex-1">
-          <div>
-            <Link to={routes.LandingDesert}>
-              <div className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+            <div>
+              <Link to={routes.LandingDesert}>
+                <div
+                  className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
                 ${
-                  (
-                    location.pathname === routes.LandingDesert ||
-                    location.pathname === routes.Packages ||
-                    location.pathname === routes.DessertBooking
-                  )
-                  ? 'bg-[#664653]' : ''
-                }`}>
-                <img src={tdmnav} alt="" className="w-full h-full object-contain" />
-              </div>
-            </Link>  
-          </div>
+                  location.pathname === routes.LandingDesert ||
+                  location.pathname === routes.Packages ||
+                  location.pathname === routes.DessertBooking
+                    ? "bg-[#664653]"
+                    : ""
+                }`}
+                >
+                  <img
+                    src={tdmnav}
+                    alt=""
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </Link>
+            </div>
 
-          <div>
-            <Link to={routes.PageNotFound}>
-              <div className="cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]">
-                <img src={isnav} alt="" className="w-full h-full object-contain" />
-              </div>
-            </Link>
-          </div>
+            <div>
+              <Link to={routes.PageNotFound}>
+                <div className="cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]">
+                  <img
+                    src={isnav}
+                    alt=""
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </Link>
+            </div>
 
-          <div>
-            <Link to={routes.PageNotFound}>
-              <div className="cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]">
-                <img alt="" src={bakebenav} className="w-full h-full object-contain" />
-              </div>
-            </Link>
-          </div>
+            <div>
+              <Link to={routes.PageNotFound}>
+                <div className="cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]">
+                  <img
+                    alt=""
+                    src={bakebenav}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </Link>
+            </div>
 
-          <div>
-            <Link to={routes.LandingGootopia}>
-              <div className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+            <div>
+              <Link to={routes.LandingGootopia}>
+                <div
+                  className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
               ${
-                (
-                  location.pathname === routes.LandingGootopia ||
-                  location.pathname === routes.ObstaclesGootopia ||
-                  location.pathname === routes.PackagesGootopia ||
-                  location.pathname === routes.FaqsGootopia ||
-                  location.pathname === routes.ContactsGootopia ||
-                  location.pathname === routes.SelectLocationGootopia ||
-                  location.pathname === routes.SelectTicketGootopia
-                )
-                ? 'bg-[#664653]' : ''
-              }`}>
-                <img
-                  alt=""
-                  src={gootopianav}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-            </Link>
-          </div>
+                location.pathname === routes.LandingGootopia ||
+                location.pathname === routes.ObstaclesGootopia ||
+                location.pathname === routes.PackagesGootopia ||
+                location.pathname === routes.FaqsGootopia ||
+                location.pathname === routes.ContactsGootopia ||
+                location.pathname === routes.SelectLocationGootopia ||
+                location.pathname === routes.SelectTicketGootopia
+                  ? "bg-[#664653]"
+                  : ""
+              }`}
+                >
+                  <img
+                    alt=""
+                    src={gootopianav}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </Link>
+            </div>
           </div>
           <div
             className="flex w-1/10 justify-center items-center"
