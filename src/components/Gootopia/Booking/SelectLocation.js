@@ -5,23 +5,57 @@ import GootopiaContainer from "../../Container/GootopiaContainter";
 import moa from "../../../assets/Gootopia/Booking/SmMoa.png";
 import routes from "../../../constants/routes";
 import { Link } from "react-router-dom";
-
-let location = [
-  {
-    id: 1,
-    Location: "SM Mall Of Asia",
-  },
-];
+import { getBranches } from "../../../functions/Branches";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function SelectLocation() {
-  // const [location, setLocation] = useState(location)
+  const [location, setLocation] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(false);
+  const { user } = useSelector((state) => state.record);
+  const [currentImage, setCurrentImage] = useState(null);
 
   const handleSelectLocation = () => {
     setSelectedLocation(!selectedLocation);
   };
 
-  console.log(selectedLocation);
+  useEffect(() => {
+    getBranches(user.id)
+      .then((response) => {
+        if (response.valid) {
+          setLocation(response.data);
+        } else {
+        }
+      })
+      .catch();
+  }, []);
+
+  // useEffect(() => {
+  //   if (location?.Image) {
+  //     async function viewImage(container, filename, func) {
+  //       try {
+  //         const { data } = await axios.post(
+  //           `${process.env.REACT_APP_REST_API}generateSASToken`,
+  //           {
+  //             filename: filename,
+  //             container: container,
+  //           }
+  //         );
+
+  //         func(data);
+  //       } catch (e) {
+  //         console.log("Failed to view");
+  //       }
+  //     }
+  //     if (location?.Image) {
+  //       viewImage("users", location?.Image, setCurrentImage);
+  //     }
+  //   } else {
+  //   }
+  // }, [setCurrentImage]);
+
+  console.log(location);
 
   return (
     <GootopiaContainer>
@@ -48,14 +82,16 @@ export default function SelectLocation() {
                         <img
                           className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]${
                             selectedLocation === true
-                              ? "border-[3px] border-[#E677AA]"
+                              ? "border-[3px] border border-[#E677AA] rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]"
                               : ""
                           } `}
-                          src={moa}
-                          alt="gootopialanding "
+                          src={data?.Image}
+                          alt="gootopia"
                         />
                       </button>
-                      <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center">{data?.Location}</div>
+                      <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center">
+                        {data?.Address}
+                      </div>
                     </div>
                   );
                 })}
@@ -63,9 +99,12 @@ export default function SelectLocation() {
 
               <div className="flex flex-row justify-end">
                 <div>
-                  <button className="text-white text-[12px] tablet:text-[14px] bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl">
+                  {selectedLocation ?  <button className="text-white text-[12px] tablet:text-[14px] bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl">
                     <Link to={routes.SelectTicketGootopia}>Next</Link>
-                  </button>
+                  </button> :  <button className="text-white cursor-default text-[12px] tablet:text-[14px] bg-[#777777] font-poppins px-3 py-1 rounded-3xl">
+                    Next
+                  </button>}
+                 
                 </div>
               </div>
             </div>
