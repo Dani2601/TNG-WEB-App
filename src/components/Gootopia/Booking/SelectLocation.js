@@ -82,7 +82,7 @@ export default function SelectLocation() {
                         <img
                           className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]${
                             selectedLocation === true
-                              ? "border-[3px] border border-[#E677AA] rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]"
+                              ? "outline-[15px] outline outline-[#E677AA] rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]"
                               : ""
                           } `}
                           src={data?.Image}
