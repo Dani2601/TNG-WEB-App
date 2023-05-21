@@ -5,8 +5,10 @@ import { AuthenticatedScreens, UnauthenticatedScreens } from './pages/Routes';
 
 function App() {
   const { loggedIn } = useAuth();
+
+  console.log("loggedIn",loggedIn)
   
-  return !loggedIn ? <AuthenticatedScreens/> : <UnauthenticatedScreens/>;
+  return loggedIn ? <AuthenticatedScreens/> : <UnauthenticatedScreens/>;
 }
 
 export default App;

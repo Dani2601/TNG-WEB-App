@@ -1,7 +1,10 @@
 const routes = {
   // unauthenticated
-  LandingDesert: "/",
   Login: "/Login",
+  Register: "/Register",
+
+  //Dessert Museum
+  LandingDesert: "/LandingDessert",
   DessertBooking: "/TheDessertMuseum/Booking",
   Packages: "/TheDessertMuseum/Packages",
 

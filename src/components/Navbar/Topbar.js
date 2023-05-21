@@ -9,12 +9,21 @@ import {
 } from "../../assets/Dessert";
 import { MdMenu } from "react-icons/md";
 import routes from "../../constants/routes";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../../context/AuthenticationContext";
+import { useCallback } from "react";
+import axios from "axios";
+import { setToken, setUser } from "../../store/action";
 
 export default function Topbar({ scroll }) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const location = useLocation();
+  const { user } = useSelector((state) => state.record);
+  const { logout } = useAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -31,6 +40,14 @@ export default function Topbar({ scroll }) {
   const handleMenuClick = () => {
     setShowMenu(!showMenu);
   };
+
+  function _logout() { 
+    console.log("trigger")
+      dispatch(setToken(null));
+      dispatch(setUser(null));
+      logout();
+      navigate(routes.Login);
+  }
 
   return (
     <div className="bg-[#212121] ">
@@ -133,31 +150,42 @@ export default function Topbar({ scroll }) {
               onClick={handleMenuClick}
             />
             {showMenu && (
-              <div className="absolute top-[56px] right-0 w-48 bg-black rounded-md">
+              <div className="absolute top-[56px] right-0 w-48 bg-black rounded-md z-100">
                 <div
                   className="py-1"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu"
                 >
-                  <div
-                    className="cursor-pointer text-white flex items-center border-y-[1px] border-white py-3 px-4 text-md"
-                    role="menuitem"
-                  >
-                    Profile
-                  </div>
-                  <div
-                    className="cursor-pointer text-white flex items-center py-3 px-4 text-md"
-                    role="menuitem"
-                  >
-                    Transactions
-                  </div>
-                  <div
-                    className="cursor-pointer text-white flex items-center border-t-[1px] border-white py-3 px-4 text-md"
-                    role="menuitem"
-                  >
-                    Logout
-                  </div>
+                  {user ? (
+                    <>
+                      <div
+                        className="cursor-pointer text-white flex items-center border-y-[1px] border-white py-3 px-4 text-md"
+                        role="menuitem"
+                      >
+                        Profile
+                      </div>
+                      <div
+                        className="cursor-pointer text-white flex items-center py-3 px-4 text-md"
+                        role="menuitem"
+                      >
+                        Transactions
+                      </div>
+                      <div
+                        className="cursor-pointer text-white flex items-center border-t-[1px] border-white py-3 px-4 text-md"
+                        role="menuitem"
+                        onClick={_logout}
+                      >
+                        Logout
+                      </div>
+                    </>
+                  ) : (
+                    <Link to={routes.Login}>
+                      <div className="text-white flex items-center py-3 px-4 text-md">
+                        Login
+                      </div>
+                    </Link>
+                  )}
                 </div>
               </div>
             )}

@@ -1,48 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import React from "react";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import routes from "../../constants/routes";
+import { useAuth } from "../../context/AuthenticationContext";
+import { toast } from "react-toastify";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../../store/action";
-import { useAuth } from "../../context/AuthenticationContext";
-import axios from "axios";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Topbar } from "../../components/Navbar";
+import { loginViaEmail } from "../../functions/index";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email().label("Email Address").required(),
-  password: Yup.string().label("Password").required(),
+  email: Yup.string()
+    .required("Email or Phone Number is required")
+    .label("Email or Phone Number"),
+  password: Yup.string().required("Password is required"),
 });
 
-export default function Login() {
-  const location = useLocation();
-  const dispatch = useDispatch();
+function Landing() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
-
-  // async function onSubmit(values) {
-  //   const response = await loginViaEmail({
-  //     email: values?.email,
-  //     password: values?.password,
-  //   });
-  //   if (response.valid) {
-  //     dispatch(setToken(response.token));
-  //     const userData = decryptData(response.response);
-  //     dispatch(setUser(userData));
-  //     login();
-  //     navigate(routes.Feed);
-  //   } else {
-  //     toast.error(response?.errorMsg, {
-  //       position: toast.POSITION.TOP_RIGHT,
-  //     });
-  //   }
-  // }
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -50,139 +29,94 @@ export default function Login() {
       password: "",
     },
     validationSchema,
-    // onSubmit,
+    onSubmit,
   });
 
-  // async function handleMetamaskLogin() {
-  //   connect();
-  //   if (isActive) {
-  //     if (account) {
-  //       const response = await loginViaMetamask(account);
-  //       if (response?.valid) {
-  //         const userData = decryptData(response.response);
-  //         dispatch(setToken(response.token));
-  //         dispatch(setUser(userData));
-  //         login();
-  //         navigate(routes.Feed);
-  //       } else {
-  //         toast.error(response, {
-  //           position: toast.POSITION.TOP_RIGHT,
-  //         });
-  //       }
-  //     } else {
-  //       console.log("No wallet active found!");
-  //     }
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   const searchParams = new URLSearchParams(location.search);
-  //   const code = searchParams.get("code");
-  //   if (code) {
-  //     handleAuthorizationCode(code, navigate, dispatch, login);
-  //   }
-  // }, []);
+  async function onSubmit(values) {
+    try {
+      const response = await loginViaEmail(values.email, values.password);
+      if (response.valid) {
+        dispatch(setUser(response.user));
+        dispatch(setToken(response.token));
+        login();
+        navigate(-1);
+      } else {
+        toast.error(response.errorMsg);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  }
 
   return (
     <>
-      <Helmet>
-        <title>Hello Charlie | Login</title>
-      </Helmet>
+      <Topbar />
+      <FormikProvider value={formik}>
+        <Form>
+          <div className="flex flex-col h-screen bg-gradient-to-l from-[#55ace2a4]  to-[#6bc4c1a1] bg-opacity-5">
+            <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
+              <div className="m-auto md:w-8/12 lg:w-6/12 xl:w-6/12">
+                <div className="rounded-xl bg-white shadow-xl">
+                  <div className="p-6 sm:p-16">
+                    {/* <img src={TheNextperience} alt="FindFood" className="-mt-10 mb-8" /> */}
 
-      <div className="mb-[64px] sm:mb-[0px]">
-        {/* <HeaderA /> */}
-        <div className={``}>
-          <div className="grid grid-cols-1 gap-4 justify-items-center gap-y-20 sm:gap-10 text-white text-center min-h-screen">
-            <div className="mb-[156px] sm:mb-[151px] md:mb-[183px] w-[293px] h-[420px] mt-[71px] rounded-[25px]  border-solid border-[#272b30] border-[3px] sm:w-[594px] sm:h-[600px] sm:md">
-              <div className="font-bold text-[16px] mb-[17px] sm:text-[24px] sm:mb-17 sm:my-[30px] sm:tracking-[3px] sm:md mt-[30px]">
-                LOGIN
-              </div>
-              <FormikProvider value={formik}>
-                <Form>
-                  <div className="mx-31 mt-71">
-                    <label
-                      htmlFor="email"
-                      className="block mb-[11px] text-[14px] ml-[32px] text-left sm:text-[18px] sm:md  sm:ml-[70px]"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      onChange={formik.handleChange}
-                      className={` px-5 border-solid rounded-[25px] border-[3px] w-[231px] h-[36px] mb-[10px] sm:w-[470px] sm:h-[41px] sm:mb-[24px] md:w-[470px] md:h-[41px] md:mb-[27px]`}
-                    />
-                    {formik.touched.email && formik.errors.email ? (
-                      <div className="text-red-500 text-sm">
-                        {formik.errors.email}
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className=" ">
-                    <label
-                      htmlFor="password"
-                      className="block mb-[11px] text-[14px] ml-[32px] text-left sm:text-[18px]  sm:ml-[70px] md:text-[18px] md:mb-[16px] md:ml-[70px]"
-                    >
-                      Password
-                    </label>
-                    <div className="relative ">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        id="password"
-                        onChange={formik.handleChange}
-                        className={` px-5 border-solid rounded-[25px] border-[3px] w-[231px] h-[36px] mb-[10px] sm:w-[470px] sm:h-[41px] sm:mb-[24px] md:w-[470px] md:h-[41px] md:mb-[24px]`}
-                      />
-                      {showPassword ? (
-                        <AiFillEye
-                          onClick={togglePasswordVisibility}
-                          className="absolute top-[10px] right-[45px] sm:top-[10px] sm:right-[70px] text-[20px] transform text-gray-400"
-                        />
-                      ) : (
-                        <AiFillEyeInvisible
-                          onClick={togglePasswordVisibility}
-                          className="absolute top-[10px] right-[45px] sm:top-[10px] sm:right-[70px] text-[20px] transform text-gray-400"
-                        />
-                      )}
+                    <div className="space-y-4">
+                      <h2 className="text-lg text-cyan-900 font-bold">
+                        Welcome back!
+                      </h2>
+
+                      <span className="text-cyan-900">
+                        Please login to your account
+                      </span>
                     </div>
-                    {formik.touched.password && formik.errors.password ? (
-                      <div className="text-red-500 text-sm">
-                        {formik.errors.password}
+                    <div className="flex flex-col space-y-4 w-full">
+                      <span className="text-cyan-900 mt-10">
+                        Email or Phone Number
+                      </span>
+                      <input
+                        type="text"
+                        name="email"
+                        onChange={formik.handleChange}
+                        className="px-5 py-2 border-[1px] border-slate-300 rounded-full"
+                        required
+                      />
+                      <span className="text-cyan-900">Password</span>
+                      <input
+                        type="password"
+                        name="password"
+                        onChange={formik.handleChange}
+                        className="px-5 py-2 border-[1px] border-slate-300 rounded-full"
+                        required
+                      />
+                      <button
+                        onClick={formik.handleSubmit}
+                        type="submit"
+                        className="bluegradient group h-12 py-3 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-BrrringYellow"
+                      >
+                        <div className="relative flex items-center space-x-4 justify-center">
+                          <span className="block w-max font-semibold tracking-wide text-sm text-black transition duration-300 group-hover:text-gray sm:text-base">
+                            Log in{" "}
+                          </span>
+                        </div>
+                      </button>
+                      <div className="flex flex-row justify-between">
+                        <a className="text-sky-500">Forgot password</a>
+                        <Link to={routes.Register}>
+                          <div className="text-sky-500 underline">
+                            New user? Register here!
+                          </div>
+                        </Link>
                       </div>
-                    ) : null}
+                    </div>
                   </div>
-                  <button
-                    type="submit"
-                    onClick={formik.handleSubmit}
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="light"
-                    className="mt-2 w-[229px] h-[25px] sm:w-[465px] sm:h-[41px] sm:md rounded-[54px] bg-[#1D9BF0] sm:text-[20px] font-bold text-white text-center font-sans sm:padding"
-                  >
-                    Continue with Email
-                  </button>
-                </Form>
-              </FormikProvider>
-              <div className="grid grid-cols-3 justify-items-center px-[52px] sm:px-[73px] md:px-[88px]">
-                <div className="border border-solid border-[#272b30] w-[86px] h-0 mt-[29px] sm:w-[174px] sm:mt-[50px] sm:md"></div>
-                <div className="font-bold text-[12px] mx-[12px] mt-[19px] sm:text-[20px] sm:mt-[33px] sm:md text-white font-sans">
-                  Or
                 </div>
-                <div className="border border-solid border-[#272b30] w-[86px] h-0 mt-[29px] sm:w-[174px] sm:mt-[50px] sm:md"></div>
               </div>
-              <div className="flex justify-evenly mx-auto gap-x-[30.15px] sm:gap-x-[59.42px] md:gap-x-[68px] w-[186.15px] sm:w-[379.27px] md:w-[434px] justify-items-center grid-cols-4 mt-[25px] mb-[29px]">
-                <div></div>
-              </div>
-              <button
-                // onClick={handleMetamaskLogin}
-                data-mdb-ripple="true"
-                data-mdb-ripple-color="light"
-                className="w-[229px] h-[25px] sm:w-[465px] sm:h-[41px] sm:md rounded-[54px] bg-[#1D9BF0] text-[12] mb-[52px] sm:text-[20px] sm:mb-[68px] font-bold text-white text-center font-sans sm:padding"
-              >
-                {/* {isActive ? "Continue with Wallet" : "Connect Wallet"} */}
-              </button>
             </div>
           </div>
-        </div>
-      </div>
+        </Form>
+      </FormikProvider>
     </>
   );
 }
+
+export default Landing;

@@ -7,9 +7,11 @@ import gootopia from "../../assets/Gootopia/gootopiamobile.png";
 import dripping from "../../assets/Gootopia/slimedripping.png";
 import routes from "../../constants/routes";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function DesertMuseumMenubar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useSelector((state) => state.record);
 
   function toggleMenu() {
     setIsOpen(!isOpen);
@@ -63,7 +65,7 @@ export default function DesertMuseumMenubar() {
                     Contacts
                   </Link>
                   <Link
-                    to={routes.SelectLocationGootopia}
+                    to={user ? routes.SelectLocationGootopia : routes.Login}
                     className="w-1/3 text-center text-black rounded-md text-sm font-medium"
                   >
                     Book Now
@@ -117,7 +119,7 @@ export default function DesertMuseumMenubar() {
               Contacts
             </Link>
             <Link
-              to={routes.SelectLocationGootopia}
+              to={user ? routes.SelectLocationGootopia : routes.Login}
               className="block px-3 py-2 w-full text-left text-base"
             >
               Book Now

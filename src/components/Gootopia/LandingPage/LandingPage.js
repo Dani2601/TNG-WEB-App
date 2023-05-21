@@ -14,7 +14,7 @@ import routes from "../../../constants/routes";
 import { useSelector } from "react-redux";
 
 export default function LandingPage() {
-  const { user } = useSelector((state) => state);
+  const { user } = useSelector((state) => state.record);
   console.log("user", user);
   return (
     <div>

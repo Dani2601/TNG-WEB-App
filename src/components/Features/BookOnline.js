@@ -1,21 +1,29 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { booknow, bookonline } from '../../assets/Dessert'
-import routes from '../../constants/routes'
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { booknow, bookonline } from "../../assets/Dessert";
+import routes from "../../constants/routes";
+import { useSelector } from "react-redux";
 
 export default function BookOnline() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.record);
 
-  function handleNavigate(){
-    navigate(routes.DessertBooking)
-  }
-
+  console.log("user", user);
   return (
-    <div className='w-full py-5 flex flex-col justify-center items-center font-quicksand'>
-        <img src={bookonline} className="object-cover w-[462px] h-[222px] lg:w-[562px] lg:h-[322px]"/>
-        <div className='m-5 cursor-pointer' onClick={handleNavigate}>
-          <img src={booknow} className="w-[124px] lg:w-[214px] lg:h-[118px] object-cover"/>
-        </div>
+    <div className="w-full py-5 flex flex-col justify-center items-center font-quicksand">
+      <img
+        src={bookonline}
+        className="object-cover w-[462px] h-[222px] lg:w-[562px] lg:h-[322px]"
+      />
+      <Link
+        className="m-5 cursor-pointer"
+        to={user ? routes.DessertBooking : routes.Login}
+      >
+        <img
+          src={booknow}
+          className="w-[124px] lg:w-[214px] lg:h-[118px] object-cover"
+        />
+      </Link>
     </div>
-  )
+  );
 }

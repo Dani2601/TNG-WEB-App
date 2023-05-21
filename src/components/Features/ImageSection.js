@@ -2,12 +2,14 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { bakery, banana1, bananabeach, BEWITCHED, bubbles, gumball1, kakepop, kheart } from '../../assets/Dessert'
 import routes from '../../constants/routes'
+import { useSelector } from 'react-redux'
 
 export function ImageSection() {
     const navigate = useNavigate()
+    const { user } = useSelector((state) => state.record);
 
     function handleNavigate(){
-        navigate(routes.DessertBooking)
+        navigate(user ? routes.DessertBooking : routes.Login)
     }
 
   return (

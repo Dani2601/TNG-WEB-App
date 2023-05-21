@@ -3,10 +3,12 @@ import { MdClose, MdMenu } from 'react-icons/md';
 import { desertlogo, tdmnav } from '../../assets/Dessert'
 import { Link } from 'react-router-dom';
 import routes from '../../constants/routes';
+import { useSelector } from 'react-redux';
 
 export default function DesertMuseumMenubar({scroll}) {
 
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useSelector((state) => state.record);
 
   function toggleMenu() {
     setIsOpen(!isOpen);
@@ -21,7 +23,7 @@ export default function DesertMuseumMenubar({scroll}) {
                 <div className="vg flex justify-end">
                   <Link
                     to={routes.Packages}
-                    className="cursor-pointer w-1/3 text-center text-center rounded-md text-sm font-bold"
+                    className="cursor-pointer w-1/3 text-center rounded-md text-sm font-bold"
                   >
                     EVENTS
                   </Link>
@@ -86,23 +88,17 @@ export default function DesertMuseumMenubar({scroll}) {
           >
             MEDIA
           </a>
-          <a
-            href="#"
+          <Link
+            to={user ? routes.DessertBooking : routes.Login}
             className="text-white text-shadow-lg font-bold border-b-2 border-tdm-darkerpink hover:bg-gray-700 hover:text-white block px-3 py-2 w-full text-center text-base"
           >
             HOW TO BOOK
-          </a>
+          </Link>
           <a
             href="#"
             className="text-white text-shadow-lg font-bold border-b-2 border-tdm-darkerpink hover:bg-gray-700 hover:text-white block px-3 py-2 w-full text-center text-base"
           >
             FAQS
-          </a>
-          <a
-            href="#"
-            className="text-white text-shadow-lg font-bold border-b-2 border-tdm-darkerpink hover:bg-gray-700 hover:text-white block px-3 py-2 w-full text-center text-base"
-          >
-            LOGIN
           </a>
         </div>
       </div>
