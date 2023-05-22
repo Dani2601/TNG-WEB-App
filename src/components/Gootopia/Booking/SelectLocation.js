@@ -14,7 +14,6 @@ export default function SelectLocation() {
   const [location, setLocation] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(false);
   const { user } = useSelector((state) => state.record);
-  const [currentImage, setCurrentImage] = useState(null);
 
   const handleSelectLocation = () => {
     setSelectedLocation(!selectedLocation);
@@ -30,32 +29,6 @@ export default function SelectLocation() {
       })
       .catch();
   }, []);
-
-  // useEffect(() => {
-  //   if (location?.Image) {
-  //     async function viewImage(container, filename, func) {
-  //       try {
-  //         const { data } = await axios.post(
-  //           `${process.env.REACT_APP_REST_API}generateSASToken`,
-  //           {
-  //             filename: filename,
-  //             container: container,
-  //           }
-  //         );
-
-  //         func(data);
-  //       } catch (e) {
-  //         console.log("Failed to view");
-  //       }
-  //     }
-  //     if (location?.Image) {
-  //       viewImage("users", location?.Image, setCurrentImage);
-  //     }
-  //   } else {
-  //   }
-  // }, [setCurrentImage]);
-
-  console.log(location);
 
   return (
     <GootopiaContainer>
