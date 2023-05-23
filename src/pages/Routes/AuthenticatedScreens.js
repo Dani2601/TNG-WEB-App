@@ -16,6 +16,7 @@ import { DessertBooking } from "../Booking/DessertBooking";
 import Packages from "../../components/Gootopia/Packages/Packages";
 import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import BookOnline from "../../components/Features/BookOnline";
+import { GootopiaBooking } from "../Booking/GootopiaBooking";
 
 export default function AuthenticatedScreens() {
   return (
@@ -36,8 +37,9 @@ export default function AuthenticatedScreens() {
         <Route path={routes.PackagesGootopia} element={<Packages />} />
         <Route path={routes.FaqsGootopia} element={<FAQS />} />
         <Route path={routes.ContactsGootopia} element={<Contacts />} />
-        <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
-        <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} />
+        {/* <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
+        <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} /> */}
+        <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

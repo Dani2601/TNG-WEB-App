@@ -4,23 +4,32 @@ import abouts from "../../../assets/Gootopia/FAQ's/about.png";
 import GootopiaContainer from "../../Container/GootopiaContainter";
 import moa from "../../../assets/Gootopia/Booking/SmMoa.png";
 import routes from "../../../constants/routes";
-import { Link } from "react-router-dom";
-import { getBranches } from "../../../functions/Branches";
+import { Link, useNavigate } from "react-router-dom";
+import { getBranchesGootopia } from "../../../functions/Branches";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
 
-export default function SelectLocation() {
+export default function SelectLocation({ setStep }) {
   const [location, setLocation] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(false);
   const { user } = useSelector((state) => state.record);
+  const navigate = useNavigate();
+
+  function handleBack() {
+    setStep(1);
+  }
+
+  function handleProceed() {
+    setStep(3);
+  }
 
   const handleSelectLocation = () => {
     setSelectedLocation(!selectedLocation);
   };
 
   useEffect(() => {
-    getBranches(user.id)
+    getBranchesGootopia(user.id)
       .then((response) => {
         if (response.valid) {
           setLocation(response.data);
@@ -72,12 +81,24 @@ export default function SelectLocation() {
 
               <div className="flex flex-row justify-end">
                 <div>
-                  {selectedLocation ?  <button className="text-white text-[12px] tablet:text-[14px] bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl">
-                    <Link to={routes.SelectTicketGootopia}>Next</Link>
-                  </button> :  <button className="text-white cursor-default text-[12px] tablet:text-[14px] bg-[#777777] font-poppins px-3 py-1 rounded-3xl">
-                    Next
-                  </button>}
-                 
+                  <button
+                    onClick={() => handleBack()}
+                    className=" cursor-default text-[12px] tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins px-3 py-1 rounded-3xl"
+                  >
+                    Back
+                  </button>
+                  {selectedLocation ? (
+                    <button
+                      onClick={() => handleProceed()}
+                      className="ml-3 text-white text-[12px] tablet:text-[14px] bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl"
+                    >
+                      Next
+                    </button>
+                  ) : (
+                    <button className="ml-3 text-white cursor-default text-[12px] tablet:text-[14px] bg-[#777777] font-poppins px-3 py-1 rounded-3xl">
+                      Next
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

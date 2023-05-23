@@ -9,13 +9,13 @@ const routes = {
   Packages: "/TheDessertMuseum/Packages",
 
   //Gootopia
-  LandingGootopia: "/Gootopia",
+  LandingGootopia: "/",
   ObstaclesGootopia: "/Gootopia/Obstacles",
   PackagesGootopia: "/Gootopia/Packages",
   FaqsGootopia: "/Gootopia/Faqs",
   ContactsGootopia: "/Gootopia/Contacts",
-  SelectLocationGootopia: "/Gootopia/Booking/SelectLocation",
-  SelectTicketGootopia: "/Gootopia/Booking/SelectTicket",
+  BookingGootopia: "/Gootopia/Booking",
+
 
   PageNotFound: "*"
 };

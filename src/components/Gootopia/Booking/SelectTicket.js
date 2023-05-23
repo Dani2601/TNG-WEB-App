@@ -5,8 +5,11 @@ import abouts from "../../../assets/Gootopia/FAQ's/about.png";
 import GootopiaContainer from "../../Container/GootopiaContainter";
 import bookingCard from "../../../assets/Gootopia/Booking/BookingCard.png";
 import routes from "../../../constants/routes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TicketBookingModal } from "../../Modal/Gootopia/TicketBookingModal";
+import { getTicketGootopia } from "../../../functions/Tickets";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 let ticket = [
   {
@@ -28,14 +31,30 @@ let ticket = [
   },
 ];
 
-export default function SelectTicket() {
+export default function SelectTicket({ setStep, location, setLocation }) {
   // const [location, setLocation] = useState(location)
   const [selectedLocation, setSelectedLocation] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [ticket, setTicket] = useState([]);
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.record);
 
-  const handleSelectLocation = () => {
-    setSelectedLocation(!selectedLocation);
-  };
+  useEffect(() => {
+    getTicketGootopia(user.id)
+      .then((response) => {
+        if (response.valid) {
+          setTicket(response.data);
+        } else {
+        }
+      })
+      .catch();
+  }, []);
+
+  console.log(ticket);
+
+  function handleBack() {
+    navigate(-1);
+  }
 
   function handleCloseModal() {
     setShowModal(false);
@@ -43,10 +62,11 @@ export default function SelectTicket() {
 
   function handleProceed() {
     setShowModal(false);
+    setStep(2);
   }
-  function handleNext(){
-    setShowModal(true)
-}
+  function handleNext() {
+    setShowModal(true);
+  }
 
   return (
     <GootopiaContainer>
@@ -83,17 +103,17 @@ export default function SelectTicket() {
                         <div className="absolute top-[40px] left-[53px]  tablet:top-[80px]  tablet:left-[100px] text-left flex justify-center items-center font-poppins">
                           <div className=" w-[132px] h-[112px] tablet:w-[252px] tablet:h-[252px] flex flex-col overflow-y-auto">
                             <div className="text-gootopia-pinkText text-[14px] tablet:text-[18px] font-bold mb-1">
-                              {data.TicketName}
+                              {data.Name}
                             </div>
                             <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[14px] mb-2">
                               <div className="text-black  font-bold mr-1  line-through">
-                                {data.OldPrice}
+                                ₱{data.OldPrice}
                               </div>
                               <div className="text-black  font-bold mr-1  ">
-                                {data.NewPrice}
+                                ₱{data.Price}
                               </div>
                               <div className="text-gootopia-purp font-bold mr-1 mb-1">
-                                {data.Discount}
+                                {data.Notes} {data.Notes && "%"}
                               </div>
                             </div>
                             <div className="text-black text-[12px] tablet:text-[14px] ">
