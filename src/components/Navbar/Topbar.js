@@ -124,7 +124,7 @@ export default function Topbar({ scroll }) {
                 location.pathname === routes.PackagesGootopia ||
                 location.pathname === routes.FaqsGootopia ||
                 location.pathname === routes.ContactsGootopia ||
-                location.pathname === routes.SelectLocationGootopia ||
+                location.pathname === routes.BookingGootopia ||
                 location.pathname === routes.SelectTicketGootopia
                   ? "bg-[#664653]"
                   : ""
