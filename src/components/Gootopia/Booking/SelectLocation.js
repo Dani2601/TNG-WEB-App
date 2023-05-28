@@ -5,7 +5,7 @@ import GootopiaContainer from "../../Container/GootopiaContainter";
 import moa from "../../../assets/Gootopia/Booking/SmMoa.png";
 import routes from "../../../constants/routes";
 import { Link, useNavigate } from "react-router-dom";
-import { getBranchesGootopia } from "../../../functions/Branches";
+import { getBranches } from "../../../functions/Branches";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
@@ -29,7 +29,7 @@ export default function SelectLocation({ setStep }) {
   };
 
   useEffect(() => {
-    getBranchesGootopia(user.id)
+    getBranches(user.id,"f98233d6-e9eb-4ef6-ae94-e179f954e542")
       .then((response) => {
         if (response.valid) {
           setLocation(response.data);

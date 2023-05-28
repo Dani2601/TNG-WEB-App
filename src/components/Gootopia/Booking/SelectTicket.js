@@ -40,7 +40,11 @@ export default function SelectTicket({ setStep, location, setLocation }) {
   const { user } = useSelector((state) => state.record);
 
   useEffect(() => {
-    getTicketGootopia(user.id)
+    getTicketGootopia(
+      user.id,
+      "f98233d6-e9eb-4ef6-ae94-e179f954e542",
+      "f988ed92-633b-44a8-988c-95e96da1cb77"
+    )
       .then((response) => {
         if (response.valid) {
           setTicket(response.data);

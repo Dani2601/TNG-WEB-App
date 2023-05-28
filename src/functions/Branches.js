@@ -1,12 +1,12 @@
 import axios from "axios";
 
-async function getBranchesGootopia(user) {
+async function getBranches(user,businessID) {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_REST_API}FilterBranch`,
       {
         UserID: user,
-        BusinessUnitID: "f98233d6-e9eb-4ef6-ae94-e179f954e542",
+        BusinessUnitID: businessID,
       }
     );
 
@@ -22,4 +22,4 @@ async function getBranchesGootopia(user) {
   }
 }
 
-export { getBranchesGootopia };
+export { getBranches };
