@@ -3,16 +3,75 @@ import { useNavigate } from 'react-router-dom'
 import { logo, nx, paynamics, paypal, tnglogo } from '../../assets/Dessert'
 import { FiTrash, FiTrash2 } from 'react-icons/fi'
 import { MdRestoreFromTrash } from 'react-icons/md'
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { getBranches } from '../../functions/Branches'
+import { format } from 'date-fns'
 
-export function TDMPaymentDetails({setStep}) {
+export function TDMPaymentDetails({setStep, 
+    ticket, location, 
+    pax,  
+    bookingDate,  
+    bookingTime, 
+    setSubmitData
+}) {
   const navigate = useNavigate()
 
+  const {user} = useSelector(state => state.record)
+  const [isChecked, setIsChecked] = useState(false);
+  const [fullname, setFullname] = useState('')
+  const [contact, setContact] = useState('')
+  const [email, setEmail] = useState('')
+  const [selectedLocation, setSelectedLocation] = useState(null)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [coupon, setCoupon] = useState('')
+    
   function handleBack(){
-    navigate(-1)
+    setStep(3)
   }
 
   function handleNext(){
-    alert('Submit')
+    setSubmitData({
+        CustomerID: user?.id,
+        BusinessUnitID: selectedLocation?.BusinessUnitID,
+        BranchID: location,
+        TicketID: ticket?.id,
+        BookingDate: bookingDate ? format(bookingDate, 'yyyy-MM-dd') : '',
+        BookingTime: bookingTime,
+        Pax: pax,
+        Payment: {
+            PaymentMethod: selectedPaymentMethod,
+        },
+        Coupon: coupon,
+        TotalPrice: ticket?.Price
+    })
+  }
+
+  useEffect(() => {
+    if(user){
+        setFullname(user?.Name)
+        setContact(user?.Mobile)
+        setEmail(user?.Email)
+    }
+  }, [user])
+
+  useEffect(() => {
+    getBranches(user.id, "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583")
+      .then((response) => {
+        if (response.valid) {
+          // Convert the object into an array
+          const locationArray = Object.values(response.data);
+          setSelectedLocation(locationArray.find(item => item?.id === location))
+        }
+      })
+      .catch((error) => {
+        // Handle error case
+      });
+  }, []);
+
+  function handleVerify(){
+
   }
 
   return (
@@ -27,39 +86,31 @@ export function TDMPaymentDetails({setStep}) {
             <div className='flex flex-col sm:flex-row gap-4'>
                 <div className='flex p-5 gap-3 flex-col w-full sm:w-[40vw] bg-gradient-to-b from-[#E890A1] via-[#E9959F] to-[#EFC391]'>
                     <p className='font-bold'>Personal Details</p>
-                    <div className='flex items-center py-3'>
-                        <input type='checkbox' className='mr-3'/>
-                        <span className='mr-2 text-sm'>Use Login Details</span>
-                    </div>
                     <div>
-                        <p className='text-sm'>First Name</p>
-                        <input type='text' placeholder='First Name' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
-                    </div>
-                    <div>
-                        <p className='text-sm'>Middle Name</p>
-                        <input type='text' placeholder='Middle Name' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
-                    </div>
-                    <div>
-                        <p className='text-sm'>Last Name</p>
-                        <input type='text' placeholder='Last Name' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
+                        <p className='text-sm'>Full Name</p>
+                        <input type='text' value={fullname} placeholder='Full Name' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
                     </div>
                     <div>
                         <p className='text-sm'>Contact Number</p>
-                        <input type='number' placeholder='Contact Number' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
+                        <input type='number' value={contact} placeholder='Contact Number' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
                     </div>
                     <div className='border-b-2 border-black pb-4'>
                         <p className='text-sm'>Email Address</p>
-                        <input type='email' placeholder='Email Address' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
+                        <input type='email' value={email} placeholder='Email Address' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
                     </div>
                     <div>
                         <p className='text-sm font-bold'>PAYMENT METHOD</p>
                         <div className='flex gap-3 py-3'>
                             <div className='flex gap-2'>
-                                <input type='checkbox'/>
+                                <input type='checkbox'
+                                checked={selectedPaymentMethod === 'paypal'}
+                                onChange={() => setSelectedPaymentMethod('paypal')}/>
                                 <img src={paypal} alt='paypal' className='w-16 object-contain'/>
                             </div>
                             <div className='flex gap-2'>
-                                <input type='checkbox'/>
+                                <input type='checkbox'
+                                checked={selectedPaymentMethod === 'paynamics'}
+                                onChange={() => setSelectedPaymentMethod('paynamics')}/>
                                 <img src={paynamics} alt='paynamics' className='w-16 object-contain'/>
                             </div>
                         </div>
@@ -70,29 +121,29 @@ export function TDMPaymentDetails({setStep}) {
                         <div className='w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]'/>
                         <div className='py-4 px-6'>
                             <div className='border-b-2 border-gray-200'>
-                                <p className='font-bold text-sm mb-2'>Location: S Maison</p>
-                                <p className='font-bold text-sm mb-3'>Type Of Ticket: Regular</p>
+                                <p className='font-bold text-sm mb-2'>Location: {selectedLocation?.Name}</p>
+                                <p className='font-bold text-sm mb-3'>Type Of Ticket: {ticket?.Type}</p>
                             </div>
                             <div className='pt-4 pb-3 border-b-2 border-gray-200'>
-                                <p className='font-bold text-sm'>Online Promo - Save 100!</p>
+                                <p className='font-bold text-sm'>{ticket?.Name}</p>
                                 <div className='flex justify-between py-2'>
                                     <div className='flex flex-col'>
-                                        <p className='text-xs'>Date: 2023-02-22</p>
-                                        <p className='text-xs'>Time: ---</p>
-                                        <p className='text-xs'>No. of pass: 1</p>
+                                        <p className='text-xs'>Date: {bookingDate ? format(bookingDate, 'MM/dd/yyyy') : ''}</p>
+                                        <p className='text-xs'>Time: {bookingTime}</p>
+                                        <p className='text-xs'>No. of pass: {pax}</p>
                                     </div>
                                     <div className='flex flex-col items-end'>
-                                        <p className='tex-4xl font-bold text-right'>₱ 799.00</p>
-                                        {
+                                        <p className='tex-4xl font-bold text-right'>₱ {ticket.Price}</p>
+                                        {/* {
                                             <p className='text-[10px] text-red-500 text-right'>Discount: ₱ 0.00</p>
-                                        }
+                                        } */}
                                     </div>
                                 </div>
                             </div>
                             <div className='flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2'>
                                 <div className='flex justify-between'>
                                     <div className='text-sm font-bold'>Sub Total</div>
-                                    <div className='font-bold'>₱ 799.00</div>
+                                    <div className='font-bold'>₱ {ticket.Price}</div>
                                 </div>
                                 <div className='flex justify-between'>
                                     <div className='text-sm font-bold'>Total Discount</div>
@@ -100,13 +151,13 @@ export function TDMPaymentDetails({setStep}) {
                                 </div>
                                 <div className='flex justify-between'>
                                     <div className='text-sm font-bold'>Grand Total</div>
-                                    <div className='font-bold'>₱ 799.00</div>
+                                    <div className='font-bold'>₱ {ticket.Price}</div>
                                 </div>
                             </div>
                             <div className='flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2'>
                                 <p>Coupon</p>
                                 <input type='text' placeholder='Enter your coupon here' className='w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3'/>
-                                <button onClick={handleBack} className='bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white'>Verify</button>
+                                <button onClick={handleVerify} className='bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white'>Verify</button>
                             </div>
                         </div>
                     </div>

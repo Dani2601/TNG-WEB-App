@@ -1,8 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TDMModalBooking } from '../Modal/TDMModalBooking'
+import { getTicketGootopia } from '../../functions/Tickets'
+import { useSelector } from 'react-redux'
+import { DessertTicketCard } from '../Card'
 
-export function TDMReserveTicket({setStep}) {
+export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
     const [showModal, setShowModal] = useState(false)
+    const { user } = useSelector(state => state.record) 
+    const [tickets, setTickets] = useState([])
 
     function handleBack(){
         setStep(1)
@@ -20,10 +25,25 @@ export function TDMReserveTicket({setStep}) {
         setStep(3)
         setShowModal(false)
     }
-    
+
+    useEffect(() => {
+        getTicketGootopia(
+          user.id,
+          "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583",
+          location
+        )
+          .then((response) => {
+            if (response.valid) {
+                setTickets(response.data);
+            } else {
+            }
+          })
+          .catch();
+      }, [location, user]);
+
     return (
         <div className='w-full py-10 flex justify-center'>
-        <TDMModalBooking showModal={showModal} handleCloseModal={handleCloseModal} setStep={setStep} handleProceed={handleProceed}/>
+        <TDMModalBooking showModal={showModal} ticket={ticket} handleCloseModal={handleCloseModal} setStep={setStep} handleProceed={handleProceed}/>
         <div className='w-[80vw] sm:w-[50vw]'>
             <div className='text-center flex gap-6 flex-col justify-center items-center'>
                 <p className='text-[30px] text-[#FF98C3]'>Select Location</p>
@@ -31,81 +51,16 @@ export function TDMReserveTicket({setStep}) {
             </div>
             
             <div className='flex flex-col sm:flex-row py-10 gap-4'>
-                <div className='relative text-center leading-6 text-sm w-full sm:w-1/3'>
-                    <div className='bg-[#FF73B9] p-6'>
-                        <div class="absolute top-5 px-8 right-[-26px] bg-white transform rotate-45">
-                            <span class="text-xs font-bold">SAVE P100!</span>
-                        </div>
-                        <p className='text-lg'>Online Promo - SAVEP100!</p>
-                        <p className='mb-4 mt-4'>Book ONLINE and come on<br/>
-                            any day!
-                        </p>
-                        <p className='font-bold mb-4'>
-                        *For advance reservation<br/>
-                        only, not applicable for<br/>
-                        walk-ins.
-                        </p>
-                        <p className='font-bold'>
-                        *Advisable to bring socks for<br/>
-                        the Jelly Room
-                        </p>
-                        <p className='mt-10'>
-                        FROM<br/>
-                        <span className='text-lg font-bold'>PHP 699.00</span>
-                        </p>
-                    </div>
-                </div>
-                <div className='w-full sm:w-1/3 bg-[#F9DCED] p-6 text-center leading-6 leading-6 text-sm'>
-                    <p className='text-lg'>Top Fans are FREE!!!</p>
-                    <p className='mt-4 mb-4'>
-                    Top Fans are FREE + One paying friend.<br/><br/>
-                    <span className='mt-4'>TERMS AND CONDITIONS:</span><br/>
-                    ● Valid on Weekdays & WEEKENDS<br/> 
-                    ● NOT applicable on HOLIDAYS <br/>
-                    ● Guests must PRESENT a SCREENSHOT of Badge. (NO NEED TO HAVE TOP FAN BADGE UPON ARRIVAL.)<br/>
-                    ● For online bookings/ advance reservation<br/>
-                    ● NOT APPLICABLE FOR WALK-INS <br/>
-                    ● Cannot be used in conjunction with any other existing promotions
-                    </p>
-                    <p className='font-bold mb-4'>
-                    *Advisable to bring socks for the Jelly Room
-                    </p>
-                    <p>
-                    NOTE: All tickets that will be booked on Special Holiday and Holiday will be automatically rescheduled and the management has right to refuse their reservation.
-                    </p>
-                    <p className='mt-10'>
-                    FROM<br/>
-                    <span className='text-lg font-bold'>PHP 799.00</span>
-                    </p>
-                </div>
-                
-                <div className='w-full sm:w-1/3 bg-[#F9DCED] p-6 text-center leading-6 leading-6 text-sm'>
-                    <p className='text-lg'>Top Fans are FREE!!!</p>
-                    <p className='mt-4 mb-4'>
-                    Top Fans are FREE + One paying friend.<br/><br/>
-                    <span className='mt-4'>TERMS AND CONDITIONS:</span><br/>
-                    ● Valid on Weekdays & WEEKENDS<br/> 
-                    ● NOT applicable on HOLIDAYS <br/>
-                    ● Guests must PRESENT a SCREENSHOT of Badge. (NO NEED TO HAVE TOP FAN BADGE UPON ARRIVAL.)<br/>
-                    ● For online bookings/ advance reservation<br/>
-                    ● NOT APPLICABLE FOR WALK-INS <br/>
-                    ● Cannot be used in conjunction with any other existing promotions
-                    </p>
-                    <p className='font-bold mb-4'>
-                    *Advisable to bring socks for the Jelly Room
-                    </p>
-                    <p>
-                    NOTE: All tickets that will be booked on Special Holiday and Holiday will be automatically rescheduled and the management has right to refuse their reservation.
-                    </p>
-                    <p className='mt-10'>
-                    FROM<br/>
-                    <span className='text-lg font-bold'>PHP 799.00</span>
-                    </p>
-                </div>
+                {
+                    tickets.length > 0 ?
+                    tickets?.map((item, index) => <DessertTicketCard key={index} item={item} ticket={ticket} setTicket={setTicket}/>)
+                    :
+                    <div>No available Tickets yet.</div>
+                }
             </div>
             <div className='flex justify-center gap-5'>
                 <button onClick={handleBack} className='shadow-md text-sm py-2 px-6 border-[#FF98C3] border-2 text-[#FF98C3]'>Back</button>
-                <button onClick={handleNext} className='shadow-md text-sm py-2 px-6 bg-[#FF98C3] text-white'>Proceed to Booking</button>
+                <button onClick={handleNext} disabled={!ticket} className='shadow-md text-sm py-2 px-6 bg-[#FF98C3] text-white'>Proceed to Booking</button>
             </div>
         </div>
     </div>

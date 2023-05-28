@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getBranches } from "../../functions/Branches";
 import { useSelector } from "react-redux";
 
-export function TDMLocation({ setStep, location, setLocation }) {
+export function TDMLocation({ setStep, setLocation, location }) {
   const navigate = useNavigate();
   const [selectedLocation, setSelectedLocation] = useState([]);
   const { user } = useSelector((state) => state.record);
@@ -18,11 +18,11 @@ export function TDMLocation({ setStep, location, setLocation }) {
   }
 
   async function handleLocation(e) {
-    console.log(e);
+    setLocation(e.target.value)
   }
 
   useEffect(() => {
-    getBranches(user.id, "f98233d6-e9eb-4ef6-ae94-e179f954e542")
+    getBranches(user.id, "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583")
       .then((response) => {
         if (response.valid) {
           // Convert the object into an array
@@ -37,7 +37,6 @@ export function TDMLocation({ setStep, location, setLocation }) {
       });
   }, []);
 
-  console.log(selectedLocation);
   return (
     <div className="w-full h-[60vh] flex justify-center">
       <div className="w-[80vw] sm:w-[50vw]">
@@ -65,12 +64,14 @@ export function TDMLocation({ setStep, location, setLocation }) {
   </select> */}
 
 <select
-    className={`border-2 p-2 rounded-md w-full cursor-pointer`}
+  required
+    className={`border-2 p-2 rounded-md w-full cursor-pointer mb-2`}
     onChange={(e) => handleLocation(e)} // Bind the handleLocation function to onChange
   value={selectedLocation.Address} //
   >
+    <option value="">Select location</option>
     {selectedLocation.map((item, index) => (
-      <option key={index} value={item.Address}>
+      <option key={index} value={item.id}>
         {item.Address}
       </option>
     ))}
@@ -84,6 +85,7 @@ export function TDMLocation({ setStep, location, setLocation }) {
               Back
             </button>
             <button
+              disabled={!location}
               onClick={handleNext}
               className="shadow-md text-sm py-2 px-6 bg-[#FF98C3] text-white"
             >
