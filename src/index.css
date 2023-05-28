@@ -23,6 +23,17 @@
         laptopL:top-[200px] laptopL:right-[100px] laptopL:w-[182px] laptopL:h-[100.01px]
         laptop4k:top-[350px] laptop4k:right-[200px] laptop4k:w-[371px] laptop4k:h-[204px];
   }
+
+  .tfrLettering {
+    @apply z-0 absolute top-[15px] 
+    tablet:top-[65px] tablet:right-[15px] tablet:max-h-[120px]
+    laptop:top-[90px] laptop:right-[15px] laptop:max-h-[120px]
+    laptopL:top-[190px] laptopL:right-[15px] laptopL:max-h-[120px]
+    laptop4k:top-[300px] laptop4k:right-[15px] laptop4k:max-h-[120px]
+
+  }
+
+
 }
 
 /* 

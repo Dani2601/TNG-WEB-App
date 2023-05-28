@@ -38,6 +38,7 @@ function LandingDesert() {
     faq.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   
+  
   return (
     <Container scroll={handleScroll}>
       <CarouselBanner items={carouselData}/>

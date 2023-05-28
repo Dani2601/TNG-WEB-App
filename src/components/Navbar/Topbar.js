@@ -69,6 +69,25 @@ export default function Topbar({ scroll }) {
           <div class="h-[40px]  bg-white w-[2px] mr-[3px]"></div>
 
           <div className="flex flex-row gap-1 laptop:gap-2 flex-1">
+          <div>
+              <Link to={routes.LandingTFR}>
+                <div
+                  className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                ${
+                  location.pathname === routes.LandingTFR 
+                    ? "bg-[#664653]"
+                    : ""
+                }`}
+                >
+                  <img
+                    src={tdmnav}
+                    alt=""
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </Link>
+            </div>
+
             <div>
               <Link to={routes.LandingDesert}>
                 <div
