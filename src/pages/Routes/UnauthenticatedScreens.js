@@ -15,6 +15,7 @@ import { DessertPackages } from "../Package";
 import Login from "../Login/Login";
 import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import Register from "../Register/Register";
+import LandingTFR from "../TFR/LandingTFR";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -29,7 +30,6 @@ export default function UnauthenticatedScreens() {
         {/* DessertMusuem */}
         <Route path={routes.LandingDesert} element={<LandingDesert />} />
         <Route path={routes.Packages} element={<DessertPackages />} />
-        
 
         {/* Gootopia */}
         <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
@@ -37,6 +37,9 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.PackagesGootopia} element={<Packages />} />
         <Route path={routes.FaqsGootopia} element={<FAQS />} />
         <Route path={routes.ContactsGootopia} element={<Contacts />} />
+
+        {/* {TFR} */}
+        <Route path={routes.LandingTFR} element={<LandingTFR />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

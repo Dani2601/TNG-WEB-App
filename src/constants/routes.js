@@ -16,6 +16,14 @@ const routes = {
   ContactsGootopia: "/Gootopia/Contacts",
   BookingGootopia: "/Gootopia/Booking",
 
+  //TFR
+  LandingTFR: "/TFR",
+  ObstaclesTFR: "/TFR/Obstacles",
+  PackagesTFR: "/TFR/Packages",
+  FaqsTFR: "/TFR/Faqs",
+  ContactsTFR: "/TFR/Contacts",
+  BookingTFR: "/TFR/Booking",
+
 
   PageNotFound: "*"
 };

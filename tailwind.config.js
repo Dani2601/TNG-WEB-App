@@ -33,6 +33,12 @@ module.exports = {
           pinkText:"#E677AA",
           yellowText:"#F8E71C"
         },
+        tfr:{
+          yellow: "#E9FF33",
+          black: "#00000",
+          purple: "#8A02BC",
+          pink: "#FF00FC"
+        }
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
