@@ -24,6 +24,7 @@ const routes = {
   ContactsTFR: "/TFR/Contacts",
   BookingTFR: "/TFR/Booking",
 
+  Profile: "/Profile",
 
   PageNotFound: "*"
 };

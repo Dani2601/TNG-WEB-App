@@ -18,7 +18,7 @@ import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import BookOnline from "../../components/Features/BookOnline";
 import { GootopiaBooking } from "../Booking/GootopiaBooking";
 import LandingTFR from "../TFR/LandingTFR";
-
+import Profile from '../../pages/Profile/Profile.js'
 export default function AuthenticatedScreens() {
   return (
     <>
@@ -45,6 +45,8 @@ export default function AuthenticatedScreens() {
         {/* {TFR} */}
         LandingTFR
         <Route path={routes.LandingTFR} element={<LandingTFR />} />
+
+        <Route path={routes.Profile} element={<Profile />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

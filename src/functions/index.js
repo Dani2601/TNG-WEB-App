@@ -85,4 +85,29 @@ async function register(name,mobile,email, address, password) {
   }
 }
 
-export { loginViaEmail, register,reauthenticate };
+async function editProfile(id,name, mobile, address) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}EditCustomer`,
+      {
+        id: id,
+        Name: name,
+        Mobile: mobile,
+        Address: address,
+
+      }
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    console.log(e);
+    return {
+      valid: false,
+    };
+  }
+}
+export { loginViaEmail, register,reauthenticate,editProfile };

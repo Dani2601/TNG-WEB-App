@@ -8,7 +8,7 @@ import {
   tdmnav,
 } from "../../assets/Dessert";
 
-import tfrnav from "../../assets/TFR/THE FUN ROOF-WHITE.png"
+import tfrnav from "../../assets/TFR/THE FUN ROOF-WHITE.png";
 import { MdMenu } from "react-icons/md";
 import routes from "../../constants/routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -43,12 +43,12 @@ export default function Topbar({ scroll }) {
     setShowMenu(!showMenu);
   };
 
-  function _logout() { 
+  function _logout() {
     // console.log("trigger")
-      dispatch(setToken(null));
-      dispatch(setUser(null));
-      logout();
-      navigate(routes.Login);
+    dispatch(setToken(null));
+    dispatch(setUser(null));
+    logout();
+    navigate(routes.Login);
   }
 
   return (
@@ -71,14 +71,12 @@ export default function Topbar({ scroll }) {
           <div class="h-[40px]  bg-white w-[2px] mr-[3px]"></div>
 
           <div className="flex flex-row gap-1 laptop:gap-2 flex-1">
-          <div>
+            <div>
               <Link to={routes.LandingTFR}>
                 <div
                   className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
                 ${
-                  location.pathname === routes.LandingTFR 
-                    ? "bg-[#664653]"
-                    : ""
+                  location.pathname === routes.LandingTFR ? "bg-[#664653]" : ""
                 }`}
                 >
                   <img
@@ -171,7 +169,7 @@ export default function Topbar({ scroll }) {
               onClick={handleMenuClick}
             />
             {showMenu && (
-              <div className="absolute top-[56px] right-0 w-48 bg-black rounded-md z-50">
+              <div className="absolute top-[56px] right-0 w-48 bg-[#212121] rounded-md z-50 text-[12px] font-poppins font-medium">
                 <div
                   className="py-1"
                   role="menu"
@@ -180,20 +178,28 @@ export default function Topbar({ scroll }) {
                 >
                   {user ? (
                     <>
-                      <div
-                        className="cursor-pointer text-white flex items-center border-y-[1px] border-white py-3 px-4 text-md"
+                      <Link
+                        to={routes.Profile}
+                        className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
                         role="menuitem"
                       >
                         Profile
-                      </div>
+                      </Link>
                       <div
-                        className="cursor-pointer text-white flex items-center py-3 px-4 text-md"
+                        className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
+                        role="menuitem"
+                      >
+                        Change Password
+                      </div>
+                      <Link
+                        to={routes.Profile}
+                        className="cursor-pointer text-white flex items-center py-3 px-4 text-md hover:bg-gray-700"
                         role="menuitem"
                       >
                         Transactions
-                      </div>
+                      </Link>
                       <div
-                        className="cursor-pointer text-white flex items-center border-t-[1px] border-white py-3 px-4 text-md"
+                        className="cursor-pointer text-white flex items-center   py-3 px-4 text-md hover:bg-gray-700"
                         role="menuitem"
                         onClick={_logout}
                       >
