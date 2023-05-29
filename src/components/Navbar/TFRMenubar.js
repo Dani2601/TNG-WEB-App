@@ -49,37 +49,37 @@ export default function TFRMenubar() {
               <div className="hidden w-full md:block text-tfr-pink">
                 <div className="flex items-center justify-around">
                   <Link
-                    to={routes.LandingGootopia}
+                    // to={routes.LandingGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     GAMES
                   </Link>
                   <Link
-                    to={routes.ObstaclesGootopia}
+                    // to={routes.ObstaclesGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     EVENTS
                   </Link>
                   <Link
-                    to={routes.PackagesGootopia}
+                    // to={routes.PackagesGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     MENU
                   </Link>
                   <Link
-                    to={routes.FaqsGootopia}
+                    // to={routes.FaqsGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     BOOK A TABLE
                   </Link>
                   <Link
-                    to={routes.ContactsGootopia}
+                    // to={routes.ContactsGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     CONTACT
                   </Link>
                   <Link
-                    to={user ? routes.BookingGootopia : routes.Login}
+                    // to={user ? routes.BookingGootopia : routes.Login}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     <img src={booknow} className="h-[37.63px] "/>
@@ -106,37 +106,37 @@ export default function TFRMenubar() {
         >
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
             <Link
-              to={routes.LandingGootopia}
+              // to={routes.LandingGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               GAMES
             </Link>
             <Link
-              to={routes.ObstaclesGootopia}
+              // to={routes.ObstaclesGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               EVENTS
             </Link>
             <Link
-              to={routes.PackagesGootopia}
+              // to={routes.PackagesGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               MENU
             </Link>
             <Link
-              to={routes.FaqsGootopia}
+              // to={routes.FaqsGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               BOOK A TABLE
             </Link>
             <Link
-              to={routes.ContactsGootopia}
+              // to={routes.ContactsGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               CONTACT
             </Link>
             <Link
-              to={user ? routes.BookingGootopia : routes.Login}
+              // to={user ? routes.BookingGootopia : routes.Login}
               className="block px-3 py-2 w-full text-left text-base"
             >
               <img src={booknow} className="h-[37.63px] "/>

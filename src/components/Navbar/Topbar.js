@@ -7,6 +7,8 @@ import {
   nx,
   tdmnav,
 } from "../../assets/Dessert";
+
+import tfrnav from "../../assets/TFR/THE FUN ROOF-WHITE.png"
 import { MdMenu } from "react-icons/md";
 import routes from "../../constants/routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -80,9 +82,9 @@ export default function Topbar({ scroll }) {
                 }`}
                 >
                   <img
-                    src={tdmnav}
+                    src={tfrnav}
                     alt=""
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain max-w-[106px] max-h-[34px]"
                   />
                 </div>
               </Link>
