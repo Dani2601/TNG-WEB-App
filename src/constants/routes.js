@@ -25,6 +25,7 @@ const routes = {
   BookingTFR: "/TFR/Booking",
 
   Profile: "/Profile",
+  Transaction: "/Transaction",
 
   PageNotFound: "*"
 };

@@ -8,7 +8,7 @@ async function addBooking(e) {
     );
 
     if (data?.valid) {
-     return data
+      return data;
     } else {
       return data;
     }
@@ -19,4 +19,25 @@ async function addBooking(e) {
   }
 }
 
-export { addBooking };
+async function viewMyTransaction(e) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}ViewMyTransactions`,
+      {
+        UserID: e,
+      }
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    return {
+      valid: false,
+    };
+  }
+}
+
+export { addBooking, viewMyTransaction };
