@@ -64,7 +64,7 @@ export default function SelectTicket({
   useEffect(() => {
     getTicketGootopia(
       user.id,
-      "f98233d6-e9eb-4ef6-ae94-e179f954e542",
+      process.env.REACT_APP_GOOTOPIA_KEY,
       location
     )
       .then((response) => {

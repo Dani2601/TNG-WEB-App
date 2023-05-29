@@ -11,6 +11,9 @@ import { format, parse, setDate } from 'date-fns'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY
+const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY
+
 export function TDMBookingDetails({setStep, 
     ticket, location, 
     pax, setPax, 
@@ -35,7 +38,7 @@ export function TDMBookingDetails({setStep,
 
   useEffect(() => {
     if(business === "Gootopia"){
-        getBranches(user.id, "f98233d6-e9eb-4ef6-ae94-e179f954e542")
+        getBranches(user.id, GOOTOPIA_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -47,7 +50,7 @@ export function TDMBookingDetails({setStep,
           // Handle error case
         });
     } else{
-        getBranches(user.id, "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583")
+        getBranches(user.id, DESSERT_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array

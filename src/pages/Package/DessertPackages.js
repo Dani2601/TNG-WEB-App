@@ -4,13 +4,11 @@ import { Form, FormikProvider, useFormik, } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required().label('Name'),
   date: Yup.string().required().label('Event Date'),
   type: Yup.string().required().label('Package Type'),
-  email: Yup.string().email("Invalid Email").required().label('Email'),
-  phone: Yup.string().required().label('Phone'),
   pax: Yup.string().required().label('Pax'),
   message: Yup.string().required().label('Message'),
 });
@@ -21,12 +19,15 @@ let pack3 = "https://static.wixstatic.com/media/863433_d78275a50d70479bbafbe0494
 let pack4 = "https://static.wixstatic.com/media/863433_a29ab0fb06844ada83dde70336dc5484~mv2.png/v1/fill/w_358,h_754,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/863433_a29ab0fb06844ada83dde70336dc5484~mv2.png"
 let pack5 = "https://static.wixstatic.com/media/863433_5e4859f946da45e7b3dd6083935769e4~mv2.jpg/v1/fill/w_358,h_754,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/863433_5e4859f946da45e7b3dd6083935769e4~mv2.jpg"
 
+const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY
+
 export default function DessertPackages() {
   const [packages, setPackages] = useState([])
+  const { user } = useSelector(state => state.record)
 
   useEffect(() => {
     axios.post(`${process.env.REACT_APP_REST_API}ViewPublicBusinessPackage`, {
-      BusinessUnitID: "3c3b59c6-5b34-48ec-b816-045841e2940a",
+      BusinessUnitID: DESSERT_KEY,
     })
     .then((res) => {
       console.log(res.data)
@@ -44,12 +45,10 @@ export default function DessertPackages() {
 
   const onSubmit = (values) => {
     axios.post(`${process.env.REACT_APP_REST_API}AddPackageBooking`, {
-      BusinessUnitID: "3c3b59c6-5b34-48ec-b816-045841e2940a", //dessert 
-      Name: values?.name,
+      BusinessUnitID: DESSERT_KEY, //dessert 
+      CustomerID: user?.id,
       BookingDate: values?.date,
       Type: values?.type,
-      Email: values?.email,
-      Phone: values?.phone,
       Pax: values?.pax,
       Message: values?.message
     })
@@ -70,11 +69,8 @@ export default function DessertPackages() {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
       date: "",
       type: "",
-      email: "",
-      phone: "",
       pax: 1,
       message: ""
     },
@@ -102,26 +98,7 @@ export default function DessertPackages() {
             <label className='text-4xl font-bold'>Booking Form</label>
             <div className='flex mt-4 gap-2'>
               <div className='w-full'>
-              <input type='text' value={formik.values.name} name='name' onChange={formik.handleChange} placeholder='Full Name' className='w-full shadow-md py-2 px-4 border-2 border-gray-400'/>
-              {formik.touched.name && formik.errors.name ? (
-                  <div className="text-red-500 text-sm">{formik.errors.name}</div>
-              ) : null}
-              </div>
-              <div className='w-full'>
-              <input type='email' value={formik.values.email} name='email' onChange={formik.handleChange} placeholder='Email Address' className='w-full shadow-md py-2 px-4 border-2 border-gray-400'/>
-              {formik.touched.email && formik.errors.email ? (
-                  <div className="text-red-500 text-sm">{formik.errors.email}</div>
-              ) : null}
-              </div>
-            </div>
-            <div className='flex mt-4 gap-2'>
-              <div className='w-full'>
-                <input value={formik.values.phone} type='text' name='phone' onChange={formik.handleChange} placeholder='Phone' className='w-full shadow-md py-2 px-4 border-2 border-gray-400'/>
-                {formik.touched.phone && formik.errors.phone ? (
-                <div className="text-red-500 text-sm">{formik.errors.phone}</div>
-              ) : null}
-              </div>
-              <div className='w-full'>
+                <label>Package Type</label>
                 <select value={formik.values.type} name='type' onChange={formik.handleChange} className='w-full h-[43px] shadow-md py-2 px-4 border-2 border-gray-400'>
                   <option value={""}>Type of Package</option>
                   {
@@ -135,12 +112,14 @@ export default function DessertPackages() {
             </div>
             <div className='flex mt-4 gap-2'>
               <div className='w-full'>
+                <label>Event Date</label>
                 <input name='date' value={formik.values.date} type='date' onChange={formik.handleChange} className='w-full shadow-md py-2 px-4 border-2 border-gray-400'/>
                 {formik.touched.date && formik.errors.date ? (
                 <div className="text-red-500 text-sm">{formik.errors.date}</div>
               ) : null}
               </div>
               <div className='w-full'>
+                <label>Pax</label>
                 <input  type='number' value={formik.values.pax} name='pax' 
                 onChange={(e) => {
                   const newValue = Math.max(1, parseInt(e.target.value) || 0);
@@ -153,7 +132,8 @@ export default function DessertPackages() {
               </div>
             </div>
             <div className='mt-4 gap-2'>
-              <textarea onChange={formik.handleChange} value={formik.values.message} name='message' className='w-full shadow-md py-2 px-4 border-2 border-gray-400'/>
+              <label>Message</label>
+              <textarea placeholder='Type a message' onChange={formik.handleChange} value={formik.values.message} name='message' className='w-full shadow-md py-2 px-4 border-2 border-gray-400'/>
               {formik.touched.message && formik.errors.message ? (
                 <div className="text-red-500 text-sm">{formik.errors.message}</div>
               ) : null}
