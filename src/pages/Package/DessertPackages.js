@@ -49,7 +49,7 @@ export default function DessertPackages() {
       CustomerID: user?.id,
       BookingDate: values?.date,
       Type: values?.type,
-      Pax: values?.pax,
+      Pax: parseInt(values?.pax),
       Message: values?.message
     })
     .then((result) => {
