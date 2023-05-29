@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 
 export default function LandingPage() {
   const { user } = useSelector((state) => state.record);
-  console.log("user", user);
+  // console.log("user", user);
   return (
     <div>
       <div className="max-h-full min-h-screen bg-gootopia-purp ">

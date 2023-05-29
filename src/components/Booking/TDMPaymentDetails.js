@@ -14,7 +14,7 @@ export function TDMPaymentDetails({setStep,
     pax,  
     bookingDate,  
     bookingTime, 
-    setSubmitData
+    setSubmitData,business
 }) {
   const navigate = useNavigate()
 
@@ -55,19 +55,34 @@ export function TDMPaymentDetails({setStep,
         setEmail(user?.Email)
     }
   }, [user])
-
+  console.log(business)
   useEffect(() => {
-    getBranches(user.id, "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583")
-      .then((response) => {
-        if (response.valid) {
-          // Convert the object into an array
-          const locationArray = Object.values(response.data);
-          setSelectedLocation(locationArray.find(item => item?.id === location))
-        }
-      })
-      .catch((error) => {
-        // Handle error case
-      });
+    if(business === "Gootopia"){
+        getBranches(user.id, "f98233d6-e9eb-4ef6-ae94-e179f954e542")
+        .then((response) => {
+          if (response.valid) {
+            // Convert the object into an array
+            const locationArray = Object.values(response.data);
+            setSelectedLocation(locationArray.find(item => item?.id === location))
+          }
+        })
+        .catch((error) => {
+          // Handle error case
+        });
+    } else{
+        getBranches(user.id, "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583")
+        .then((response) => {
+          if (response.valid) {
+            // Convert the object into an array
+            const locationArray = Object.values(response.data);
+            setSelectedLocation(locationArray.find(item => item?.id === location))
+          }
+        })
+        .catch((error) => {
+          // Handle error case
+        });
+    }
+
   }, []);
 
   function handleVerify(){

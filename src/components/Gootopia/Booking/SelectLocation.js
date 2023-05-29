@@ -10,29 +10,34 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
 
-export default function SelectLocation({ setStep }) {
-  const [location, setLocation] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(false);
+export default function SelectLocation({ step, setStep, setLocation, location }) {
+  const [branch, setBranch] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState(false);
   const { user } = useSelector((state) => state.record);
   const navigate = useNavigate();
 
   function handleBack() {
-    setStep(1);
+    setStep(-1);
   }
 
   function handleProceed() {
-    setStep(3);
+    setStep(2);
   }
 
-  const handleSelectLocation = () => {
-    setSelectedLocation(!selectedLocation);
+  const handleSelectBranch = (data) => {
+    setSelectedBranch(!selectedBranch);
+    setLocation(data.id)
+    // setLocation(e.target.value)
+
   };
 
   useEffect(() => {
     getBranches(user.id,"f98233d6-e9eb-4ef6-ae94-e179f954e542")
       .then((response) => {
         if (response.valid) {
-          setLocation(response.data);
+          // const locationArray = Object.values(response.data);
+          // setSelectedLocation(locationArray);
+          setBranch(response.data);
         } else {
         }
       })
@@ -53,17 +58,17 @@ export default function SelectLocation({ setStep }) {
           <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
-                {location.map((data, index) => {
+                {branch.map((data, index) => {
                   return (
                     <div className="flex flex-col">
                       <button
                         className="outline-4 self-center"
-                        onClick={() => handleSelectLocation()}
+                        onClick={() => handleSelectBranch(data)}
                         key={index}
                       >
                         <img
                           className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]${
-                            selectedLocation === true
+                            selectedBranch === true
                               ? "outline-[15px] outline outline-[#E677AA] rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]"
                               : ""
                           } `}
@@ -87,7 +92,7 @@ export default function SelectLocation({ setStep }) {
                   >
                     Back
                   </button>
-                  {selectedLocation ? (
+                  {selectedBranch ? (
                     <button
                       onClick={() => handleProceed()}
                       className="ml-3 text-white text-[12px] tablet:text-[14px] bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl"

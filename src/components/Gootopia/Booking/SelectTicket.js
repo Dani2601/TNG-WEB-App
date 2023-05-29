@@ -31,53 +31,60 @@ let ticket = [
   },
 ];
 
-export default function SelectTicket({ setStep, location, setLocation }) {
-  // const [location, setLocation] = useState(location)
-  const [selectedLocation, setSelectedLocation] = useState(false);
+export default function SelectTicket({
+  setStep,
+  location,
+  setTicket,
+  ticket,
+}) {
   const [showModal, setShowModal] = useState(false);
-  const [ticket, setTicket] = useState([]);
+  const [tickets, setTickets] = useState([]);
+
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.record);
+
+  function handleBack() {
+    navigate(1);
+  }
+
+  function handleNext() {
+    setShowModal(true);
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
+    setTicket("")
+  }
+
+  function handleProceed() {
+    setStep(3);
+    setShowModal(false);
+  }
 
   useEffect(() => {
     getTicketGootopia(
       user.id,
       "f98233d6-e9eb-4ef6-ae94-e179f954e542",
-      "f988ed92-633b-44a8-988c-95e96da1cb77"
+      location
     )
       .then((response) => {
         if (response.valid) {
-          setTicket(response.data);
+          setTickets(response.data);
         } else {
         }
       })
       .catch();
-  }, []);
-
-  console.log(ticket);
-
-  function handleBack() {
-    navigate(-1);
-  }
-
-  function handleCloseModal() {
-    setShowModal(false);
-  }
-
-  function handleProceed() {
-    setShowModal(false);
-    setStep(2);
-  }
-  function handleNext() {
-    setShowModal(true);
-  }
+  }, [location, user]);
 
   return (
     <GootopiaContainer>
       <TicketBookingModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}
+        ticket={ticket}
+        setStep={setStep}
         handleProceed={handleProceed}
+        
       />
 
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
@@ -94,43 +101,53 @@ export default function SelectTicket({ setStep, location, setLocation }) {
               <div className="self-center text-[#F8E71C] font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
                 Start your adventure by choosing one of our ticket types below
               </div>
-              {ticket.map((data, index) => {
-                return (
-                  <div className="flex flex-col" key={index}>
-                    <button className=" self-center" onClick={handleNext}>
-                      <div className="relative">
-                        <img
-                          src={bookingCard}
-                          alt="Your Image"
-                          className="h-[214px] w-[320px] tablet:w-[610px] tablet:h-[446px]"
-                        />
-                        <div className="absolute top-[40px] left-[53px]  tablet:top-[80px]  tablet:left-[100px] text-left flex justify-center items-center font-poppins">
-                          <div className=" w-[132px] h-[112px] tablet:w-[252px] tablet:h-[252px] flex flex-col overflow-y-auto">
-                            <div className="text-gootopia-pinkText text-[14px] tablet:text-[18px] font-bold mb-1">
-                              {data.Name}
-                            </div>
-                            <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[14px] mb-2">
-                              <div className="text-black  font-bold mr-1  line-through">
-                                ₱{data.OldPrice}
+              {tickets.length > 0 ? (
+                tickets?.map((data, index) => {
+                  return (
+                    <div className="flex flex-col" key={index}>
+                      <button className=" self-center" onClick={()=> {handleNext(); setTicket(data)}}>
+                        <div className="relative">
+                          <img
+                            src={bookingCard}
+                            alt="Your Image"
+                            className="h-[214px] w-[320px] tablet:w-[610px] tablet:h-[446px]"
+                          />
+                          <div className="absolute top-[40px] left-[53px]  tablet:top-[80px]  tablet:left-[100px] text-left flex justify-center items-center font-poppins">
+                            <div className=" w-[132px] h-[112px] tablet:w-[252px] tablet:h-[252px] flex flex-col overflow-y-auto">
+                              <div className="text-gootopia-pinkText text-[14px] tablet:text-[18px] font-bold mb-1">
+                                {data.Name}
                               </div>
-                              <div className="text-black  font-bold mr-1  ">
-                                ₱{data.Price}
+                              <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[14px] mb-2">
+                                <div className="text-black  font-bold mr-1  line-through">
+                                  ₱{data.OldPrice}
+                                </div>
+                                <div className="text-black  font-bold mr-1  ">
+                                  ₱{data.Price}
+                                </div>
+                                <div className="text-gootopia-purp font-bold mr-1 mb-1">
+                                  {data.Notes} {data.Notes && "%"}
+                                </div>
                               </div>
-                              <div className="text-gootopia-purp font-bold mr-1 mb-1">
-                                {data.Notes} {data.Notes && "%"}
+                              <div className="text-black text-[12px] tablet:text-[14px] ">
+                                {data.Description}
                               </div>
-                            </div>
-                            <div className="text-black text-[12px] tablet:text-[14px] ">
-                              {data.Description}
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </button>
-                  </div>
-                );
-              })}
-
+                      </button>
+                    </div>
+                  );
+                })
+              ) : (
+                <div>No available Tickets yet.</div>
+              )}
+              <button
+                onClick={handleBack}
+                className="cursor-default text-[12px] tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins px-1 py-1 rounded-3xl text-center mt-10"
+              >
+                {" "}
+                Back{" "}
+              </button>
               <div className="flex flex-row justify-end"></div>
             </div>
           </div>

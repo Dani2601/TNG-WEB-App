@@ -42,7 +42,7 @@ export default function Topbar({ scroll }) {
   };
 
   function _logout() { 
-    console.log("trigger")
+    // console.log("trigger")
       dispatch(setToken(null));
       dispatch(setUser(null));
       logout();

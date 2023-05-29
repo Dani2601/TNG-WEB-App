@@ -8,7 +8,7 @@ export default function BookOnline() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.record);
 
-  console.log("user", user);
+  // console.log("user", user);
   return (
     <div className="w-full py-5 flex flex-col justify-center items-center font-quicksand">
       <img
