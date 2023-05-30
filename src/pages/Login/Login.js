@@ -41,7 +41,8 @@ function Landing() {
         login();
         navigate(-1);
       } else {
-        toast.error(response.errorMsg);
+        toast.error(response.errorMsg.length === undefined ?  "Password is wrong" : response.errorMsg);
+        console.log(response.errorMsg.length)
       }
     } catch (error) {
       toast.error("Something went wrong");

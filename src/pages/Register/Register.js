@@ -67,7 +67,7 @@ function Register() {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
         login();
-        navigate(-1);
+        navigate(routes.LandingDesert)
       } else {
         toast.error(response.errorMsg);
       }

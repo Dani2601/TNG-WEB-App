@@ -34,7 +34,7 @@ export default function Profile() {
     
 
   
-      const response = await editProfile(user.id,values.Name,values.Mobile,values.Address);
+      const response = await editProfile(user?.id,values.Name,values.Mobile,values.Address);
       if (response.valid) {
         // setDataAdded(!dataAdded);
         // closeEditModal();
@@ -75,7 +75,7 @@ export default function Profile() {
                   />{" "}
                 </div> */}
                     <div className="flex flex-none self-center text-base font-bold">
-                      Hello there! {user.Name}
+                      Hello there! {user?.Name}
                     </div>
                   </div>
                   <hr class="h-[2px] mt-1 modalgradient border-0 dark:bg-gray-700"></hr>
@@ -93,7 +93,7 @@ export default function Profile() {
                           type="text"
                           className="input-text tablet:ml-3"
                           placeholder="First name"
-                          defaultValue={user.Name}
+                          defaultValue={user?.Name}
                           value={formik.values?.Name}
                           onChange={formik.handleChange}
                           name="Name"
@@ -105,7 +105,7 @@ export default function Profile() {
                           type="text"
                           className="input-text tablet:ml-3"
                           placeholder="Email"
-                          defaultValue={user.Email}
+                          defaultValue={user?.Email}
                           value={formik.values?.Email}
                           onChange={formik.handleChange}
                           name="Email"
@@ -117,7 +117,7 @@ export default function Profile() {
                           type="text"
                           className="input-text tablet:ml-3"
                           placeholder="Mobile"
-                          defaultValue={user.Mobile}
+                          defaultValue={user?.Mobile}
                           value={formik.values?.Mobile}
                           onChange={formik.handleChange}
                           name="Mobile"
@@ -129,7 +129,7 @@ export default function Profile() {
                           type="text"
                           className="input-text tablet:ml-3"
                           placeholder="Address"
-                          defaultValue={user.Address}
+                          defaultValue={user?.Address}
                           value={formik.values?.Address}
                           onChange={formik.handleChange}
                           name="Address"

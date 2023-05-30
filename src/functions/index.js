@@ -110,4 +110,31 @@ async function editProfile(id,name, mobile, address) {
     };
   }
 }
-export { loginViaEmail, register,reauthenticate,editProfile };
+
+async function changePass(id,old, newPass) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}ChangePassword`,
+      {
+        id: id,
+        OldPassword: old,
+        NewPassword: newPass,
+
+
+      }
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    console.log(e);
+    return {
+      valid: false,
+    };
+  }
+}
+
+export { loginViaEmail, register,reauthenticate,editProfile,changePass};
