@@ -15,13 +15,14 @@ import TransactionModal from "../../components/Modal/Profile/TransactionModal/Tr
 import { useSelector } from "react-redux";
 import { Topbar } from "../../components/Navbar";
 import { viewMyTransaction } from "../../functions/Booking";
+import { encryptData } from "../../helper/DataEncryption";
 
 const tableHeader = [
   "Code",
+  "TNG",
+  "Branch",
   "Booking Date",
   "Booking Time",
-  "Pax",
-  "Payment Method",
   "Total Price",
   "Date Created",
   "Status",
@@ -30,6 +31,8 @@ let title = "Transactions";
 
 export default function Transaction() {
   const [search, setSearch] = useState(null);
+  const [qrData, setQrData] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const [record, setRecord] = useState([]);
@@ -60,8 +63,15 @@ export default function Transaction() {
   };
 
   const getEditData = (data) => {
-    // setOpenEditBusinessUnitModal(true);
+    const objData = [
+      { Code: data.Code, UserID: data.CustomerID, Status: data.Status },
+    ];
+
+    const encrypt = encryptData(objData)
+
+    setOpenEditBusinessUnitModal(true);
     setEditData(data);
+    setQrData(encrypt);
     openEditModal();
   };
 
@@ -147,20 +157,21 @@ export default function Transaction() {
                   </p>
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {data.BusinessUnitName}
+                </td>
+                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {data.Branch}
+                </td>
+                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
                   {data.BookingDate}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
                   {data.BookingTime}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.Pass}
+                  ₱ {data.TotalPrice}
                 </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.Payment.PaymentMethod === undefined ? "UB" : "BDO"}
-                </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.TotalPrice}
-                </td>
+
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
                   {getDate(data.CreatedTS)}
                 </td>
@@ -241,8 +252,12 @@ export default function Transaction() {
           toAddData={toAddData}
           setDataAdded={setDataAdded}
           dataAdded={dataAdded}
+          qrData={qrData}
         />
       )}
+      {
+        console.log(qrData)
+      }
       <div className="min-h-screen flex flex-col bluegradient">
         <Topbar />
         <div className=" p-10 gap-8 mb-auto font-poppins ">

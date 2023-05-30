@@ -173,7 +173,7 @@ export default function ChangePass({
                   </div>
                 ) : null}
                 <div className="flex justify-end mt-8  text-[12px] tablet:text-[16px] font-bold gap-4">
-                  <button className=" bg-white h-8 rounded-[5px] px-3 mt-2 text-modalgradient">
+                  <button className=" bg-white h-8 rounded-[5px] px-3 mt-2 text-modalgradient" onClick={closeEditModal}>
                     {" "}
                     <p className="self-center">Cancel </p>
                   </button>

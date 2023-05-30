@@ -14,11 +14,14 @@ export default function DataTable(props) {
   ));
 
   return (
-    <table className="w-full">
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{tableData}</tbody>
-    </table>
+<div className="overflow-x-auto">
+  <table className="w-full whitespace-no-wrap">
+    <thead>
+      <tr>{headers}</tr>
+    </thead>
+    <tbody>{tableData}</tbody>
+  </table>
+</div>
+
   );
 }
