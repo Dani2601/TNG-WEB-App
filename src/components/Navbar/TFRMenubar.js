@@ -5,7 +5,7 @@ import close from "../../assets/Gootopia/closebutton.png";
 import hamburger from "../../assets/TFR/Hamburger.png";
 import TFRMain from "../../assets/TFR/TFR-Main Logo.png";
 import TFRMobile from "../../assets/TFR/TFR-Website Icon.png";
-import booknow from "../../assets/TFR/button BOOK NOW-W BG.png"
+import booknow from "../../assets/TFR/button BOOK NOW-W BG.png";
 import dripping from "../../assets/Gootopia/slimedripping.png";
 import routes from "../../constants/routes";
 import { Link } from "react-router-dom";
@@ -49,24 +49,28 @@ export default function TFRMenubar() {
               <div className="hidden w-full md:block text-tfr-pink">
                 <div className="flex items-center justify-around">
                   <Link
+                    to={routes.PageNotFound}
                     // to={routes.LandingGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     GAMES
                   </Link>
                   <Link
+                    to={routes.PageNotFound}
                     // to={routes.ObstaclesGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     EVENTS
                   </Link>
                   <Link
+                    to={routes.PageNotFound}
                     // to={routes.PackagesGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     MENU
                   </Link>
                   <Link
+                    to={routes.PageNotFound}
                     // to={routes.FaqsGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
@@ -74,16 +78,17 @@ export default function TFRMenubar() {
                   </Link>
                   <Link
                     // to={routes.ContactsGootopia}
+                    to={routes.PageNotFound}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     CONTACT
                   </Link>
                   <Link
                     // to={user ? routes.BookingGootopia : routes.Login}
+                    to={routes.PageNotFound}
                     className="text-center  rounded-md text-sm font-medium"
                   >
-                    <img src={booknow} className="h-[37.63px] "/>
-                   
+                    <img src={booknow} className="h-[37.63px] " />
                   </Link>
                 </div>
               </div>
@@ -106,40 +111,46 @@ export default function TFRMenubar() {
         >
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
             <Link
+              to={routes.PageNotFound}
               // to={routes.LandingGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               GAMES
             </Link>
             <Link
+              to={routes.PageNotFound}
               // to={routes.ObstaclesGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               EVENTS
             </Link>
             <Link
+              to={routes.PageNotFound}
               // to={routes.PackagesGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               MENU
             </Link>
             <Link
+              to={routes.PageNotFound}
               // to={routes.FaqsGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               BOOK A TABLE
             </Link>
             <Link
+              to={routes.PageNotFound}
               // to={routes.ContactsGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               CONTACT
             </Link>
             <Link
+              to={routes.PageNotFound}
               // to={user ? routes.BookingGootopia : routes.Login}
               className="block px-3 py-2 w-full text-left text-base"
             >
-              <img src={booknow} className="h-[37.63px] "/>
+              <img src={booknow} className="h-[37.63px] " />
             </Link>
           </div>
         </div>

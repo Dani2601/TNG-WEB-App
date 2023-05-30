@@ -18,17 +18,6 @@ const validationSchema = Yup.object().shape({
 export default function Faqs() {
   const { user } = useSelector((state) => state.record);
 
-  const formik = useFormik({
-    initialValues: {
-      date: "",
-      type: "",
-      pax: 1,
-      message: "",
-    },
-    validationSchema,
-    onSubmit,
-  });
-
   const onSubmit = (values) => {
     axios
       .post(`${process.env.REACT_APP_REST_API}AddPackageBooking`, {
@@ -52,6 +41,16 @@ export default function Faqs() {
         toast.error("Something went wrong");
       });
   };
+  const formik = useFormik({
+    initialValues: {
+      date: "",
+      type: "",
+      pax: 1,
+      message: "",
+    },
+    validationSchema,
+    onSubmit,
+  });
   return (
     <GootopiaContainer>
       <FormikProvider value={formik}>
@@ -78,7 +77,6 @@ export default function Faqs() {
                     <div>gootopia@thenextperience.com</div>
                   </div>
                 </div>
-
               </div>
 
               <div className="flex flex-row text-[14px] laptop:text-[20px] font-flavors text-gootopia-green  mt-5 justify-center">
@@ -91,12 +89,32 @@ export default function Faqs() {
                       alt="gootopialanding "
                     />
                   </div>
-                  <div>Facebook</div>
+                  <a
+                    href=" https://www.facebook.com/GootopiaPh"
+                    target="_blank"
+                  >
+                    <div>Facebook</div>
+                  </a>
+                  <a href=" https://www.tiktok.com/@gootopia" target="_blank">
+                    <div>Tiktok</div>
+                  </a>
 
-                  <div>Instagram</div>
-                  <div>Tiktok</div>
-                  <div>Youtube</div>
-                  <div>Twitter</div>
+                  <a
+                    href=" https://www.instagram.com/gootopiaph/"
+                    target="_blank"
+                  >
+                    <div>Instagram</div>
+                  </a>
+                  <a
+                    href="https://www.youtube.com/watch?v=ehZqlrxfg-k"
+                    target="__blank"
+                  >
+                    <div>Youtube</div>
+                  </a>
+
+                  {/* <div>Tiktok</div>
+                  
+                  <div>Twitter</div> */}
                 </div>
               </div>
             </div>
