@@ -24,6 +24,7 @@ const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY
 export default function DessertPackages() {
   const [packages, setPackages] = useState([])
   const { user } = useSelector(state => state.record)
+  const [packageImage, setPackageImage] = useState([]);
 
   useEffect(() => {
     axios.post(`${process.env.REACT_APP_REST_API}ViewPublicBusinessPackage`, {
@@ -42,6 +43,24 @@ export default function DessertPackages() {
       setPackages([])
     })
   }, [])
+
+    useEffect(() => {
+    axios
+      .post(`${process.env.REACT_APP_REST_API}ViewSpecBusinessPackage`, {
+        BusinessUnitID: DESSERT_KEY,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.valid) {
+          setPackageImage(res.data.data);
+        } else {
+          setPackageImage([]);
+        }
+      })
+      .catch((error) => {
+        setPackages([]);
+      });
+  }, []);
 
   const onSubmit = (values) => {
     axios.post(`${process.env.REACT_APP_REST_API}AddPackageBooking`, {
@@ -87,13 +106,27 @@ export default function DessertPackages() {
             <div className='text-tdm-pink text-md text-center py-4'>Check out our awesome packages below! Have the sweetest and most unique birthday party or date plus a Prenup or the coolest photoshoot! This and more below:</div>
             <div className='text-tdm-pink text-md text-center py-4'>Email us at events@thedessertmuseum.com and we will get back to you within 24hrs!</div>
           </div>
-          <div className='flex flex-wrap'>
-            <img src={pack1} alt='Package 1' className='w-1/5'/>
-            <img src={pack2} alt='Package 2' className='w-1/5'/>
-            <img src={pack3} alt='Package 3' className='w-1/5'/>
-            <img src={pack4} alt='Package 4' className='w-1/5'/>
-            <img src={pack5} alt='Package 5' className='w-1/5'/>
-          </div>
+       
+          <div className="flex flex-col justify-center py-5">
+                <div className="flex flex-col justify-center items-center ">
+                  <div className="tablet:flex tablet:flex-row tablet:flex-wrap justify-center items-center tablet:gap-5 ">
+
+                    {packageImage.map((item) => {
+                      return (
+                        <div>
+                          <img
+                            class="h-[500px] tablet:h-[500px] mb-5"
+                            src={item.Image}
+                            alt="events"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+        
+              </div>
           <div className='w-[70vw] md:w-[50vw] m-auto py-10'>
             <label className='text-4xl font-bold'>Booking Form</label>
             <div className='flex mt-4 gap-2'>

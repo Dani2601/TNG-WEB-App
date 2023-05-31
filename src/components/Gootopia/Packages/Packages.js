@@ -37,6 +37,7 @@ const validationSchema = Yup.object().shape({
 export default function Packages() {
   const [packages, setPackages] = useState([]);
   const { user } = useSelector((state) => state.record);
+  const [packageImage, setPackageImage] = useState([]);
 
   useEffect(() => {
     axios
@@ -49,6 +50,24 @@ export default function Packages() {
           setPackages(res.data.data);
         } else {
           setPackages([]);
+        }
+      })
+      .catch((error) => {
+        setPackages([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .post(`${process.env.REACT_APP_REST_API}ViewSpecBusinessPackage`, {
+        BusinessUnitID: GOOTOPIA_KEY,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.valid) {
+          setPackageImage(res.data.data);
+        } else {
+          setPackageImage([]);
         }
       })
       .catch((error) => {
@@ -105,52 +124,24 @@ export default function Packages() {
 
               <div className="flex flex-col justify-center py-5">
                 <div className="flex flex-col justify-center items-center ">
-                  <div className="tablet:flex tablet:flex-row tablet:gap-5 ">
-                    <div>
-                      <img
-                        class="h-[285px] tablet:h-[308px] mb-5"
-                        src={first}
-                        alt="gootopialanding"
-                      />
-                    </div>
-                    <div>
-                      <img
-                        class="h-[285px] tablet:h-[308px] mb-5"
-                        src={second}
-                        alt="gootopialanding"
-                      />
-                    </div>
-                    <div>
-                      <img
-                        class="h-[285px] tablet:h-[308px] mb-5"
-                        src={third}
-                        alt="gootopialanding"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="tablet:flex tablet:flex-row tablet:gap-5">
-                    <div>
-                      <img
-                        class="h-[285px] tablet:h-[308px] mb-5"
-                        src={fourth}
-                        alt="gootopialanding"
-                      />
-                    </div>
-
-                    <div>
-                      <img
-                        class="h-[285px] tablet:h-[308px] mb-5"
-                        src={fifth}
-                        alt="gootopialanding"
-                      />
-                    </div>
+                  <div className="tablet:flex tablet:flex-row tablet:flex-wrap justify-center items-center tablet:gap-5 ">
+                    {packageImage.map((item) => {
+                      return (
+                        <div>
+                          <img
+                            class="h-[285px] tablet:h-[308px] mb-5"
+                            src={item.Image}
+                            alt="gootopialanding"
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
                 <div className="w-[70vw] md:w-[50vw] m-auto py-10">
-                  <label className="text-4xl font-bold">Booking Form</label>
-                  <div className="flex mt-4 gap-2">
+                  <label className="font-bold text-gootopia-pinkText text-[30px] tablet:text-[50px] ">Booking Form</label>
+                  <div className="flex mt-4 gap-2 font-poppins">
                     <div className="w-full">
                       <label>Package Type</label>
                       <select
@@ -228,15 +219,14 @@ export default function Packages() {
                   </div>
                   <div className="mt-4 flex items-center justify-center">
                     {user ? (
-                        <button
+                      <button
                         onClick={formik.handleSubmit}
                         className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
                       >
                         Book Now
                       </button>
                     ) : (
-                  
-                        <Link
+                      <Link
                         to={routes.Login}
                         className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
                       >
