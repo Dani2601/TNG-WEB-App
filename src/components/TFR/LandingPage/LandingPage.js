@@ -85,6 +85,16 @@ export default function LandingPage() {
   };
   return (
     <div>
+      <div
+        className="bg-tfr-purple "
+        style={{ fontFamily: "Nulshock, sans-serif" }}
+      >
+        <div className="flex h-[30px] laptop:h-[50px] tablet:text-[15px] flex-row justify-center uppercase text-tfr-yellow text-[12px] font-Nulshock font-bold">
+          <div className="my-auto">
+            Open every Tuesday - Friday | 7PM TO LATE!
+          </div>
+        </div>
+      </div>
       {/* Carousel */}
       <Slider {...settings} className="-mb-2">
         {carouselData.map((item) => (
@@ -302,7 +312,11 @@ export default function LandingPage() {
 
       {/* 7th Section */}
       <div className="flex flex-col bg-tfr-pink  items-center justify-center">
-        <img src={booknow2} alt={"Events"} className="h-[30px] my-3 tablet:h-[50px] tablet:my-6 laptopL:h-[80px] laptopL::my-8 " />
+        <img
+          src={booknow2}
+          alt={"Events"}
+          className="h-[30px] my-3 tablet:h-[50px] tablet:my-6 laptopL:h-[80px] laptopL::my-8 "
+        />
       </div>
     </div>
   );

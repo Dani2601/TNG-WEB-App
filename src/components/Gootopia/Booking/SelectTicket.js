@@ -44,7 +44,7 @@ export default function SelectTicket({
   const { user } = useSelector((state) => state.record);
 
   function handleBack() {
-    navigate(1);
+    setStep(1);
   }
 
   function handleNext() {

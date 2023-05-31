@@ -23,7 +23,7 @@ export default function TFRMenubar() {
   return (
     <>
       <nav
-        className="bg-black font-flavors "
+        className="bg-black "
         style={{ fontFamily: "Nulshock, sans-serif" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">

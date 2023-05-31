@@ -21,12 +21,7 @@ export function GootopiaBooking() {
   const [bookingTime, setBookingTime] = useState("");
   const [business, ] = useState("Gootopia")
   
-  console.log("step",step)
-  console.log("ticket", ticket)
-  console.log("location", location)
-  console.log("pax", pax)
-  console.log("bookingDate", bookingDate)
-  console.log("bookingTime", bookingTime)
+
 
   function submit(e) {
     addBooking(e)

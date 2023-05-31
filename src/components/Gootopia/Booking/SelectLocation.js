@@ -17,7 +17,7 @@ export default function SelectLocation({ step, setStep, setLocation, location })
   const navigate = useNavigate();
 
   function handleBack() {
-    setStep(-1);
+    navigate(routes.LandingGootopia);
   }
 
   function handleProceed() {
