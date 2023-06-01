@@ -105,7 +105,6 @@ export default function TransactionModa({
     validationSchema,
     onSubmit,
   });
-  
 
   return (
     <div>
@@ -117,15 +116,49 @@ export default function TransactionModa({
         <FormikProvider value={formik}>
           <Form>
             <div className="flex justify-center items-center mt-[25px] font-poppins text-[12px] tablet:text-[16px]">
-              <div className="bluegradient  justify-center items-center tablet:justify-start tablet:items-start flex flex-col max-w-[600px] w-[100%] mx-[5px] rounded-[5px] pb-5 bg-white p-5">
+              <div className="bluegradient  justify-start items-start flex flex-col max-w-[400px] w-[100%] mx-[5px] rounded-[5px] pb-5 bg-white p-5">
                 <div className="my-5 font-bold self-center">
                   Transaction Details
                 </div>
                 <div className="flex flex-col items-center justify-center mx-auto my-2">
-                    <div className="mb-3" >Qr Code:</div>
-                  <QRCode value={qrData} size={200}/>
+                  <div className="mb-3">Qr Code:</div>
+                  <QRCode value={qrData} size={200} />
                 </div>
-                <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1 font-bold">Hi! {user.Name.split(' ').slice(0, 1).join(' ')}, here's the summary of your booking. </div>
+                 
+                </div>
+                  <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1">Invoice Number: </div>
+                  {editData.Code}
+                </div>
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1">TNG Unit: </div>
+                  {editData.BusinessUnitName}
+                </div>
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1">Branch: </div>
+                  {editData.Branch}
+                </div>
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1">Booking Date: </div>
+                  {editData.BookingDate}
+                </div>
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1">Booking Time: </div>
+                  {editData.BookingTime}
+                </div>
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-3 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1 font-bold ">Total Price: </div>
+                  {"₱ " + editData.TotalPrice}
+                </div>
+                <div className="flex tablet:flex-row items-center flex-row justify-center mt-2   tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] font-bold pr-2 ">
+                    Status:
+                  </div>
+                  <Status status={editData.Status}></Status>
+                </div>
+                {/* <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px]">Booking Code:</div>
                   <input
                     placeholder="N/A"
@@ -178,7 +211,7 @@ export default function TransactionModa({
                     Status:
                   </div>
                   <Status status={editData.Status}></Status>
-                </div>
+                </div> */}
                 <div className="flex justify-center mt-4  text-[12px] tablet:text-[16px] font-bold gap-4 mx-auto">
                   <button
                     className=" bg-white h-8 rounded-[5px] px-3  text-modalgradient"
