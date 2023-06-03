@@ -10,6 +10,7 @@ import { useState } from "react";
 import { format, parse, setDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getBookingsByTicketID } from "../../functions/Tickets";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -30,6 +31,7 @@ export function TDMBookingDetails({
   const { user } = useSelector((state) => state.record);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [intervals, setIntervals] = useState([]);
+  const [reserve, setReserve] = useState([])
 
   function handleBack() {
     setStep(2)
@@ -72,18 +74,55 @@ export function TDMBookingDetails({
   }, []);
 
   useEffect(() => {
-    setIntervals(
-      ticket?.CreatedInterval.map((item) => {
-        // const time24HourFormat = format(parse(item.timeInterval, 'hh:mm aa', new Date()), 'HH:mm');
-        return {
-          value: item.timeInterval,
-          label: `${item.timeInterval} - ${item.slot} slot(s)`,
-        };
+    if(ticket?.id && bookingDate){
+      getBookingsByTicketID(ticket?.id, format(bookingDate, "yyyy-MM-dd"))
+      .then((res) => {
+        if(res.valid){
+          setReserve(res.data)
+        }
+        else{
+          setReserve([])
+        }
       })
-    );
-  }, []);
+      .catch((e) => {
+        console.log(e)
+      })
+    }
+  }, [ticket, bookingDate])
+
+  useEffect(() => {
+    if(bookingDate){
+      setIntervals(
+        ticket?.CreatedInterval.map((item) => {
+          let reservation = reserve?.filter((res) => res.BookingTime === item.timeInterval)
+          if(reservation.length > 0){
+            const sumOfPass = reservation.reduce((total, item) => total + item.Pass, 0);
+            return {
+              value: item.timeInterval,
+              label: `${item.timeInterval} - ${(parseInt(item.slot) - sumOfPass)} slot(s)`,
+            };
+          }
+          else{
+            return {
+              value: item.timeInterval,
+              label: `${item.timeInterval} - ${item.slot} slot(s)`,
+            };
+          }
+        })
+      );
+    }
+    else{
+      setIntervals([])
+    }
+  }, [bookingDate, ticket, reserve]);
 
   const allowedDays = ["Monday", "Tuesday", "Wednesday"];
+
+  function handleClear(){
+    setBookingDate(null)
+    setBookingTime(null)
+    setPax(1)
+  }
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -104,7 +143,7 @@ export function TDMBookingDetails({
               </p>
               <div className="flex items-center">
                 <span className="mr-2 text-sm">{ticket?.Name}</span>
-                <FiTrash2 color="red" />
+                <FiTrash2 color="red" className="cursor-pointer" onClick={handleClear}/>
               </div>
               <div>
                 <p className="text-sm">
@@ -115,6 +154,7 @@ export function TDMBookingDetails({
                   onChange={(e) => setPax(e.target.value)}
                   defaultValue={1}
                   min={1}
+                  value={pax}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                 />
               </div>
@@ -141,6 +181,7 @@ export function TDMBookingDetails({
                 </p>
                 <select
                   onChange={(e) => setBookingTime(e.target.value)}
+                  value={bookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                 >
                   <option>Select a time</option>

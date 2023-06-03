@@ -67,7 +67,6 @@ async function register(name,mobile,email, address, password) {
     );
 
     if (data?.valid) {
-        // console.log("data",data)
       const decrypt = await decryptData(data.response);
       return {
         valid: true,

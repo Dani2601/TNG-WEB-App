@@ -45,7 +45,7 @@ export function TDMPaymentDetails({
       TicketID: ticket?.id,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
-      Pax: pax,
+      Pax: parseInt(pax),
       Payment: {
         PaymentMethod: selectedPaymentMethod,
       },
@@ -257,12 +257,22 @@ export function TDMPaymentDetails({
             >
               Back
             </button>
-            <button
-              onClick={handleNext}
-              className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
-            >
-              Next
-            </button>
+            {
+              selectedPaymentMethod ?
+              <button
+                onClick={handleNext}
+                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
+              >
+                Submit
+              </button>
+              :
+              <button
+                disabled={true}
+                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#51CEC5] text-white"
+              >
+                Submit
+              </button>
+            }
           </div>
         </div>
       </div>
