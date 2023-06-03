@@ -3,7 +3,7 @@ import axios from "axios";
 async function getTicketGootopia(user, businessID , branchID) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}FilterTicketViaBranch`,
+      `${process.env.REACT_APP_REST_API}FilterTicketViaBranchNoPackage`,
       {
         UserID: user,
         BusinessUnitID: businessID,

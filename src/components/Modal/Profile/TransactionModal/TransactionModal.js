@@ -125,7 +125,7 @@ export default function TransactionModa({
                   <QRCode value={qrData} size={200} />
                 </div>
                 <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px] mr-1 font-bold">Hi! {user.Name.split(' ').slice(0, 1).join(' ')}, here's the summary of your booking. </div>
+                  <div className="mr-1 font-bold">Hi! {user.Name.split(' ').slice(0, 1).join(' ')}, here's the summary of your booking. </div>
                  
                 </div>
                   <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
