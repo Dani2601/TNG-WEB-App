@@ -101,23 +101,24 @@ export default function SelectTicket({
               <div className="self-center text-[#F8E71C] font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
                 Start your adventure by choosing one of our ticket types below
               </div>
+              <div className="flex flex-row flex-wrap justify-center">
               {tickets.length > 0 ? (
                 tickets?.map((data, index) => {
                   return (
-                    <div className="flex flex-col" key={index}>
+                    <div className="flex flex-row " key={index}>
                       <button className=" self-center" onClick={()=> {handleNext(); setTicket(data)}}>
                         <div className="relative">
                           <img
                             src={bookingCard}
                             alt="Your Image"
-                            className="h-[214px] w-[320px] tablet:w-[610px] tablet:h-[446px]"
+                            className="h-[214px] w-[320px] tablet:w-[410px] tablet:h-[300px]"
                           />
-                          <div className="absolute top-[40px] left-[53px]  tablet:top-[80px]  tablet:left-[100px] text-left flex justify-center items-center font-poppins">
-                            <div className=" w-[132px] h-[112px] tablet:w-[252px] tablet:h-[252px] flex flex-col overflow-y-auto">
-                              <div className="text-gootopia-pinkText text-[14px] tablet:text-[18px] font-bold mb-1">
+                          <div className="absolute top-[40px] left-[53px]  tablet:top-[50px]  tablet:left-[70px] text-left flex justify-center items-center font-poppins">
+                            <div className=" w-[132px] h-[112px] tablet:w-[180px] tablet:h-[252px] flex flex-col overflow-y-auto">
+                              <div className="text-gootopia-pinkText text-[14px] tablet:text-[15px] font-bold mb-1">
                                 {data.Name}
                               </div>
-                              <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[14px] mb-2">
+                              <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
                                 <div className="text-black  font-bold mr-1  line-through">
                                   ₱{data.OldPrice}
                                 </div>
@@ -128,7 +129,7 @@ export default function SelectTicket({
                                   {data.Notes} {data.Notes && "%"}
                                 </div>
                               </div>
-                              <div className="text-black text-[12px] tablet:text-[14px] ">
+                              <div className="text-black text-[12px] tablet:text-[12px] ">
                                 {data.Description}
                               </div>
                             </div>
@@ -141,14 +142,18 @@ export default function SelectTicket({
               ) : (
                 <div>No available Tickets yet.</div>
               )}
+              </div>
+
+           
+              <div className="flex flex-row justify-center w-full">
               <button
                 onClick={handleBack}
-                className="cursor-default text-[12px] tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins px-1 py-1 rounded-3xl text-center mt-10"
+                className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins rounded-3xl text-center mt-10"
               >
                 {" "}
                 Back{" "}
               </button>
-              <div className="flex flex-row justify-end"></div>
+              </div>
             </div>
           </div>
         </div>

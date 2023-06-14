@@ -25,11 +25,13 @@ export default function SelectLocation({ step, setStep, setLocation, location })
   }
 
   const handleSelectBranch = (data) => {
-    setSelectedBranch(!selectedBranch);
-    setLocation(data.id)
-    // setLocation(e.target.value)
-
+    if (selectedBranch !== data.id) {
+      setSelectedBranch(data.id);
+      setLocation(data.id);
+    }
   };
+
+  console.log(selectedBranch)
 
   useEffect(() => {
     getBranches(user.id, process.env.REACT_APP_GOOTOPIA_KEY)
@@ -58,30 +60,27 @@ export default function SelectLocation({ step, setStep, setLocation, location })
           <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
-                {branch.map((data, index) => {
-                  return (
-                    <div className="flex flex-col">
-                      <button
-                        className="outline-4 self-center"
-                        onClick={() => handleSelectBranch(data)}
-                        key={index}
-                      >
-                        <img
-                          className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]${
-                            selectedBranch === true
-                              ? "outline-[15px] outline outline-[#E677AA] rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px]"
-                              : ""
-                          } `}
-                          src={data?.Image}
-                          alt="gootopia"
-                        />
-                      </button>
-                      <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center">
-                        {data?.Address}
-                      </div>
-                    </div>
-                  );
-                })}
+              {branch.map((data, index) => (
+              <div className="flex flex-col mr-3" key={index}>
+                <button
+                  className={`outline-4 self-center ${
+                    selectedBranch === data.id ? 'outline-[15px] outline-[#E677AA]' : ''
+                  }`}
+                  onClick={() => handleSelectBranch(data)}
+                >
+                  <img
+                    className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${
+                      selectedBranch === data.id ? 'outline outline-[#E677AA]' : ''
+                    }`}
+                    src={data?.Image}
+                    alt="gootopia"
+                  />
+                </button>
+                <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
+                  {data?.Address}
+                </div>
+              </div>
+            ))}
               </div>
 
               <div className="flex flex-row justify-end">
