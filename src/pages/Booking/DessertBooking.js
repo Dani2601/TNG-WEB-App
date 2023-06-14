@@ -7,6 +7,11 @@ import { TDMBookingDetails } from '../../components/Booking/TDMBookingDetails'
 import { TDMPaymentDetails } from '../../components/Booking/TDMPaymentDetails'
 import { addBooking } from '../../functions/Booking'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import routes from '../../constants/routes'
+
+const dessertID = process.env.REACT_APP_DESSERT_KEY;
+const gootopiaID = process.env.REACT_APP_GOOTOPIA_KEY
 
 export function DessertBooking() {
   const [step, setStep] = useState(1)
@@ -15,6 +20,7 @@ export function DessertBooking() {
   const [pax, setPax] = useState(1)
   const [bookingDate, setBookingDate] = useState('')
   const [bookingTime, setBookingTime] = useState('')
+  const navigate = useNavigate()
 
   function submit(e){
     addBooking(e)
@@ -27,6 +33,15 @@ export function DessertBooking() {
         setLocation('')
         setStep(1)
         toast.success('Successfully added')
+        if(e?.BusinessUnitID === dessertID){
+          navigate(routes.LandingDesert)
+        }
+        else if(e?.BusinessUnitID === gootopiaID){
+          navigate(routes.LandingGootopia)
+        }
+        else{
+          navigate(routes.LandingTFR)
+        }
       }
       else{
         toast.error('Failed to submit')

@@ -46,7 +46,7 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
         <TDMModalBooking showModal={showModal} ticket={ticket} handleCloseModal={handleCloseModal} setStep={setStep} handleProceed={handleProceed}/>
         <div className='w-[80vw] sm:w-[50vw]'>
             <div className='text-center flex gap-6 flex-col justify-center items-center'>
-                <p className='text-[30px] text-[#FF98C3]'>Select Location</p>
+                <p className='text-[30px] text-[#FF98C3]'>Select Ticket</p>
                 <p className='text-sm'>Please note that our TWO HOUR TOUR starts every 15 minutes.<br/>Guests are required to come 20 minutes before their scheduled slot<br/>for processing of tickets.</p>
             </div>
             

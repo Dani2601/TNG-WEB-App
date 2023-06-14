@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { logo, nx, tnglogo } from "../../assets/Dessert";
 import { FiTrash, FiTrash2 } from "react-icons/fi";
@@ -90,6 +90,11 @@ export function TDMBookingDetails({
     }
   }, [ticket, bookingDate])
 
+  function handleBookingDate(date){
+    setBookingDate(date)
+    setPax(1)
+  }
+
   useEffect(() => {
     if(bookingDate){
       setIntervals(
@@ -99,12 +104,14 @@ export function TDMBookingDetails({
             const sumOfPass = reservation.reduce((total, item) => total + item.Pass, 0);
             return {
               value: item.timeInterval,
+              slot: parseInt(item.slot) - sumOfPass,
               label: `${item.timeInterval} - ${(parseInt(item.slot) - sumOfPass)} slot(s)`,
             };
           }
           else{
             return {
               value: item.timeInterval,
+              slot: parseInt(item.slot),
               label: `${item.timeInterval} - ${item.slot} slot(s)`,
             };
           }
@@ -123,6 +130,23 @@ export function TDMBookingDetails({
     setBookingTime(null)
     setPax(1)
   }
+
+  function handlePax(e){
+    let input = e.target.value
+    let intervalData = intervals?.find(item => item.value === bookingTime)
+    if(input <= intervalData.slot){
+      setPax(input)
+    }
+  }
+
+  const maxPerInterval = useMemo(() => {    
+    let max = ""
+    if(bookingDate && bookingTime && intervals){
+      let intervalData = intervals?.find(item => item.value === bookingTime)
+      max = intervalData?.slot
+    }
+    return max
+  }, [bookingTime, bookingDate, intervals])
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -147,30 +171,16 @@ export function TDMBookingDetails({
               </div>
               <div>
                 <p className="text-sm">
-                  NUMBER OF PASSES: <small style={{ color: "red" }}>*</small>
-                </p>
-                <input
-                  type="number"
-                  onChange={(e) => setPax(e.target.value)}
-                  defaultValue={1}
-                  min={1}
-                  value={pax}
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-                />
-              </div>
-              <div>
-                <p className="text-sm">
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
                 <DatePicker
                   selected={bookingDate}
-                  onChange={(date) => setBookingDate(date)}
+                  onChange={handleBookingDate}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                   filterDate={(date) => {
-                    const day = date.toLocaleDateString("en-US", {
-                      weekday: "long",
-                    });
-                    return allowedDays.includes(day);
+                    const today = new Date(); // Get the current date
+                    today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
+                    return date >= today && allowedDays.includes(date.toLocaleDateString("en-US", { weekday: "long" }));
                   }}
                   value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                 />
@@ -186,12 +196,37 @@ export function TDMBookingDetails({
                 >
                   <option>Select a time</option>
                   {intervals?.length > 0 &&
-                    intervals.map((item, index) => (
-                      <option key={index} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
+                    intervals?.map((item, index) => {
+                      if(item.slot === 0){
+                        return (
+                          <option key={index} value={item.value} disabled={true}>
+                            {item.label}
+                          </option>
+                        )
+                      }
+                      else{
+                        return (
+                          <option key={index} value={item.value}>
+                            {item.label}
+                          </option>
+                        )
+                      }
+                    })}
                 </select>
+              </div>
+              <div>
+                <p className="text-sm">
+                  NUMBER OF PASSES: <small style={{ color: "red" }}>*</small>
+                </p>
+                <input
+                  type="number"
+                  onChange={handlePax}
+                  defaultValue={1}
+                  min={1}
+                  max={maxPerInterval}
+                  value={pax}
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                />
               </div>
             </div>
             <div className="flex flex-col w-full sm:w-[40vw]">
