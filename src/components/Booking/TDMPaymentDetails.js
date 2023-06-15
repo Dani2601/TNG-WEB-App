@@ -78,7 +78,7 @@ export function TDMPaymentDetails({
         .catch((error) => {
           // Handle error case
         });
-    }     if (business === "TFR") {
+    }     else if (business === "TFR") {
       getBranches(user.id, TFR_KEY)
         .then((response) => {
           if (response.valid) {

@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../../fonts/font.css";
 
-export default function TFRMenubar() {
+export default function TFRMenubarNonSpa() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.record);
   const location = useLocation(); // Get the current location
@@ -20,6 +20,8 @@ export default function TFRMenubar() {
   function toggleMenu() {
     setIsOpen(!isOpen);
   }
+
+  const newRoute = routes.LandingDesert;
 
   return (
     <>
@@ -45,46 +47,15 @@ export default function TFRMenubar() {
                 </div>
               )}
               <div className="hidden w-full md:block text-tfr-pink">
-                <div className="flex items-center justify-around">
-                  <a
-                    href="#games"
-                    // to={routes.LandingGootopia}
-                    className="text-center  rounded-md text-sm font-medium"
+                <div className="flex flex-row justify-end">
+                 
+                  <Link
+                    to={routes.LandingTFR}
+                    // href="#games"
+                    className="self-end rounded-md text-sm font-medium"
                   >
-                    GAMES
-                  </a>
-                  <a
-                    href="#games" // to={routes.ObstaclesGootopia}
-                    className="text-center  rounded-md text-sm font-medium"
-                  >
-                    EVENTS
-                  </a>
-                  <a
-                    href="#booze" // to={routes.PackagesGootopia}
-                    className="text-center  rounded-md text-sm font-medium"
-                  >
-                    MENU
-                  </a>
-                  <a
-                    href="#games" // to={routes.FaqsGootopia}
-                    className="text-center  rounded-md text-sm font-medium"
-                  >
-                    BOOK A TABLE
-                  </a>
-                  <a
-                    // to={routes.ContactsGootopia}
-                    href="#funroof"
-                    className="text-center  rounded-md text-sm font-medium"
-                  >
-                    CONTACT
-                  </a>
-                  <a
-                    // to={user ? routes.BookingGootopia : routes.Login}
-                    href="#games"
-                    className="text-center  rounded-md text-sm font-medium"
-                  >
-                    <img src={booknow} className="h-[37.63px] " />
-                  </a>
+                   Back Home
+                  </Link>
                 </div>
               </div>
             </div>
@@ -105,7 +76,7 @@ export default function TFRMenubar() {
           } md:hidden w-full h-screen z-50 text-tfr-pink`}
         >
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
-            <a
+            {/* <a
               href="#games"
               // to={routes.LandingGootopia}
               className="block px-3 py-2 w-full text-left text-base"
@@ -136,14 +107,14 @@ export default function TFRMenubar() {
               className="block px-3 py-2 w-full text-left text-base"
             >
               CONTACT
-            </a>
-            <a
-              // to={user ? routes.BookingGootopia : routes.Login}
-              href="#games"
-              className="block px-3 py-2 w-full text-left text-base"
-            >
-              <img src={booknow} className="h-[37.63px] " />
-            </a>
+            </a> */}
+             <Link
+                    to={routes.LandingTFR}
+                    // href="#games"
+                    className="block px-3 py-2 w-full text-left text-base"
+                    >
+                   Back Home
+                  </Link>
           </div>
         </div>
       </nav>

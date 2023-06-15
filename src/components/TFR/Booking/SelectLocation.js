@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import TFRContainer from "../../Container/TFRContainer";
 import TFRMenubar from "../../Navbar/TFRMenubar";
-import TFRMenubarNonSpa from "../../Navbar/TFRMenubar";
+import TFRMenubarNonSpa from "../../Navbar/TFRMenubarNonSpa";
 
 export default function SelectLocation({
   step,

@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../../fonts/font.css";
 
-export default function TFRMenubarNonSpa() {
+export default function TFRMenubar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.record);
   const location = useLocation(); // Get the current location
@@ -78,13 +78,13 @@ export default function TFRMenubarNonSpa() {
                   >
                     CONTACT
                   </a>
-                  <a
-                    // to={user ? routes.BookingGootopia : routes.Login}
-                    href="#games"
+                  <Link
+                    to={user ? routes.BookingTFR : routes.Login}
+                    // href="#games"
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     <img src={booknow} className="h-[37.63px] " />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -137,13 +137,12 @@ export default function TFRMenubarNonSpa() {
             >
               CONTACT
             </a>
-            <a
-              // to={user ? routes.BookingGootopia : routes.Login}
-              href="#games"
+            <Link
+              to={user ? routes.BookingTFR : routes.Login}
               className="block px-3 py-2 w-full text-left text-base"
             >
               <img src={booknow} className="h-[37.63px] " />
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

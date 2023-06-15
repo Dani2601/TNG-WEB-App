@@ -31,8 +31,6 @@ export default function SelectLocation({ step, setStep, setLocation, location })
     }
   };
 
-  console.log(selectedBranch)
-
   useEffect(() => {
     getBranches(user.id, process.env.REACT_APP_GOOTOPIA_KEY)
       .then((response) => {

@@ -26,7 +26,7 @@ export default function Games() {
 
   useEffect(() => {
     getTicketGootopia(
-      user.id,
+      "",
       process.env.REACT_APP_TFR_KEY,
       process.env.REACT_APP_TFR_POBLACION_KEY
     )

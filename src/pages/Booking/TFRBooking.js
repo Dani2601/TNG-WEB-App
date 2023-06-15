@@ -11,6 +11,8 @@ import SelectTicket from "../../components/TFR/Booking/SelectTicket";
 import SelectLocation from "../../components/TFR/Booking/SelectLocation";
 import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
+import { useNavigate } from "react-router-dom";
+import routes from "../../constants/routes";
 
 export function TFRBooking() {
   const [step, setStep] = useState(1);
@@ -21,7 +23,8 @@ export function TFRBooking() {
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
   const [business, ] = useState("TFR")
-  
+  const navigate = useNavigate();
+
 
 
   function submit(e) {
@@ -34,6 +37,8 @@ export function TFRBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
+          navigate(routes.LandingTFR)
+
           toast.success("Successfully added");
         } else {
           toast.error("Failed to submit");

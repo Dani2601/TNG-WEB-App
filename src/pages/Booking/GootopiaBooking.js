@@ -10,6 +10,8 @@ import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
 import { SelectTicket } from "../../components/Gootopia/Booking";
 import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
+import { useNavigate } from "react-router-dom";
+import routes from "../../constants/routes";
 
 export function GootopiaBooking() {
   const [step, setStep] = useState(1);
@@ -20,7 +22,7 @@ export function GootopiaBooking() {
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
   const [business, ] = useState("Gootopia")
-  
+  const navigate = useNavigate();
 
 
   function submit(e) {
@@ -33,6 +35,7 @@ export function GootopiaBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
+          navigate(routes.LandingGootopia)
           toast.success("Successfully added");
         } else {
           toast.error("Failed to submit");
