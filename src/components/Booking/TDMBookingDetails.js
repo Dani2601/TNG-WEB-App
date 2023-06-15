@@ -14,6 +14,7 @@ import { getBookingsByTicketID } from "../../functions/Tickets";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
+const TFR_KEY = process.env.REACT_APP_TFR_KEY;
 
 export function TDMBookingDetails({
   setStep,
@@ -56,7 +57,21 @@ export function TDMBookingDetails({
         .catch((error) => {
           // Handle error case
         });
-    } else {
+    }  else if(business === "TFR") {
+      getBranches(user.id, TFR_KEY)
+        .then((response) => {
+          if (response.valid) {
+            // Convert the object into an array
+            const locationArray = Object.values(response.data);
+            setSelectedLocation(
+              locationArray.find((item) => item?.id === location)
+            );
+          }
+        })
+        .catch((error) => {
+          // Handle error case
+        });
+    }else {
       getBranches(user.id, DESSERT_KEY)
         .then((response) => {
           if (response.valid) {

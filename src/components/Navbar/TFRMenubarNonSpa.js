@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../../fonts/font.css";
 
-export default function TFRMenubarNonSpa() {
+export default function TFRMenubar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.record);
   const location = useLocation(); // Get the current location

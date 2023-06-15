@@ -20,6 +20,7 @@ import { GootopiaBooking } from "../Booking/GootopiaBooking";
 import LandingTFR from "../TFR/LandingTFR";
 import Profile from '../../pages/Profile/Profile.js'
 import Transaction from "../Transaction/Transaction";
+import { TFRBooking } from "../Booking/TFRBooking";
 export default function AuthenticatedScreens() {
   return (
     <>
@@ -44,8 +45,9 @@ export default function AuthenticatedScreens() {
         <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />
 
         {/* {TFR} */}
-        LandingTFR
         <Route path={routes.LandingTFR} element={<LandingTFR />} />
+        <Route path={routes.BookingTFR} element={<TFRBooking />} />
+
 
         <Route path={routes.Profile} element={<Profile />} />
         <Route path={routes.Transaction} element={<Transaction />} />

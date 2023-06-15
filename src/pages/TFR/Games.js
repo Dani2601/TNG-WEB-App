@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 
-
-import games from "../../assets/TFR/WEBSITE-BG-Artboard 2.jpg";
+import gamess from "../../assets/TFR/WEBSITE-BG-Artboard2.jpg";
 import gamesLettering from "../../assets/TFR/GAMES.png";
 
 import games1 from "../../assets/TFR/MADLANES-ICON.png";
@@ -14,13 +13,75 @@ import games7 from "../../assets/TFR/EXTREME BASKETBALL ICON.png";
 import games8 from "../../assets/TFR/STAR BLASTER ICON.png";
 import games9 from "../../assets/TFR/RING THE BELL ICON.png";
 import booknow from "../../assets/TFR/button BOOK NOW GAMES.png";
-
+import { getTicketGootopia } from "../../functions/Tickets";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import routes from "../../constants/routes";
 
 export default function Games() {
+  const { user } = useSelector((state) => state.record);
+
+  const [showModal, setShowModal] = useState(false);
+  const [tickets, setTickets] = useState([]);
+
+  useEffect(() => {
+    getTicketGootopia(
+      user.id,
+      process.env.REACT_APP_TFR_KEY,
+      process.env.REACT_APP_TFR_POBLACION_KEY
+    )
+      .then((response) => {
+        if (response.valid) {
+          setTickets(response.data);
+        } else {
+        }
+      })
+      .catch();
+  }, [user]);
+
+  console.log("tickets", tickets);
   return (
     <div className="" id="games">
-    <div className="relative flex flex-row justify-center">
-      <img
+      <div
+        style={{
+          backgroundImage: `url(${gamess})`,
+        }}
+        className={`object-none h-full w-full  opacity-80`}
+      >
+        <div className="flex flex-row justify-center">
+          <div className=" py-5  tablet:py-10">
+            <img
+              src={gamesLettering}
+              alt={"games"}
+              className="w-[200px] tablet:w-[350px]"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap justify-center items-center laptop:mx-[20%] pb-5 tablet:pb-10">
+          {tickets.map((item) => (
+            <Link
+              className="cursor-pointer"
+              to={user ? routes.BookingTFR : routes.Login}
+            >
+              {" "}
+              <div
+                key={item.id}
+                className="relative w-[150px] tablet:w-[260px] mx-4 my-4"
+              >
+                <img src={item.Image} className="relative w-full h-auto" />
+                <div className="absolute inset-x-0 bottom-4 tablet:bottom-6 flex items-center justify-center">
+                  <img
+                    src={booknow}
+                    className="h-[20px] tablet:h-[30px] z-10"
+                  />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* <img
         src={games}
         alt={"games"}
         className=" object-none w-screen h-[850px] laptop:h-[1000px] laptop4k:h-[1000px] bg-black"
@@ -31,9 +92,9 @@ export default function Games() {
         src={gamesLettering}
         alt={"games"}
         className="absolute w-[150px] tablet:w-[300px]"
-      />
+      /> */}
 
-      <img
+        {/* <img
         src={games1}
         alt={"games1"}
         className="absolute top-[45px] left-2 w-[150px] mobileM:left-8 mobileL:left-[50px]  tablet:left-[10px] tablet:top-[85px] tablet:w-[230px] laptop:left-[10px] laptop:top-[85px] laptop:w-[300px] laptopL:left-[215px] laptop4k:left-[715px]"
@@ -130,7 +191,8 @@ export default function Games() {
         src={booknow}
         alt={"booknow"}
         className="absolute top-[770px]  w-[100px]  tablet:right-[45px]  tablet:left-[auto] tablet:top-[740px] tablet:w-[150px]   laptop:right-[90px]  laptop:left-[auto] laptop:top-[925px] laptop:w-[150px] laptopL:right-[290px] laptop4k:right-[790px]"
-      />
+      /> */}
+      </div>
     </div>
-  </div>  )
+  );
 }
