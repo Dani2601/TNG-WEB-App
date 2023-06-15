@@ -8,13 +8,14 @@ import TFRMobile from "../../assets/TFR/TFR-Website Icon.png";
 import booknow from "../../assets/TFR/button BOOK NOW-W BG.png";
 import dripping from "../../assets/Gootopia/slimedripping.png";
 import routes from "../../constants/routes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../../fonts/font.css";
 
 export default function TFRMenubar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.record);
+  const location = useLocation(); // Get the current location
 
   function toggleMenu() {
     setIsOpen(!isOpen);
@@ -22,10 +23,7 @@ export default function TFRMenubar() {
 
   return (
     <>
-      <nav
-        className="bg-black "
-        style={{ fontFamily: "Nulshock, sans-serif" }}
-      >
+      <nav className="bg-black " style={{ fontFamily: "Nulshock, sans-serif" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
           <div className="flex items-center justify-between">
             <div className="flex w-full justify-start items-center">
@@ -48,48 +46,45 @@ export default function TFRMenubar() {
               )}
               <div className="hidden w-full md:block text-tfr-pink">
                 <div className="flex items-center justify-around">
-                  <Link
-                    to={routes.PageNotFound}
+                  <a
+                    href="#games"
                     // to={routes.LandingGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     GAMES
-                  </Link>
-                  <Link
-                    to={routes.PageNotFound}
-                    // to={routes.ObstaclesGootopia}
+                  </a>
+                  <a
+                    href="#games" // to={routes.ObstaclesGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     EVENTS
-                  </Link>
-                  <Link
-                    to={routes.PageNotFound}
-                    // to={routes.PackagesGootopia}
+                  </a>
+                  <a
+                    href="#booze" // to={routes.PackagesGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     MENU
-                  </Link>
-                  <Link
-                    to={routes.PageNotFound}
-                    // to={routes.FaqsGootopia}
+                  </a>
+                  <a
+                    href="#games" // to={routes.FaqsGootopia}
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     BOOK A TABLE
-                  </Link>
-                  <Link
+                  </a>
+                  <a
                     // to={routes.ContactsGootopia}
-                    to={routes.PageNotFound}
+                    href="#funroof"
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     CONTACT
-                  </Link>
-                  <Link
+                  </a>
+                  <a
                     // to={user ? routes.BookingGootopia : routes.Login}
-                    to={routes.PageNotFound}
+                    href="#games"
                     className="text-center  rounded-md text-sm font-medium"
                   >
                     <img src={booknow} className="h-[37.63px] " />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -110,48 +105,45 @@ export default function TFRMenubar() {
           } md:hidden w-full h-screen z-50 text-tfr-pink`}
         >
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
-            <Link
-              to={routes.PageNotFound}
+            <a
+              href="#games"
               // to={routes.LandingGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               GAMES
-            </Link>
-            <Link
-              to={routes.PageNotFound}
-              // to={routes.ObstaclesGootopia}
+            </a>
+            <a
+              href="#games" // to={routes.ObstaclesGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               EVENTS
-            </Link>
-            <Link
-              to={routes.PageNotFound}
-              // to={routes.PackagesGootopia}
+            </a>
+            <a
+              href="#booze" // to={routes.PackagesGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               MENU
-            </Link>
-            <Link
-              to={routes.PageNotFound}
-              // to={routes.FaqsGootopia}
+            </a>
+            <a
+              href="#games" // to={routes.FaqsGootopia}
               className="block px-3 py-2 w-full text-left text-base"
             >
               BOOK A TABLE
-            </Link>
-            <Link
-              to={routes.PageNotFound}
+            </a>
+            <a
               // to={routes.ContactsGootopia}
+              href="#funroof"
               className="block px-3 py-2 w-full text-left text-base"
             >
               CONTACT
-            </Link>
-            <Link
-              to={routes.PageNotFound}
+            </a>
+            <a
               // to={user ? routes.BookingGootopia : routes.Login}
+              href="#games"
               className="block px-3 py-2 w-full text-left text-base"
             >
               <img src={booknow} className="h-[37.63px] " />
-            </Link>
+            </a>
           </div>
         </div>
       </nav>

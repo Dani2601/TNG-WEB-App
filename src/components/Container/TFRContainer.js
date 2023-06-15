@@ -7,7 +7,6 @@ export default function TFRContainer({children}) {
   return (
     <div className='flex flex-col w-full'>
         <Topbar/>
-        <TFRMenubar/>
         {children}
         <TFRFooter/>
     </div>
