@@ -4,10 +4,15 @@
 @import url("https://fonts.googleapis.com/css?family=Quicksand");
 @import url("https://fonts.googleapis.com/css2?family=Flavors&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mr+Dafoe&display=swap");
 
 @layer components {
   .bluegradient {
     @apply bg-gradient-to-l from-[#55ace2a4]  to-[#6bc4c1a1] bg-opacity-5;
+  }
+
+  .bakebegradient {
+    @apply bg-gradient-to-r from-[#fef584]  to-[#feb2af] bg-opacity-5;
   }
 
   .modalgradient {
@@ -29,11 +34,8 @@
     tablet:top-[65px] tablet:right-[15px] tablet:max-h-[120px]
     laptop:top-[90px] laptop:right-[15px] laptop:max-h-[120px]
     laptopL:top-[190px] laptopL:right-[15px] laptopL:max-h-[120px]
-    laptop4k:top-[300px] laptop4k:right-[15px] laptop4k:max-h-[120px]
-
+    laptop4k:top-[300px] laptop4k:right-[15px] laptop4k:max-h-[120px];
   }
-
-
 }
 
 /* 

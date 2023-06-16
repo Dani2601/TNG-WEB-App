@@ -38,12 +38,18 @@ module.exports = {
           black: "#00000",
           purple: "#8A02BC",
           pink: "#FF00FC"
+        },
+        bakebe:{
+          pink: "#e8627c",
+          orange: "#EDA61D",
+ 
         }
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
         flavors: ["Flavors", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
+        mrDafoe: ["Mr Dafoe", "sans-serif"],
 
       },
     },

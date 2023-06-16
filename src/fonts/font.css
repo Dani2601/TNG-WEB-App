@@ -25,3 +25,8 @@
     src: url('./Gotham-Light.otf') format('opentype');
     /* Add additional font formats if necessary (e.g., woff, woff2) */
   }
+  @font-face {
+    font-family: 'GothamMedium';
+    src: url('./GothamMedium.ttf') format('opentype');
+    /* Add additional font formats if necessary (e.g., woff, woff2) */
+  }
