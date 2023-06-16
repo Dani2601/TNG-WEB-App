@@ -22,7 +22,7 @@ import ChangePassModal from "../Modal/Profile/ChangePass/ChangePass";
 export default function Topbar({ scroll }) {
   const [showMenu, setShowMenu] = useState(false);
   const [openEditBusinessUnitModal, setOpenEditBusinessUnitModal] =
-  useState(false);
+    useState(false);
   const menuRef = useRef(null);
   const location = useLocation();
   const { user } = useSelector((state) => state.record);
@@ -54,15 +54,15 @@ export default function Topbar({ scroll }) {
     navigate(routes.Login);
   }
 
-      // Open edit post Modal
-      const openEditModal = () => {
-        setOpenEditBusinessUnitModal(true);
-      };
-    
-      // CLose edit post Modal
-      const closeEditModal = () => {
-        setOpenEditBusinessUnitModal(false);
-      };
+  // Open edit post Modal
+  const openEditModal = () => {
+    setOpenEditBusinessUnitModal(true);
+  };
+
+  // CLose edit post Modal
+  const closeEditModal = () => {
+    setOpenEditBusinessUnitModal(false);
+  };
 
   return (
     <>
@@ -82,11 +82,17 @@ export default function Topbar({ scroll }) {
                 <img src={nx} alt="" className="h-10 w-10 object-contain" />
               </div>
               <div>
-                <img
-                  src={logo}
-                  alt=""
-                  className="hidden tablet:block w-[281px] h-[34px] mt-1"
-                />
+                <a
+                  className="cursor-pointer"
+                  href="https://www.thenextperience.com/?fbclid=IwAR1ZQYYEJPBpM2kkpqy39uEx9zX22jxPGDlmMZnmXTCz5Tkf2_WxeyLCo9s"
+                  target="_blank"
+                >
+                  <img
+                    src={logo}
+                    alt=""
+                    className="hidden tablet:block w-[281px] h-[34px] mt-1"
+                  />
+                </a>
               </div>
             </div>
 
@@ -98,7 +104,10 @@ export default function Topbar({ scroll }) {
                   <div
                     className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
                 ${
-                  location.pathname === routes.LandingTFR ? "bg-[#664653]" : ""
+                  location.pathname === routes.LandingTFR ||
+                  location.pathname === routes.BookingTFR
+                    ? "bg-[#664653]"
+                    : ""
                 }`}
                   >
                     <img
@@ -133,7 +142,16 @@ export default function Topbar({ scroll }) {
 
               <div>
                 <Link to={routes.PageNotFound}>
-                  <div className="cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]">
+                  <div
+                    className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                ${
+                  location.pathname === routes.LandingBakebe ||
+                  location.pathname === routes.BookingBakebe
+                    ? "bg-[#664653]"
+                    : ""
+                }`}
+                  >
+                    {" "}
                     <img
                       src={isnav}
                       alt=""
@@ -144,8 +162,17 @@ export default function Topbar({ scroll }) {
               </div>
 
               <div>
-                <Link to={routes.PageNotFound}>
-                  <div className="cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]">
+                <Link to={routes.LandingBakebe}>
+                  <div
+                    className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                ${
+                  location.pathname === routes.LandingBakebe ||
+                  location.pathname === routes.BookingBakebe
+                    ? "bg-[#664653]"
+                    : ""
+                }`}
+                  >
+                    {" "}
                     <img
                       alt=""
                       src={bakebenav}

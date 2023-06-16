@@ -9,3 +9,19 @@
     src: url('./nulshock bd.otf') format('opentype');
     /* Add additional font formats if necessary (e.g., woff, woff2) */
   }
+
+  @font-face {
+    font-family: 'Gotham-Black';
+    src: url('./Gotham-Black.otf') format('opentype');
+    /* Add additional font formats if necessary (e.g., woff, woff2) */
+  }
+  @font-face {
+    font-family: 'Gotham-Bold';
+    src: url('./Gotham-Bold.otf') format('opentype');
+    /* Add additional font formats if necessary (e.g., woff, woff2) */
+  }
+  @font-face {
+    font-family: 'Gotham-Light';
+    src: url('./Gotham-Light.otf') format('opentype');
+    /* Add additional font formats if necessary (e.g., woff, woff2) */
+  }

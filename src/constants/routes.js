@@ -24,6 +24,12 @@ const routes = {
   ContactsTFR: "/TFR/Contacts",
   BookingTFR: "/TFR/Booking",
 
+
+  
+  //Bakebe
+  LandingBakebe: "/Bakebe",
+  BookingBakebe: "/Bakebe/Booking",
+
   Profile: "/Profile",
   Transaction: "/Transaction",
 

@@ -16,6 +16,7 @@ import Login from "../Login/Login";
 import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import Register from "../Register/Register";
 import LandingTFR from "../TFR/LandingTFR";
+import LandingBakebe from "../Bakebe/LandingBakebe";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -40,6 +41,9 @@ export default function UnauthenticatedScreens() {
 
         {/* {TFR} */}
         <Route path={routes.LandingTFR} element={<LandingTFR />} />
+
+        {/* {Bakebe} */}
+        <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

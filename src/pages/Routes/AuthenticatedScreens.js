@@ -18,9 +18,12 @@ import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import BookOnline from "../../components/Features/BookOnline";
 import { GootopiaBooking } from "../Booking/GootopiaBooking";
 import LandingTFR from "../TFR/LandingTFR";
-import Profile from '../../pages/Profile/Profile.js'
+import Profile from "../../pages/Profile/Profile.js";
 import Transaction from "../Transaction/Transaction";
 import { TFRBooking } from "../Booking/TFRBooking";
+import { BakebeBooking } from "../Booking/BakebeBooking";
+import LandingBakebe from "../Bakebe/LandingBakebe";
+
 export default function AuthenticatedScreens() {
   return (
     <>
@@ -31,8 +34,7 @@ export default function AuthenticatedScreens() {
         {/* DessertMusuem */}
         <Route path={routes.LandingDesert} element={<LandingDesert />} />
         <Route path={routes.Packages} element={<DessertPackages />} />
-        <Route path={routes.DessertBooking} element={<DessertBooking/>}/>
-
+        <Route path={routes.DessertBooking} element={<DessertBooking />} />
 
         {/* Gootopia */}
         <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
@@ -45,8 +47,12 @@ export default function AuthenticatedScreens() {
         <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />
 
         {/* {TFR} */}
-        <Route path={routes.LandingTFR} element={<LandingTFR />} />
+        <Route path={routes.LandingTFR} element={<LandingBakebe />} />
         <Route path={routes.BookingTFR} element={<TFRBooking />} />
+
+        {/* {Bakebe} */}
+        <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
+        <Route path={routes.BookingBakebe} element={<BakebeBooking />} />
 
 
         <Route path={routes.Profile} element={<Profile />} />
