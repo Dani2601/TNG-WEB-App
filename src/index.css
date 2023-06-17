@@ -36,6 +36,20 @@
     laptopL:top-[190px] laptopL:right-[15px] laptopL:max-h-[120px]
     laptop4k:top-[300px] laptop4k:right-[15px] laptop4k:max-h-[120px];
   }
+
+  .custom-popup {
+    height: auto;
+    width: 170px;
+    color: #ffffff;
+
+  }
+}
+
+.custom-popup2 {
+  border-radius: 9999px;
+  background-color: #ff0000;
+  color: #ffffff;
+  padding: 10px;
 }
 
 /* 

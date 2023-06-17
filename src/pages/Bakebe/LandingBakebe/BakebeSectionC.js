@@ -39,23 +39,23 @@ export default function BakebeSectionC() {
         }}
       >
         <div className="py-[50px]">
-          <div className="text-[24px] text-white text-center px-10 mb-10">
+          <div className="text-[24px] text-white text-center px-10 mb-10 my-10">
             {" "}
             PROMO AND DISCOUNTS
           </div>
-        <div className="flex flex-row flex-wrap justify-center">
+        <div className="flex flex-row flex-wrap justify-center pt-5 pb-[10%]">
           {promo.length > 0
             ? promo.map((item) => {
                 return (
-                  <div className="mx-[7%]  mb-5 justify-center">
-                    <div className="min-w-[274px] max-w-[830px] h-[auto] rounded-[50px] bg-white flex flex-row">
-                      <div className="w-[40%] ">
+                  <div className="mx-[7%]  laptopL:mx-[2%] mb-5 justify-center">
+                    <div className="min-w-[274px] max-w-[630px] mobileL:h-[219px] laptop:h-[276px] laptopL:w-[430px] rounded-[50px] bg-white flex flex-row ">
+                      <div className="w-[40%]">
                         <img
                           src={item?.src}
-                          className="h-full w-full object-cover rounded-tl-[50px] rounded-bl-[50px]"
+                          className="h-full w-full object-cover rounded-tl-[50px] rounded-bl-[50px] "
                         />
                       </div>
-                      <div className="w-[60%] px-[5%] my-2 flex flex-col">
+                      <div className="w-[60%] px-[5%] my-2 flex flex-col justify-center">
                         <div className="text-bakebe-orange text-[24px]">
                           {item?.Name}
                         </div>
@@ -67,7 +67,7 @@ export default function BakebeSectionC() {
                         >
                           {item?.Description}
                         </div>
-                        <div className="  ">
+                        <div className="tablet:mt-6">
                           <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px]">
                             BOOK NOW
                           </button>

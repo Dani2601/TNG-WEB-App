@@ -42,7 +42,8 @@ module.exports = {
         bakebe:{
           pink: "#e8627c",
           orange: "#EDA61D",
- 
+          pinkIcon: "#e8627c",
+          footerpink:"#feb2af"
         }
       },
       fontFamily: {
