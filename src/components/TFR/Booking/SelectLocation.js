@@ -25,7 +25,7 @@ export default function SelectLocation({
   const navigate = useNavigate();
 
   function handleBack() {
-    navigate(routes.LandingGootopia);
+    navigate(routes.LandingTFR);
   }
 
   function handleProceed() {

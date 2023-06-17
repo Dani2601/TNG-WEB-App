@@ -10,13 +10,13 @@ module.exports = {
       sm: "700px",
       md: "1025px",
       lg: "1374px",
-      mobileS:"320px",
-      mobileM:"375px",
-      mobileL:"425px",
-      tablet:"768px",
-      laptop:"1024px",
-      laptopL:"1440px",
-      laptop4k:'2560px'
+      mobileS: "320px",
+      mobileM: "375px",
+      mobileL: "425px",
+      tablet: "768px",
+      laptop: "1024px",
+      laptopL: "1440px",
+      laptop4k: "2560px",
     },
     darkMode: "class",
     extend: {
@@ -30,28 +30,28 @@ module.exports = {
         gootopia: {
           green: "#BDCA7A",
           purp: "#972F78",
-          pinkText:"#E677AA",
-          yellowText:"#F8E71C"
+          pinkText: "#E677AA",
+          yellowText: "#F8E71C",
         },
-        tfr:{
+        tfr: {
           yellow: "#E9FF33",
           black: "#00000",
           purple: "#8A02BC",
-          pink: "#FF00FC"
+          pink: "#FF00FC",
         },
-        bakebe:{
+        bakebe: {
           pink: "#e8627c",
           orange: "#EDA61D",
           pinkIcon: "#e8627c",
-          footerpink:"#feb2af"
-        }
+          footerpink: "#feb2af",
+          brown: "#d9bb9f",
+        },
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
         flavors: ["Flavors", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
         mrDafoe: ["Mr Dafoe", "sans-serif"],
-
       },
     },
   },

@@ -8,11 +8,12 @@ import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
 import TFRContainer from "../../components/Container/TFRContainer";
 import SelectTicket from "../../components/TFR/Booking/SelectTicket";
-import SelectLocation from "../../components/TFR/Booking/SelectLocation";
 import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
+import { SelectLocationBakebe } from "../../components/Bakebe/Booking";
+import SelectTypeOfBooking from "../../components/Bakebe/Booking/SelectTypeOfBooking";
 
 export function BakebeBooking() {
   const [step, setStep] = useState(1);
@@ -55,11 +56,19 @@ export function BakebeBooking() {
   return (
     <>
       {step == 1 && (
-        <SelectLocation
+        <SelectLocationBakebe
           step={step}
           setStep={setStep}
           location={location}
           setLocation={setLocation}
+        />
+      )}
+      {step == 2 && (
+        <SelectTypeOfBooking
+          setStep={setStep}
+          ticket={ticket}
+          setTicket={setTicket}
+          location={location}
         />
       )}
       {step == 2 && (

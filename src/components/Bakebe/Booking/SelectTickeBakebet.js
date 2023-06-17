@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import TFRContainer from "../../Container/TFRContainer";
 import TFRMenubarNonSpa from "../../Navbar/TFRMenubar";
 import booknow from "../../../assets/TFR/button BOOK NOW GAMES.png";
+import BakebeContainer from "../../Container/BakebeContainer";
 
 let ticket = [
   {
@@ -34,7 +35,7 @@ let ticket = [
   },
 ];
 
-export default function SelectTicket({ setStep, location, setTicket, ticket }) {
+export default function SelectTicketBakebe({ setStep, location, setTicket, ticket }) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
 
@@ -71,8 +72,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
   }, [location, user]);
 
   return (
-    <TFRContainer>
-      <TFRMenubarNonSpa />
+    <BakebeContainer>
 
       <TicketBookingModal
         showModal={showModal}
@@ -144,6 +144,6 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
           />
         </div>
       </div>
-    </TFRContainer>
+    </BakebeContainer>
   );
 }

@@ -12,8 +12,10 @@ import axios from "axios";
 import TFRContainer from "../../Container/TFRContainer";
 import TFRMenubar from "../../Navbar/TFRMenubar";
 import TFRMenubarNonSpa from "../../Navbar/TFRMenubarNonSpa";
+import BakebeContainer from "../../Container/BakebeContainer";
+import BakebeMenubar from "../../Navbar/BakebeMenubar";
 
-export default function SelectLocation({
+export default function SelectLocationBakebe({
   step,
   setStep,
   setLocation,
@@ -25,7 +27,7 @@ export default function SelectLocation({
   const navigate = useNavigate();
 
   function handleBack() {
-    navigate(routes.LandingGootopia);
+    navigate(routes.LandingBakebe);
   }
 
   function handleProceed() {
@@ -42,7 +44,7 @@ export default function SelectLocation({
   console.log(selectedBranch);
 
   useEffect(() => {
-    getBranches(user.id, process.env.REACT_APP_TFR_KEY)
+    getBranches(user.id, process.env.REACT_APP_BAKEBE_KEY)
       .then((response) => {
         if (response.valid) {
           // const locationArray = Object.values(response.data);
@@ -55,20 +57,23 @@ export default function SelectLocation({
   }, []);
 
   return (
-    <TFRContainer>
-      <TFRMenubarNonSpa />
+    <BakebeContainer>
+      <BakebeMenubar/>
       <div
-        className="max-h-full min-h-screen bg-[#252525] "
-        style={{ fontFamily: "Nulshock, sans-serif" }}
+        className="max-h-full min-h-screen bg-white "
+        style={{ fontFamily: "Gotham-Bold, sans-serif" }}
       >
-        <div className="flex flex-row justify-center mt-5">
-          <span className=" text-tfr-yellow text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
-            SELECT A LOCATION
+        <div className="flex flex-col mt-5 ml-[4%]">
+          <span className=" text-bakebe-orange text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k mt-8">
+            CHOOSE LOCATION
+          </span>
+          <span   style={{ fontFamily: "Gotham-Light, sans-serif" }} className="  text-[14px]  my-3 mb-8 tracking-wide">
+            Choose where you want to book your appointment
           </span>
         </div>
 
         <div className="flex flex-row justify-center">
-          <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
+          <div className="bg-slate-200 w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
                 {branch.map((data, index) => (
@@ -76,7 +81,7 @@ export default function SelectLocation({
                     <button
                       className={`outline-4 self-center ${
                         selectedBranch === data.id
-                          ? "outline-[15px] text-tfr-pink"
+                          ? "outline-[15px] text-bakebe-pink"
                           : ""
                       }`}
                       onClick={() => handleSelectBranch(data)}
@@ -84,14 +89,14 @@ export default function SelectLocation({
                       <img
                         className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] bg-black object-cover ${
                           selectedBranch === data.id
-                            ? "outline text-tfr-pink"
+                            ? "outline text-bakebe-pink"
                             : ""
                         }`}
                         src={data?.Image}
                         alt="gootopia"
                       />
                     </button>
-                    <div className="text-tfr-pink text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
+                    <div className="text-bakebe-pink text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
                       {data?.Address}
                     </div>
                   </div>
@@ -102,14 +107,14 @@ export default function SelectLocation({
                 <div>
                   <button
                     onClick={() => handleBack()}
-                    className=" cursor-default text-[12px] tablet:text-[14px] text-tfr-pink bg-[white] font-poppins px-3 py-1 rounded-3xl"
+                    className=" cursor-default text-[12px] tablet:text-[14px] text-bakebe-pink bg-[white] font-poppins px-3 py-1 rounded-3xl"
                   >
                     Back
                   </button>
                   {selectedBranch ? (
                     <button
                       onClick={() => handleProceed()}
-                      className="ml-3 text-white text-[12px] tablet:text-[14px] bg-tfr-pink font-poppins px-3 py-1 rounded-3xl"
+                      className="ml-3 text-white text-[12px] tablet:text-[14px] bg-bakebe-pink font-poppins px-3 py-1 rounded-3xl"
                     >
                       Next
                     </button>
@@ -124,6 +129,6 @@ export default function SelectLocation({
           </div>
         </div>
       </div>
-    </TFRContainer>
+    </BakebeContainer>
   );
 }

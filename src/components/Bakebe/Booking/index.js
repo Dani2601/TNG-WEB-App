@@ -1,7 +1,7 @@
-import SelectLocation from "./SelectLocation";
-import SelectTicket from "./SelectTicket";
+import SelectLocationBakebe from "./SelectLocationBakebe";
+import SelectTicketBakebe from "./SelectTickeBakebet";
 
 export {
-    SelectLocation,
-    SelectTicket
+    SelectLocationBakebe,
+    SelectTicketBakebe
 }
