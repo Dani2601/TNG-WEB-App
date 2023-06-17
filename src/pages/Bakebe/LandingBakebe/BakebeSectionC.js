@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import rightArrow from "../../../assets/Bakebe/arrowfrm2.png";
 import a from "../../../assets/Bakebe/a.png";
 import b from "../../../assets/Bakebe/b.png";
@@ -10,23 +10,43 @@ import cakepromoa from "../../../assets/Bakebe/cakepromo.png";
 import cakepromob from "../../../assets/Bakebe/cakepromo2.png";
 
 import rightcake1 from "../../../assets/Bakebe/rightcake (1).png";
+import { getBranches } from "../../../functions/Branches";
+import { getPromos } from "../../../functions/Promos";
+import { useState } from "react";
 
-let promo = [
-  {
-    Name: "Online Promo",
-    Description:
-      "Get 100 off on any day of the week! Book your baking project now!",
-    src: cakepromoa,
-  },
-  {
-    Name: "Weekday Promo",
-    Description:
-      "Get 100 off on any day of the week! Book your baking project now!",
-    src: cakepromob,
-  },
-];
+// let promo = [
+//   {
+//     Name: "Online Promo",
+//     Description:
+//       "Get 100 off on any day of the week! Book your baking project now!",
+//     src: cakepromoa,
+//   },
+//   {
+//     Name: "Weekday Promo",
+//     Description:
+//       "Get 100 off on any day of the week! Book your baking project now!",
+//     src: cakepromob,
+//   },
+// ];
 
 export default function BakebeSectionC() {
+ const [promo,setPromo] = useState([])
+  useEffect(() => {
+    getPromos(process.env.REACT_APP_BAKEBE_KEY)
+      .then((response) => {
+        if (response.valid) {
+          // const locationArray = Object.values(response.data);
+          // setSelectedLocation(locationArray);
+          setPromo(response.data.items);
+        } else {
+        }
+      })
+      .catch();
+  }, []);
+
+  console.log("promo",promo)
+
+
   return (
     <div id="promo" className="h-full">
       {" "}
@@ -46,12 +66,13 @@ export default function BakebeSectionC() {
           <div className="flex flex-row flex-wrap justify-center pt-5 pb-[10%]">
             {promo.length > 0
               ? promo.map((item) => {
+                console.log(item)
                   return (
                     <div className="mx-[7%]  laptopL:mx-[2%] mb-5 justify-center opacity-40 hover:opacity-100">
                       <div className="min-w-[274px] max-w-[630px] mobileL:h-[219px] laptop:h-[276px] laptopL:w-[430px] rounded-[50px] bg-white flex flex-row ">
                         <div className="w-[40%]">
                           <img
-                            src={item?.src}
+                            src={item?.Image}
                             className="h-full w-full object-cover rounded-tl-[50px] rounded-bl-[50px] "
                           />
                         </div>
