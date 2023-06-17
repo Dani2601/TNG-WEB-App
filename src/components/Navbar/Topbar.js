@@ -139,19 +139,12 @@ export default function Topbar({ scroll }) {
                   </div>
                 </Link>
               </div>
-
               <div>
-                <Link to={routes.PageNotFound}>
-                  <div
-                    className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
-                ${
-                  location.pathname === routes.LandingBakebe ||
-                  location.pathname === routes.BookingBakebe
-                    ? "bg-[#664653]"
-                    : ""
-                }`}
-                  >
-                    {" "}
+                <Link to={routes.LandingInflatableIsland}>
+                  <div className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]
+                  ${
+                    location.pathname === routes.LandingInflatableIsland ? "bg-[#664653]" : ""
+                  }`}>
                     <img
                       src={isnav}
                       alt=""

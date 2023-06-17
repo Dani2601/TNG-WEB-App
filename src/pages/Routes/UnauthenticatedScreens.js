@@ -17,6 +17,7 @@ import Contacts from "../../components/Gootopia/Contacts/Contacts";
 import Register from "../Register/Register";
 import LandingTFR from "../TFR/LandingTFR";
 import LandingBakebe from "../Bakebe/LandingBakebe";
+import LandingInflatableIsland from "../LandingInflatableIsland";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -41,6 +42,9 @@ export default function UnauthenticatedScreens() {
 
         {/* {TFR} */}
         <Route path={routes.LandingTFR} element={<LandingTFR />} />
+        
+        {/* {TFR} */}
+        <Route path={routes.LandingInflatableIsland} element={<LandingInflatableIsland />} />
 
         {/* {Bakebe} */}
         <Route path={routes.LandingBakebe} element={<LandingBakebe />} />

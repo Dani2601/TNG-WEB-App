@@ -1,9 +1,8 @@
 @font-face {
-    font-family: 'Helvetica';
-    src: url('./Helvetica.ttf') format('truetype');
-    /* Add additional font formats if necessary (e.g., woff, woff2) */
-  }
-
+  font-family: 'Helvetica';
+  src: url('./Helvetica.ttf') format('truetype');
+  /* Add additional font formats if necessary (e.g., woff, woff2) */
+}
   @font-face {
     font-family: 'Nulshock';
     src: url('./nulshock bd.otf') format('opentype');
@@ -30,3 +29,8 @@
     src: url('./GothamMedium.ttf') format('opentype');
     /* Add additional font formats if necessary (e.g., woff, woff2) */
   }
+@font-face {
+  font-family: 'Nulshock';
+  src: url('./nulshock bd.otf') format('opentype');
+  /* Add additional font formats if necessary (e.g., woff, woff2) */
+}

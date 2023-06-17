@@ -56,3 +56,15 @@
         height: 512px;
     }     */
   }
+
+  .carousel-item {
+    height: 100%;
+  }
+  
+  .carousel-image,
+  .carousel-video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  

@@ -1,0 +1,20 @@
+/* src/SpiralCarousel.css */
+
+.spiral-carousel .slick-list {
+    overflow: visible;
+  }
+  
+  .spiral-carousel .slick-slide {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .spiral-carousel .slick-slide.slick-active {
+    opacity: 1;
+  }
+  
+  .spiral-carousel .slick-slide img {
+    width: 100%;
+    height: auto;
+  }
+  

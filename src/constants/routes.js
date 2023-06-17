@@ -16,6 +16,9 @@ const routes = {
   ContactsGootopia: "/Gootopia/Contacts",
   BookingGootopia: "/Gootopia/Booking",
 
+  //The Inflatable Island
+  LandingInflatableIsland: '/TheInflateableIsland',
+
   //TFR
   LandingTFR: "/TFR",
   ObstaclesTFR: "/TFR/Obstacles",

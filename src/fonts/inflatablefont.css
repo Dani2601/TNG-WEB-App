@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Helvetica';
+    src: url('./Helvetica.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'inflatable';
+    src: url('../fonts/inflatableFont.ttf') format('truetype');
+    /* Add any additional font properties if needed, such as font-weight or font-style */
+  }

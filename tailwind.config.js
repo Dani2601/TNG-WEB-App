@@ -52,6 +52,8 @@ module.exports = {
         flavors: ["Flavors", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
         mrDafoe: ["Mr Dafoe", "sans-serif"],
+        helvetica: ["Helvetica Neue", "sans-serif"],
+        inflatable: ['Inflatable', 'sans-serif'],
       },
     },
   },
