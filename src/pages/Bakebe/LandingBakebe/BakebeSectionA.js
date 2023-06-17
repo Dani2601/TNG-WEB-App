@@ -9,6 +9,7 @@ export default function BakebeSectionA() {
       <div
         className=" h-auto bakebegradient"
         style={{ fontFamily: "Gotham-Bold, sans-serif" }}
+      id="menu"
       >
         <div className="py-10">
           <div className="flex flex-row ">

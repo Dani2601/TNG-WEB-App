@@ -15,7 +15,7 @@ export default function LandingPageBakebe() {
       <BakebeSectionA />
       <BakebeSectionB />
       <BakebeSectionC />
-      <BakebeSectionD/>
+      <BakebeSectionD />
     </>
   );
 }

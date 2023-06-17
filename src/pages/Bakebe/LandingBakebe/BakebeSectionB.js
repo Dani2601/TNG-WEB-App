@@ -14,6 +14,7 @@ export default function BakebeSectionB() {
     <div>
       {" "}
       <div
+        id="howto"
         className=" h-auto"
         style={{ fontFamily: "Gotham-Bold, sans-serif" }}
       >
@@ -121,8 +122,11 @@ export default function BakebeSectionB() {
             </div>
           </div>
         </div>
-        <img src={rightcake1} alt={"F"} className="h-[250px] hidden laptopL:block -mt-[120px]" />
-
+        <img
+          src={rightcake1}
+          alt={"F"}
+          className="h-[250px] hidden laptopL:block -mt-[120px]"
+        />
       </div>
     </div>
   );

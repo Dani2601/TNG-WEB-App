@@ -30,9 +30,7 @@ export default function BakebeMenubar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           <div className="flex items-center justify-between h-[100px]">
             <div className="flex w-full justify-start items-center">
-              <div
-                className="laptopL:hidden"
-              >
+              <div className="laptopL:hidden">
                 <Link className=" ">
                   <img
                     className="bg-transparent  mx-auto "
@@ -44,44 +42,48 @@ export default function BakebeMenubar() {
 
               <div className="hidden w-full md:block ">
                 <div className=" flex items-center text-[13px] flex-row">
-                  <Link
+                  <a
+                    href="#menu"
                     // to={routes.LandingGootopia}
                     className="w-1/3 text-center text-black rounded-md "
                   >
                     HOME
-                  </Link>
-                  <Link
+                  </a>
+                  <a
+                    href="#promo"
                     // to={routes.ObstaclesGootopia}
                     className="w-1/3 text-center text-black rounded-md  "
                   >
                     HOW TO BOOK
-                  </Link>
+                  </a>
                   {!isOpen && (
                     <div
                       // to={routes.ContactsGootopia}
                       className="w-1/3 "
                     >
-                      <Link className=" ">
+                      <a href="#menu">
                         <img
                           className="bg-transparent  mx-auto "
                           src={bakebenav}
                           alt="Workflow"
                         />
-                      </Link>
+                      </a>
                     </div>
                   )}
-                  <Link
+                  <a
+                    href="#promo"
                     // to={routes.PackagesGootopia}
                     className="w-1/3 text-center text-black rounded-md  "
                   >
                     PROMO AND DISCOUNTS
-                  </Link>
-                  <Link
+                  </a>
+                  <a
+                    href="#promo"
                     // to={routes.FaqsGootopia}
                     className="w-1/3 text-center text-black rounded-md  "
                   >
                     BOOK NOW!
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -109,25 +111,29 @@ export default function BakebeMenubar() {
             } md:hidden w-full h-screen z-50 `}
           >
             <div className="text-[16px] flex flex-col items-center px-2 pt-2 pb-3 space-y-3 sm:px-3 text-bakebe-pink">
-              <Link
+              <a
+                href={"#menu"}
                 // to={routes.LandingGootopia}
                 className="block px-3 py-2 w-full text-left "
               >
                 HOME
-              </Link>
+              </a>
               <Link
+                href={"#howto"}
                 // to={routes.ObstaclesGootopia}
                 className="block px-3 py-2 w-full text-left "
               >
                 HOW TO BOOK
               </Link>
               <Link
+                href={"#promo"}
                 // to={routes.PackagesGootopia}
                 className="block px-3 py-2 w-full text-left "
               >
                 PROMOS AND DISCOUNTS
               </Link>
               <Link
+                href={"#promo"}
                 // to={routes.FaqsGootopia}
                 className="block px-3 py-2 w-full text-left "
               >

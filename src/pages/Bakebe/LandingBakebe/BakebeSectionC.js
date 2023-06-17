@@ -28,7 +28,7 @@ let promo = [
 
 export default function BakebeSectionC() {
   return (
-    <div>
+    <div id="promo" className="h-full">
       {" "}
       <div
         className="h-full"
@@ -43,42 +43,42 @@ export default function BakebeSectionC() {
             {" "}
             PROMO AND DISCOUNTS
           </div>
-        <div className="flex flex-row flex-wrap justify-center pt-5 pb-[10%]">
-          {promo.length > 0
-            ? promo.map((item) => {
-                return (
-                  <div className="mx-[7%]  laptopL:mx-[2%] mb-5 justify-center">
-                    <div className="min-w-[274px] max-w-[630px] mobileL:h-[219px] laptop:h-[276px] laptopL:w-[430px] rounded-[50px] bg-white flex flex-row ">
-                      <div className="w-[40%]">
-                        <img
-                          src={item?.src}
-                          className="h-full w-full object-cover rounded-tl-[50px] rounded-bl-[50px] "
-                        />
-                      </div>
-                      <div className="w-[60%] px-[5%] my-2 flex flex-col justify-center">
-                        <div className="text-bakebe-orange text-[24px]">
-                          {item?.Name}
+          <div className="flex flex-row flex-wrap justify-center pt-5 pb-[10%]">
+            {promo.length > 0
+              ? promo.map((item) => {
+                  return (
+                    <div className="mx-[7%]  laptopL:mx-[2%] mb-5 justify-center opacity-40 hover:opacity-100">
+                      <div className="min-w-[274px] max-w-[630px] mobileL:h-[219px] laptop:h-[276px] laptopL:w-[430px] rounded-[50px] bg-white flex flex-row ">
+                        <div className="w-[40%]">
+                          <img
+                            src={item?.src}
+                            className="h-full w-full object-cover rounded-tl-[50px] rounded-bl-[50px] "
+                          />
                         </div>
-                        <div
-                          className="text-[13px] tracking-wide overflow-y-auto mt-5"
-                          style={{
-                            fontFamily: "GothamMedium, sans-serif",
-                          }}
-                        >
-                          {item?.Description}
-                        </div>
-                        <div className="tablet:mt-6">
-                          <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px]">
-                            BOOK NOW
-                          </button>
+                        <div className="w-[60%] px-[5%] my-2 flex flex-col justify-center">
+                          <div className="text-bakebe-orange text-[24px]">
+                            {item?.Name}
+                          </div>
+                          <div
+                            className="text-[13px] tracking-wide overflow-y-auto mt-5"
+                            style={{
+                              fontFamily: "GothamMedium, sans-serif",
+                            }}
+                          >
+                            {item?.Description}
+                          </div>
+                          <div className="tablet:mt-6 ">
+                            <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px] opacity-80 hover:opacity-100">
+                              BOOK NOW
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
-            : "No Data"}
-            </div>
+                  );
+                })
+              : "No Data"}
+          </div>
         </div>
       </div>
     </div>
