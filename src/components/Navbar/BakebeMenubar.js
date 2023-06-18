@@ -118,27 +118,27 @@ export default function BakebeMenubar() {
               >
                 HOME
               </a>
-              <Link
+              <a
                 href={"#howto"}
                 // to={routes.ObstaclesGootopia}
                 className="block px-3 py-2 w-full text-left "
               >
                 HOW TO BOOK
-              </Link>
-              <Link
+              </a>
+              <a
                 href={"#promo"}
                 // to={routes.PackagesGootopia}
                 className="block px-3 py-2 w-full text-left "
               >
                 PROMOS AND DISCOUNTS
-              </Link>
-              <Link
+              </a>
+              <a
                 href={"#promo"}
                 // to={routes.FaqsGootopia}
                 className="block px-3 py-2 w-full text-left "
               >
                 BOOK NOW!
-              </Link>
+              </a>
 
               <img src={rightcake} className="" />
             </div>

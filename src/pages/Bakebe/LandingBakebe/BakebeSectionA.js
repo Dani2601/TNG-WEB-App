@@ -40,9 +40,11 @@ export default function BakebeSectionA() {
                   Co-Baking Space that teaches you to bake with an app!
                 </div>
                 <div className="  ">
-                  <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px]">
-                    BOOK NOW
-                  </button>
+                  <a href="#promo">
+                    <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px]">
+                      BOOK NOW
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>

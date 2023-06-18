@@ -12,8 +12,13 @@ import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
-import { SelectLocationBakebe, SelectTicketBakebe } from "../../components/Bakebe/Booking";
+import {
+  SelectLocationBakebe,
+  SelectTicketBakebe,
+} from "../../components/Bakebe/Booking";
 import SelectTypeOfBooking from "../../components/Bakebe/Booking/SelectTypeOfBooking";
+import BakebeContainer from "../../components/Container/BakebeContainer";
+import BakebeMenubar from "../../components/Navbar/BakebeMenubar";
 
 export function BakebeBooking() {
   const [step, setStep] = useState(1);
@@ -37,7 +42,7 @@ export function BakebeBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
-          navigate(routes.LandingTFR);
+          navigate(routes.LandingBakebe);
 
           toast.success("Successfully added");
         } else {
@@ -85,7 +90,8 @@ export function BakebeBooking() {
         />
       )}
       {step == 4 && (
-        <TFRContainer>
+        <BakebeContainer>
+          <BakebeMenubar />
           <TDMBookingDetails
             setStep={setStep}
             ticket={ticket}
@@ -97,11 +103,14 @@ export function BakebeBooking() {
             bookingTime={bookingTime}
             setBookingTime={setBookingTime}
             business={business}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
           />
-        </TFRContainer>
+        </BakebeContainer>
       )}
       {step == 5 && (
-        <TFRContainer>
+        <BakebeContainer>
+          <BakebeMenubar />{" "}
           <TDMPaymentDetails
             setStep={setStep}
             ticket={ticket}
@@ -115,7 +124,7 @@ export function BakebeBooking() {
             setSubmitData={submit}
             business={business}
           />
-        </TFRContainer>
+        </BakebeContainer>
       )}
     </>
   );

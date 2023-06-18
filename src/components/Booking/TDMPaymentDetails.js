@@ -13,6 +13,7 @@ const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
 const TFR_KEY = process.env.REACT_APP_TFR_KEY;
 const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
+const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
 
 export function TDMPaymentDetails({
   setStep,
@@ -36,7 +37,11 @@ export function TDMPaymentDetails({
   const [coupon, setCoupon] = useState("");
 
   function handleBack() {
-    setStep(3);
+    if (business === "BakeBe") {
+      setStep(4);
+    } else {
+      setStep(3);
+    }
   }
 
   function handleNext() {
@@ -79,7 +84,7 @@ export function TDMPaymentDetails({
         .catch((error) => {
           // Handle error case
         });
-    }     else if (business === "TFR") {
+    } else if (business === "TFR") {
       getBranches(user.id, TFR_KEY)
         .then((response) => {
           if (response.valid) {
@@ -93,8 +98,21 @@ export function TDMPaymentDetails({
         .catch((error) => {
           // Handle error case
         });
-    }
-    else if (business === "Inflatable") {
+    } else if (business === "BakeBe") {
+      getBranches(user.id, BAKEBE_KEY)
+        .then((response) => {
+          if (response.valid) {
+            // Convert the object into an array
+            const locationArray = Object.values(response.data);
+            setSelectedLocation(
+              locationArray.find((item) => item?.id === location)
+            );
+          }
+        })
+        .catch((error) => {
+          // Handle error case
+        });
+    } else if (business === "Inflatable") {
       getBranches(user.id, TIS_KEY)
         .then((response) => {
           if (response.valid) {
@@ -108,8 +126,7 @@ export function TDMPaymentDetails({
         .catch((error) => {
           // Handle error case
         });
-    }
-    else {
+    } else {
       getBranches(user.id, DESSERT_KEY)
         .then((response) => {
           if (response.valid) {
@@ -289,22 +306,21 @@ export function TDMPaymentDetails({
             >
               Back
             </button>
-            {
-              selectedPaymentMethod ?
+            {selectedPaymentMethod ? (
               <button
                 onClick={handleNext}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
               >
                 Submit
               </button>
-              :
+            ) : (
               <button
                 disabled={true}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#51CEC5] text-white"
               >
                 Submit
               </button>
-            }
+            )}
           </div>
         </div>
       </div>

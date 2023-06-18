@@ -16,6 +16,7 @@ const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
 const TFR_KEY = process.env.REACT_APP_TFR_KEY;
 const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
+const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
 
 export function TDMBookingDetails({
   setStep,
@@ -36,11 +37,16 @@ export function TDMBookingDetails({
   const [reserve, setReserve] = useState([])
 
   function handleBack() {
-    setStep(2)
+    if (business === "BakeBe") {
+      setStep(3);
+    } else {
+      setStep(2);
+    }
   }
 
+
   function handleNext() {
-    setStep(4);
+    setStep(5);
   }
 
   useEffect(() => {
@@ -72,9 +78,24 @@ export function TDMBookingDetails({
         .catch((error) => {
           // Handle error case
         });
+        
     }
     else if(business === "Inflatable") {
       getBranches(user.id, TIS_KEY)
+        .then((response) => {
+          if (response.valid) {
+            // Convert the object into an array
+            const locationArray = Object.values(response.data);
+            setSelectedLocation(
+              locationArray.find((item) => item?.id === location)
+            );
+          }
+        })
+        .catch((error) => {
+          // Handle error case
+        });
+    } else if(business === "BakeBe") {
+      getBranches(user.id, BAKEBE_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -173,7 +194,7 @@ export function TDMBookingDetails({
 
   const maxPerInterval = useMemo(() => {    
     let max = ""
-    if(bookingDate && bookingTime && intervals){
+    if(bookingDate && bookingTime && intervals ){
       let intervalData = intervals?.find(item => item.value === bookingTime)
       max = intervalData?.slot
     }
@@ -261,6 +282,7 @@ export function TDMBookingDetails({
                 />
               </div>
             </div>
+
             <div className="flex flex-col w-full sm:w-[40vw]">
               <div className="shadow-md rounded-md">
                 <div className="w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]" />
