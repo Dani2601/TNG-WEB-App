@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import TISContainer from "../../Container/TISContainer";
 
-export default function SelectLocation({ step, setStep, setLocation, location }) {
+export default function InflatableSelectLocation({ step, setStep, setLocation, location }) {
   const [branch, setBranch] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(false);
   const { user } = useSelector((state) => state.record);
@@ -33,7 +33,7 @@ export default function SelectLocation({ step, setStep, setLocation, location })
   };
 
   useEffect(() => {
-    getBranches(user.id, process.env.REACT_APP_GOOTOPIA_KEY)
+    getBranches(user.id, process.env.REACT_APP_INFLATABLE_KEY)
       .then((response) => {
         if (response.valid) {
           // const locationArray = Object.values(response.data);
@@ -47,14 +47,12 @@ export default function SelectLocation({ step, setStep, setLocation, location })
 
   return (
     <TISContainer>
-      <div className="max-h-full min-h-screen bg-gootopia-purp ">
-        <img class="w-full" src={dripping} alt="gootopialanding" />
+      <div className="max-h-full min-h-[500px]">
         <div className="flex flex-row justify-center">
-          <span className="font-flavors text-gootopia-pinkText text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
+          <span className="font-inflatable text-[#20422b] text-2xl font-bold tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
             SELECT A LOCATION
           </span>
         </div>
-
         <div className="flex flex-row justify-center">
           <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
@@ -63,19 +61,19 @@ export default function SelectLocation({ step, setStep, setLocation, location })
               <div className="flex flex-col mr-3" key={index}>
                 <button
                   className={`outline-4 self-center ${
-                    selectedBranch === data.id ? 'outline-[15px] outline-[#E677AA]' : ''
+                    selectedBranch === data.id ? 'outline-[15px] outline-[#20422b]' : ''
                   }`}
                   onClick={() => handleSelectBranch(data)}
                 >
                   <img
                     className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${
-                      selectedBranch === data.id ? 'outline outline-[#E677AA]' : ''
+                      selectedBranch === data.id ? 'outline outline-[#20422b]' : ''
                     }`}
                     src={data?.Image}
                     alt="gootopia"
                   />
                 </button>
-                <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
+                <div className="text-[#20422b] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
                   {data?.Address}
                 </div>
               </div>
@@ -86,14 +84,14 @@ export default function SelectLocation({ step, setStep, setLocation, location })
                 <div>
                   <button
                     onClick={() => handleBack()}
-                    className=" cursor-default text-[12px] tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins px-3 py-1 rounded-3xl"
+                    className=" cursor-default text-[12px] tablet:text-[14px] text-[#20422b] bg-[white] font-poppins px-3 py-1 rounded-3xl"
                   >
                     Back
                   </button>
                   {selectedBranch ? (
                     <button
                       onClick={() => handleProceed()}
-                      className="ml-3 text-white text-[12px] tablet:text-[14px] bg-[#E677AA] font-poppins px-3 py-1 rounded-3xl"
+                      className="ml-3 text-white text-[12px] tablet:text-[14px] bg-[#20422b] font-poppins px-3 py-1 rounded-3xl"
                     >
                       Next
                     </button>
@@ -107,13 +105,13 @@ export default function SelectLocation({ step, setStep, setLocation, location })
             </div>
           </div>
         </div>
-        <div className="pt-80">
+        {/* <div className="pt-80">
           <img
             class="w-full rotate-180 "
             src={dripping}
             alt="gootopialanding "
           />
-        </div>
+        </div> */}
       </div>
     </TISContainer>
   );

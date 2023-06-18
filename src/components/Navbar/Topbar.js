@@ -143,7 +143,9 @@ export default function Topbar({ scroll }) {
                 <Link to={routes.LandingInflatableIsland}>
                   <div className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]
                   ${
-                    location.pathname === routes.LandingInflatableIsland ? "bg-[#664653]" : ""
+                    location.pathname === routes.LandingInflatableIsland ||
+                    location.pathname === routes.BookingInflatable
+                    ? "bg-[#664653]" : ""
                   }`}>
                     <img
                       src={isnav}

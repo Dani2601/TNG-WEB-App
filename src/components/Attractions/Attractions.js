@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function Attractions() {
+export default function Attractions({setRef}) {
   return (
-    <div>
+    <div ref={setRef}>
         <div className='w-full h-6 bg-[#EBACB3]'/>
         <div className='text-[#EBACB3] bg-[#21422B] text-center text-7xl py-6 font-inflatable'>
             Attractions
         </div>
-        <div className='flex h-72 gap-4 px-4 pt-4'>
+        <div className='flex flex-col sm:flex-row h-72 gap-4 px-4 pt-4'>
           <div className='flex justify-center place-items-end p-10 flex-1 bg-[url(https://static.wixstatic.com/media/00f21d_858dacc19cae4a6e95bc0a7c3b8c3831~mv2.jpg/v1/fill/w_600,h_404,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/00f21d_858dacc19cae4a6e95bc0a7c3b8c3831~mv2.jpg)] bg-cover bg-center'>
             <button
                 className="shadow-md text-sm py-2 px-6 bg-[#EBACB3] text-white"

@@ -23,6 +23,8 @@ import Transaction from "../Transaction/Transaction";
 import { TFRBooking } from "../Booking/TFRBooking";
 import { BakebeBooking } from "../Booking/BakebeBooking";
 import LandingBakebe from "../Bakebe/LandingBakebe";
+import LandingInflatableIsland from "../LandingInflatableIsland";
+import { InflatableBooking } from "../Booking/InflatableBooking";
 
 export default function AuthenticatedScreens() {
   return (
@@ -54,6 +56,9 @@ export default function AuthenticatedScreens() {
         <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
         <Route path={routes.BookingBakebe} element={<BakebeBooking />} />
 
+        {/* Infatable */}
+        <Route path={routes.LandingInflatableIsland} element={<LandingInflatableIsland />} />
+        <Route path={routes.BookingInflatable} element={<InflatableBooking />} />
 
         <Route path={routes.Profile} element={<Profile />} />
         <Route path={routes.Transaction} element={<Transaction />} />

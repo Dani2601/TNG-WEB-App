@@ -18,6 +18,7 @@ const routes = {
 
   //The Inflatable Island
   LandingInflatableIsland: '/TheInflateableIsland',
+  BookingInflatable: "/TheInflateableIsland/Booking",
 
   //TFR
   LandingTFR: "/TFR",
@@ -26,7 +27,6 @@ const routes = {
   FaqsTFR: "/TFR/Faqs",
   ContactsTFR: "/TFR/Contacts",
   BookingTFR: "/TFR/Booking",
-
 
   
   //Bakebe

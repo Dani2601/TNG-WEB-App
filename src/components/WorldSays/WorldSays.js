@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function WorldSays() {
   return (
-    <div className='flex flex-col px-40 py-10 bg-[#21422b]'>
+    <div className='flex flex-col px-4 sm:px-40 py-10 bg-[#21422b]'>
         <div className='text-center pb-4 font-bold text-xl text-white'>WHAT THE WORLD SAYS ABOUT US</div>
-        <div className='flex'>
+        <div className='flex flex-col sm:flex-row'>
             <div className='flex flex-col flex-1'>
                 <div className='text-sm text-center px-6 text-[#EBACB3] h-20'>"This Unicorn "Inflatable Island" In The Philippines Is A Pastel, Instagrammable Paradise"</div>
                 <div className='flex justify-center place-items-center'>

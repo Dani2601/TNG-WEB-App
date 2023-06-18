@@ -3,7 +3,7 @@ import "../../fonts/inflatablefont.css";
 
 export default function Introduction() {
   return (
-    <div className='flex w-full px-60 py-10 bg-[#f8eddd] mt-[-10px]'>
+    <div className='flex flex-col sm:flex-row w-full px-4 sm:px-60 py-10 bg-[#f8eddd] mt-[-10px]'>
         <div className='flex flex-col flex-1 px-10'>
             <div className='text-center text-[#EBACB3] font-bold'>INTRODUCING</div>
             <div className='flex justify-center place-items-center'>

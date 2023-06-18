@@ -1,8 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { TDMLocation } from "../../components/Booking/TDMLocation";
-import { TDMReserveTicket } from "../../components/Booking/TDMReserveTicket";
-import DesertMuseumContainer from "../../components/Container";
 import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
 import GootopiaContainer from "../../components/Container/GootopiaContainter";
@@ -12,8 +9,11 @@ import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
+import TISContainer from "../../components/Container/TISContainer";
+import InflatableSelectLocation from "../../components/Gootopia/Booking/InflatableSelectLocation";
+import InflatableSelectTicket from "../../components/Gootopia/Booking/InflatableSelectTicket";
 
-export function GootopiaBooking() {
+export function InflatableBooking() {
   const [step, setStep] = useState(1);
   const [location, setLocation] = useState("");
 
@@ -21,7 +21,7 @@ export function GootopiaBooking() {
   const [pax, setPax] = useState(1);
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
-  const [business, ] = useState("Gootopia")
+  const [business, ] = useState("Inflatable")
   const navigate = useNavigate();
 
   function submit(e) {
@@ -34,7 +34,7 @@ export function GootopiaBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
-          navigate(routes.LandingGootopia)
+          navigate(routes.LandingInflatableIsland)
           toast.success("Successfully added");
         } else {
           toast.error("Failed to submit");
@@ -49,7 +49,7 @@ export function GootopiaBooking() {
   return (
     <>
       {step == 1 && (
-        <SelectLocation
+        <InflatableSelectLocation
           step={step}
           setStep={setStep}
           location={location}
@@ -57,7 +57,7 @@ export function GootopiaBooking() {
         />
       )}
       {step == 2 && (
-        <SelectTicket
+        <InflatableSelectTicket
           setStep={setStep}
           ticket={ticket}
           setTicket={setTicket}
@@ -65,7 +65,7 @@ export function GootopiaBooking() {
         />
       )}
       {step == 3 && (
-        <GootopiaContainer>
+        <TISContainer>
           <TDMBookingDetails
             setStep={setStep}
             ticket={ticket}
@@ -78,10 +78,10 @@ export function GootopiaBooking() {
             setBookingTime={setBookingTime}
             business={business}
           />
-        </GootopiaContainer>
+        </TISContainer>
       )}
       {step == 4 && (
-        <GootopiaContainer>
+        <TISContainer>
           <TDMPaymentDetails
             setStep={setStep}
             ticket={ticket}
@@ -96,7 +96,7 @@ export function GootopiaBooking() {
             business={business}
 
           />
-        </GootopiaContainer>
+        </TISContainer>
       )}
     </>
   );

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../../fonts/inflatablefont.css";
 
-export default function InflatableMenubar() {
+export default function InflatableMenubar({scroll}) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.record);
 
@@ -42,7 +42,8 @@ export default function InflatableMenubar() {
               <div className="hidden md:block pl-6 text-[#ebacb3]">
                 <div className="flex items-center gap-5">
                   <div
-                    className="text-center rounded-md text-xs font-bold"
+                    onClick={scroll}
+                    className="text-center cursor-pointer rounded-md text-xs font-bold"
                   >
                     DAY TOUR ATTRACTIONS 
                   </div>
@@ -73,7 +74,7 @@ export default function InflatableMenubar() {
                   </div>
                   <Link
                     // to={user ? routes.BookingGootopia : routes.Login}
-                    to={routes.PageNotFound}
+                    to={routes.BookingInflatable}
                     className="ml-4 text-center rounded-md text-xs font-bold hover:bg-transparent px-6 py-1 bg-[#ebacb3] rounded-sm"
                   >
                     <div className="font-inflatable text-white text-4xl">Book Now</div>
@@ -129,11 +130,11 @@ export default function InflatableMenubar() {
               FAQS
             </div>
             <Link
-              to={routes.PageNotFound}
               // to={user ? routes.BookingGootopia : routes.Login}
-              className="block px-3 py-2 w-full text-left text-base"
+              to={routes.BookingInflatable}
+              className="ml-4 text-center rounded-md text-xs font-bold hover:bg-transparent px-6 py-1 bg-[#ebacb3] rounded-sm"
             >
-              <div className="font-inflatable">Book Now</div>
+              <div className="font-inflatable text-white text-4xl">Book Now</div>
             </Link>
           </div>
         </div>
