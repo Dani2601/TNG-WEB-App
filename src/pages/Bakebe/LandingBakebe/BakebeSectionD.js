@@ -10,7 +10,7 @@ import cakepromoa from "../../../assets/Bakebe/cakepromo.png";
 import cakepromob from "../../../assets/Bakebe/cakepromo2.png";
 import { MdLocationOn } from "react-icons/md";
 import leftCAKE from "../../../assets/Bakebe/leftcake.png";
-import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+// import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import { BsEnvelope } from "react-icons/bs";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
