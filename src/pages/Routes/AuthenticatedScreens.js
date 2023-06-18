@@ -49,7 +49,7 @@ export default function AuthenticatedScreens() {
         <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />
 
         {/* {TFR} */}
-        <Route path={routes.LandingTFR} element={<LandingBakebe />} />
+        <Route path={routes.LandingTFR} element={<LandingTFR />} />
         <Route path={routes.BookingTFR} element={<TFRBooking />} />
 
         {/* {Bakebe} */}
