@@ -5,14 +5,14 @@ import { TDMReserveTicket } from "../../components/Booking/TDMReserveTicket";
 import DesertMuseumContainer from "../../components/Container";
 
 import { addBooking } from "../../functions/Booking";
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify";
 import TFRContainer from "../../components/Container/TFRContainer";
 import SelectTicket from "../../components/TFR/Booking/SelectTicket";
 import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
-import { SelectLocationBakebe } from "../../components/Bakebe/Booking";
+import { SelectLocationBakebe, SelectTicketBakebe } from "../../components/Bakebe/Booking";
 import SelectTypeOfBooking from "../../components/Bakebe/Booking/SelectTypeOfBooking";
 
 export function BakebeBooking() {
@@ -23,10 +23,9 @@ export function BakebeBooking() {
   const [pax, setPax] = useState(1);
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
-  const [business, ] = useState("TFR")
+  const [business] = useState("BakeBe");
   const navigate = useNavigate();
-
-
+  const [selectedType, setSelectedType] = useState("");
 
   function submit(e) {
     addBooking(e)
@@ -38,7 +37,7 @@ export function BakebeBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
-          navigate(routes.LandingTFR)
+          navigate(routes.LandingTFR);
 
           toast.success("Successfully added");
         } else {
@@ -51,7 +50,8 @@ export function BakebeBooking() {
       });
   }
 
-  console.log("location",location)
+  console.log("location", location);
+  console.log("type", selectedType);
 
   return (
     <>
@@ -69,17 +69,22 @@ export function BakebeBooking() {
           ticket={ticket}
           setTicket={setTicket}
           location={location}
+          setLocation={setLocation}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
         />
       )}
-      {step == 2 && (
-        <SelectTicket
+      {step == 3 && (
+        <SelectTicketBakebe
           setStep={setStep}
           ticket={ticket}
           setTicket={setTicket}
           location={location}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
         />
       )}
-      {step == 3 && (
+      {step == 4 && (
         <TFRContainer>
           <TDMBookingDetails
             setStep={setStep}
@@ -95,7 +100,7 @@ export function BakebeBooking() {
           />
         </TFRContainer>
       )}
-      {step == 4 && (
+      {step == 5 && (
         <TFRContainer>
           <TDMPaymentDetails
             setStep={setStep}
@@ -109,7 +114,6 @@ export function BakebeBooking() {
             setBookingTime={setBookingTime}
             setSubmitData={submit}
             business={business}
-
           />
         </TFRContainer>
       )}

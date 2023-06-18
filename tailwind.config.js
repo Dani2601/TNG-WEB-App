@@ -44,7 +44,8 @@ module.exports = {
           orange: "#EDA61D",
           pinkIcon: "#e8627c",
           footerpink: "#feb2af",
-          brown: "#d9bb9f",
+          brown: "#c4966b",
+          border:"#ff4a6a"
         },
       },
       fontFamily: {

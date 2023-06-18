@@ -14,6 +14,9 @@ import TFRContainer from "../../Container/TFRContainer";
 import TFRMenubarNonSpa from "../../Navbar/TFRMenubar";
 import booknow from "../../../assets/TFR/button BOOK NOW GAMES.png";
 import BakebeContainer from "../../Container/BakebeContainer";
+import clock from "../../../assets/Bakebe/clock.png";
+import timer from "../../../assets/Bakebe/timer.png";
+import { convertToHoursMinutes } from "../../../helper/DateTime";
 
 let ticket = [
   {
@@ -35,7 +38,12 @@ let ticket = [
   },
 ];
 
-export default function SelectTicketBakebe({ setStep, location, setTicket, ticket }) {
+export default function SelectTicketBakebe({
+  setStep,
+  location,
+  setTicket,
+  ticket,
+}) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
 
@@ -73,7 +81,6 @@ export default function SelectTicketBakebe({ setStep, location, setTicket, ticke
 
   return (
     <BakebeContainer>
-
       <TicketBookingModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}
@@ -83,65 +90,109 @@ export default function SelectTicketBakebe({ setStep, location, setTicket, ticke
       />
 
       <div
-        className="max-h-full min-h-screen bg-[#252525] "
-        style={{ fontFamily: "Nulshock, sans-serif" }}
+        className="h-auto w-full"
+        style={{ fontFamily: "Gotham-Bold, sans-serif" }}
       >
         {" "}
-        <div className="flex flex-row justify-center">
-          <span className=" text-tfr-yellow text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
-            SELECT A TICKET
+        <div className="h-auto flex flex-col mt-5 ml-[4%]">
+          <span className=" text-bakebe-orange text-[23px]  tablet:text-[28px] tablet:laptop:LaptopL:Laptop4k mt-8">
+            ALL PRODUCTS
           </span>
+          <span
+            style={{ fontFamily: "Gotham-Light, sans-serif" }}
+            className="  text-[14px]  my-3 mb-8 tracking-wide"
+          ></span>
         </div>
-        <div className="flex flex-row justify-center">
-          <div>
-            <div className="flex flex-col">
-              <div className="self-center text-tfr-purple font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
-                Start your adventure by choosing one of our ticket types below
-              </div>
-              <div className="flex flex-row flex-wrap justify-center">
-                {tickets.length > 0 ? (
-                  <div className="cursor-pointer flex flex-wrap justify-center items-center laptop:mx-[20%] pb-5 tablet:pb-10">
-                    {tickets.map((item) => (
-                      <div
-                        key={item.id}
-                        className="relative w-[150px] tablet:w-[260px] mx-4 my-4"
-                        onClick={()=> {handleNext(); setTicket(item)}}
-                      >
-                        <img
-                          src={item.Image}
-                          className="relative w-full h-auto"
-                        />
-                        <div className="absolute inset-x-0 bottom-4 tablet:bottom-6 flex items-center justify-center ">
-                          <div className="self-center pt-1 text-center font-poppins font-bold bg-[#3b3b3b] text-tfr-yellow h-[20px] w-[80px] tablet:h-[30px] z-10 rounded-[10px] shadow-xl">
-                            ₱ {item.Price}
-                          </div>
+        <div className=" laptopL:flex laptopL:flex-row py-[10%]">
+          <div className="flex flex-row flex-wrap laptopL:w-[75%] justify-center gap-4">
+            {tickets.length > 0 ? 
+            tickets.map((item) => {
+              return (
+                <>
+                  <div class="border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
+                    <div className="h-[70%] fd-cl group-hover:opacity-0">
+                      <img
+                        src={item.Image}
+                        className="rounded-t-[30px] h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="h-[30%] flex flex-col mx-[10px] gap-2 my-[10px] fd-cl group-hover:opacity-0">
+                      <div className="truncate">{item.Name}</div>
+                      <div className="flex flex-row flex-wrap justify-between gap-2 text-bakebe-brown text-[12px] laptop:mx-[2%]">
+                        <div className="flex flex-row truncate items-center">
+                          <img src={clock} className="mr-1" />{" "}
+                          {convertToHoursMinutes(item.Hours)}
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <img src={timer} className="mr-1" />
+                          {item.Difficulty.slice(0, 1)}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div>No available Tickets yet.</div>
-                )}
-              </div>
+                    </div>
 
-              <div className="flex flex-row justify-center w-full">
-                <button
-                  onClick={handleBack}
-                  className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-tfr-pink bg-[white] font-poppins rounded-3xl text-center mt-10"
-                >
-                  {" "}
-                  Back{" "}
-                </button>
-              </div>
-            </div>
+                    <div class="absolute opacity-0 fd-sh group-hover:opacity-100">
+                      <div class="py-4 border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
+                        <div className="h-[10%] px-3 ">
+                          <div className="truncate">{item.Name}</div>
+                        </div>
+                        <div className="h-[20%] flex flex-col mx-[10px] gap-2 my-[10px] ">
+                          <div className="flex flex-col laptop:flex-row flex-wrap justify-between gap-2 text-bakebe-brown text-[12px] laptop:mx-[2%]">
+                            <div className="flex flex-row truncate items-center">
+                              <img src={clock} className="mr-1" />{" "}
+                              {convertToHoursMinutes(item.Hours)}
+                            </div>
+                            <div className="flex flex-row items-center">
+                              <img src={timer} className="mr-1" />
+                              {item.Difficulty.slice(0, 1)}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="h-[40%] px-3 overflow-y-auto text-[13px] tracking-wide">
+                          <div
+                            className=""
+                            style={{ fontFamily: "Gotham-Light, sans-serif" }}
+                          >
+                            {item.Description}
+                          </div>
+                        </div>
+                        <div className="h-[20%] px-3 self-center -mt-[3%] laptop:-mt-[7%]">
+                          <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px]">
+                            BOOK 
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* 
+                  <div className="border-[0.5px] border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px]">
+                    <div className="h-[70%]">
+                      <img
+                        src={item.Image}
+                        className="rounded-t-[30px] h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="h-[30%] flex flex-col mx-[10px] gap-2 my-[10px]">
+                      <div className="truncate">{item.Name}</div>
+                      <div className="flex flex-row flex-wrap justify-between gap-2 text-bakebe-brown text-[12px] laptop:mx-[2%]">
+                        <div className="flex flex-row truncate items-center">
+                          <img src={clock} className="mr-1" />{" "}
+                          {convertToHoursMinutes(item.Hours)}
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <img src={timer} className="mr-1" />
+                          {item.Difficulty.slice(0, 1)}
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+                  */}
+                </>
+              );
+            }) : "No Tickets Yet"}
           </div>
-        </div>
-        <div className="pt-80">
-          <img
-            class="w-full rotate-180 "
-            src={dripping}
-            alt="gootopialanding "
-          />
+          <div className="hidden laptopL:block laptopL:w-[25%] ">
+            Select Location
+          </div>
         </div>
       </div>
     </BakebeContainer>

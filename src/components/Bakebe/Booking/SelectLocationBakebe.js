@@ -64,7 +64,7 @@ export default function SelectLocationBakebe({
         style={{ fontFamily: "Gotham-Bold, sans-serif" }}
       >
         <div className="flex flex-col mt-5 ml-[4%]">
-          <span className=" text-bakebe-orange text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k mt-8">
+          <span className=" text-bakebe-orange text-[23px]  tablet:text-[28px] tablet:laptop:LaptopL:Laptop4k mt-8">
             CHOOSE LOCATION
           </span>
           <span   style={{ fontFamily: "Gotham-Light, sans-serif" }} className="  text-[14px]  my-3 mb-8 tracking-wide">
