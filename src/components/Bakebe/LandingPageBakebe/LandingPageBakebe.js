@@ -14,7 +14,9 @@ export default function LandingPageBakebe() {
       <BakebeMenubar />
       <BakebeSectionA />
       <BakebeSectionB />
+      {/* <div className="my-10"> */}
       <BakebeSectionC />
+      {/* </div> */}
       <BakebeSectionD />
     </>
   );

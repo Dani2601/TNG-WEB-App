@@ -55,15 +55,15 @@ export default function BakebeSectionC() {
     <div id="promo" className="h-full">
       {" "}
       <div
-        className="h-full"
+        className="h-full "
         style={{
           fontFamily: "Gotham-Bold, sans-serif",
           backgroundImage: `url(${frm3})`,
           backgroundSize: "cover", // Apply object-fit property
         }}
       >
-        <div className="py-[50px]">
-          <div className="text-[24px] text-white text-center px-10 mb-10 my-10">
+        <div className="py-[50px] laptopL:py-[15%] ">
+          <div className="text-[24px] text-white text-center px-10 mb-10 my-10 laptopL:mt-[-5%]">
             {" "}
             PROMO AND DISCOUNTS
           </div>
