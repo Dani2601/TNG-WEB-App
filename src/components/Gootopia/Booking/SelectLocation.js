@@ -46,7 +46,7 @@ export default function SelectLocation({ step, setStep, setLocation, location })
   }, []);
 
   return (
-    <TISContainer>
+    <GootopiaContainer>
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
         <img class="w-full" src={dripping} alt="gootopialanding" />
         <div className="flex flex-row justify-center">
@@ -115,6 +115,6 @@ export default function SelectLocation({ step, setStep, setLocation, location })
           />
         </div>
       </div>
-    </TISContainer>
+    </GootopiaContainer>
   );
 }
