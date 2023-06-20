@@ -75,6 +75,12 @@ export default function Status(props) {
           Used
         </span>
       );
+    case "Declined":
+      return (
+        <span className="bg-red-600 w-20 h-7 text-center flex justify-center items-center rounded-lg text-slate-50">
+          Declined
+        </span>
+      );
       case "Void":
         return (
           <span className="bg-yellow-600 w-20 h-7 text-center flex justify-center items-center rounded-lg text-slate-50">
