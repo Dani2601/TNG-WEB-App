@@ -34,7 +34,7 @@ export function TDMBookingDetails({
   const { user } = useSelector((state) => state.record);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [intervals, setIntervals] = useState([]);
-  const [reserve, setReserve] = useState([])
+  const [reserve, setReserve] = useState([]);
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -44,9 +44,12 @@ export function TDMBookingDetails({
     }
   }
 
-
   function handleNext() {
-    setStep(5);
+    if (business === "BakeBe") {
+      setStep(5);
+    } else {
+      setStep(4);
+    }
   }
 
   useEffect(() => {
@@ -64,7 +67,7 @@ export function TDMBookingDetails({
         .catch((error) => {
           // Handle error case
         });
-    }  else if(business === "TFR") {
+    } else if (business === "TFR") {
       getBranches(user.id, TFR_KEY)
         .then((response) => {
           if (response.valid) {
@@ -78,9 +81,7 @@ export function TDMBookingDetails({
         .catch((error) => {
           // Handle error case
         });
-        
-    }
-    else if(business === "Inflatable") {
+    } else if (business === "Inflatable") {
       getBranches(user.id, TIS_KEY)
         .then((response) => {
           if (response.valid) {
@@ -94,7 +95,7 @@ export function TDMBookingDetails({
         .catch((error) => {
           // Handle error case
         });
-    } else if(business === "BakeBe") {
+    } else if (business === "BakeBe") {
       getBranches(user.id, BAKEBE_KEY)
         .then((response) => {
           if (response.valid) {
@@ -108,8 +109,7 @@ export function TDMBookingDetails({
         .catch((error) => {
           // Handle error case
         });
-    }
-    else {
+    } else {
       getBranches(user.id, DESSERT_KEY)
         .then((response) => {
           if (response.valid) {
@@ -127,41 +127,46 @@ export function TDMBookingDetails({
   }, []);
 
   useEffect(() => {
-    if(ticket?.id && bookingDate){
+    if (ticket?.id && bookingDate) {
       getBookingsByTicketID(ticket?.id, format(bookingDate, "yyyy-MM-dd"))
-      .then((res) => {
-        if(res.valid){
-          setReserve(res.data)
-        }
-        else{
-          setReserve([])
-        }
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        .then((res) => {
+          if (res.valid) {
+            setReserve(res.data);
+          } else {
+            setReserve([]);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
-  }, [ticket, bookingDate])
+  }, [ticket, bookingDate]);
 
-  function handleBookingDate(date){
-    setBookingDate(date)
-    setPax(1)
+  function handleBookingDate(date) {
+    setBookingDate(date);
+    setPax(1);
   }
 
   useEffect(() => {
-    if(bookingDate){
+    if (bookingDate) {
       setIntervals(
         ticket?.CreatedInterval.map((item) => {
-          let reservation = reserve?.filter((res) => res.BookingTime === item.timeInterval)
-          if(reservation.length > 0){
-            const sumOfPass = reservation.reduce((total, item) => total + item.Pass, 0);
+          let reservation = reserve?.filter(
+            (res) => res.BookingTime === item.timeInterval
+          );
+          if (reservation.length > 0) {
+            const sumOfPass = reservation.reduce(
+              (total, item) => total + item.Pass,
+              0
+            );
             return {
               value: item.timeInterval,
               slot: parseInt(item.slot) - sumOfPass,
-              label: `${item.timeInterval} - ${(parseInt(item.slot) - sumOfPass)} slot(s)`,
+              label: `${item.timeInterval} - ${
+                parseInt(item.slot) - sumOfPass
+              } slot(s)`,
             };
-          }
-          else{
+          } else {
             return {
               value: item.timeInterval,
               slot: parseInt(item.slot),
@@ -170,36 +175,35 @@ export function TDMBookingDetails({
           }
         })
       );
-    }
-    else{
-      setIntervals([])
+    } else {
+      setIntervals([]);
     }
   }, [bookingDate, ticket, reserve]);
 
   const allowedDays = ["Monday", "Tuesday", "Wednesday"];
 
-  function handleClear(){
-    setBookingDate(null)
-    setBookingTime(null)
-    setPax(1)
+  function handleClear() {
+    setBookingDate(null);
+    setBookingTime(null);
+    setPax(1);
   }
 
-  function handlePax(e){
-    let input = e.target.value
-    let intervalData = intervals?.find(item => item.value === bookingTime)
-    if(input <= intervalData.slot){
-      setPax(input)
+  function handlePax(e) {
+    let input = e.target.value;
+    let intervalData = intervals?.find((item) => item.value === bookingTime);
+    if (input <= intervalData.slot) {
+      setPax(input);
     }
   }
 
-  const maxPerInterval = useMemo(() => {    
-    let max = ""
-    if(bookingDate && bookingTime && intervals ){
-      let intervalData = intervals?.find(item => item.value === bookingTime)
-      max = intervalData?.slot
+  const maxPerInterval = useMemo(() => {
+    let max = "";
+    if (bookingDate && bookingTime && intervals) {
+      let intervalData = intervals?.find((item) => item.value === bookingTime);
+      max = intervalData?.slot;
     }
-    return max
-  }, [bookingTime, bookingDate, intervals])
+    return max;
+  }, [bookingTime, bookingDate, intervals]);
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -220,7 +224,11 @@ export function TDMBookingDetails({
               </p>
               <div className="flex items-center">
                 <span className="mr-2 text-sm">{ticket?.Name}</span>
-                <FiTrash2 color="red" className="cursor-pointer" onClick={handleClear}/>
+                <FiTrash2
+                  color="red"
+                  className="cursor-pointer"
+                  onClick={handleClear}
+                />
               </div>
               <div>
                 <p className="text-sm">
@@ -233,7 +241,12 @@ export function TDMBookingDetails({
                   filterDate={(date) => {
                     const today = new Date(); // Get the current date
                     today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
-                    return date >= today && allowedDays.includes(date.toLocaleDateString("en-US", { weekday: "long" }));
+                    return (
+                      date >= today &&
+                      allowedDays.includes(
+                        date.toLocaleDateString("en-US", { weekday: "long" })
+                      )
+                    );
                   }}
                   value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                 />
@@ -250,19 +263,22 @@ export function TDMBookingDetails({
                   <option>Select a time</option>
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
-                      if(item.slot === 0){
+                      if (item.slot === 0) {
                         return (
-                          <option key={index} value={item.value} disabled={true}>
+                          <option
+                            key={index}
+                            value={item.value}
+                            disabled={true}
+                          >
                             {item.label}
                           </option>
-                        )
-                      }
-                      else{
+                        );
+                      } else {
                         return (
                           <option key={index} value={item.value}>
                             {item.label}
                           </option>
-                        )
+                        );
                       }
                     })}
                 </select>
