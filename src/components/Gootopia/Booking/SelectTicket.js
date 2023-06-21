@@ -101,7 +101,7 @@ export default function SelectTicket({
               <div className="self-center text-[#F8E71C] font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
                 Start your adventure by choosing one of our ticket types below
               </div>
-              <div className="flex flex-row flex-wrap justify-center">
+              <div className="flex flex-row flex-wrap justify-center w-full">
               {tickets.length > 0 ? (
                 tickets?.map((data, index) => {
                   return (
@@ -111,14 +111,14 @@ export default function SelectTicket({
                           <img
                             src={bookingCard}
                             alt="Your Image"
-                            className="h-[214px] w-[320px] tablet:w-[410px] tablet:h-[300px]"
+                            className="h-[214px] w-[320px] tablet:w-[480px] tablet:h-[351px]"
                           />
-                          <div className="absolute top-[40px] left-[53px]  tablet:top-[50px]  tablet:left-[70px] text-left flex justify-center items-center font-poppins">
-                            <div className=" w-[132px] h-[112px] tablet:w-[180px] tablet:h-[252px] flex flex-col overflow-y-auto">
-                              <div className="text-gootopia-pinkText text-[14px] tablet:text-[15px] font-bold mb-1">
+                          <div className="absolute top-[40px] left-[53px]  tablet:top-[60px]  tablet:left-[75px] text-left flex justify-center items-center font-poppins">
+                            <div className=" w-[132px] h-[112px] tablet:w-[180px] tablet:h-[222px] flex flex-col overflow-y-auto">
+                              <div className="text-gootopia-pinkText text-[14px] tablet:text-[17px] font-bold mb-1">
                                 {data.Name}
                               </div>
-                              <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
+                              <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[14px] mb-2">
                                 <div className="text-black  font-bold mr-1  line-through">
                                   ₱{data.OldPrice}
                                 </div>
@@ -129,7 +129,7 @@ export default function SelectTicket({
                                   {data.Notes} {data.Notes && "%"}
                                 </div>
                               </div>
-                              <div className="text-black text-[12px] tablet:text-[12px] ">
+                              <div className="text-black text-[12px] tablet:text-[17px] ">
                                 {data.Description}
                               </div>
                             </div>
