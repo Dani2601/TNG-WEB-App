@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useState } from "react";
 import { TDMLocation } from "../../components/Booking/TDMLocation";
 import { TDMReserveTicket } from "../../components/Booking/TDMReserveTicket";
@@ -22,10 +22,22 @@ export function TFRBooking() {
   const [pax, setPax] = useState(1);
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
-  const [business, ] = useState("TFR")
-  const navigate = useNavigate();
+  const [business, ] = useState("TFR");
+  const [selectedType, setSelectedType] = useState("");
+  const navigate = useNavigate();  
+  const [selectedOption, setSelectedOption] = useState('Individual');
 
+  const handleOptionChange = (e) => {
+    setSelectedOption(e);
+  };
 
+  const total = useMemo(() => {
+    if(ticket){
+      let price = ticket?.Price
+      return price * pax
+    }
+    return 0
+  }, [ticket, pax])
 
   function submit(e) {
     addBooking(e)
@@ -49,8 +61,6 @@ export function TFRBooking() {
         toast.error("Something went wrong");
       });
   }
-
-  console.log("location",location)
 
   return (
     <>
@@ -83,6 +93,11 @@ export function TFRBooking() {
             bookingTime={bookingTime}
             setBookingTime={setBookingTime}
             business={business}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            handleOptionChange={handleOptionChange}
+            selectedOption={selectedOption}
+            total={total}
           />
         </TFRContainer>
       )}
@@ -100,7 +115,8 @@ export function TFRBooking() {
             setBookingTime={setBookingTime}
             setSubmitData={submit}
             business={business}
-
+            bookingType={selectedOption}
+            total={total}
           />
         </TFRContainer>
       )}
