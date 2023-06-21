@@ -24,9 +24,11 @@ export function TDMPaymentDetails({
   bookingTime,
   setSubmitData,
   business,
+  bookingType="",
+  total=0
 }) {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.record);
   const [isChecked, setIsChecked] = useState(false);
   const [fullname, setFullname] = useState("");
@@ -35,6 +37,8 @@ export function TDMPaymentDetails({
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [coupon, setCoupon] = useState("");
+  const [grandTotal, setGrandTotal] = useState(0)
+  const [discount, setDiscount] = useState(0)
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -52,6 +56,7 @@ export function TDMPaymentDetails({
       TicketID: ticket?.id,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
+      BookingType: bookingType,
       Pax: parseInt(pax),
       Payment: {
         PaymentMethod: selectedPaymentMethod,
@@ -144,6 +149,10 @@ export function TDMPaymentDetails({
   }, []);
 
   function handleVerify() {}
+
+  useEffect(() => {
+    setGrandTotal(total - discount)
+  }, [total, discount])  
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -246,29 +255,33 @@ export function TDMPaymentDetails({
                         </p>
                         <p className="text-xs">Time: {bookingTime}</p>
                         <p className="text-xs">No. of pass: {pax}</p>
+                        {
+                          bookingType &&
+                          <p className="text-xs">Type: {bookingType}</p>
+                        }
                       </div>
                       <div className="flex flex-col items-end">
                         <p className="tex-4xl font-bold text-right">
                           ₱ {ticket.Price}
                         </p>
                         {/* {
-                                            <p className='text-[10px] text-red-500 text-right'>Discount: ₱ 0.00</p>
-                                        } */}
+                            <p className='text-[10px] text-red-500 text-right'>Discount: ₱ 0.00</p>
+                        } */}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
                     <div className="flex justify-between">
                       <div className="text-sm font-bold">Sub Total</div>
-                      <div className="font-bold">₱ {ticket.Price}</div>
+                      <div className="font-bold">₱ {total}</div>
                     </div>
                     <div className="flex justify-between">
                       <div className="text-sm font-bold">Total Discount</div>
-                      <div className="font-bold">₱ 0.00</div>
+                      <div className="font-bold">₱ {discount}</div>
                     </div>
                     <div className="flex justify-between">
                       <div className="text-sm font-bold">Grand Total</div>
-                      <div className="font-bold">₱ {ticket.Price}</div>
+                      <div className="font-bold">₱ {grandTotal}</div>
                     </div>
                   </div>
                   <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">

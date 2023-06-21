@@ -25,7 +25,7 @@ export default function LandingPage() {
             className="cursor-pointer"
             to={user ? routes.BookingGootopia : routes.Login}
           >
-            <img class="booknow" src={book1} alt="Workplace" width="600" />
+            <img class="booknow hoverEffects" src={book1} alt="Workplace" width="600" />
           </Link>
         </div>
         <img class="w-full" src={gootopialanding} alt="gootopialanding" />
@@ -159,7 +159,7 @@ export default function LandingPage() {
                   to={user ? routes.BookingGootopia : routes.Login}
                 >
                   <img
-                    class="w-[140px] tablet:w-[180px] tablet:laptop:laptopL:laptop4k"
+                    class="w-[140px] tablet:w-[180px] tablet:laptop:laptopL:laptop4k hoverEffects"
                     src={book1}
                     alt="Workplace"
                     width="600"

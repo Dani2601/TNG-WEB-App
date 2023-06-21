@@ -71,7 +71,7 @@ export function TDMLocation({ setStep, setLocation, location }) {
   >
     <option value="">Select location</option>
     {selectedLocation.map((item, index) => (
-      <option key={index} value={item.id}>
+      <option key={index} value={item.id} className="hoverEffects">
         {item.Address}
       </option>
     ))}

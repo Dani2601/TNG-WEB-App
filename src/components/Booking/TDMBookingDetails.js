@@ -29,6 +29,9 @@ export function TDMBookingDetails({
   bookingTime,
   setBookingTime,
   business,
+  handleOptionChange,
+  selectedOption,
+  total=0
 }) {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.record);
@@ -124,7 +127,7 @@ export function TDMBookingDetails({
           // Handle error case
         });
     }
-  }, []);
+  }, [business, user, location]);
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
@@ -191,12 +194,23 @@ export function TDMBookingDetails({
   }
 
   function handlePax(e) {
-    let input = e.target.value;
-    let intervalData = intervals?.find((item) => item.value === bookingTime);
-    if (input <= intervalData.slot) {
-      setPax(input);
+    let input = parseInt(e.target.value);
+    if (input > 0) {
+      let intervalData = intervals?.find((item) => item.value === bookingTime);
+      if (input <= intervalData.slot) {
+        setPax(input);
+      }
     }
   }
+  
+  useEffect(() => {
+    if(business === 'Bakebe' && pax === 2){
+      handleOptionChange('Share')
+    }
+    else{
+      handleOptionChange('')
+    }
+  }, [pax, business])
 
   const maxPerInterval = useMemo(() => {
     let max = "";
@@ -206,6 +220,11 @@ export function TDMBookingDetails({
     }
     return max;
   }, [bookingTime, bookingDate, intervals]);
+
+  function handleBookingTime(e){
+    setBookingTime(e.target.value ? e.target.value : null)
+    setPax(1)
+  }
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -232,14 +251,14 @@ export function TDMBookingDetails({
                   onClick={handleClear}
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <p className="text-sm">
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
                 <DatePicker
                   selected={bookingDate}
                   onChange={handleBookingDate}
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  className="h-[38px] w-[300px] shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                   filterDate={(date) => {
                     const today = new Date(); // Get the current date
                     today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
@@ -258,14 +277,14 @@ export function TDMBookingDetails({
                   PICK A BOOKING HOUR: <small style={{ color: "red" }}>*</small>
                 </p>
                 <select
-                  onChange={(e) => setBookingTime(e.target.value)}
+                  onChange={handleBookingTime}
                   value={bookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                 >
-                  <option>Select a time</option>
+                  <option value={''}>Select a time</option>
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
-                      if (item.slot === 0) {
+                      if (item?.slot === 0) {
                         return (
                           <option
                             key={index}
@@ -287,20 +306,42 @@ export function TDMBookingDetails({
               </div>
               <div>
                 <p className="text-sm">
-                  NUMBER OF PASSES: <small style={{ color: "red" }}>*</small>
+                  {business === 'BakeBe' ? 'HOW MANY ARE ATTENDING?' : 'NUMBER OF PASSES:'} <small style={{ color: "red" }}>*</small>
                 </p>
                 <input
                   type="number"
                   onChange={handlePax}
                   defaultValue={1}
+                  disabled={bookingTime ? false : true}
                   min={1}
-                  max={maxPerInterval}
+                  max={business === 'BakeBe' ? 2 : maxPerInterval}
                   value={pax}
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
                 />
               </div>
+              {
+                (business === 'BakeBe' && pax == 2) &&
+                <div className="flex flex-col w-full gap-2">
+                  <div className="flex items-center gap-2">
+                    <input type="radio" 
+                    value="Share"
+                    onChange={(e) => handleOptionChange(e.target.value)}
+                    checked={selectedOption === 'Share'}
+                    />
+                    <div className="text-xs">Number of persons bake the pastry</div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <input type="radio" className="mt-[2px]"
+                      value="Individual"
+                      onChange={(e) => handleOptionChange(e.target.value)}
+                      checked={selectedOption === 'Individual'}
+                    />
+                    <div className="text-xs">One Pastry per person Bailing the recipe with a peek</div>
+                  </div>
+                  <div className="text-xs text-white">+ Additional charge will be put on your total bill</div>
+                </div>
+              }
             </div>
-
             <div className="flex flex-col w-full sm:w-[40vw]">
               <div className="shadow-md rounded-md">
                 <div className="w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]" />
@@ -331,7 +372,7 @@ export function TDMBookingDetails({
                   </div>
                   <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                     <div className="text-sm font-bold">Total</div>
-                    <div className="font-bold">₱ {ticket?.Price}</div>
+                    <div className="font-bold">₱ {total}</div>
                   </div>
                 </div>
               </div>
@@ -354,13 +395,22 @@ export function TDMBookingDetails({
             >
               Back
             </button>
-            <button
-              onClick={handleNext}
-              disabled={!bookingDate || !bookingTime || pax === 0}
-              className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
-            >
-              Next
-            </button>
+            {
+              (bookingDate && bookingTime && pax > 0) ?
+              <button
+                onClick={handleNext}
+                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
+              >
+                Next
+              </button>
+              :
+              <button
+                disabled
+                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#51CEC5] text-white"
+              >
+                Next
+              </button>
+            }
             {/* <button
               onClick={handleNext}
               className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#E992A1] text-white"

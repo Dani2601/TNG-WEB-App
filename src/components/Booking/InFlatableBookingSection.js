@@ -8,7 +8,7 @@ export default function InFlatableBookingSection() {
         <div className='flex flex-col justify-center place-items-center px-4 py-6'>
             <button
                 onClick={() => navigate(routes.BookingInflatable)}
-                className="shadow-md text-2xl w-full rounded-md sm:w-auto py-6 px-20 bg-[#ebacb3] hover:bg-[#20422b] text-white"
+                className="shadow-md text-2xl w-full rounded-md sm:w-auto py-6 px-20 bg-[#ebacb3] hover:bg-[#20422b] text-white hoverEffects"
             >
                 BOOK NOW
             </button>

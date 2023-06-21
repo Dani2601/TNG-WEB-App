@@ -1,6 +1,8 @@
 import React from "react";
 import cake from "../../../assets/Bakebe/frm1.png";
 import rightcake1 from "../../../assets/Bakebe/rightcake (1).png";
+import { motion } from "framer-motion";
+import ScrollAnimation from "react-animate-on-scroll";
 
 export default function BakebeSectionA() {
   return (
@@ -15,37 +17,54 @@ export default function BakebeSectionA() {
           <div className="flex flex-row ">
             {/* <div className="h-[300px] w-[50%] bg-slate-400"></div>
             <div className="h-[300px] w-[50%] bg-slate-800"></div> */}
-
-            <img
-              src={cake}
-              alt={"cake"}
-              className="w-[50%]  h-auto max-w-none hidden laptopL:block z-20"
-            />
-
+            <div className="w-[50%]  h-auto max-w-none hidden laptopL:block z-20">
+              <ScrollAnimation
+                animateIn="fadeInLeft"
+                animateOnce={true}
+                duration={2.5}
+                delay={1000}
+              >
+                <img src={cake} alt={"cake"} className="" />
+              </ScrollAnimation>
+            </div>
             <div className="flex flex-col mt-5 laptopL:w-[50%] ml-[5%]">
               <div className="flex flex-col my-auto">
+              <ScrollAnimation
+                animateIn="fadeInLeft"
+                animateOnce={true}
+                duration={2.5}
+                delay={1000}
+              >
                 <img
                   src={cake}
                   alt={"cake"}
                   className="w-[80%] ml-[-5%] h-auto max-w-none  z-20 laptopL:hidden"
                 />
+                              </ScrollAnimation>
 
-                <div className="font-mrDafoe text-white text-[80px] leading-tight laptopL:text-[112px] ">
-                  BakeBe Ph
-                </div>
-                <div
-                  className="text-white text-[16px] tablet:text-[20px] mr-[85px] laptop4k:text-[30px]"
-                  style={{ fontFamily: "Gotham-Bold, sans-serif" }}
+                <ScrollAnimation
+                  animateIn="fadeInUp"
+                  animateOnce={true}
+                  // duration={2.5}
+                  delay={300}
                 >
-                  Co-Baking Space that teaches you to bake with an app!
-                </div>
-                <div className="  ">
-                  <a href="#promo">
-                    <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px]">
-                      BOOK NOW
-                    </button>
-                  </a>
-                </div>
+                  <div className="font-mrDafoe text-white text-[80px] leading-tight laptopL:text-[112px] ">
+                    BakeBe Ph
+                  </div>
+                  <div
+                    className="text-white text-[16px] tablet:text-[20px] mr-[85px] laptop4k:text-[30px]"
+                    style={{ fontFamily: "Gotham-Bold, sans-serif" }}
+                  >
+                    Co-Baking Space that teaches you to bake with an app!
+                  </div>
+                  <div className="  ">
+                    <a href="#promo">
+                      <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px] hoverEffects">
+                        BOOK NOW
+                      </button>
+                    </a>
+                  </div>
+                </ScrollAnimation>
               </div>
             </div>
           </div>

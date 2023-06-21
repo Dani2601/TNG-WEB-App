@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useState } from "react";
 import { TDMLocation } from "../../components/Booking/TDMLocation";
 import { TDMReserveTicket } from "../../components/Booking/TDMReserveTicket";
@@ -22,7 +22,21 @@ export function GootopiaBooking() {
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
   const [business, ] = useState("Gootopia")
+  const [selectedType, setSelectedType] = useState("");
+  
   const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState('Individual');
+  const handleOptionChange = (e) => {
+    setSelectedOption(e);
+  };
+
+  const total = useMemo(() => {
+    if(ticket){
+      let price = ticket?.Price
+      return price * pax
+    }
+    return 0
+  }, [ticket, pax])
 
   function submit(e) {
     addBooking(e)
@@ -77,6 +91,11 @@ export function GootopiaBooking() {
             bookingTime={bookingTime}
             setBookingTime={setBookingTime}
             business={business}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            handleOptionChange={handleOptionChange}
+            selectedOption={selectedOption}
+            total={total}
           />
         </GootopiaContainer>
       )}
@@ -94,7 +113,8 @@ export function GootopiaBooking() {
             setBookingTime={setBookingTime}
             setSubmitData={submit}
             business={business}
-
+            bookingType={selectedOption}
+            total={total}
           />
         </GootopiaContainer>
       )}

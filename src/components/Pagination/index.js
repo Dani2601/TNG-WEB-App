@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 export default function Pagination(props) {
@@ -24,7 +25,8 @@ export default function Pagination(props) {
   // }
   let pagesCount = 10
   
-  
+  const previous = '<<';
+  const next = '>>';
   const pages = useMemo(() => {
     const pageLinks = [];
     for (let index = 0; index < pagesCount; index++) {
@@ -34,9 +36,9 @@ export default function Pagination(props) {
             <button
               className={`${
                 pageNumber === index + 1
-                  ? "bg-[#E891A0] text-gray-800"
+                  ? "bg-bakebe-pink text-gray-800"
                   : "bg-transparent text-gray-800"
-              } page-link relative block py-1.5 px-3 border-0 outline-none transition-all duration-300 rounded focus:shadow-none`}
+              } page-link relative block py-1.5 px-3 outline-none transition-all duration-300 rounded focus:shadow-none`}
               onClick={() => setPageNumberUsingPages(index + 1)}
             >
               {index + 1}
@@ -52,10 +54,12 @@ export default function Pagination(props) {
             <button
               className={`${
                 pageNumber === index + 1
-                ? "bg-[#E891A0] text-gray-800"
-                : "bg-transparent text-gray-800"
-              } page-link relative block py-1.5 px-3 border-0 outline-none transition-all duration-300 rounded focus:shadow-none`}
+                ? "bg-bakebe-pink text-white"
+                : "bg-transparent text-bakebe-pink"
+              } page-link relative block py-1.5 px-3 border-gray-200 border-l-[1px]  transition-all duration-300  focus:shadow-none`}
               onClick={() => setPageNumberUsingPages(index + 1)}
+              style={{ fontFamily: "Gotham-Light, sans-serif" }}
+
             >
               {index + 1}
             </button>
@@ -69,10 +73,12 @@ export default function Pagination(props) {
             <button
               className={`${
                 pageNumber === index + 1
-                  ? "bg-[#E891A0] text-gray-800"
-                  : "bg-transparent text-gray-800"
-              } page-link relative block py-1.5 px-3 border-0 outline-none transition-all duration-300 rounded focus:shadow-none`}
+                  ? "bg-bakebe-pink text-white"
+                  : "bg-transparent text-bakebe-pink"
+              } page-link relative block py-1.5 px-3  border-gray-200 border-l-[1px]  transition-all duration-300  focus:shadow-none`}
               onClick={() => setPageNumberUsingPages(index + 1)}
+              style={{ fontFamily: "Gotham-Light, sans-serif" }}
+
             >
               {index + 1}
             </button>
@@ -101,24 +107,25 @@ export default function Pagination(props) {
   }
 
   return (
-    <div className="flex justify-center">
-      <nav aria-label="Page navigation example">
-        <ul className="flex list-style-none">
-          <li className="page-item">
+    <div className="flex justify-center "                       style={{ fontFamily: "Gotham-Light, sans-serif" }}
+    >
+      <nav aria-label="Page navigation example ">
+        <ul className="flex list-style-none border-gray-200  border-t-[1px] border-b-[1px]">
+          <li className="page-item border-gray-200  ">
             <button
-              className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 focus:shadow-none"
+              className="page-link relative block py-1.5 border-gray-200 border-l-[1px] border-r-[1px] px-3 border-1 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 focus:shadow-none"
               onClick={() => previousPage()}
             >
-              Previous
+              <FiChevronsLeft className="mt-1"/>
             </button>
           </li>
           {pages}
-          <li className="page-item">
+          <li className="page-item ">
             <button
-              className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+              className="page-link relative block py-1.5 px-3 border-1 bg-transparent border-gray-200 border-r-[1px] border-l-[1px]  outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
               onClick={() => nextPage()}
             >
-              Next
+              <FiChevronsRight className="mt-1"/>
             </button>
           </li>
         </ul>

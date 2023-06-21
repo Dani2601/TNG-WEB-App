@@ -93,23 +93,23 @@ export default function Faqs() {
                     href=" https://www.facebook.com/GootopiaPh"
                     target="_blank"
                   >
-                    <div>Facebook</div>
+                    <div className="hoverEffects">Facebook</div>
                   </a>
                   <a href=" https://www.tiktok.com/@gootopia" target="_blank">
-                    <div>Tiktok</div>
+                    <div className="hoverEffects">Tiktok</div>
                   </a>
 
                   <a
                     href=" https://www.instagram.com/gootopiaph/"
                     target="_blank"
                   >
-                    <div>Instagram</div>
+                    <div className="hoverEffects">Instagram</div>
                   </a>
                   <a
                     href="https://www.youtube.com/watch?v=ehZqlrxfg-k"
                     target="__blank"
                   >
-                    <div>Youtube</div>
+                    <div className="hoverEffects">Youtube</div>
                   </a>
 
                   {/* <div>Tiktok</div>
