@@ -16,6 +16,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import bakebeLogo from "../../../assets/Bakebe/navbarlogo.png";
 import { useRef } from "react";
+import ScrollAnimation from "react-animate-on-scroll";
 
 let promo = [
   {
@@ -88,7 +89,7 @@ export default function BakebeSectionD() {
       <div className="flex flex-row w-[30%]">
         <img src={leftCAKE} className="" />
       </div>
-
+      <ScrollAnimation animateIn="fadeInUp" delay={900}>
       <div className="flex flex-col  px-4 mr-4 -mt-[20%]">
         <div className="">
           <div className="text-bakebe-orange text-[24px]">
@@ -152,6 +153,7 @@ export default function BakebeSectionD() {
           ></div>
         </div>
       </div>
+      </ScrollAnimation>
     </div>
   );
 }

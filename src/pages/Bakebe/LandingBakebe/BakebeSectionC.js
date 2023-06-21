@@ -16,6 +16,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import routes from "../../../constants/routes";
 import { useSelector } from "react-redux";
+import ScrollAnimation from "react-animate-on-scroll";
 
 // let promo = [
 //   {
@@ -62,6 +63,8 @@ export default function BakebeSectionC() {
           backgroundSize: "cover", // Apply object-fit property
         }}
       >
+                      <ScrollAnimation animateIn="fadeInUp" delay={900}>
+
         <div className="py-[50px] laptopL:py-[15%] ">
           <div className="text-[24px] text-white text-center px-10 mb-10 my-10 laptopL:mt-[-5%]">
             {" "}
@@ -107,6 +110,7 @@ export default function BakebeSectionC() {
               : "No Data"}
           </div>
         </div>
+        </ScrollAnimation>
       </div>
     </div>
   );
