@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { TDMLocation } from "../../components/Booking/TDMLocation";
 import { TDMReserveTicket } from "../../components/Booking/TDMReserveTicket";
@@ -23,7 +23,6 @@ import BakebeMenubar from "../../components/Navbar/BakebeMenubar";
 export function BakebeBooking() {
   const [step, setStep] = useState(1);
   const [location, setLocation] = useState("");
-
   const [ticket, setTicket] = useState("");
   const [pax, setPax] = useState(1);
   const [bookingDate, setBookingDate] = useState("");
@@ -31,7 +30,30 @@ export function BakebeBooking() {
   const [business] = useState("BakeBe");
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState("");
+  const [selectedOption, setSelectedOption] = useState('Individual');
 
+  const handleOptionChange = (e) => {
+    setSelectedOption(e);
+  };
+
+  const total = useMemo(() => {
+    if(ticket){
+      let price = ticket?.Price
+      if(pax === 2){
+        if(selectedOption !== 'Individual'){
+          return price
+        }
+        else{
+          return price * pax
+        }
+      }
+      else{
+        return price
+      }
+    }
+    return 0
+  }, [ticket, pax, selectedOption])
+  
   function submit(e) {
     addBooking(e)
       .then((result) => {
@@ -54,9 +76,6 @@ export function BakebeBooking() {
         toast.error("Something went wrong");
       });
   }
-
-  console.log("location", location);
-  console.log("type", selectedType);
 
   return (
     <>
@@ -105,6 +124,9 @@ export function BakebeBooking() {
             business={business}
             selectedType={selectedType}
             setSelectedType={setSelectedType}
+            handleOptionChange={handleOptionChange}
+            selectedOption={selectedOption}
+            total={total}
           />
         </BakebeContainer>
       )}
@@ -123,6 +145,8 @@ export function BakebeBooking() {
             setBookingTime={setBookingTime}
             setSubmitData={submit}
             business={business}
+            bookingType={selectedOption}
+            total={total}
           />
         </BakebeContainer>
       )}
