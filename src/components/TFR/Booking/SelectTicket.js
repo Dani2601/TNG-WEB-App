@@ -100,11 +100,11 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
               </div>
               <div className="flex flex-row flex-wrap justify-center">
                 {tickets.length > 0 ? (
-                  <div className="cursor-pointer flex flex-wrap justify-center items-center laptop:mx-[20%] pb-5 tablet:pb-10">
+                  <div className="cursor-pointer flex flex-wrap justify-center items-center laptop:mx-[20%] pb-5 tablet:pb-10 ">
                     {tickets.map((item) => (
                       <div
                         key={item.id}
-                        className="relative w-[150px] tablet:w-[260px] mx-4 my-4"
+                        className="relative w-[150px] tablet:w-[260px] mx-4 my-4 hoverEffects"
                         onClick={()=> {handleNext(); setTicket(item)}}
                       >
                         <img

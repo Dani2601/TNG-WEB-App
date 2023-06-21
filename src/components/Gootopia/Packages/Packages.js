@@ -122,14 +122,14 @@ export default function Packages() {
                 </span>
               </div>
 
-              <div className="flex flex-col justify-center py-5">
+              <div className="flex flex-col justify-center py-5 ">
                 <div className="flex flex-col justify-center items-center ">
                   <div className="tablet:flex tablet:flex-row tablet:flex-wrap justify-center items-center tablet:gap-5 ">
                     {packageImage.map((item) => {
                       return (
                         <div>
                           <img
-                            class="h-[285px] tablet:h-[308px] mb-5"
+                            class="h-[285px] tablet:h-[308px] mb-5 hoverPackageEffects cursor-pointer"
                             src={item.Image}
                             alt="gootopialanding"
                           />

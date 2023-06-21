@@ -220,7 +220,7 @@ export default function SelectTicketBakebe({
           })
           .map((data, index) => {
             return (
-              <div class="border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
+              <div class="hoverEffects border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
                 <div className="h-[70%] fd-cl group-hover:opacity-0">
                   <img
                     src={data.Image}

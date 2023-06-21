@@ -55,14 +55,14 @@ export default function SelectLocation({ step, setStep, setLocation, location })
           </span>
         </div>
 
-        <div className="flex flex-row justify-center">
-          <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
+        <div className="flex flex-row justify-center ">
+          <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3 ">
             <div>
               <div className="flex flex-row">
               {branch.map((data, index) => (
-              <div className="flex flex-col mr-3" key={index}>
+              <div className="flex flex-col mr-3 hoverEffects " key={index}>
                 <button
-                  className={`outline-4 self-center ${
+                  className={`outline-4 self-center  ${
                     selectedBranch === data.id ? 'outline-[15px] outline-[#E677AA]' : ''
                   }`}
                   onClick={() => handleSelectBranch(data)}

@@ -105,7 +105,7 @@ export default function SelectTicket({
               {tickets.length > 0 ? (
                 tickets?.map((data, index) => {
                   return (
-                    <div className="flex flex-row " key={index}>
+                    <div className="flex flex-row hoverEffects" key={index}>
                       <button className=" self-center" onClick={()=> {handleNext(); setTicket(data)}}>
                         <div className="relative">
                           <img

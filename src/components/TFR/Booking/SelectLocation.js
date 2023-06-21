@@ -72,7 +72,7 @@ export default function SelectLocation({
             <div>
               <div className="flex flex-row">
                 {branch.map((data, index) => (
-                  <div className="flex flex-col mr-3" key={index}>
+                  <div className="flex flex-col mr-3 hoverEffects" key={index}>
                     <button
                       className={`outline-4 self-center ${
                         selectedBranch === data.id

@@ -16,7 +16,7 @@ export default function BookNow() {
         <img
           src={booknow2}
           alt={"Events"}
-          className="cursor-pointer h-[30px] my-3 tablet:h-[50px] tablet:my-6 laptopL:h-[80px] laptopL:my-8  "
+          className="cursor-pointer h-[30px] my-3 tablet:h-[50px] tablet:my-6 laptopL:h-[80px] laptopL:my-8 hoverEffects "
         />
       </Link>
     </div>

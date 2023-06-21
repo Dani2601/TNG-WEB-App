@@ -41,7 +41,7 @@ export default function BakebeSectionA() {
                 </div>
                 <div className="  ">
                   <a href="#promo">
-                    <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px]">
+                    <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px] hoverEffects">
                       BOOK NOW
                     </button>
                   </a>

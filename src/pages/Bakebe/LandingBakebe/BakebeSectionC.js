@@ -73,7 +73,7 @@ export default function BakebeSectionC() {
                   console.log(item);
                   return (
                     <Link to={user ? routes.BookingBakebe : routes.Login}>
-                      <div className="mx-[7%] laptopL:mx-0 mb-5 justify-center opacity-40 hover:opacity-100 laptopL:px-3">
+                      <div className="mx-[7%] laptopL:mx-0 mb-5 justify-center opacity-40 hover:opacity-100 laptopL:px-3 hoverEffects">
                         <div className="min-w-[274px] max-w-[630px] mobileL:h-[219px] laptop:h-[276px] laptopL:w-[430px] rounded-[50px] bg-white flex flex-row ">
                           <div className="w-[40%]">
                             <img

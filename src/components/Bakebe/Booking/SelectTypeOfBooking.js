@@ -124,7 +124,7 @@ export default function SelectTypeOfBooking({
                       {" "}
                       <button
                         onClick={() => handleSelectType(data)}
-                        className="laptopL:px-3 "
+                        className="laptopL:px-3 hoverEffects"
                       >
                         <div
                           className={`bg-white border-[1px]  rounded-[20px] mx-[5%] tablet:w-[400px] laptopL:w-[430px] drop-shadow-xl mb-5 py-3 h-[auto]  ${

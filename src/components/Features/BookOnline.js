@@ -21,7 +21,7 @@ export default function BookOnline() {
       >
         <img
           src={booknow}
-          className="w-[124px] lg:w-[214px] lg:h-[118px] object-cover"
+          className="w-[124px] lg:w-[214px] lg:h-[118px] object-cover hoverEffects"
         />
       </Link>
     </div>

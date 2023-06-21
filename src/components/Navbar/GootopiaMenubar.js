@@ -25,11 +25,16 @@ export default function DesertMuseumMenubar() {
             <div className="flex w-full justify-start items-center">
               {!isOpen && (
                 <div className="flex-shrink-0">
-                  <img
-                    className=" object-contain"
-                    src={gootopia}
-                    alt="Workflow"
-                  />
+                  <Link
+                    to={routes.LandingGootopia}
+                    className=""
+                  >
+                    <img
+                      className=" object-contain cursor-pointer"
+                      src={gootopia}
+                      alt="Workflow"
+                    />
+                  </Link>
                 </div>
               )}
               <div className="hidden w-full md:block">
