@@ -7,6 +7,8 @@ import { Topbar } from "../../components/Navbar";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { editProfile } from "../../functions";
+import { PDFViewer, StyleSheet } from "@react-pdf/renderer";
+import {PDFTicketWithQR} from "../../helper/PDF";
 
 let title = "Profile";
 
@@ -29,10 +31,14 @@ const validationSchema = Yup.object().shape({
 export default function Profile() {
   const { user } = useSelector((state) => state.record);
 
+  const styleForPDFViewer = StyleSheet.create({
+    pdfviewer: {
+      width: "100%",
+      height: "100%"
+    }
+  });
+
   const onSubmit = async (values) => {
-
-    
-
   
       const response = await editProfile(user?.id,values.Name,values.Mobile,values.Address);
       if (response.valid) {
@@ -66,23 +72,23 @@ export default function Profile() {
           <div className="h-screen p-10 gap-8 mb-auto font-poppins modalgradient">
             <div className="text-2xl flex flex-row mb-10">{title}</div>
             <div className="flex mobileS:flex-col mobileS:mobileL tablet:flex-row">
-              <div className="flex-none modalgradient rounded-lg tablet:mr-10 mobileS:mb-8 shadow-lg">
+              {/* <div className="flex-none modalgradient rounded-lg tablet:mr-10 mobileS:mb-8 shadow-lg">
                 <div className="m-4">
                   <div className="flex flex-row">
-                    {/* <div className="flex flex-none justify-center rounded-full border-2 border-black h-[70px] w-[70px] ">
+                    <div className="flex flex-none justify-center rounded-full border-2 border-black h-[70px] w-[70px] ">
                   <FaUser
                     className={`flex self-end w-[50px] h-[50px] rounded-[90px]`}
                   />{" "}
-                </div> */}
+                </div>
                     <div className="flex flex-none self-center text-base font-bold">
                       Hello there! {user?.Name}
                     </div>
                   </div>
                   <hr class="h-[2px] mt-1 modalgradient border-0 dark:bg-gray-700"></hr>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="flex-none modalgradient rounded-lg shadow-lg">
+              {/* <div className="flex-none modalgradient rounded-lg shadow-lg">
                 <div className=" mb-5 rounded-lg p-5">
                   <div className="mt-5 flex flex-col text-base">
                     <div className="flex flex-col gap-3 font-medium ">
@@ -147,6 +153,16 @@ export default function Profile() {
                       <p className="self-center">Save </p>
                     </button>
                   </div>
+                </div>
+              </div> */}
+
+              <div className="flex-none modalgradient rounded-lg tablet:mr-10 mobileS:mb-8 shadow-lg h-[500px]">
+                <div className="m-4">
+                    <div className="flex flex-none self-center text-base font-bold h-[480px]">
+                    <PDFViewer style={styleForPDFViewer.pdfviewer}>
+                      <PDFTicketWithQR />
+                    </PDFViewer>
+                    </div>
                 </div>
               </div>
             </div>

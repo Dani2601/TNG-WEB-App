@@ -180,6 +180,8 @@ export function TDMBookingDetails({
     }
   }, [bookingDate, ticket, reserve]);
 
+  console.log("intervals",intervals);
+
   const allowedDays = ["Monday", "Tuesday", "Wednesday"];
 
   function handleClear() {
