@@ -7,6 +7,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Mr+Dafoe&display=swap");
 
 @layer components {
+  .hoverEffects {
+    @apply transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-300;
+  }
+
+  .hoverPackageEffects {
+    @apply transition ease-in-out delay-[400] hover:-translate-y-1 hover:scale-150 duration-[550] hover:drop-shadow-2xl;
+  }
+
   .bluegradient {
     @apply bg-gradient-to-l from-[#55ace2a4]  to-[#6bc4c1a1] bg-opacity-5;
   }
@@ -41,36 +49,34 @@
     height: auto;
     width: 170px;
     color: #ffffff;
-
   }
 }
 
-
-.content-div{
+.content-div {
   background-repeat: no-repeat;
   background-size: cover;
-  background-position:center;
+  background-position: center;
 }
-  .content-div:hover{
-    background-image:
+.content-div:hover {
+  background-image: rgba(255, 255, 255, 0.801);
+}
 
-     rgba(255, 255, 255, 0.801)
-    }
-
-    .image-cover  {
-      height:260px;
-    }
-  /*
+.image-cover {
+  height: 260px;
+}
+/*
   -remove the classes below if you have the 'group-hover'property added in your tailwind config file
   -also remove the class from the html template
   */
-    .content-div:hover .fd-cl{ 
- opacity: 0;
-    }
-    .content-div:hover .fd-sh{ 
- opacity: 1;
-    }
+.content-div:hover .fd-cl {
+  opacity: 0;
+  transition: 400ms;
+}
+.content-div:hover .fd-sh {
+  opacity: 1;
+    transition: 400ms;
 
+}
 
 /* 
 mobileS:"320px",
