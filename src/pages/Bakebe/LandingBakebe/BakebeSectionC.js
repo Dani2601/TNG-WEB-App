@@ -16,7 +16,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import routes from "../../../constants/routes";
 import { useSelector } from "react-redux";
-import ScrollAnimation from "react-animate-on-scroll";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+// import ScrollAnimation from "react-animate-on-scroll";
 
 // let promo = [
 //   {
@@ -36,6 +38,17 @@ import ScrollAnimation from "react-animate-on-scroll";
 export default function BakebeSectionC() {
   const [promo, setPromo] = useState([]);
   const { user } = useSelector((state) => state.record);
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: true, // Only trigger the animation once
+    threshold: 0.5, // Cus
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
 
   useEffect(() => {
     getPromos(process.env.REACT_APP_BAKEBE_KEY)
@@ -53,7 +66,7 @@ export default function BakebeSectionC() {
   console.log("promo", promo);
 
   return (
-    <div id="promo" className="h-full">
+    <div id="promo" className="h-full" ref={ref}>
       {" "}
       <div
         className="h-full "
@@ -63,8 +76,15 @@ export default function BakebeSectionC() {
           backgroundSize: "cover", // Apply object-fit property
         }}
       >
-                      <ScrollAnimation animateIn="fadeInUp" delay={900}>
-
+                       <motion.div
+                  initial="hidden"
+                  animate={controls}
+                  transition={{ duration: 2, delay: 1 }}
+                  variants={{
+                    visible: { opacity: 1, y: -10 },
+                    hidden: { opacity: 0, y:  100 },
+                  }}
+              >
         <div className="py-[50px] laptopL:py-[15%] ">
           <div className="text-[24px] text-white text-center px-10 mb-10 my-10 laptopL:mt-[-5%]">
             {" "}
@@ -110,7 +130,7 @@ export default function BakebeSectionC() {
               : "No Data"}
           </div>
         </div>
-        </ScrollAnimation>
+        </motion.div>
       </div>
     </div>
   );

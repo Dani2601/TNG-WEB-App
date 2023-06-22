@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import rightArrow from "../../../assets/Bakebe/arrowfrm2.png";
 import a from "../../../assets/Bakebe/a.png";
 import b from "../../../assets/Bakebe/b.png";
@@ -8,28 +8,58 @@ import e from "../../../assets/Bakebe/e.png";
 import f from "../../../assets/Bakebe/f.png";
 
 import rightcake1 from "../../../assets/Bakebe/rightcake (1).png";
-import ScrollAnimation from "react-animate-on-scroll";
-
+// import motion.div from "react-animate-on-scroll";
+// import motion.div from "react-animate-on-scroll";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 export default function BakebeSectionB() {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: true, // Only trigger the animation once
+    threshold: 0.5, // Cus
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
   return (
-    <div>
+    <div >
       {" "}
       <div
         id="howto"
         className=" h-auto"
         style={{ fontFamily: "Gotham-Bold, sans-serif" }}
       >
-        <div className="py-10">
+        <div className="py-10 " >
           <div className="flex flex-col mx-[5%] items-center">
-            <div className="text-bakebe-orange text-[24px] mb-10">
-              <ScrollAnimation animateIn="fadeInUp" delay={300}>
+            <div className="text-bakebe-orange text-[24px] mb-10" ref={ref}>
+              <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 1}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                 HOW TO RESERVE
-              </ScrollAnimation>
+              </motion.div>
             </div>
 
             <div className="flex flex-col laptopL:flex-row items-center  w-full px-[10%]">
               <div className="flex flex-col items-center gap-y-4 text-[16px] my-8 laptopL:w-[28%] ">
-                <ScrollAnimation animateIn="fadeIn" delay={300}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:2}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <div className="flex flex-row justify-center">
                     <img src={a} alt={"A"} className="w-[86px] " />
                   </div>
@@ -40,21 +70,37 @@ export default function BakebeSectionB() {
                   >
                     Click Book Now!
                   </div>
-                </ScrollAnimation>
+                </motion.div>
               </div>
 
               <div className="hidden laptopL:block laptopL:w-[8%]">
-                <ScrollAnimation animateIn="fadeIn" delay={600}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:2.3}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <img
                     src={rightArrow}
                     alt={"rightArrow"}
                     className="w-[40px] "
                   />
-                </ScrollAnimation>
+                </motion.div>
               </div>
 
               <div className="flex flex-col items-center gap-y-4 text-[16px] my-8 laptopL:w-[28%]">
-                <ScrollAnimation animateIn="fadeIn" delay={900}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:2.6}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <div className="flex flex-row justify-center">
                     <img src={b} alt={"B"} className="w-[86px]" />
                   </div>
@@ -65,19 +111,35 @@ export default function BakebeSectionB() {
                   >
                     Choose your location
                   </div>
-                </ScrollAnimation>
+                </motion.div>
               </div>
               <div className="hidden laptopL:block laptopL:w-[8%]">
-                <ScrollAnimation animateIn="fadeIn" delay={1200}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:2.9}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <img
                     src={rightArrow}
                     alt={"rightArrow"}
                     className="w-[40px] "
                   />
-                </ScrollAnimation>
+                </motion.div>
               </div>
               <div className="flex flex-col items-center gap-y-4 text-[16px] my-8 laptopL:w-[28%]">
-                <ScrollAnimation animateIn="fadeIn" delay={1500}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:3.1}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <div className="flex flex-row justify-center">
                     <img src={c} alt={"AC"} className="w-[86px] " />
                   </div>
@@ -89,12 +151,20 @@ export default function BakebeSectionB() {
                     Select your booking: Regular baking experience? Or Express
                     Service?
                   </div>
-                </ScrollAnimation>
+                </motion.div>
               </div>
             </div>
             <div className="flex flex-col laptopL:flex-row items-center  w-full px-[10%]">
               <div className="flex flex-col items-center gap-y-4 text-[16px] my-8 laptopL:w-[28%]">
-                <ScrollAnimation animateIn="fadeIn" delay={1800}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:3.4}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <div className="flex flex-row justify-center">
                     <img src={d} alt={"D"} className="w-[86px]" />
                   </div>
@@ -106,20 +176,36 @@ export default function BakebeSectionB() {
                   >
                     Book in your chosen recipe!
                   </div>
-                </ScrollAnimation>
+                </motion.div>
               </div>
 
               <div className="hidden laptopL:block laptopL:w-[8%]">
-                <ScrollAnimation animateIn="fadeIn" delay={2100}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:3.5}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <img
                     src={rightArrow}
                     alt={"rightArrow"}
                     className="w-[40px] "
                   />
-                </ScrollAnimation>
+                </motion.div>
               </div>
               <div className="flex flex-col items-center gap-y-4 text-[16px] my-8 laptopL:w-[28%]">
-                <ScrollAnimation animateIn="fadeIn" delay={2500}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:3.8}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <div className="flex flex-row justify-center">
                     <img src={e} alt={"E"} className="w-[86px]" />
                   </div>
@@ -130,32 +216,47 @@ export default function BakebeSectionB() {
                   >
                     Add in the number of bakers and schedule of baking.
                   </div>
-                </ScrollAnimation>
+                </motion.div>
               </div>
               <div className="hidden laptopL:block laptopL:w-[8%]">
-                <ScrollAnimation animateIn="fadeIn" delay={2800}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:4.1}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <img
                     src={rightArrow}
                     alt={"rightArrow"}
                     className="w-[40px] "
                   />
-                </ScrollAnimation>
+                </motion.div>
               </div>
               <div className="flex flex-col items-center gap-y-4 text-[16px] my-8 laptopL:w-[28%]">
-                <ScrollAnimation animateIn="fadeIn" delay={3100}>
+               <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2,delay:4.4}} 
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: 0 },
+                }}
+              >
                   <div className="flex flex-row justify-center">
                     <img src={f} alt={"F"} className="w-[86px]" />
                   </div>
-                
-                    <div className="font-bold text-center">Step 6</div>
-                    <div
-                      className="text-center tablet:mx-[10%]"
-                      style={{ fontFamily: "Gotham-Light, sans-serif" }}
-                    >
-                      Pay in via bank transfer or paypal and many more!{" "}
-                   
+
+                  <div className="font-bold text-center">Step 6</div>
+                  <div
+                    className="text-center tablet:mx-[10%]"
+                    style={{ fontFamily: "Gotham-Light, sans-serif" }}
+                  >
+                    Pay in via bank transfer or paypal and many more!{" "}
                   </div>
-                </ScrollAnimation>
+                </motion.div>
               </div>
             </div>
           </div>

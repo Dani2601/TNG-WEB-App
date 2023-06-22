@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import cake from "../../../assets/Bakebe/frm1.png";
 import rightcake1 from "../../../assets/Bakebe/rightcake (1).png";
-import { motion } from "framer-motion";
-import ScrollAnimation from "react-animate-on-scroll";
-
+// import ScrollAnimation from "react-animate-on-scroll";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 export default function BakebeSectionA() {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: true, // Only trigger the animation once
+    threshold: 0.5, // Cus
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
   return (
     <div>
       {" "}
@@ -17,38 +29,70 @@ export default function BakebeSectionA() {
           <div className="flex flex-row ">
             {/* <div className="h-[300px] w-[50%] bg-slate-400"></div>
             <div className="h-[300px] w-[50%] bg-slate-800"></div> */}
-            <div className="w-[50%]  h-auto max-w-none hidden laptopL:block z-20">
-              <ScrollAnimation
+            <div
+              className="w-[50%]  h-auto max-w-none hidden laptopL:block z-20"
+              ref={ref}
+            >
+              {/* <ScrollAnimation
                 animateIn="fadeInLeft"
                 animateOnce={true}
                 duration={2.5}
                 delay={1000}
+              > */}
+              <motion.div
+                initial="hidden"
+                animate={controls}
+                transition={{ duration: 2, delay: 2 }}
+                variants={{
+                  visible: { opacity: 1, x: 0 },
+                  hidden: { opacity: 0, x: -100 },
+                }}
               >
                 <img src={cake} alt={"cake"} className="" />
-              </ScrollAnimation>
+              </motion.div>
+              {/* </ScrollAnimation> */}
             </div>
-            <div className="flex flex-col mt-5 laptopL:w-[50%] ml-[5%]">
-              <div className="flex flex-col my-auto">
-              <ScrollAnimation
-                animateIn="fadeInLeft"
-                animateOnce={true}
-                duration={2.5}
-                delay={1000}
-              >
-                <img
-                  src={cake}
-                  alt={"cake"}
-                  className="w-[80%] ml-[-5%] h-auto max-w-none  z-20 laptopL:hidden"
-                />
-                              </ScrollAnimation>
-
+            <div className="flex flex-col mt-5 justify-center items-center laptopL:w-[50%] ml-[5%]">
+              <div className="flex flex-col my-auto " ref={ref}>
+                {/* <ScrollAnimation
+                  animateIn="fadeInLeft"
+                  animateOnce={true}
+                  duration={2.5}
+                  delay={1000}
+                > */}
+                <motion.div
+                  initial="hidden"
+                  animate={controls}
+                  transition={{ duration: 2, delay: 1 }}
+                  variants={{
+                    visible: { opacity: 1, x: 0 },
+                    hidden: { opacity: 0, x: -100 },
+                  }}
+                >
+                  <img
+                    src={cake}
+                    alt={"cake"}
+                    className="w-[80%] laptop:ml-[-8%] ml-[-6%] h-auto max-w-none  z-20 laptopL:hidden"
+                  />
+                </motion.div>
+                {/* </ScrollAnimation> */}
+                {/* 
                 <ScrollAnimation
                   animateIn="fadeInUp"
                   animateOnce={true}
                   // duration={2.5}
                   delay={300}
+                > */}
+                <motion.div
+                  initial="hidden"
+                  animate={controls}
+                  transition={{ duration: 2, delay: 1 }}
+                  variants={{
+                    visible: { opacity: 1, y: -100 },
+                    hidden: { opacity: 0, y: 0 },
+                  }}
                 >
-                  <div className="font-mrDafoe text-white text-[80px] leading-tight laptopL:text-[112px] ">
+                  <div className="font-mrDafoe text-white text-[80px] leading-tight laptopL:text-[112px] mt-[100px] ">
                     BakeBe Ph
                   </div>
                   <div
@@ -64,7 +108,8 @@ export default function BakebeSectionA() {
                       </button>
                     </a>
                   </div>
-                </ScrollAnimation>
+                </motion.div>
+                {/* </ScrollAnimation> */}
               </div>
             </div>
           </div>
