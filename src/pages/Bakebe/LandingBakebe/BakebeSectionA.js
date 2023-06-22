@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import cake from "../../../assets/Bakebe/frm1.png";
+import cakesmall from "../../../assets/Bakebe/smallercake.png";
+
 import rightcake1 from "../../../assets/Bakebe/rightcake (1).png";
 // import ScrollAnimation from "react-animate-on-scroll";
 import { motion, useAnimation } from "framer-motion";
@@ -70,9 +72,9 @@ export default function BakebeSectionA() {
                   }}
                 >
                   <img
-                    src={cake}
+                    src={cakesmall}
                     alt={"cake"}
-                    className="w-[80%] laptop:ml-[-8%] ml-[-6%] h-auto max-w-none  z-20 laptopL:hidden"
+                    className="w-[80%] laptop:pl-[-10%] ml-[-6%] h-auto max-w-none  z-20 laptopL:hidden"
                   />
                 </motion.div>
                 {/* </ScrollAnimation> */}
