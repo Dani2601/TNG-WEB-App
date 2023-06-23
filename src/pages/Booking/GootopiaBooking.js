@@ -12,6 +12,9 @@ import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
+import QRcode    from 'qrcode.react'
+import { sendEmailWithAttachment } from "../../functions/Email";
+import { generatePDF } from "../../helper/PDF";
 
 export function GootopiaBooking() {
   const [step, setStep] = useState(1);
@@ -23,6 +26,7 @@ export function GootopiaBooking() {
   const [bookingTime, setBookingTime] = useState("");
   const [business, ] = useState("Gootopia")
   const [selectedType, setSelectedType] = useState("");
+  const [qrCode, setQRCode] = useState("default");
   
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('Individual');
@@ -48,8 +52,23 @@ export function GootopiaBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
-          navigate(routes.LandingGootopia)
-          toast.success("Successfully added");
+          setQRCode(result?.forPDF?.QRCode);
+          setTimeout(() =>{
+            generatePDF({
+              InvoiceCode : result?.forPDF?.InvoiceCode,
+              BusinessUnit : result?.forPDF?.BusinessUnit,
+              Branch : result?.forPDF?.Branch,
+              Customer : result?.forPDF?.Customer,
+              BookingDate : e?.BookingDate,
+              BookingTime : e?.BookingTime,
+              NumberOfPass: String(e?.Pax),
+              TotalPrice : String(e?.TotalPrice),
+              PDFFile : e?.PDFFile
+            });
+            sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+            toast.success("Successfully added");
+            navigate(routes.LandingGootopia);
+          },3000)
         } else {
           toast.error("Failed to submit");
         }
@@ -62,6 +81,7 @@ export function GootopiaBooking() {
 
   return (
     <>
+    <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
       {step == 1 && (
         <SelectLocation
           step={step}

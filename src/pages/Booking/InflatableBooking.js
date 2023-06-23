@@ -12,6 +12,9 @@ import routes from "../../constants/routes";
 import TISContainer from "../../components/Container/TISContainer";
 import InflatableSelectLocation from "../../components/Gootopia/Booking/InflatableSelectLocation";
 import InflatableSelectTicket from "../../components/Gootopia/Booking/InflatableSelectTicket";
+import QRcode    from 'qrcode.react'
+import { sendEmailWithAttachment } from "../../functions/Email";
+import { generatePDF } from "../../helper/PDF";
 
 export function InflatableBooking() {
   const [step, setStep] = useState(1);
@@ -22,6 +25,7 @@ export function InflatableBooking() {
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
   const [business, ] = useState("Inflatable")
+  const [qrCode, setQRCode] = useState("default");
   const navigate = useNavigate();
 
   function submit(e) {
@@ -34,8 +38,23 @@ export function InflatableBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
-          navigate(routes.LandingInflatableIsland)
-          toast.success("Successfully added");
+          setQRCode(result?.forPDF?.QRCode);
+          setTimeout(() =>{
+            generatePDF({
+              InvoiceCode : result?.forPDF?.InvoiceCode,
+              BusinessUnit : result?.forPDF?.BusinessUnit,
+              Branch : result?.forPDF?.Branch,
+              Customer : result?.forPDF?.Customer,
+              BookingDate : e?.BookingDate,
+              BookingTime : e?.BookingTime,
+              NumberOfPass: String(e?.Pax),
+              TotalPrice : String(e?.TotalPrice),
+              PDFFile : e?.PDFFile
+            });
+            sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+            toast.success("Successfully added");
+            navigate(routes.LandingInflatableIsland);
+          },3000)
         } else {
           toast.error("Failed to submit");
         }
@@ -48,6 +67,7 @@ export function InflatableBooking() {
 
   return (
     <>
+    <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
       {step == 1 && (
         <InflatableSelectLocation
           step={step}

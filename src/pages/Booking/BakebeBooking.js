@@ -19,6 +19,9 @@ import {
 import SelectTypeOfBooking from "../../components/Bakebe/Booking/SelectTypeOfBooking";
 import BakebeContainer from "../../components/Container/BakebeContainer";
 import BakebeMenubar from "../../components/Navbar/BakebeMenubar";
+import QRcode    from 'qrcode.react'
+import { generatePDF } from "../../helper/PDF";
+import { sendEmailWithAttachment } from "../../functions/Email";
 
 export function BakebeBooking() {
   const [step, setStep] = useState(1);
@@ -31,6 +34,7 @@ export function BakebeBooking() {
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState("");
   const [selectedOption, setSelectedOption] = useState('Individual');
+  const [qrCode, setQRCode] = useState("default");
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -64,9 +68,23 @@ export function BakebeBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
-          navigate(routes.LandingBakebe);
-
-          toast.success("Successfully added");
+          setQRCode(result?.forPDF?.QRCode);
+          setTimeout(() =>{
+            generatePDF({
+              InvoiceCode : result?.forPDF?.InvoiceCode,
+              BusinessUnit : result?.forPDF?.BusinessUnit,
+              Branch : result?.forPDF?.Branch,
+              Customer : result?.forPDF?.Customer,
+              BookingDate : e?.BookingDate,
+              BookingTime : e?.BookingTime,
+              NumberOfPass: String(e?.Pax),
+              TotalPrice : String(e?.TotalPrice),
+              PDFFile : e?.PDFFile
+            });
+            sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+            toast.success("Successfully added");
+            navigate(routes.LandingBakebe);
+          },3000)
         } else {
           toast.error("Failed to submit");
         }
@@ -79,6 +97,7 @@ export function BakebeBooking() {
 
   return (
     <>
+      <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
       {step == 1 && (
         <SelectLocationBakebe
           step={step}

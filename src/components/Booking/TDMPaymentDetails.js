@@ -49,6 +49,8 @@ export function TDMPaymentDetails({
   }
 
   function handleNext() {
+    
+    let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
     setSubmitData({
       CustomerID: user?.id,
       BusinessUnitID: selectedLocation?.BusinessUnitID,
@@ -63,6 +65,7 @@ export function TDMPaymentDetails({
       },
       Coupon: coupon,
       TotalPrice: ticket?.Price,
+      PDFFile : pdfFileName
     });
   }
 

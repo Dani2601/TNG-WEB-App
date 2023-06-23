@@ -13,6 +13,9 @@ import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
+import QRcode    from 'qrcode.react'
+import { sendEmailWithAttachment } from "../../functions/Email";
+import { generatePDF } from "../../helper/PDF";
 
 export function TFRBooking() {
   const [step, setStep] = useState(1);
@@ -26,6 +29,7 @@ export function TFRBooking() {
   const [selectedType, setSelectedType] = useState("");
   const navigate = useNavigate();  
   const [selectedOption, setSelectedOption] = useState('Individual');
+  const [qrCode, setQRCode] = useState("default");
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -49,9 +53,22 @@ export function TFRBooking() {
           setTicket("");
           setLocation("");
           setStep(1);
-          navigate(routes.LandingTFR)
-
-          toast.success("Successfully added");
+          setQRCode(result?.forPDF?.QRCode);
+          setTimeout(() =>{
+            generatePDF({
+              InvoiceCode : result?.forPDF?.InvoiceCode,
+              BusinessUnit : result?.forPDF?.BusinessUnit,
+              Branch : result?.forPDF?.Branch,
+              Customer : result?.forPDF?.Customer,
+              BookingDate : e?.BookingDate,
+              BookingTime : e?.BookingTime,
+              NumberOfPass: String(e?.Pax),
+              TotalPrice : String(e?.TotalPrice),
+              PDFFile : e?.PDFFile
+            });
+            sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+            navigate(routes.LandingTFR);
+          },3000)
         } else {
           toast.error("Failed to submit");
         }
@@ -64,6 +81,7 @@ export function TFRBooking() {
 
   return (
     <>
+    <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
       {step == 1 && (
         <SelectLocation
           step={step}

@@ -9,6 +9,9 @@ import { addBooking } from '../../functions/Booking'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import routes from '../../constants/routes'
+import QRcode    from 'qrcode.react'
+import { generatePDF } from '../../helper/PDF'
+import { sendEmailWithAttachment } from '../../functions/Email'
 
 const dessertID = process.env.REACT_APP_DESSERT_KEY;
 const gootopiaID = process.env.REACT_APP_GOOTOPIA_KEY
@@ -22,6 +25,7 @@ export function DessertBooking() {
   const [bookingTime, setBookingTime] = useState('')
   const navigate = useNavigate()
   const [selectedOption, setSelectedOption] = useState('Individual');
+  const [qrCode, setQRCode] = useState("default");
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -46,6 +50,22 @@ export function DessertBooking() {
         setLocation('')
         setStep(1)
         toast.success('Successfully added')
+        setQRCode(result?.forPDF?.QRCode);
+        setTimeout(() =>{
+          generatePDF({
+            InvoiceCode : result?.forPDF?.InvoiceCode,
+            BusinessUnit : result?.forPDF?.BusinessUnit,
+            Branch : result?.forPDF?.Branch,
+            Customer : result?.forPDF?.Customer,
+            BookingDate : e?.BookingDate,
+            BookingTime : e?.BookingTime,
+            NumberOfPass: String(e?.Pax),
+            TotalPrice : String(e?.TotalPrice),
+            PDFFile : e?.PDFFile
+          });
+          sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+          toast.success("Successfully added");
+        },3000)
         if(e?.BusinessUnitID === dessertID){
           navigate(routes.LandingDesert)
         }
@@ -68,6 +88,7 @@ export function DessertBooking() {
 
   return (
     <DesertMuseumContainer>
+      <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
       {
         step === 1 &&
         <TDMLocation setStep={setStep} location={location} setLocation={setLocation}/>
