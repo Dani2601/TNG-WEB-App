@@ -16,8 +16,9 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import bakebeLogo from "../../../assets/Bakebe/navbarlogo.png";
 import { useRef } from "react";
-import ScrollAnimation from "react-animate-on-scroll";
-
+// import ScrollAnimation from "react-animate-on-scroll";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 let promo = [
   {
     Name: "Online Promo",
@@ -36,6 +37,19 @@ let promo = [
 export default function BakebeSectionD() {
   const storeLocation = { lat: 14.546748, lng: 14.546748 }; // Example coordinates for San Francisco
   const mapRef = useRef(null);
+
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: true, // Only trigger the animation once
+    threshold: 0.5, // Cus
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
 
   useEffect(() => {
     if (mapRef.current) {
@@ -83,14 +97,22 @@ export default function BakebeSectionD() {
       style={{
         fontFamily: "Gotham-Bold, sans-serif",
       }}
+      ref={ref}
     >
       <div className="flex flex-row h-[20%] w-full bg-white py-10"> </div>
 
       <div className="flex flex-row w-[30%]">
         <img src={leftCAKE} className="" />
       </div>
-      <ScrollAnimation animateIn="fadeInUp" delay={900}>
-      <div className="flex flex-col  px-4 mr-4 -mt-[20%]">
+      <motion.div
+                  initial="hidden"
+                  animate={controls}
+                  transition={{ duration: 2, delay: 1 }}
+                  variants={{
+                    visible: { opacity: 1, y: 0 },
+                    hidden: { opacity: 0, y:  0 },
+                  }}
+              >      <div className="flex flex-col  px-4 mr-4 -mt-[20%]">
         <div className="">
           <div className="text-bakebe-orange text-[24px]">
             WE'RE EXCITED TO SEE YOU!
@@ -153,7 +175,9 @@ export default function BakebeSectionD() {
           ></div>
         </div>
       </div>
-      </ScrollAnimation>
+      </motion.div>
+
+      {/* </ScrollAnimation> */}
     </div>
   );
 }
