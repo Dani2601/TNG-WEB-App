@@ -12,14 +12,15 @@ import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
-import QRcode    from 'qrcode.react'
+import QRcode from 'qrcode.react'
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
+import { setCart } from "../../store/action";
+import { useDispatch } from "react-redux";
 
 export function GootopiaBooking() {
   const [step, setStep] = useState(1);
   const [location, setLocation] = useState("");
-
   const [ticket, setTicket] = useState("");
   const [pax, setPax] = useState(1);
   const [bookingDate, setBookingDate] = useState("");
@@ -27,13 +28,14 @@ export function GootopiaBooking() {
   const [business, ] = useState("Gootopia")
   const [selectedType, setSelectedType] = useState("");
   const [qrCode, setQRCode] = useState("default");
+  const dispatch = useDispatch()
   
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('Individual');
   const handleOptionChange = (e) => {
     setSelectedOption(e);
   };
-
+  
   const total = useMemo(() => {
     if(ticket){
       let price = ticket?.Price
@@ -67,6 +69,7 @@ export function GootopiaBooking() {
             });
             sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
             toast.success("Successfully added");
+            dispatch(setCart([]))
             navigate(routes.LandingGootopia);
           },3000)
         } else {
@@ -90,7 +93,7 @@ export function GootopiaBooking() {
           setLocation={setLocation}
         />
       )}
-      {step == 2 && (
+      {step === 2 && (
         <SelectTicket
           setStep={setStep}
           ticket={ticket}
@@ -98,7 +101,7 @@ export function GootopiaBooking() {
           location={location}
         />
       )}
-      {step == 3 && (
+      {step === 3 && (
         <GootopiaContainer>
           <TDMBookingDetails
             setStep={setStep}
@@ -119,7 +122,7 @@ export function GootopiaBooking() {
           />
         </GootopiaContainer>
       )}
-      {step == 4 && (
+      {step === 4 && (
         <GootopiaContainer>
           <TDMPaymentDetails
             setStep={setStep}

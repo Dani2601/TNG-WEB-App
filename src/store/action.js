@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: null,
   userType: null,
-  appearance: 'light'
+  appearance: 'light',
+  cart: []
 };
 
 export const tokenSlice = createSlice({
@@ -19,13 +20,17 @@ export const tokenSlice = createSlice({
     setAppearance: (state, action) => {
       state.appearance = action.payload;
     },
+    setCart: (state, action) => {
+      state.cart = action.payload;
+    },
   },
 });
 
 export const { 
   setToken, 
   setUser,
-  setAppearance
+  setAppearance,
+  setCart
 } = tokenSlice.actions;
 
 export default tokenSlice.reducer;

@@ -5,18 +5,27 @@ import { FiTrash, FiTrash2 } from "react-icons/fi";
 import { MdRestoreFromTrash } from "react-icons/md";
 import { useEffect } from "react";
 import { getBranches } from "../../functions/Branches";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { format, parse, setDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getBookingsByTicketID } from "../../functions/Tickets";
+import { setCart } from "../../store/action";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
 const TFR_KEY = process.env.REACT_APP_TFR_KEY;
 const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
 const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
+
+const business_unit = {
+  'BakeBe': BAKEBE_KEY,
+  'Gootopia': GOOTOPIA_KEY,
+  'TFR': TFR_KEY,
+  'Dessert': DESSERT_KEY,
+  'Inflatable': TIS_KEY
+}
 
 export function TDMBookingDetails({
   setStep,
@@ -28,16 +37,18 @@ export function TDMBookingDetails({
   setBookingDate,
   bookingTime,
   setBookingTime,
-  business,
+  business="Dessert",
   handleOptionChange,
   selectedOption,
-  total=0
+  total=0,
+  setLocation
 }) {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.record);
+  const { user, cart } = useSelector((state) => state.record);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [intervals, setIntervals] = useState([]);
   const [reserve, setReserve] = useState([]);
+  const dispatch = useDispatch();
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -48,6 +59,47 @@ export function TDMBookingDetails({
   }
 
   function handleNext() {
+    const booking = {
+      BusinessUnitID: business_unit[business],
+      Location: selectedLocation,
+      Ticket: ticket,
+      BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
+      BookingTime: bookingTime,
+      Pax: parseInt(pax),
+      Option: selectedOption
+    }
+    if(cart.length > 0){
+      
+      let checkItem = cart.find(
+        item => item.Ticket?.id === booking?.Ticket?.id 
+        && item.BookingDate === booking?.BookingDate
+        && item.BookingTime === booking?.BookingTime
+      )
+      if(checkItem){
+        dispatch(setCart(cart.map((item => {
+          if(item.Ticket?.id === booking?.Ticket?.id){
+            return {
+              ...item,
+              Pax: item?.Pax + booking?.Pax
+            }
+          }
+          else{
+            return item
+          }
+        }))))
+      }
+      else{
+        dispatch(setCart([...cart, booking]))
+      }
+    }
+    else{
+      dispatch(setCart([...cart, booking]))
+    }
+    
+    setBookingDate('')
+    setBookingTime('')
+    setPax(1)
+
     if (business === "BakeBe") {
       setStep(5);
     } else {
@@ -226,12 +278,30 @@ export function TDMBookingDetails({
     setPax(1)
   }
 
+  function handleCart(){
+    const booking = {
+      BusinessUnitID: business_unit[business],
+      Location: selectedLocation,
+      Ticket: ticket,
+      BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
+      BookingTime: bookingTime,
+      Pax: parseInt(pax),
+      Option: selectedOption
+    }
+
+    setBookingDate('')
+    setBookingTime('')
+    setPax(1)
+    dispatch(setCart([...cart, booking]))
+    setStep(1)
+  }
+
   return (
     <div className="w-full py-10 flex justify-center">
       <div className="w-[80vw] sm:w-[50vw]">
         <div className="text-center flex gap-6 flex-col justify-center items-center">
-          <img src={nx} className="w-[60px] object-contain" />
-          <img src={tnglogo} className="w-[400px] object-cover" />
+          <img src={nx} className="w-[60px] object-contain" alt="nx"/>
+          <img src={tnglogo} className="w-[400px] object-cover" alt="tng"/>
         </div>
         <div className="flex flex-col">
           <p className="text-center font-bold text-lg mb-10 mt-5">
@@ -255,22 +325,25 @@ export function TDMBookingDetails({
                 <p className="text-sm">
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
-                <DatePicker
-                  selected={bookingDate}
-                  onChange={handleBookingDate}
-                  className="h-[38px] w-[300px] shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-                  filterDate={(date) => {
-                    const today = new Date(); // Get the current date
-                    today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
-                    return (
-                      date >= today &&
-                      allowedDays.includes(
-                        date.toLocaleDateString("en-US", { weekday: "long" })
-                      )
-                    );
-                  }}
-                  value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                />
+                <div className="flex w-full bg-blue-500">
+                  <DatePicker
+                    selected={bookingDate}
+                    onChange={handleBookingDate}
+                    wrapperClassName="w-full"
+                    className="h-[36px] w-full shadow-md py-2 px-4"
+                    filterDate={(date) => {
+                      const today = new Date(); // Get the current date
+                      today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
+                      return (
+                        date >= today &&
+                        allowedDays.includes(
+                          date.toLocaleDateString("en-US", { weekday: "long" })
+                        )
+                      );
+                    }}
+                    value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                  />
+                </div>
               </div>
               <div>
                 <p className="text-sm">
@@ -411,12 +484,22 @@ export function TDMBookingDetails({
                 Next
               </button>
             }
-            {/* <button
-              onClick={handleNext}
-              className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#E992A1] text-white"
-            >
-              Add More
-            </button> */}
+            {
+              (bookingDate && bookingTime && pax > 0) ?
+              <button
+                onClick={handleCart}
+                className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#E992A1] text-white"
+              >
+                Add More
+              </button>
+              :
+              <button
+                disabled
+                className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#51CEC5] text-white"
+              >
+                Add More
+              </button>
+            }
           </div>
         </div>
       </div>

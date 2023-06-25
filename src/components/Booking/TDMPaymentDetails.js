@@ -24,12 +24,11 @@ export function TDMPaymentDetails({
   bookingTime,
   setSubmitData,
   business,
-  bookingType="",
-  total=0
+  bookingType=""
 }) {
 
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.record);
+  const { user, cart } = useSelector((state) => state.record);
   const [isChecked, setIsChecked] = useState(false);
   const [fullname, setFullname] = useState("");
   const [contact, setContact] = useState("");
@@ -40,11 +39,19 @@ export function TDMPaymentDetails({
   const [grandTotal, setGrandTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
 
+  const total = cart?.reduce((total, item) => total + item.Ticket.Price * item.Pax, 0);
+  
+  console.log(cart)
+
+  useEffect(() => {
+    setGrandTotal(total - discount)
+  }, [total, discount])  
+
   function handleBack() {
     if (business === "BakeBe") {
-      setStep(4);
+      setStep(2);
     } else {
-      setStep(3);
+      setStep(2);
     }
   }
 
@@ -64,8 +71,8 @@ export function TDMPaymentDetails({
         PaymentMethod: selectedPaymentMethod,
       },
       Coupon: coupon,
-      TotalPrice: ticket?.Price,
-      PDFFile : pdfFileName
+      PDFFile : pdfFileName,  
+      TotalPrice: grandTotal,
     });
   }
 
@@ -152,10 +159,6 @@ export function TDMPaymentDetails({
   }, []);
 
   function handleVerify() {}
-
-  useEffect(() => {
-    setGrandTotal(total - discount)
-  }, [total, discount])  
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -244,35 +247,35 @@ export function TDMPaymentDetails({
                     <p className="font-bold text-sm mb-2">
                       Location: {selectedLocation?.Name}
                     </p>
-                    <p className="font-bold text-sm mb-3">
-                      Type Of Ticket: {ticket?.Type}
-                    </p>
                   </div>
-                  <div className="pt-4 pb-3 border-b-2 border-gray-200">
-                    <p className="font-bold text-sm">{ticket?.Name}</p>
-                    <div className="flex justify-between py-2">
-                      <div className="flex flex-col">
-                        <p className="text-xs">
-                          Date:{" "}
-                          {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                        </p>
-                        <p className="text-xs">Time: {bookingTime}</p>
-                        <p className="text-xs">No. of pass: {pax}</p>
-                        {
-                          bookingType &&
-                          <p className="text-xs">Type: {bookingType}</p>
-                        }
-                      </div>
-                      <div className="flex flex-col items-end">
-                        <p className="tex-4xl font-bold text-right">
-                          ₱ {ticket.Price}
-                        </p>
-                        {/* {
-                            <p className='text-[10px] text-red-500 text-right'>Discount: ₱ 0.00</p>
-                        } */}
-                      </div>
-                    </div>
-                  </div>
+                    {
+                      cart?.length &&
+                      cart?.map((item, index) => (
+                        <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
+                          <p className="font-bold text-sm">{item?.Ticket?.Name}</p>
+                          <div className="flex justify-between py-2">
+                            <div className="flex flex-col">
+                              <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
+                              <p className="text-xs">
+                                Date:{" "}
+                                {item?.BookingDate ? format(new Date(item?.BookingDate), "MM/dd/yyyy") : ""}
+                              </p>
+                              <p className="text-xs">Time: {item?.BookingTime}</p>
+                              <p className="text-xs">No. of pass: {item?.Pax}</p>
+                              {
+                                bookingType &&
+                                <p className="text-xs">Type: {item?.BookingType}</p>
+                              }
+                            </div>
+                            <div className="flex flex-col items-end">
+                              <p className="tex-4xl font-bold text-right">
+                                ₱ {item?.Ticket?.Price}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    }
                   <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
                     <div className="flex justify-between">
                       <div className="text-sm font-bold">Sub Total</div>

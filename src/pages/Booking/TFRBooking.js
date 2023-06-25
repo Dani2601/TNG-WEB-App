@@ -13,9 +13,11 @@ import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
 import { useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
-import QRcode    from 'qrcode.react'
+import QRcode from 'qrcode.react'
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
+import { useDispatch } from "react-redux";
+import { setCart } from "../../store/action";
 
 export function TFRBooking() {
   const [step, setStep] = useState(1);
@@ -30,6 +32,7 @@ export function TFRBooking() {
   const navigate = useNavigate();  
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
+  const dispatch = useDispatch()
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -68,6 +71,8 @@ export function TFRBooking() {
             });
             sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
             navigate(routes.LandingTFR);
+            dispatch(setCart([]))
+            toast.success("Successfully added");
           },3000)
         } else {
           toast.error("Failed to submit");

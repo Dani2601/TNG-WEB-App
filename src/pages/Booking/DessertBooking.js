@@ -12,6 +12,8 @@ import routes from '../../constants/routes'
 import QRcode    from 'qrcode.react'
 import { generatePDF } from '../../helper/PDF'
 import { sendEmailWithAttachment } from '../../functions/Email'
+import { useDispatch } from 'react-redux'
+import { setCart } from '../../store/action'
 
 const dessertID = process.env.REACT_APP_DESSERT_KEY;
 const gootopiaID = process.env.REACT_APP_GOOTOPIA_KEY
@@ -26,6 +28,7 @@ export function DessertBooking() {
   const navigate = useNavigate()
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
+  const dispatch = useDispatch()
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -49,6 +52,7 @@ export function DessertBooking() {
         setTicket('')
         setLocation('')
         setStep(1)
+        dispatch(setCart([]))
         toast.success('Successfully added')
         setQRCode(result?.forPDF?.QRCode);
         setTimeout(() =>{
@@ -64,6 +68,7 @@ export function DessertBooking() {
             PDFFile : e?.PDFFile
           });
           sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+          
           toast.success("Successfully added");
         },3000)
         if(e?.BusinessUnitID === dessertID){
@@ -99,7 +104,8 @@ export function DessertBooking() {
       }
       {
         step === 3 &&
-        <TDMBookingDetails setStep={setStep} ticket={ticket} location={location}     
+        <TDMBookingDetails setStep={setStep} ticket={ticket} location={location}
+          setLocation={setLocation}
           pax={pax} setPax={setPax} 
           bookingDate={bookingDate} setBookingDate={setBookingDate}
           bookingTime={bookingTime} setBookingTime={setBookingTime}
@@ -116,7 +122,6 @@ export function DessertBooking() {
           bookingTime={bookingTime} setBookingTime={setBookingTime}
           setSubmitData={submit}
           bookingType={selectedOption}
-          total={total}
         />
       }
     </DesertMuseumContainer>

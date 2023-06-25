@@ -19,9 +19,11 @@ import {
 import SelectTypeOfBooking from "../../components/Bakebe/Booking/SelectTypeOfBooking";
 import BakebeContainer from "../../components/Container/BakebeContainer";
 import BakebeMenubar from "../../components/Navbar/BakebeMenubar";
-import QRcode    from 'qrcode.react'
+import QRcode from 'qrcode.react'
 import { generatePDF } from "../../helper/PDF";
 import { sendEmailWithAttachment } from "../../functions/Email";
+import { useDispatch } from "react-redux";
+import { setCart } from "../../store/action";
 
 export function BakebeBooking() {
   const [step, setStep] = useState(1);
@@ -35,6 +37,7 @@ export function BakebeBooking() {
   const [selectedType, setSelectedType] = useState("");
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
+  const dispatch = useDispatch()
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -82,6 +85,7 @@ export function BakebeBooking() {
               PDFFile : e?.PDFFile
             });
             sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+            dispatch(setCart([]))
             toast.success("Successfully added");
             navigate(routes.LandingBakebe);
           },3000)

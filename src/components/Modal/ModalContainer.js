@@ -35,7 +35,7 @@ export function ModalContainer({isOpen, modalWidth, onRequestClose, children}) {
           right: 0,
           bottom: 0,
           backgroundColor: 'rgb(120, 120, 120,0.5)',
-          zIndex: 40
+          zIndex: 50
         },
       };
 

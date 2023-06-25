@@ -12,9 +12,11 @@ import routes from "../../constants/routes";
 import TISContainer from "../../components/Container/TISContainer";
 import InflatableSelectLocation from "../../components/Gootopia/Booking/InflatableSelectLocation";
 import InflatableSelectTicket from "../../components/Gootopia/Booking/InflatableSelectTicket";
-import QRcode    from 'qrcode.react'
+import QRcode from 'qrcode.react'
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
+import { useDispatch } from "react-redux";
+import { setCart } from "../../store/action";
 
 export function InflatableBooking() {
   const [step, setStep] = useState(1);
@@ -27,6 +29,12 @@ export function InflatableBooking() {
   const [business, ] = useState("Inflatable")
   const [qrCode, setQRCode] = useState("default");
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [selectedOption, setSelectedOption] = useState('Individual');
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e);
+  };
 
   function submit(e) {
     addBooking(e)
@@ -53,6 +61,7 @@ export function InflatableBooking() {
             });
             sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
             toast.success("Successfully added");
+            dispatch(setCart([]))
             navigate(routes.LandingInflatableIsland);
           },3000)
         } else {
@@ -97,6 +106,7 @@ export function InflatableBooking() {
             bookingTime={bookingTime}
             setBookingTime={setBookingTime}
             business={business}
+            handleOptionChange={handleOptionChange}
           />
         </TISContainer>
       )}

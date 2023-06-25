@@ -1,0 +1,42 @@
+.cart {
+    z-index: 50;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    border-radius: 20px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.modal-open {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff0000;
+    color: #ffffff;
+    font-size: 12px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
