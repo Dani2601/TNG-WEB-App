@@ -15,7 +15,7 @@ export default function Cart() {
     };
     
     return (
-        <div className="cart"  onClick={handleCartClick}>
+        <div className="cart cursor-pointer" onClick={handleCartClick}>
             {
                 cart?.length > 0 &&
                 (
