@@ -7,11 +7,10 @@ import Cart from './components/Cart';
 function App() {
   const { loggedIn } = useAuth();
 
-  // console.log("loggedIn",loggedIn)
-  
   return (
     <div>
       <Cart/>
+
       {loggedIn ? <AuthenticatedScreens/> : <UnauthenticatedScreens/>}
     </div>
   )
