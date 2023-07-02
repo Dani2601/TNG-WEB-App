@@ -11,13 +11,14 @@ import SelectTicket from "../../components/TFR/Booking/SelectTicket";
 import SelectLocation from "../../components/TFR/Booking/SelectLocation";
 import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
 import QRcode from 'qrcode.react'
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
+import { useEffect } from "react";
 
 export function TFRBooking() {
   const [step, setStep] = useState(1);
@@ -33,6 +34,14 @@ export function TFRBooking() {
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
+  
+  const locationR = useLocation();
+
+  useEffect(() => {
+    if(locationR.state?.step){
+      setStep(4)
+    }
+  }, [locationR])
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);

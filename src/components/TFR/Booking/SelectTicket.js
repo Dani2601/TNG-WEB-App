@@ -9,10 +9,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { TicketBookingModal } from "../../Modal/Gootopia/TicketBookingModal";
 import { getTicketGootopia } from "../../../functions/Tickets";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TFRContainer from "../../Container/TFRContainer";
 import TFRMenubarNonSpa from "../../Navbar/TFRMenubar";
 import booknow from "../../../assets/TFR/button BOOK NOW GAMES.png";
+import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
+import { setCart } from "../../../store/action";
 
 let ticket = [
   {
@@ -39,11 +41,18 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
   const [tickets, setTickets] = useState([]);
 
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.record);
+  const { user, cart } = useSelector((state) => state.record);
+  const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch()
 
-  function handleBack() {
-    setStep(1);
-  }
+  function handleBack(){
+    if(cart.length > 0){
+        setVisible(true)
+    }
+    else{
+        setStep(1)
+    }
+}
 
   function handleNext() {
     setShowModal(true);
@@ -70,10 +79,18 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
       .catch();
   }, [location, user]);
 
+
+  function handleCart(){
+    if(cart.length > 0){
+        dispatch(setCart([]))
+    }
+    setStep(1)
+  }
+
   return (
     <TFRContainer>
       <TFRMenubarNonSpa />
-
+      <ConfirmationCartModal showModal={visible} handleCloseModal={() => setVisible(false)} handleProceed={handleCart}/>
       <TicketBookingModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}

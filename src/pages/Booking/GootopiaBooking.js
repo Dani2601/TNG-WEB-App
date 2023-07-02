@@ -10,13 +10,14 @@ import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
 import { SelectTicket } from "../../components/Gootopia/Booking";
 import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
 import QRcode from 'qrcode.react'
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
 import { setCart } from "../../store/action";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 export function GootopiaBooking() {
   const [step, setStep] = useState(1);
@@ -29,9 +30,17 @@ export function GootopiaBooking() {
   const [selectedType, setSelectedType] = useState("");
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
-  
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('Individual');
+  const locationR = useLocation();
+
+  useEffect(() => {
+    if(locationR.state?.step){
+      setStep(4)
+    }
+  }, [locationR])
+
+
   const handleOptionChange = (e) => {
     setSelectedOption(e);
   };

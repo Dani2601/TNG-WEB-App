@@ -11,11 +11,11 @@ export default function Cart() {
     const navigate = useNavigate()
 
     const handleCartClick = () => {
-        navigate(routes.DessertBooking)
+        navigate(routes.DessertBooking, {state: {step: true}})
     };
     
     return (
-        <div className="cart" onClick={handleCartClick}>
+        <div className="cart"  onClick={handleCartClick}>
             {
                 cart?.length > 0 &&
                 (

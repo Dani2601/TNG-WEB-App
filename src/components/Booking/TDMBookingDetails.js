@@ -69,7 +69,6 @@ export function TDMBookingDetails({
       Option: selectedOption
     }
     if(cart.length > 0){
-      
       let checkItem = cart.find(
         item => item.Ticket?.id === booking?.Ticket?.id 
         && item.BookingDate === booking?.BookingDate
@@ -183,7 +182,7 @@ export function TDMBookingDetails({
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
-      getBookingsByTicketID(ticket?.id, format(bookingDate, "yyyy-MM-dd"))
+      getBookingsByTicketID(location, ticket?.id, format(bookingDate, "yyyy-MM-dd"))
         .then((res) => {
           if (res.valid) {
             setReserve(res.data);
@@ -195,7 +194,7 @@ export function TDMBookingDetails({
           console.log(e);
         });
     }
-  }, [ticket, bookingDate]);
+  }, [ticket, bookingDate, location]);
 
   function handleBookingDate(date) {
     setBookingDate(date);
@@ -203,29 +202,45 @@ export function TDMBookingDetails({
   }
 
   useEffect(() => {
+    
+    
     if (bookingDate) {
       setIntervals(
         ticket?.CreatedInterval.map((item) => {
           let reservation = reserve?.filter(
             (res) => res.BookingTime === item.timeInterval
           );
+
+          let cartReserve = cart?.filter((cartItem) => cartItem.BookingTime === item.timeInterval && cartItem.Ticket?.id === ticket?.id)
+
           if (reservation.length > 0) {
+            const sumOfCart = cartReserve.reduce(
+              (total, item) => total + item.Pax,
+              0
+            );
+
             const sumOfPass = reservation.reduce(
-              (total, item) => total + item.Pass,
+              (total, item) => total + item.Pax,
               0
             );
             return {
               value: item.timeInterval,
-              slot: parseInt(item.slot) - sumOfPass,
+              slot: parseInt(item.slot) - (sumOfPass + sumOfCart),
               label: `${item.timeInterval} - ${
-                parseInt(item.slot) - sumOfPass
+                parseInt(item.slot) - (sumOfPass  + sumOfCart)
               } slot(s)`,
             };
           } else {
+
+            const sumOfCart = cartReserve.reduce(
+              (total, item) => total + item.Pax,
+              0
+            );
+
             return {
               value: item.timeInterval,
               slot: parseInt(item.slot),
-              label: `${item.timeInterval} - ${item.slot} slot(s)`,
+              label: `${item.timeInterval} - ${item.slot - (sumOfCart)} slot(s)`,
             };
           }
         })
@@ -293,7 +308,7 @@ export function TDMBookingDetails({
     setBookingTime('')
     setPax(1)
     dispatch(setCart([...cart, booking]))
-    setStep(1)
+    setStep(2)
   }
 
   return (

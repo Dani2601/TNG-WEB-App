@@ -2,6 +2,8 @@ import { jsPDF } from 'jspdf'
 import { uploadPDFFile } from '../functions/UploadFile';
 
 const generatePDF = (data) => {
+    try {
+     
     console.log("pdfdata",data);
 
     // Defines the pdf
@@ -97,7 +99,10 @@ const generatePDF = (data) => {
     // pdf.output("dataurlnewwindow");
     var pdffile = pdf.output("blob");
         
-    uploadPDFFile(pdffile,"pdf",data?.PDFFile)
+    uploadPDFFile(pdffile,"pdf",data?.PDFFile)   
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export {

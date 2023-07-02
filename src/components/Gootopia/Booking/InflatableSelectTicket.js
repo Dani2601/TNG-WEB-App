@@ -9,8 +9,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { TicketBookingModal } from "../../Modal/Gootopia/TicketBookingModal";
 import { getTicketGootopia } from "../../../functions/Tickets";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TISContainer from "../../Container/TISContainer";
+import { setCart } from "../../../store/action";
+import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
 
 let ticket = [
   {
@@ -42,11 +44,18 @@ export default function InflatableSelectTicket({
   const [tickets, setTickets] = useState([]);
 
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.record);
+  const { user, cart } = useSelector((state) => state.record);
+  const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch()
 
-  function handleBack() {
-    setStep(1);
-  }
+  function handleBack(){
+    if(cart.length > 0){
+        setVisible(true)
+    }
+    else{
+        setStep(1)
+    }
+}
 
   function handleNext() {
     setShowModal(true);
@@ -77,6 +86,14 @@ export default function InflatableSelectTicket({
       .catch();
   }, [location, user]);
 
+  
+  function handleCart(){
+    if(cart.length > 0){
+        dispatch(setCart([]))
+    }
+    setStep(1)
+}
+
   return (
     <TISContainer>
       <TicketBookingModal
@@ -87,7 +104,7 @@ export default function InflatableSelectTicket({
         handleProceed={handleProceed}
         
       />
-
+      <ConfirmationCartModal showModal={visible} handleCloseModal={() => setVisible(false)} handleProceed={handleCart}/>
       <div className="max-h-full min-h-[600px]">
         <div className="flex flex-row justify-center">
           <span className="font-inflatable font-bold text-[#20422b] text-xl  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">

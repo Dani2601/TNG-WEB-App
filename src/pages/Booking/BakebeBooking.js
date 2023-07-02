@@ -10,7 +10,7 @@ import TFRContainer from "../../components/Container/TFRContainer";
 import SelectTicket from "../../components/TFR/Booking/SelectTicket";
 import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
 import {
   SelectLocationBakebe,
@@ -38,6 +38,14 @@ export function BakebeBooking() {
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
+
+  const locationR = useLocation();
+
+  useEffect(() => {
+    if(locationR.state?.step){
+      setStep(5)
+    }
+  }, [locationR])
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);

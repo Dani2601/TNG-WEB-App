@@ -7,7 +7,7 @@ import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
 import { SelectTicket } from "../../components/Gootopia/Booking";
 import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
 import TISContainer from "../../components/Container/TISContainer";
 import InflatableSelectLocation from "../../components/Gootopia/Booking/InflatableSelectLocation";
@@ -17,6 +17,7 @@ import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
+import { useEffect } from "react";
 
 export function InflatableBooking() {
   const [step, setStep] = useState(1);
@@ -31,6 +32,14 @@ export function InflatableBooking() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const [selectedOption, setSelectedOption] = useState('Individual');
+  
+  const locationR = useLocation();
+
+  useEffect(() => {
+    if(locationR.state?.step){
+      setStep(4)
+    }
+  }, [locationR])
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);

@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { TDMModalBooking } from '../Modal/TDMModalBooking'
 import { getTicketGootopia } from '../../functions/Tickets'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DessertTicketCard } from '../Card'
+import { ConfirmationCartModal } from '../Modal/ConfirmationCartModal'
+import { setCart } from '../../store/action'
 
 export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
     const [showModal, setShowModal] = useState(false)
-    const { user } = useSelector(state => state.record) 
+    const { user, cart } = useSelector(state => state.record) 
     const [tickets, setTickets] = useState([])
+    const [visible, setVisible] = useState(false)
+    const dispatch = useDispatch()
 
     function handleBack(){
-        setStep(1)
+        if(cart.length > 0){
+            setVisible(true)
+        }
+        else{
+            setStep(1)
+        }
     }
     
     function handleNext(){
@@ -41,8 +50,16 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
           .catch();
       }, [location, user]);
 
+    function handleCart(){
+        if(cart.length > 0){
+            dispatch(setCart([]))
+        }
+        setStep(1)
+    }
+
     return (
         <div className='w-full py-10 flex justify-center'>
+        <ConfirmationCartModal showModal={visible} handleCloseModal={() => setVisible(false)} handleProceed={handleCart}/>
         <TDMModalBooking showModal={showModal} ticket={ticket} handleCloseModal={handleCloseModal} setStep={setStep} handleProceed={handleProceed}/>
         <div className='w-[80vw] sm:w-[50vw]'>
             <div className='text-center flex gap-6 flex-col justify-center items-center'>

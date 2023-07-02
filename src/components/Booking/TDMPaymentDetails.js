@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { logo, nx, paynamics, paypal, tnglogo } from "../../assets/Dessert";
 import { FiTrash, FiTrash2 } from "react-icons/fi";
 import { MdRestoreFromTrash } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getBranches } from "../../functions/Branches";
 import { format } from "date-fns";
+import { CiTrash } from "react-icons/ci";
+import { FaTrash } from "react-icons/fa";
+import { setCart } from "../../store/action";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -38,10 +41,9 @@ export function TDMPaymentDetails({
   const [coupon, setCoupon] = useState("");
   const [grandTotal, setGrandTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
+  const dispatch = useDispatch()
 
   const total = cart?.reduce((total, item) => total + item.Ticket.Price * item.Pax, 0);
-  
-  console.log(cart)
 
   useEffect(() => {
     setGrandTotal(total - discount)
@@ -62,11 +64,15 @@ export function TDMPaymentDetails({
       CustomerID: user?.id,
       BusinessUnitID: selectedLocation?.BusinessUnitID,
       BranchID: location,
-      TicketID: ticket?.id,
-      BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
-      BookingTime: bookingTime,
+      Items: cart.map((item) => (
+        {
+          TicketID: item?.Ticket?.id,
+          BookingDate: item?.BookingDate,
+          BookingTime: item?.BookingTime,
+          Pax: 2
+        }
+      )),
       BookingType: bookingType,
-      Pax: parseInt(pax),
       Payment: {
         PaymentMethod: selectedPaymentMethod,
       },
@@ -160,6 +166,13 @@ export function TDMPaymentDetails({
 
   function handleVerify() {}
 
+  function handleRemoveItem(e){
+    dispatch(setCart(cart.filter((_, index) => index !== e)))
+    if(cart.length == 0){
+      setStep(1)
+    }
+  }
+
   return (
     <div className="w-full py-10 flex justify-center">
       <div className="w-[80vw] sm:w-[50vw]">
@@ -252,7 +265,10 @@ export function TDMPaymentDetails({
                       cart?.length &&
                       cart?.map((item, index) => (
                         <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
-                          <p className="font-bold text-sm">{item?.Ticket?.Name}</p>
+                          <div className="flex justify-between items-center">
+                            <p className="font-bold text-sm">{item?.Ticket?.Name}</p>
+                            <FaTrash size={10} color="red" className="cursor-pointer" onClick={() => handleRemoveItem(index)}/>
+                          </div>
                           <div className="flex justify-between py-2">
                             <div className="flex flex-col">
                               <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
@@ -319,12 +335,12 @@ export function TDMPaymentDetails({
             </div>
           </div>
           <div className="flex justify-center flex-wrap gap-5 py-5 w-60 self-center">
-            <button
+            {/* <button
               onClick={handleBack}
               className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#51CEC5] text-white"
             >
               Back
-            </button>
+            </button> */}
             {selectedPaymentMethod ? (
               <button
                 onClick={handleNext}

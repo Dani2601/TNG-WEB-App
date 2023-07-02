@@ -3,13 +3,12 @@ import { RiErrorWarningLine } from 'react-icons/ri';
 
 export function TDMModalBooking({showModal, handleCloseModal, handleProceed, ticket}) {
 
-    console.log(ticket)
     return (
         <ModalContainer
             isOpen={showModal}
             onRequestClose={handleCloseModal}
             ariaHideApp={false}
-            modalWidth={'20vw'}
+            modalWidth={'350px'}
         >   
             <div className='p-4 text-center flex flex-col items-center'>
                 <RiErrorWarningLine color={'#FACEA8'} size={70}/>

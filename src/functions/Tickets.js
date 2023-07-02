@@ -66,11 +66,12 @@ async function getTicketBakebe(
   }
 }
 
-async function getBookingsByTicketID(ticketid, date) {
+async function getBookingsByTicketID(branchID, ticketid, date) {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_REST_API}ViewBookingsByTicketID`,
       {
+        BranchID: branchID,
         TicketID: ticketid,
         BookingDate: date,
       }

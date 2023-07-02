@@ -9,7 +9,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { TicketBookingModal } from "../../Modal/Gootopia/TicketBookingModal";
 import { getTicketGootopia } from "../../../functions/Tickets";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
+import { setCart } from "../../../store/action";
 
 let ticket = [
   {
@@ -39,12 +41,18 @@ export default function SelectTicket({
 }) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
-
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.record);
+  const { user, cart } = useSelector((state) => state.record);
+  const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch()
 
-  function handleBack() {
-    setStep(1);
+  function handleBack(){
+    if(cart.length > 0){
+        setVisible(true)
+    }
+    else{
+        setStep(1)
+    }
   }
 
   function handleNext() {
@@ -76,6 +84,13 @@ export default function SelectTicket({
       .catch();
   }, [location, user]);
 
+  function handleCart(){
+    if(cart.length > 0){
+        dispatch(setCart([]))
+    }
+    setStep(1)
+  }
+
   return (
     <GootopiaContainer>
       <TicketBookingModal
@@ -84,9 +99,8 @@ export default function SelectTicket({
         ticket={ticket}
         setStep={setStep}
         handleProceed={handleProceed}
-        
       />
-
+      <ConfirmationCartModal showModal={visible} handleCloseModal={() => setVisible(false)} handleProceed={handleCart}/>
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
         <img class="w-full" src={dripping} alt="gootopialanding" />
         <div className="flex flex-row justify-center">
