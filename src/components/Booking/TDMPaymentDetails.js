@@ -11,6 +11,8 @@ import { format } from "date-fns";
 import { CiTrash } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa";
 import { setCart } from "../../store/action";
+import { verifyCouponCode } from "../../functions/Coupon";
+import { toast } from "react-toastify";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -38,10 +40,11 @@ export function TDMPaymentDetails({
   const [email, setEmail] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  const [coupon, setCoupon] = useState("");
+  const [coupon, setCoupon] = useState(null);
   const [grandTotal, setGrandTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
   const dispatch = useDispatch()
+  const [code, setCode] = useState('')
 
   const total = cart?.reduce((total, item) => total + item.Ticket.Price * item.Pax, 0);
 
@@ -58,25 +61,26 @@ export function TDMPaymentDetails({
   }
 
   function handleNext() {
-    
     let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
     setSubmitData({
       CustomerID: user?.id,
-      BusinessUnitID: selectedLocation?.BusinessUnitID,
-      BranchID: location,
+      BusinessUnitID: cart[0]?.BusinessUnitID,
+      BranchID: cart[0]?.Location?.id,
       Items: cart.map((item) => (
         {
           TicketID: item?.Ticket?.id,
           BookingDate: item?.BookingDate,
           BookingTime: item?.BookingTime,
-          Pax: 2
+          Pax: 2,
+          Status: "Unused"
         }
       )),
       BookingType: bookingType,
       Payment: {
         PaymentMethod: selectedPaymentMethod,
+        Discount: discount
       },
-      Coupon: coupon,
+      Coupon: coupon?.data?.id || "",
       PDFFile : pdfFileName,  
       TotalPrice: grandTotal,
     });
@@ -164,13 +168,84 @@ export function TDMPaymentDetails({
     }
   }, []);
 
-  function handleVerify() {}
+  function handleVerify() {
+    verifyCouponCode({
+      Code: code,
+      BranchID: cart[0].Location.id
+    })
+    .then((res) => {
+      if(res.valid){
+        setCoupon(res)
+        setCode("")
+        toast.success("Coupon Applied");
+      }
+      else{
+        toast.error(res.errorMsg);
+      }
+    })
+    .catch(() => {
+      toast.error("Something went wrong");
+    })
+  }
+
+  console.log(cart)
+
+  useEffect(() => {
+    if(coupon){
+      
+      let discount = coupon?.data?.Discount;
+      let qty = coupon?.data?.Quantity;
+      let ticketid = coupon?.data?.TicketID
+      let discountType = coupon?.data?.Type
+      let ticketFee = coupon?.ticket?.Price
+      const checkCart = cart?.find((item) => 
+        item?.Ticket?.id === coupon?.data?.TicketID && 
+        item?.BookingDate === coupon?.data?.BookingDate &&
+        item?.BookingTime === coupon?.data?.BookingTime
+      )
+      const booking = {
+        BusinessUnitID: coupon?.ticket?.BusinessUnitID,
+        Location: coupon?.ticket?.BranchID,
+        Ticket: coupon?.ticket,
+        BookingDate: coupon?.data?.BookingDate,
+        BookingTime: coupon?.data?.BookingTime,
+        Pax: coupon?.data?.Quantity,
+        Option: ""
+      }
+      
+      if(checkCart?.Pax < coupon?.data?.Quantity){
+        const updatedTickets = cart?.map(ticket => {
+          if (ticket?.Ticket?.id === coupon?.data?.TicketID &&
+            ticket?.BookingDate === coupon?.data?.BookingDate &&
+            ticket?.BookingTime === coupon?.data?.BookingTime
+            ) {
+            return { ...ticket, Pax: coupon?.data?.Quantity };
+          }
+          return ticket;
+        });
+        dispatch(setCart(updatedTickets))
+      }
+      else{
+        if(!checkCart){
+          dispatch(setCart([...cart, booking]))
+        }
+      }
+      setDiscount((ticketFee) * qty)
+    }
+  },[coupon])
 
   function handleRemoveItem(e){
     dispatch(setCart(cart.filter((_, index) => index !== e)))
     if(cart.length == 0){
       setStep(1)
     }
+  }
+
+  function handleCancelCoupon(){
+    setDiscount(0)
+    setCoupon(null)
+    setCode("")
+    toast.success("Coupon Removed");
   }
 
   return (
@@ -258,11 +333,10 @@ export function TDMPaymentDetails({
                 <div className="py-4 px-6">
                   <div className="border-b-2 border-gray-200">
                     <p className="font-bold text-sm mb-2">
-                      Location: {selectedLocation?.Name}
+                      Location: {cart[0]?.Location?.Name}
                     </p>
                   </div>
                     {
-                      cart?.length &&
                       cart?.map((item, index) => (
                         <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
                           <div className="flex justify-between items-center">
@@ -310,15 +384,28 @@ export function TDMPaymentDetails({
                     <p>Coupon</p>
                     <input
                       type="text"
+                      value={code}
                       placeholder="Enter your coupon here"
+                      onChange={(e) => setCode(e.target.value)}
                       className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                     />
-                    <button
+                    {
+                      !coupon ?
+                      <button
+                      disabled={!code}
                       onClick={handleVerify}
                       className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
-                    >
+                      >
                       Verify
-                    </button>
+                      </button>
+                      :
+                      <button
+                      onClick={handleCancelCoupon}
+                      className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
+                      >
+                      Cancel
+                      </button>
+                    }
                   </div>
                 </div>
               </div>

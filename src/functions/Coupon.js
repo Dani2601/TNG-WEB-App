@@ -1,0 +1,22 @@
+import axios from "axios";
+
+async function verifyCouponCode(e) {
+  try {
+    const { data } = await axios.post(
+        `${process.env.REACT_APP_REST_API}ViewCouponByCode`,
+        e
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    return {
+      valid: false,
+    };
+  }
+}
+
+export { verifyCouponCode };

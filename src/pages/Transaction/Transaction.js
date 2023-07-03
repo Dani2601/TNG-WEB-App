@@ -66,7 +66,7 @@ export default function Transaction() {
     const objData = [
       { Code: data.Code, UserID: data.CustomerID, Status: data.Status },
     ];
-
+    
     const encrypt = encryptData(objData)
 
     setOpenEditBusinessUnitModal(true);
@@ -171,7 +171,6 @@ export default function Transaction() {
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
                   ₱ {data.TotalPrice}
                 </td>
-
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
                   {getDate(data.CreatedTS)}
                 </td>
@@ -241,7 +240,6 @@ export default function Transaction() {
       <Helmet>
         <title>TNG Admin | Business Unit</title>
       </Helmet>
-
       {openEditBusinessUnitModal && (
         <TransactionModal
           ariaHideApp={false}
@@ -255,9 +253,6 @@ export default function Transaction() {
           qrData={qrData}
         />
       )}
-      {
-        console.log(qrData)
-      }
       <div className="min-h-screen flex flex-col bluegradient">
         <Topbar />
         <div className=" p-10 gap-8 mb-auto font-poppins ">
