@@ -77,8 +77,6 @@ async function getBookingsByTicketID(branchID, ticketid, date) {
       }
     );
 
-    console.log(data, date);
-
     if (data?.valid) {
       return data;
     } else {

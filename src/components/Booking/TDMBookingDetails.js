@@ -210,24 +210,17 @@ export function TDMBookingDetails({
           let reservation = reserve?.filter(
             (res) => res.BookingTime === item.timeInterval
           );
-
           let cartReserve = cart?.filter((cartItem) => cartItem.BookingTime === item.timeInterval && cartItem.Ticket?.id === ticket?.id)
-
           if (reservation.length > 0) {
             const sumOfCart = cartReserve.reduce(
               (total, item) => total + item.Pax,
               0
             );
-
-            const sumOfPass = reservation.reduce(
-              (total, item) => total + item.Pax,
-              0
-            );
             return {
               value: item.timeInterval,
-              slot: parseInt(item.slot) - (sumOfPass + sumOfCart),
+              slot: parseInt(item.slot) - (sumOfCart + (reservation.length || 0)),
               label: `${item.timeInterval} - ${
-                parseInt(item.slot) - (sumOfPass  + sumOfCart)
+                parseInt(item.slot) - (sumOfCart  + (reservation.length || 0))
               } slot(s)`,
             };
           } else {
@@ -236,7 +229,6 @@ export function TDMBookingDetails({
               (total, item) => total + item.Pax,
               0
             );
-
             return {
               value: item.timeInterval,
               slot: parseInt(item.slot),
@@ -249,8 +241,6 @@ export function TDMBookingDetails({
       setIntervals([]);
     }
   }, [bookingDate, ticket, reserve]);
-
-  console.log("intervals",intervals);
 
   const allowedDays = ["Monday", "Tuesday", "Wednesday"];
 
