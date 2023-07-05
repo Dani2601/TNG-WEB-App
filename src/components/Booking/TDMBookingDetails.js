@@ -229,9 +229,10 @@ export function TDMBookingDetails({
               (total, item) => total + item.Pax,
               0
             );
+
             return {
               value: item.timeInterval,
-              slot: parseInt(item.slot),
+              slot: (parseInt(item.slot) - (sumOfCart)),
               label: `${item.timeInterval} - ${item.slot - (sumOfCart)} slot(s)`,
             };
           }
@@ -362,6 +363,7 @@ export function TDMBookingDetails({
                   <option value={''}>Select a time</option>
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
+                      console.log(item?.slot, 'slot...', intervals)
                       if (item?.slot === 0) {
                         return (
                           <option
