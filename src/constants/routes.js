@@ -34,6 +34,7 @@ const routes = {
   BookingBakebe: "/Bakebe/Booking",
 
   Profile: "/Profile",
+  Tickets: "/Tickets",
   Transaction: "/Transaction",
 
   PageNotFound: "*"

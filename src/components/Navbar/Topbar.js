@@ -270,6 +270,13 @@ export default function Topbar({ scroll }) {
                           Change Password
                         </div>
                         <Link
+                          to={routes.Tickets}
+                          className="cursor-pointer text-white flex items-center py-3 px-4 text-md hover:bg-gray-700"
+                          role="menuitem"
+                        >
+                          Tickets
+                        </Link>
+                        <Link
                           to={routes.Transaction}
                           className="cursor-pointer text-white flex items-center py-3 px-4 text-md hover:bg-gray-700"
                           role="menuitem"

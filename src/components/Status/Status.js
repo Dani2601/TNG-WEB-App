@@ -9,6 +9,12 @@ export default function Status(props) {
           <span>Success</span>
         </div>
       );
+    case "Paid":
+      return (
+        <div className="bg-green-600 w-20 h-7 text-center flex justify-center items-center rounded-lg text-slate-50">
+          <span>Paid</span>
+        </div>
+      );
     case "S":
       return (
         <div className="bg-green-600 w-20 h-7 text-center flex justify-center items-center rounded-lg text-slate-50">

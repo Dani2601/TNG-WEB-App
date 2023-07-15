@@ -40,4 +40,25 @@ async function viewMyTransaction(e) {
   }
 }
 
-export { addBooking, viewMyTransaction };
+async function viewMyTickets(e) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}ViewMyTickets`,
+      {
+        UserID: e,
+      }
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    return {
+      valid: false,
+    };
+  }
+}
+
+export { addBooking, viewMyTransaction, viewMyTickets };

@@ -25,6 +25,7 @@ import { BakebeBooking } from "../Booking/BakebeBooking";
 import LandingBakebe from "../Bakebe/LandingBakebe";
 import LandingInflatableIsland from "../LandingInflatableIsland";
 import { InflatableBooking } from "../Booking/InflatableBooking";
+import Tickets from "../Transaction/Tickets";
 
 export default function AuthenticatedScreens() {
   return (
@@ -62,6 +63,7 @@ export default function AuthenticatedScreens() {
 
         <Route path={routes.Profile} element={<Profile />} />
         <Route path={routes.Transaction} element={<Transaction />} />
+        <Route path={routes.Tickets} element={<Tickets />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

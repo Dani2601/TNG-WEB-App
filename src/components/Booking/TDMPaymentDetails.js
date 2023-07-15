@@ -188,8 +188,6 @@ export function TDMPaymentDetails({
     })
   }
 
-  console.log(cart)
-
   useEffect(() => {
     if(coupon){
       

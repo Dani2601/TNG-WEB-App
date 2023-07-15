@@ -14,20 +14,21 @@ import TransactionModal from "../../components/Modal/Profile/TransactionModal/Tr
 // import { changeStatusBusinessUnit, viewBusinessUnit } from "../../functions";
 import { useSelector } from "react-redux";
 import { Topbar } from "../../components/Navbar";
-import { viewMyTransaction } from "../../functions/Booking";
+import { viewMyTickets, viewMyTransaction } from "../../functions/Booking";
 import { encryptData } from "../../helper/DataEncryption";
 
 const tableHeader = [
   "Code",
   "TNG",
   "Branch",
-  "Total Price",
+  "Booking Date",
+  "Booking Time",
   "Date Created",
   "Status",
 ];
-let title = "Transactions";
+let title = "Tickets";
 
-export default function Transaction() {
+export default function Tickets() {
   const [search, setSearch] = useState(null);
   const [qrData, setQrData] = useState([]);
 
@@ -89,7 +90,7 @@ export default function Transaction() {
   const PAGE_SIZE = 10;
 
   useEffect(() => {
-    viewMyTransaction(user.id)
+    viewMyTickets(user.id)
       .then((response) => {
         // console.log(response)
         if (response.valid) {
@@ -133,14 +134,6 @@ export default function Transaction() {
                   onClick={() => getEditData(data)}
                   className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]"
                 >
-                  {/* {tooltip && (
-                        <ReactTooltip
-                          id="memo"
-                          place="top"
-                          effect="solid"
-                          className="customeTheme"
-                        />
-                      )} */}
                   <p
                     data-tip="Click to view details"
                     data-for="memo"
@@ -161,7 +154,10 @@ export default function Transaction() {
                   {data.Branch}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  ₱ {data.TotalPrice}
+                  {data.BookingDate}
+                </td>
+                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {data.BookingTime}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
                   {getDate(data.CreatedTS)}
