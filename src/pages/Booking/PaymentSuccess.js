@@ -38,7 +38,7 @@ const PaymentSuccess = () => {
           window.location.href = "/";
         }}
       >
-        Go to Dashboard
+        Okay
       </button>
     </div>
   );

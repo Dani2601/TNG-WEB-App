@@ -106,6 +106,16 @@ export default function TransactionModa({
     onSubmit,
   });
 
+  function handlePay(){
+    if (editData.Payment && editData.Payment.actions && editData.Payment.actions[0] && editData.Payment.actions[0].url) {
+      // Redirect to the URL
+      window.location.href = editData.Payment.actions[0].url;
+    } else {
+      // Handle the case when the URL is missing in the response
+      console.error('Invalid response data. Missing URL for redirection.');
+    }
+  }
+
   return (
     <div>
       <ReactModal
@@ -206,6 +216,12 @@ export default function TransactionModa({
                     onClick={closeEditModal}
                   >
                     <p className="self-center">Close </p>
+                  </button>
+                  <button
+                    className=" bg-red-500 h-8 rounded-[5px] px-3  text-modalgradient"
+                    onClick={handlePay}
+                  >
+                    <p className="self-center text-white">Pay</p>
                   </button>
                 </div>
               </div>
