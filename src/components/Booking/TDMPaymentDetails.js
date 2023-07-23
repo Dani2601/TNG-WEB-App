@@ -84,8 +84,8 @@ export function TDMPaymentDetails({
           ewallet: {
             channel_code: selectedPaymentMethod,
             channel_properties: {
-              success_return_url: `https://localhost:3000${routes.PaymentSuccess}`,
-              failure_return_url: `https://localhost:3000${routes.PaymentFailed}`,
+              success_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentSuccess}`,
+              failure_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentFailed}`,
             },
           },
           reusability: 'ONE_TIME_USE',
