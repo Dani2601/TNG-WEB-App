@@ -59,30 +59,37 @@ export function TFRBooking() {
     addBooking(e)
       .then((result) => {
         if (result.valid) {
-          setBookingDate("");
-          setBookingDate("");
-          setPax(1);
-          setTicket("");
-          setLocation("");
-          setStep(1);
-          setQRCode(result?.forPDF?.QRCode);
-          setTimeout(() =>{
-            generatePDF({
-              InvoiceCode : result?.forPDF?.InvoiceCode,
-              BusinessUnit : result?.forPDF?.BusinessUnit,
-              Branch : result?.forPDF?.Branch,
-              Customer : result?.forPDF?.Customer,
-              BookingDate : e?.BookingDate,
-              BookingTime : e?.BookingTime,
-              NumberOfPass: String(e?.Pax),
-              TotalPrice : String(e?.TotalPrice),
-              PDFFile : e?.PDFFile
-            });
-            sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
-            navigate(routes.LandingTFR);
-            dispatch(setCart([]))
-            toast.success("Successfully added");
-          },3000)
+          if (result.data && result.data.actions && result.data.actions[0] && result.data.actions[0].url) {
+            // Redirect to the URL
+            window.location.href = result.data.actions[0].url;
+          } else {
+            // Handle the case when the URL is missing in the response
+            console.error('Invalid response data. Missing URL for redirection.');
+          }
+          // setBookingDate("");
+          // setBookingDate("");
+          // setPax(1);
+          // setTicket("");
+          // setLocation("");
+          // setStep(1);
+          // setQRCode(result?.forPDF?.QRCode);
+          // setTimeout(() =>{
+          //   generatePDF({
+          //     InvoiceCode : result?.forPDF?.InvoiceCode,
+          //     BusinessUnit : result?.forPDF?.BusinessUnit,
+          //     Branch : result?.forPDF?.Branch,
+          //     Customer : result?.forPDF?.Customer,
+          //     BookingDate : e?.BookingDate,
+          //     BookingTime : e?.BookingTime,
+          //     NumberOfPass: String(e?.Pax),
+          //     TotalPrice : String(e?.TotalPrice),
+          //     PDFFile : e?.PDFFile
+          //   });
+          //   sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+          //   navigate(routes.LandingTFR);
+          //   dispatch(setCart([]))
+          //   toast.success("Successfully added");
+          // },3000)
         } else {
           toast.error("Failed to submit");
         }
