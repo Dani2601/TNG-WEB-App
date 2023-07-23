@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { Topbar } from "../../components/Navbar";
 import { viewMyTickets, viewMyTransaction } from "../../functions/Booking";
 import { encryptData } from "../../helper/DataEncryption";
+import TicketModal from "../../components/Modal/Profile/TransactionModal/TicketModal";
 
 const tableHeader = [
   "Code",
@@ -182,7 +183,7 @@ export default function Tickets() {
         <title>TNG Admin | Business Unit</title>
       </Helmet>
       {openEditBusinessUnitModal && (
-        <TransactionModal
+        <TicketModal
           ariaHideApp={false}
           editData={editData}
           record={record}
