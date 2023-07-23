@@ -21,6 +21,7 @@ import { getBranches } from "../../../functions/Branches";
 import Pagination from "../../../components/Pagination";
 import { getDifficulty } from "../../../constants/input";
 import DataTable from "../../DataTable";
+import TicketCard from "../../Card/Bakebe/TicketCard";
 let ticket = [
   {
     id: 1,
@@ -499,7 +500,7 @@ export default function SelectTicketBakebe({
                 </div>
 
                 {/* <div className="flex flex-row flex-wrap  gap-4 gap-y-8 pt-[2%] "> */}
-                <DataTable tableData={tableData} />
+                <TicketCard tableData={tableData} />
                 {/* </div> */}
 
                 <div

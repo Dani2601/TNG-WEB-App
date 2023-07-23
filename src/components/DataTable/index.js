@@ -3,7 +3,7 @@ import React from "react";
 export default function DataTable(props) {
   const { header, tableData } = props;
 
-  const headers = header.map((data, index) => (
+  const headers = header?.map((data, index) => (
     <th
       key={index}
       scope="col"
