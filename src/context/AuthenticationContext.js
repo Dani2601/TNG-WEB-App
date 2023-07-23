@@ -21,22 +21,27 @@ const AuthProvider = (props) => {
         reauthenticate(userToken)
         .then((res) => {
           if(res.valid){
-            console.log(res)
             dispatch(setUser(res.user))
             dispatch(setToken(res.token))
             setLoggedIn(true);
             setLoading(false)
           }
           else{
+            dispatch(setUser(null))
+            dispatch(setToken(null))
             setLoggedIn(false);
             setLoading(false)
           }
         })
         .catch((e) => {
+          dispatch(setUser(null))
+          dispatch(setToken(null))
           setLoggedIn(false);
           setLoading(false)
         })
       } else {
+        dispatch(setUser(null))
+        dispatch(setToken(null))
         setLoggedIn(false);
         setLoading(false)
       }

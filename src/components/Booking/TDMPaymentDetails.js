@@ -13,6 +13,8 @@ import { FaTrash } from "react-icons/fa";
 import { setCart } from "../../store/action";
 import { verifyCouponCode } from "../../functions/Coupon";
 import { toast } from "react-toastify";
+import { gcash, grabpay } from "../../assets/Payment/ewallet";
+import routes from "../../constants/routes";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -77,7 +79,17 @@ export function TDMPaymentDetails({
       )),
       BookingType: bookingType,
       Payment: {
-        PaymentMethod: selectedPaymentMethod,
+        method: {
+          type: 'EWALLET',
+          ewallet: {
+            channel_code: selectedPaymentMethod,
+            channel_properties: {
+              success_return_url: `https://localhost:3000${routes.PaymentSuccess}`,
+              failure_return_url: `https://localhost:3000${routes.PaymentFailed}`,
+            },
+          },
+          reusability: 'ONE_TIME_USE',
+        },
         Discount: discount
       },
       Coupon: coupon?.data?.id || "",
@@ -301,25 +313,25 @@ export function TDMPaymentDetails({
                   <div className="flex gap-2">
                     <input
                       type="checkbox"
-                      checked={selectedPaymentMethod === "paypal"}
-                      onChange={() => setSelectedPaymentMethod("paypal")}
+                      checked={selectedPaymentMethod === "GCASH"}
+                      onChange={() => setSelectedPaymentMethod("GCASH")}
                     />
                     <img
-                      src={paypal}
-                      alt="paypal"
-                      className="w-16 object-contain"
+                      src={gcash}
+                      alt="gcash"
+                      className="w-16 object-contain rounded-md"
                     />
                   </div>
                   <div className="flex gap-2">
                     <input
                       type="checkbox"
-                      checked={selectedPaymentMethod === "paynamics"}
-                      onChange={() => setSelectedPaymentMethod("paynamics")}
+                      checked={selectedPaymentMethod === "GRABPAY"}
+                      onChange={() => setSelectedPaymentMethod("GRABPAY")}
                     />
                     <img
-                      src={paynamics}
-                      alt="paynamics"
-                      className="w-16 object-contain"
+                      src={grabpay}
+                      alt="grabpay"
+                      className="w-16 object-contain rounded-md"
                     />
                   </div>
                 </div>

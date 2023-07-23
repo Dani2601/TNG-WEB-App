@@ -53,40 +53,39 @@ export function DessertBooking() {
   function submit(e){
     addBooking(e)
     .then((result) => {
+      console.log(result)
       if(result.valid){
-        setQRCode(result?.forPDF?.QRCode);
-        setTimeout(() =>{
-          e?.Items.map((item => {
-            generatePDF({
-              InvoiceCode : result?.forPDF?.InvoiceCode,
-              BusinessUnit : result?.forPDF?.BusinessUnit,
-              Branch : result?.forPDF?.Branch,
-              Customer : result?.forPDF?.Customer,
-              BookingDate : item?.BookingDate,
-              BookingTime : item?.BookingTime,
-              NumberOfPass: String(item?.Pax),
-              TotalPrice : String(item?.TotalPrice),
-              PDFFile : e?.PDFFile
-            });
-          }))
-          setBookingDate('')
-          setBookingDate('')
-          setPax(1)
-          setTicket('')
-          setLocationR('')
-          setStep(1)
-          dispatch(setCart([]))
-          sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
-          toast.success("Successfully added");
-        },3000)
-        if(e?.BusinessUnitID === dessertID){
-          navigate(routes.LandingDesert)
-        }
-        else if(e?.BusinessUnitID === gootopiaID){
-          navigate(routes.LandingGootopia)
-        }
-        else{
-          navigate(routes.LandingTFR)
+        // setQRCode(result?.forPDF?.QRCode);
+        // setTimeout(() =>{
+        //   e?.Items.map((item => {
+        //     generatePDF({
+        //       InvoiceCode : result?.forPDF?.InvoiceCode,
+        //       BusinessUnit : result?.forPDF?.BusinessUnit,
+        //       Branch : result?.forPDF?.Branch,
+        //       Customer : result?.forPDF?.Customer,
+        //       BookingDate : item?.BookingDate,
+        //       BookingTime : item?.BookingTime,
+        //       NumberOfPass: String(item?.Pax),
+        //       TotalPrice : String(item?.TotalPrice),
+        //       PDFFile : e?.PDFFile
+        //     });
+        //   }))
+        //   setBookingDate('')
+        //   setBookingDate('')
+        //   setPax(1)
+        //   setTicket('')
+        //   setLocationR('')
+        //   setStep(1)
+        //   sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
+        //   // toast.success("Successfully added");
+        // },3000)
+        
+        if (result.data && result.data.actions && result.data.actions[0] && result.data.actions[0].url) {
+          // Redirect to the URL
+          window.location.href = result.data.actions[0].url;
+        } else {
+          // Handle the case when the URL is missing in the response
+          console.error('Invalid response data. Missing URL for redirection.');
         }
       }
       else{

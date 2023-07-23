@@ -36,6 +36,8 @@ const routes = {
   Profile: "/Profile",
   Tickets: "/Tickets",
   Transaction: "/Transaction",
+  PaymentSuccess: "/PaymentSuccess",
+  PaymentFailed: "/PaymentFailed",
 
   PageNotFound: "*"
 };
