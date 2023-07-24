@@ -217,12 +217,6 @@ export default function TransactionModa({
                   >
                     <p className="self-center">Close </p>
                   </button>
-                  <button
-                    className=" bg-red-500 h-8 rounded-[5px] px-3  text-modalgradient"
-                    onClick={handlePay}
-                  >
-                    <p className="self-center text-white">Pay</p>
-                  </button>
                 </div>
               </div>
             </div>
