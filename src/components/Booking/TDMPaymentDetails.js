@@ -13,7 +13,7 @@ import { FaTrash } from "react-icons/fa";
 import { setCart } from "../../store/action";
 import { verifyCouponCode } from "../../functions/Coupon";
 import { toast } from "react-toastify";
-import { gcash, grabpay } from "../../assets/Payment/ewallet";
+import { bpi, gcash, grabpay, maya, rcbc, shopeepay, ubp } from "../../assets/Payment/ewallet";
 import routes from "../../constants/routes";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
@@ -42,6 +42,13 @@ export function TDMPaymentDetails({
   const [email, setEmail] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [activeAccordion, setActiveAccordion] = useState(null);
+
+  const handleAccordionClick = (accordionName) => {
+    setActiveAccordion(accordionName === activeAccordion ? null : accordionName);
+  };
+
+
   const [coupon, setCoupon] = useState(null);
   const [grandTotal, setGrandTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
@@ -64,6 +71,40 @@ export function TDMPaymentDetails({
 
   function handleNext() {
     let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
+    let method = null
+    if(selectedPaymentMethod === 'MAYA' || selectedPaymentMethod === 'GRABPAY' || selectedPaymentMethod === 'SHOPEEPAY'){
+       method = {
+        type: 'EWALLET',
+        ewallet: {
+          channel_code: selectedPaymentMethod,
+          channel_properties: {
+            success_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentSuccess}`,
+            failure_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentFailed}`,
+          },
+        },
+        reusability: 'ONE_TIME_USE',
+      }
+    }
+    else if(selectedPaymentMethod === 'BPI' || selectedPaymentMethod === 'UBP' || selectedPaymentMethod === 'RCBC'){
+      method = {
+        type: 'DIRECT_DEBIT',
+        debit_card: null,
+        country: 'PH', 
+        direct_debit: {
+          channel_code: selectedPaymentMethod,
+          channel_properties: {
+            success_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentSuccess}`,
+            failure_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentFailed}`,
+          },
+        },
+        reusability: 'ONE_TIME_USE',
+      }
+    }
+    else {
+      toast.error('Please select payment method')
+      return;
+    }
+
     setSubmitData({
       CustomerID: user?.id,
       BusinessUnitID: cart[0]?.BusinessUnitID,
@@ -79,17 +120,7 @@ export function TDMPaymentDetails({
       )),
       BookingType: bookingType,
       Payment: {
-        method: {
-          type: 'EWALLET',
-          ewallet: {
-            channel_code: selectedPaymentMethod,
-            channel_properties: {
-              success_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentSuccess}`,
-              failure_return_url: `https://tng-webapp-dev.azurewebsites.net${routes.PaymentFailed}`,
-            },
-          },
-          reusability: 'ONE_TIME_USE',
-        },
+        method: method,
         Discount: discount
       },
       Coupon: coupon?.data?.id || "",
@@ -309,32 +340,138 @@ export function TDMPaymentDetails({
                 <p className="text-sm font-bold">
                   PAYMENT METHOD: <small style={{ color: "red" }}>*</small>
                 </p>
-                <div className="flex gap-3 py-3">
-                  <div className="flex gap-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedPaymentMethod === "GCASH"}
-                      onChange={() => setSelectedPaymentMethod("GCASH")}
+                <div
+                  className="flex items-center justify-between bg-[#FAFAFA] px-3 py-1 cursor-pointer"
+                  onClick={() => handleAccordionClick('eWallet')}
+                >
+                  <h2 className="text-lg font-semibold">E-Wallet</h2>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-6 w-6 ${activeAccordion === 'eWallet' ? 'transform rotate-180' : ''}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
                     />
-                    <img
-                      src={gcash}
-                      alt="gcash"
-                      className="w-16 object-contain rounded-md"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedPaymentMethod === "GRABPAY"}
-                      onChange={() => setSelectedPaymentMethod("GRABPAY")}
-                    />
-                    <img
-                      src={grabpay}
-                      alt="grabpay"
-                      className="w-16 object-contain rounded-md"
-                    />
-                  </div>
+                  </svg>
                 </div>
+                {/* E-Wallet Accordion Content */}
+                {activeAccordion === 'eWallet' && (
+                  <div className="px-4 bg-[#FAFAFA]">
+                    <div className="flex gap-8 py-3">
+                      {/* GCash */}
+                      <div
+                        className={`flex gap-2 items-center ${
+                          selectedPaymentMethod === 'MAYA' ? 'bg-gray-200' : 'bg-white'
+                        } px-4 py-2 border-2`}
+                        onClick={() => setSelectedPaymentMethod('MAYA')}
+                      >
+                        <img
+                          src={maya}
+                          alt="gcash"
+                          className="w-12 object-contain rounded-md cursor-pointer"
+                        />
+                      </div>
+                      {/* GrabPay */}
+                      <div
+                        className={`flex gap-2 items-center ${
+                          selectedPaymentMethod === 'GRABPAY' ? 'bg-gray-200' : 'bg-white'
+                        } px-4 py-2 border-2`}
+                        onClick={() => setSelectedPaymentMethod('GRABPAY')}
+                      >
+                        <img
+                          src={grabpay}
+                          alt="grabpay"
+                          className="w-12 object-contain rounded-md cursor-pointer"
+                        />
+                      </div>
+                      <div
+                        className={`flex gap-2 items-center ${
+                          selectedPaymentMethod === 'SHOPEEPAY' ? 'bg-gray-200' : 'bg-white'
+                        } px-4 py-2 border-2`}
+                        onClick={() => setSelectedPaymentMethod('SHOPEEPAY')}
+                      >
+                        <img
+                          src={shopeepay}
+                          alt="shopee"
+                          className="w-12 object-contain rounded-md cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Online Banking Accordion */}
+                <div
+                  className="flex items-center justify-between bg-gray-200 px-3 py-1 cursor-pointer mt-2"
+                  // onClick={() => handleAccordionClick('onlineBanking')}
+                >
+                  <h2 className="text-lg font-semibold">Direct Debits</h2>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-6 w-6 ${
+                      activeAccordion === 'onlineBanking' ? 'transform rotate-180' : ''
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                {/* Online Banking Accordion Content */}
+                {activeAccordion === 'onlineBanking' && (
+                  <div className="px-4 bg-[#FAFAFA]">
+                    <div className="flex gap-8 py-3">
+                      <div
+                        className={`flex gap-2 items-center ${
+                          selectedPaymentMethod === 'BPI' ? 'bg-gray-200' : 'bg-white'
+                        } px-4 py-2 border-2`}
+                        onClick={() => setSelectedPaymentMethod('BPI')}
+                      >
+                        <img
+                          src={bpi}
+                          alt="bpi"
+                          className="w-12 object-contain rounded-md cursor-pointer"
+                        />
+                      </div>
+                      <div
+                        className={`flex gap-2 items-center ${
+                          selectedPaymentMethod === 'UBP' ? 'bg-gray-200' : 'bg-white'
+                        } px-4 py-2 border-2`}
+                        onClick={() => setSelectedPaymentMethod('UBP')}
+                      >
+                        <img
+                          src={ubp}
+                          alt="ubp"
+                          className="w-12 object-contain rounded-md cursor-pointer"
+                        />
+                      </div>
+                      <div
+                        className={`flex gap-2 items-center ${
+                          selectedPaymentMethod === 'RCBC' ? 'bg-gray-200' : 'bg-white'
+                        } px-4 py-2 border-2`}
+                        onClick={() => setSelectedPaymentMethod('RCBC')}
+                      >
+                        <img
+                          src={rcbc}
+                          alt="rcbc"
+                          className="w-12 object-contain rounded-md cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex flex-col w-full sm:w-[40vw]">

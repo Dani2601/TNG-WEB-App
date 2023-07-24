@@ -26,8 +26,8 @@ const TFR_KEY = process.env.REACT_APP_TFR_KEY;
 const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
 const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
 
-export default function Topbar({ scroll }) {
-  const [showMenu, setShowMenu] = useState(false);
+export default function Topbar({showMenu, setShowMenu, handleMenuClick}) {
+
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [openEditBusinessUnitModal, setOpenEditBusinessUnitModal] =
     useState(false);
@@ -39,21 +39,17 @@ export default function Topbar({ scroll }) {
   const navigate = useNavigate();
   const [page, setPage] = useState(null)
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setShowMenu(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [menuRef]);
-
-  const handleMenuClick = () => {
-    setShowMenu(!showMenu);
-  };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (menuRef.current && !menuRef.current.contains(event.target)) {
+  //       setShowMenu(false);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //   };
+  // }, [menuRef]);
 
   function _logout() {
     // console.log("trigger")

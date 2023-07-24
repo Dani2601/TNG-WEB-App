@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../../store/action";
 import { Topbar } from "../../components/Navbar";
 import { loginViaEmail, register } from "../../functions/index";
+import { useState } from "react";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -76,9 +77,14 @@ function Register() {
     }
   }
 
+  const [showMenu, setShowMenu] = useState(false);
+  const handleMenuClick = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <>
-      <Topbar />
+      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
       <FormikProvider value={formik}>
         <Form>
           <div className="flex flex-col  bg-gradient-to-l from-[#55ace2a4]  to-[#6bc4c1a1] bg-opacity-5 py-20">

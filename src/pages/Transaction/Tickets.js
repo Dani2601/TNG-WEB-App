@@ -177,6 +177,11 @@ export default function Tickets() {
     }
   }, [loading, record, search, tooltip, getEditData]);
 
+  const [showMenu, setShowMenu] = useState(false);
+  const handleMenuClick = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <>
       <Helmet>
@@ -196,7 +201,8 @@ export default function Tickets() {
         />
       )}
       <div className="min-h-screen flex flex-col bluegradient">
-        <Topbar />
+      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
+      
         <div className=" p-10 gap-8 mb-auto font-poppins ">
           <div className="text-2xl flex flex-row">
             {title}

@@ -60,9 +60,14 @@ export default function Profile() {
     validationSchema,
     onSubmit,
   });
+  const [showMenu, setShowMenu] = useState(false);
+  const handleMenuClick = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <>
-      <Topbar />
+      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
       <Helmet>
         <title>TNG Admin | Business Unit</title>
       </Helmet>
