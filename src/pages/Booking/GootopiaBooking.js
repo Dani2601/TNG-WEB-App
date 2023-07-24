@@ -58,13 +58,8 @@ export function GootopiaBooking() {
       .then((result) => {
         console.log(result)
         if (result.valid) {
-          if (result.data && result.data.actions && result.data.actions[0] && result.data.actions[0].url) {
+          window.location.href = result.data.invoice_url;
             // Redirect to the URL
-            window.location.href = result.data.actions[0].url;
-          } else {
-            // Handle the case when the URL is missing in the response
-            console.error('Invalid response data. Missing URL for redirection.');
-          }
           // setBookingDate("");
           // setBookingDate("");
           // setPax(1);
