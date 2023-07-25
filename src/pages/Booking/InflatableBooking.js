@@ -32,6 +32,7 @@ export function InflatableBooking() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const [selectedOption, setSelectedOption] = useState('Individual');
+  const [loading, setLoading] = useState(false)
   
   const locationR = useLocation();
 
@@ -49,13 +50,15 @@ export function InflatableBooking() {
     addBooking(e)
       .then((result) => {
         if (result.valid) {
+          setLoading(false)
           window.location.href = result.data.invoice_url;
         } else {
+          setLoading(false)
           toast.error("Failed to submit");
         }
       })
       .catch((e) => {
-        console.log(e);
+        setLoading(false)
         toast.error("Something went wrong");
       });
   }
@@ -110,7 +113,8 @@ export function InflatableBooking() {
             setBookingTime={setBookingTime}
             setSubmitData={submit}
             business={business}
-
+            setLoading={setLoading}
+            loading={loading}
           />
         </TISContainer>
       )}

@@ -31,6 +31,7 @@ export function DessertBooking() {
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
   const location = useLocation();
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if(location.state?.step){
@@ -53,8 +54,8 @@ export function DessertBooking() {
   function submit(e){
     addBooking(e)
     .then((result) => {
-      console.log(result)
       if(result.valid){
+        setLoading(false)
         // setQRCode(result?.forPDF?.QRCode);
         // setTimeout(() =>{
         //   e?.Items.map((item => {
@@ -79,21 +80,15 @@ export function DessertBooking() {
         //   sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
         //   // toast.success("Successfully added");
         // },3000)
-        
-        if (result.data && result.data.actions && result.data.actions[0] && result.data.actions[0].url) {
-          // Redirect to the URL
-          window.location.href = result.data.actions[0].url;
-        } else {
-          // Handle the case when the URL is missing in the response
-          console.error('Invalid response data. Missing URL for redirection.');
-        }
+        window.location.href = result.data.invoice_url;
       }
       else{
+        setLoading(false)
         toast.error('Failed to submit')
       }
     })
     .catch((e) => {
-      console.log(e)
+      setLoading(false)
       toast.error('Something went wrong')
     })
   }
@@ -129,6 +124,8 @@ export function DessertBooking() {
           bookingTime={bookingTime} setBookingTime={setBookingTime}
           setSubmitData={submit}
           bookingType={selectedOption}
+          setLoading={setLoading}
+          loading={loading}
         />
       }
     </DesertMuseumContainer>

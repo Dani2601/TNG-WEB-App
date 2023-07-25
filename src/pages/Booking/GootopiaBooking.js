@@ -33,6 +33,7 @@ export function GootopiaBooking() {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('Individual');
   const locationR = useLocation();
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if(locationR.state?.step){
@@ -58,6 +59,7 @@ export function GootopiaBooking() {
       .then((result) => {
         console.log(result)
         if (result.valid) {
+          setLoading(false)
           window.location.href = result.data.invoice_url;
             // Redirect to the URL
           // setBookingDate("");
@@ -85,10 +87,12 @@ export function GootopiaBooking() {
           //   navigate(routes.LandingGootopia);
           // },3000)
         } else {
+          setLoading(false)
           toast.error("Failed to submit");
         }
       })
       .catch((e) => {
+        setLoading(false)
         console.log(e);
         toast.error("Something went wrong");
       });
@@ -150,6 +154,8 @@ export function GootopiaBooking() {
             business={business}
             bookingType={selectedOption}
             total={total}
+            setLoading={setLoading}
+            loading={loading}
           />
         </GootopiaContainer>
       )}

@@ -31,7 +31,9 @@ export function TDMPaymentDetails({
   bookingTime,
   setSubmitData,
   business,
-  bookingType=""
+  bookingType="",
+  setLoading,
+  loading
 }) {
 
   const navigate = useNavigate();
@@ -70,6 +72,7 @@ export function TDMPaymentDetails({
   }
 
   function handleNext() {
+    setLoading(true)
     let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
 
     setSubmitData({
@@ -398,12 +401,21 @@ export function TDMPaymentDetails({
             </div>
           </div>
           <div className="flex justify-center flex-wrap gap-5 py-5 w-60 self-center">
+            {
+              loading ?
+              <button
+                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
+              >
+                Loading...
+              </button>
+              :
               <button
                 onClick={handleNext}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
               >
                 Checkout
               </button>
+            }
           </div>
         </div>
       </div>

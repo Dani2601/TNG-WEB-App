@@ -38,6 +38,7 @@ export function BakebeBooking() {
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
 
   const locationR = useLocation();
 
@@ -73,12 +74,15 @@ export function BakebeBooking() {
     addBooking(e)
       .then((result) => {
         if (result.valid) {
+          setLoading(false)
           window.location.href = result.data.invoice_url;
         } else {
+          setLoading(false)
           toast.error("Failed to submit");
         }
       })
       .catch((e) => {
+        setLoading(false)
         console.log(e);
         toast.error("Something went wrong");
       });
@@ -155,6 +159,8 @@ export function BakebeBooking() {
             business={business}
             bookingType={selectedOption}
             total={total}
+            setLoading={setLoading}
+            loading={loading}
           />
         </BakebeContainer>
       )}

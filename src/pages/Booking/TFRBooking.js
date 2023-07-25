@@ -34,6 +34,7 @@ export function TFRBooking() {
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
   
   const locationR = useLocation();
 
@@ -59,6 +60,7 @@ export function TFRBooking() {
     addBooking(e)
       .then((result) => {
         if (result.valid) {
+          setLoading(false)
           window.location.href = result.data.invoice_url;
           // setBookingDate("");
           // setBookingDate("");
@@ -85,11 +87,12 @@ export function TFRBooking() {
           //   toast.success("Successfully added");
           // },3000)
         } else {
+          setLoading(false)
           toast.error("Failed to submit");
         }
       })
       .catch((e) => {
-        console.log(e);
+        setLoading(false)
         toast.error("Something went wrong");
       });
   }
@@ -150,6 +153,8 @@ export function TFRBooking() {
             business={business}
             bookingType={selectedOption}
             total={total}
+            setLoading={setLoading}
+            loading={loading}
           />
         </TFRContainer>
       )}
