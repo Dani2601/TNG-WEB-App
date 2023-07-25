@@ -1,16 +1,41 @@
 // PaymentSuccess.js
 
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
+import routes from "../../constants/routes";
+import { useNavigate } from "react-router-dom";
+
+const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
+const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
+const TFR_KEY = process.env.REACT_APP_TFR_KEY;
+const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
+const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
+
+const business_unit = {
+    [BAKEBE_KEY]: routes.BookingBakebe,
+    [GOOTOPIA_KEY]: routes.BookingGootopia,
+    [TFR_KEY]: routes.BookingTFR,
+    [DESSERT_KEY]: routes.DessertBooking,
+    [TIS_KEY]: routes.BookingInflatable
+}
 
 const PaymentSuccess = () => {
   const dispatch = useDispatch()
+  const [link, setLink] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(setCart([]))
+    const urlParams = new URLSearchParams(window.location.search);
+    const business = urlParams.get("bus");
+    setLink(business_unit[business])
   }, [])
+
+  function handleLink(){
+    navigate(link || routes.LandingTFR)
+  }
   
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -34,9 +59,7 @@ const PaymentSuccess = () => {
       </p>
       <button
         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={() => {
-          window.location.href = "/";
-        }}
+        onClick={handleLink}
       >
         Okay
       </button>
