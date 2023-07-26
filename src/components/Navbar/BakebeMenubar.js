@@ -30,7 +30,7 @@ export default function BakebeMenubar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           <div className="flex items-center justify-between h-[100px]">
             <div className="flex w-full justify-start items-center">
-              <div className="laptopL:hidden">
+              <div className="laptop:hidden">
                 <Link className=" ">
                   <img
                     className="bg-transparent  mx-auto "
@@ -111,13 +111,7 @@ export default function BakebeMenubar() {
             } md:hidden w-full h-screen z-50 `}
           >
             <div className="text-[16px] flex flex-col items-center px-2 pt-2 pb-3 space-y-3 sm:px-3 text-bakebe-pink">
-              <a
-                href={"#menu"}
-                // to={routes.LandingGootopia}
-                className="block px-3 py-2 w-full text-left "
-              >
-                HOME
-              </a>
+           
               <a
                 href={"#howto"}
                 // to={routes.ObstaclesGootopia}
