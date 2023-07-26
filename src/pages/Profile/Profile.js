@@ -77,7 +77,7 @@ export default function Profile() {
           <div className="h-screen p-10 gap-8 mb-auto font-poppins modalgradient">
             <div className="text-2xl flex flex-row mb-10">{title}</div>
             <div className="flex mobileS:flex-col mobileS:mobileL tablet:flex-row">
-              <div className="flex-none modalgradient rounded-lg tablet:mr-10 mobileS:mb-8 shadow-lg">
+              {/* <div className="flex-none modalgradient rounded-lg tablet:mr-10 mobileS:mb-8 shadow-lg">
                 <div className="m-4">
                   <div className="flex flex-row">
                     <div className="flex flex-none justify-center rounded-full border-2 border-black h-[70px] w-[70px] ">
@@ -91,11 +91,16 @@ export default function Profile() {
                   </div>
                   <hr class="h-[2px] mt-1 modalgradient border-0 dark:bg-gray-700"></hr>
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex-none modalgradient rounded-lg shadow-lg">
                 <div className=" mb-5 rounded-lg p-5">
                   <div className="mt-5 flex flex-col text-base">
+                  <div className="flex flex-none self-center text-base font-bold">
+                      Hello there! {user?.Name}
+                    </div>
+                    <hr class="h-[2px] modalgradient border-0 dark:bg-gray-700 mt-4 mb-6"></hr>
+
                     <div className="flex flex-col gap-3 font-medium ">
                       <div className="font-bold">Edit Profile</div>
                       <div className="flex tablet:flex-row flex-col">
