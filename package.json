@@ -20,6 +20,8 @@
         "jquery": "^3.6.4",
         "jspdf": "^2.5.1",
         "leaflet": "^1.9.4",
+        "moment": "^2.29.4",
+        "moment-timezone": "^0.5.43",
         "popper.js": "^1.16.1",
         "qrcode": "^1.5.3",
         "qrcode-svg": "^1.1.0",
@@ -53,13 +55,22 @@
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
-        "extends": ["react-app", "react-app/jest"]
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
     },
     "browserslist": {
         "production": [
-            ">0.2%", "not dead", "not op_mini all"
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
         ],
-        "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     },
     "devDependencies": {
         "tailwindcss": "^3.2.4"

@@ -13,6 +13,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getBookingsByTicketID } from "../../functions/Tickets";
 import { setCart } from "../../store/action";
 import { number } from "yup";
+import moment from "moment-timezone";
+import { current } from "@reduxjs/toolkit";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -29,6 +31,7 @@ const business_unit = {
 };
 
 const personCount = [1, 2];
+const currentTime = moment().tz("Asia/Manila"); // Get the current time in the Philippines timezone
 
 export function TDMBookingDetails({
   setStep,
@@ -62,6 +65,8 @@ export function TDMBookingDetails({
       setStep(2);
     }
   }
+
+  console.log("currentTime",currentTime);
 
   function handleNext() {
     const booking = {
@@ -313,7 +318,6 @@ export function TDMBookingDetails({
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
-  
     } else {
       setBookingTime(null);
       setPax(0);
@@ -405,7 +409,23 @@ export function TDMBookingDetails({
                   <option value={""}>Select a time</option>
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
+                      const itemTime = moment(item.value, "h:mm A").tz(
+                        "Asia/Manila"
+                      );
+
+                      console.log("item", item.value);
                       if (item?.slot === 0) {
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item)}
+                            disabled={true}
+                          >
+                            {item.label}
+                          </option>
+                        );
+                      } else if (itemTime.isBefore(currentTime)) {
+                        // Disable the option if itemTime is before the current time
                         return (
                           <option
                             key={index}
@@ -471,7 +491,7 @@ export function TDMBookingDetails({
                   </select>
                 )}
               </div>
-              {business === "BakeBe" && numberOfPersons == 2 &&  (
+              {business === "BakeBe" && numberOfPersons == 2 && (
                 <div className="flex flex-col w-full gap-2">
                   <div className="flex items-center gap-2">
                     <input
@@ -481,7 +501,9 @@ export function TDMBookingDetails({
                         handleOptionChange(e.target.value);
                         handlePax(e);
                       }}
-                      checked={selectedOption === "Share" || slotIdentifier === 1}
+                      checked={
+                        selectedOption === "Share" || slotIdentifier === 1
+                      }
                     />
                     <div className="text-xs">Baking the recipe with a peer</div>
                   </div>
@@ -495,7 +517,7 @@ export function TDMBookingDetails({
                         handlePax(2);
                       }}
                       checked={selectedOption === "Individual"}
-                      disabled={disabled || slotIdentifier===1}
+                      disabled={disabled || slotIdentifier === 1}
                     />
                     <div className="text-xs">One Pastry per person </div>
                   </div>
