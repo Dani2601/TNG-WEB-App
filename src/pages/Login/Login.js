@@ -11,6 +11,8 @@ import { setToken, setUser } from "../../store/action";
 import { Topbar } from "../../components/Navbar";
 import { loginViaEmail } from "../../functions/index";
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useCallback } from "react";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -23,7 +25,9 @@ function Landing() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
 
+  const [showMenu, setShowMenu] = useState(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -40,24 +44,34 @@ function Landing() {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
         login();
-        navigate(-1);
+        navigate(routes.LandingBakebe);
       } else {
-        toast.error(response.errorMsg.length === undefined ?  "Password is wrong" : response.errorMsg);
-        console.log(response.errorMsg.length)
+        toast.error(
+          response.errorMsg.length === undefined
+            ? "Password is wrong"
+            : response.errorMsg
+        );
+        console.log(response.errorMsg.length);
       }
     } catch (error) {
       toast.error("Something went wrong");
     }
   }
 
-  const [showMenu, setShowMenu] = useState(false);
   const handleMenuClick = () => {
     setShowMenu(!showMenu);
   };
 
+  const togglePasswordVisibility = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
   return (
     <>
-      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
+      <Topbar
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+        handleMenuClick={handleMenuClick}
+      />
       <FormikProvider value={formik}>
         <Form>
           <div className="flex flex-col h-screen bg-gradient-to-l from-[#55ace2a4]  to-[#6bc4c1a1] bg-opacity-5">
@@ -88,13 +102,22 @@ function Landing() {
                         required
                       />
                       <span className="text-cyan-900">Password</span>
-                      <input
-                        type="password"
-                        name="password"
-                        onChange={formik.handleChange}
-                        className="px-5 py-2 border-[1px] border-slate-300 rounded-full"
-                        required
-                      />
+                      <div className="flex flex-row relative justify-center">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          onChange={formik.handleChange}
+                          className="px-5 py-2 border-[1px] border-slate-300 rounded-full w-full"
+                          required
+                        />
+                        <div className="absolute right-5 top-3 cursor-pointer">
+                          {showPassword === true ? (
+                            <FaEye onClick={togglePasswordVisibility} />
+                          ) : (
+                            <FaEyeSlash onClick={togglePasswordVisibility} />
+                          )}
+                        </div>
+                      </div>
                       <button
                         onClick={formik.handleSubmit}
                         type="submit"

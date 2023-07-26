@@ -11,6 +11,8 @@ import { setToken, setUser } from "../../store/action";
 import { Topbar } from "../../components/Navbar";
 import { loginViaEmail, register } from "../../functions/index";
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useCallback } from "react";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -42,6 +44,10 @@ function Register() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
+
+  const [showMenu, setShowMenu] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +63,6 @@ function Register() {
       const response = await register(
         values.name,
         values.mobile,
-
         values.email,
         values.address,
         values.password
@@ -68,7 +73,7 @@ function Register() {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
         login();
-        navigate(routes.LandingDesert)
+        navigate(routes.LandingDesert);
       } else {
         toast.error(response.errorMsg);
       }
@@ -77,14 +82,26 @@ function Register() {
     }
   }
 
-  const [showMenu, setShowMenu] = useState(false);
   const handleMenuClick = () => {
     setShowMenu(!showMenu);
   };
 
+  const togglePasswordVisibility = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+
+  const toggleCPasswordVisibility = useCallback(() => {
+    setShowCPassword((prev) => !prev);
+  }, []);
+
+
   return (
     <>
-      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
+      <Topbar
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+        handleMenuClick={handleMenuClick}
+      />
       <FormikProvider value={formik}>
         <Form>
           <div className="flex flex-col  bg-gradient-to-l from-[#55ace2a4]  to-[#6bc4c1a1] bg-opacity-5 py-20">
@@ -104,7 +121,12 @@ function Register() {
                       </span>
                     </div>
                     <div className="flex flex-col space-y-2 w-full">
-                      <span className="text-cyan-900 mt-8">Name</span>
+                      <span className="text-cyan-900 mt-8">
+                        Name
+                        <small className="text-red-500 ml-1 text-[20px]">
+                          *
+                        </small>
+                      </span>
                       <input
                         type="text"
                         name="name"
@@ -130,7 +152,12 @@ function Register() {
                           {formik.errors.email}
                         </div>
                       ) : null}
-                      <span className="text-cyan-900 mt-8">Mobile</span>
+                      <span className="text-cyan-900 mt-8">
+                        Mobile
+                        <small className="text-red-500 ml-1 text-[20px]">
+                          *
+                        </small>
+                      </span>
                       <input
                         type="text"
                         name="mobile"
@@ -143,7 +170,12 @@ function Register() {
                           {formik.errors.mobile}
                         </div>
                       ) : null}
-                      <span className="text-cyan-900 mt-8">Address</span>
+                      <span className="text-cyan-900 mt-8">
+                        Address
+                        <small className="text-red-500 ml-1 text-[20px]">
+                          *
+                        </small>
+                      </span>
                       <input
                         type="text"
                         name="address"
@@ -156,27 +188,55 @@ function Register() {
                           {formik.errors.address}
                         </div>
                       ) : null}
-                      <span className="text-cyan-900">Password</span>
-                      <input
-                        type="password"
-                        name="password"
-                        onChange={formik.handleChange}
-                        className="px-5 py-2 border-[1px] border-slate-300 rounded-full"
-                        required
-                      />
+                      <span className="text-cyan-900">
+                        Password
+                        <small className="text-red-500 ml-1 text-[20px]">
+                          *
+                        </small>
+                      </span>
+                      <div className="flex flex-row relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          onChange={formik.handleChange}
+                          className="px-5 py-2 border-[1px] border-slate-300 rounded-full w-full"
+                          required
+                        />
+                        <div className="absolute right-5 top-3 cursor-pointer">
+                          {showPassword === true ? (
+                            <FaEye onClick={togglePasswordVisibility} />
+                          ) : (
+                            <FaEyeSlash onClick={togglePasswordVisibility} />
+                          )}
+                        </div>
+                      </div>
                       {formik.touched.password && formik.errors.password ? (
                         <div className="flex text-red-500 text-sm">
                           {formik.errors.password}
                         </div>
                       ) : null}
-                      <span className="text-cyan-900">Confirm Password</span>
-                      <input
-                        type="password"
-                        name="cpassword"
-                        onChange={formik.handleChange}
-                        className="px-5 py-2 border-[1px] border-slate-300 rounded-full"
-                        required
-                      />
+                      <span className="text-cyan-900">
+                        Confirm Password
+                        <small className="text-red-500 ml-1 text-[20px]">
+                          *
+                        </small>
+                      </span>
+                      <div className="flex flex-row relative">
+                        <input
+                          type={showCPassword ? "text" : "password"}
+                          name="cpassword"
+                          onChange={formik.handleChange}
+                          className="px-5 py-2 border-[1px] border-slate-300 rounded-full w-full"
+                          required
+                        />
+                        <div className="absolute right-5 top-3 cursor-pointer">
+                          {showCPassword === true ? (
+                            <FaEye onClick={toggleCPasswordVisibility} />
+                          ) : (
+                            <FaEyeSlash onClick={toggleCPasswordVisibility} />
+                          )}
+                        </div>
+                      </div>
                       {formik.touched.cpassword && formik.errors.cpassword ? (
                         <div className="flex text-red-500 text-sm">
                           {formik.errors.cpassword}
@@ -193,9 +253,9 @@ function Register() {
                           </span>
                         </div>
                       </button>
-                      <div className="flex flex-row justify-between">
+                      {/* <div className="flex flex-row justify-between">
                         <a className="text-sky-500">Forgot password</a>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
