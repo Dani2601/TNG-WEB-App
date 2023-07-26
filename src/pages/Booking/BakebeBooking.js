@@ -35,7 +35,7 @@ export function BakebeBooking() {
   const [business] = useState("BakeBe");
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState("");
-  const [selectedOption, setSelectedOption] = useState('Individual');
+  const [selectedOption, setSelectedOption] = useState('Share');
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -50,14 +50,19 @@ export function BakebeBooking() {
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
+    if(e === "Share"){
+      setPax(1) 
+    } else {
+      setPax(2)
+    }
   };
-
+  
   const total = useMemo(() => {
     if(ticket){
       let price = ticket?.Price
       if(pax === 2){
         if(selectedOption !== 'Individual'){
-          return price
+          return price 
         }
         else{
           return price * pax
@@ -69,6 +74,7 @@ export function BakebeBooking() {
     }
     return 0
   }, [ticket, pax, selectedOption])
+
   
   function submit(e) {
     addBooking(e)
