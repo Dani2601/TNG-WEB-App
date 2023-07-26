@@ -14,6 +14,7 @@ import TFRMenubar from "../../Navbar/TFRMenubar";
 import TFRMenubarNonSpa from "../../Navbar/TFRMenubarNonSpa";
 import BakebeContainer from "../../Container/BakebeContainer";
 import BakebeMenubar from "../../Navbar/BakebeMenubar";
+import BakebeMenubarNonSpa from "../../Navbar/BakebeMenubarNonSpa";
 
 export default function SelectLocationBakebe({
   step,
@@ -58,7 +59,7 @@ export default function SelectLocationBakebe({
 
   return (
     <BakebeContainer>
-      <BakebeMenubar/>
+      <BakebeMenubarNonSpa/>
       <div
         className="max-h-full min-h-screen bg-white "
         style={{ fontFamily: "Gotham-Bold, sans-serif" }}

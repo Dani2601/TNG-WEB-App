@@ -18,6 +18,7 @@ import BakebeMenubar from "../../Navbar/BakebeMenubar";
 import express from "../../../assets/Bakebe/express.png";
 import regular from "../../../assets/Bakebe/regular.png";
 import clock from "../../../assets/Bakebe/clock.png";
+import BakebeMenubarNonSpa from "../../Navbar/BakebeMenubarNonSpa";
 
 let type = [
   {
@@ -88,7 +89,7 @@ export default function SelectTypeOfBooking({
 
   return (
     <BakebeContainer>
-      <BakebeMenubar />
+      <BakebeMenubarNonSpa />
 
       {/* <TicketBookingModal
         showModal={showModal}

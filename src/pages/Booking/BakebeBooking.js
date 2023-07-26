@@ -24,6 +24,7 @@ import { generatePDF } from "../../helper/PDF";
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
+import BakebeMenubarNonSpa from "../../components/Navbar/BakebeMenubarNonSpa";
 
 export function BakebeBooking() {
   const [step, setStep] = useState(1);
@@ -128,7 +129,7 @@ export function BakebeBooking() {
       )}
       {step == 4 && (
         <BakebeContainer>
-          <BakebeMenubar />
+          <BakebeMenubarNonSpa />
           <TDMBookingDetails
             setStep={setStep}
             ticket={ticket}
@@ -150,7 +151,7 @@ export function BakebeBooking() {
       )}
       {step == 5 && (
         <BakebeContainer>
-          <BakebeMenubar />{" "}
+          <BakebeMenubarNonSpa />{" "}
           <TDMPaymentDetails
             setStep={setStep}
             ticket={ticket}
