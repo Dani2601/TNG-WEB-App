@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getBookingsByTicketID } from "../../functions/Tickets";
 import { setCart } from "../../store/action";
+import { number } from "yup";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -20,12 +21,14 @@ const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
 const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
 
 const business_unit = {
-  'BakeBe': BAKEBE_KEY,
-  'Gootopia': GOOTOPIA_KEY,
-  'TFR': TFR_KEY,
-  'Dessert': DESSERT_KEY,
-  'Inflatable': TIS_KEY
-}
+  BakeBe: BAKEBE_KEY,
+  Gootopia: GOOTOPIA_KEY,
+  TFR: TFR_KEY,
+  Dessert: DESSERT_KEY,
+  Inflatable: TIS_KEY,
+};
+
+const personCount = [1, 2];
 
 export function TDMBookingDetails({
   setStep,
@@ -37,11 +40,11 @@ export function TDMBookingDetails({
   setBookingDate,
   bookingTime,
   setBookingTime,
-  business="Dessert",
+  business = "Dessert",
   handleOptionChange,
   selectedOption,
-  total=0,
-  setLocation
+  total = 0,
+  setLocation,
 }) {
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
@@ -49,7 +52,9 @@ export function TDMBookingDetails({
   const [intervals, setIntervals] = useState([]);
   const [reserve, setReserve] = useState([]);
   const dispatch = useDispatch();
-
+  const [numberOfPersons, setNumberOfPersons] = useState(1);
+  const [disabled, setDisabled] = useState(false);
+  const [slotIdentifier, setSlotIdentifier] = useState(null);
   function handleBack() {
     if (business === "BakeBe") {
       setStep(3);
@@ -66,38 +71,40 @@ export function TDMBookingDetails({
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       Pax: parseInt(pax),
-      Option: selectedOption
-    }
-    if(cart.length > 0){
+      Option: selectedOption,
+    };
+    if (cart.length > 0) {
       let checkItem = cart.find(
-        item => item.Ticket?.id === booking?.Ticket?.id 
-        && item.BookingDate === booking?.BookingDate
-        && item.BookingTime === booking?.BookingTime
-      )
-      if(checkItem){
-        dispatch(setCart(cart.map((item => {
-          if(item.Ticket?.id === booking?.Ticket?.id){
-            return {
-              ...item,
-              Pax: item?.Pax + booking?.Pax
-            }
-          }
-          else{
-            return item
-          }
-        }))))
+        (item) =>
+          item.Ticket?.id === booking?.Ticket?.id &&
+          item.BookingDate === booking?.BookingDate &&
+          item.BookingTime === booking?.BookingTime
+      );
+      if (checkItem) {
+        dispatch(
+          setCart(
+            cart.map((item) => {
+              if (item.Ticket?.id === booking?.Ticket?.id) {
+                return {
+                  ...item,
+                  Pax: item?.Pax + booking?.Pax,
+                };
+              } else {
+                return item;
+              }
+            })
+          )
+        );
+      } else {
+        dispatch(setCart([...cart, booking]));
       }
-      else{
-        dispatch(setCart([...cart, booking]))
-      }
+    } else {
+      dispatch(setCart([...cart, booking]));
     }
-    else{
-      dispatch(setCart([...cart, booking]))
-    }
-    
-    setBookingDate('')
-    setBookingTime('')
-    setPax(1)
+
+    setBookingDate("");
+    setBookingTime("");
+    setPax(1);
 
     if (business === "BakeBe") {
       setStep(5);
@@ -182,7 +189,11 @@ export function TDMBookingDetails({
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
-      getBookingsByTicketID(location, ticket?.id, format(bookingDate, "yyyy-MM-dd"))
+      getBookingsByTicketID(
+        location,
+        ticket?.id,
+        format(bookingDate, "yyyy-MM-dd")
+      )
         .then((res) => {
           if (res.valid) {
             setReserve(res.data);
@@ -202,15 +213,17 @@ export function TDMBookingDetails({
   }
 
   useEffect(() => {
-    
-    
     if (bookingDate) {
       setIntervals(
         ticket?.CreatedInterval.map((item) => {
           let reservation = reserve?.filter(
             (res) => res.BookingTime === item.timeInterval
           );
-          let cartReserve = cart?.filter((cartItem) => cartItem.BookingTime === item.timeInterval && cartItem.Ticket?.id === ticket?.id)
+          let cartReserve = cart?.filter(
+            (cartItem) =>
+              cartItem.BookingTime === item.timeInterval &&
+              cartItem.Ticket?.id === ticket?.id
+          );
           if (reservation.length > 0) {
             const sumOfCart = cartReserve.reduce(
               (total, item) => total + item.Pax,
@@ -218,13 +231,13 @@ export function TDMBookingDetails({
             );
             return {
               value: item.timeInterval,
-              slot: parseInt(item.slot) - (sumOfCart + (reservation.length || 0)),
+              slot:
+                parseInt(item.slot) - (sumOfCart + (reservation.length || 0)),
               label: `${item.timeInterval} - ${
-                parseInt(item.slot) - (sumOfCart  + (reservation.length || 0))
+                parseInt(item.slot) - (sumOfCart + (reservation.length || 0))
               } slot(s)`,
             };
           } else {
-
             const sumOfCart = cartReserve.reduce(
               (total, item) => total + item.Pax,
               0
@@ -232,8 +245,8 @@ export function TDMBookingDetails({
 
             return {
               value: item.timeInterval,
-              slot: (parseInt(item.slot) - (sumOfCart)),
-              label: `${item.timeInterval} - ${item.slot - (sumOfCart)} slot(s)`,
+              slot: parseInt(item.slot) - sumOfCart,
+              label: `${item.timeInterval} - ${item.slot - sumOfCart} slot(s)`,
             };
           }
         })
@@ -252,23 +265,37 @@ export function TDMBookingDetails({
   }
 
   function handlePax(e) {
-    let input = parseInt(e.target.value);
-    if (input > 0) {
+    if (business !== "BakeBe") {
+      let input = parseInt(e.target.value);
+      if (input > 0) {
+        let intervalData = intervals?.find(
+          (item) => item.value === bookingTime
+        );
+        if (input <= intervalData.slot) {
+          setPax(input);
+        }
+      }
+    } else {
       let intervalData = intervals?.find((item) => item.value === bookingTime);
-      if (input <= intervalData.slot) {
-        setPax(input);
+
+      if (intervalData.slot <= 1) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
       }
     }
   }
-  
+
+  function handlePersons(e) {
+    let input = parseInt(e.target.value);
+    setNumberOfPersons(input);
+  }
+
   useEffect(() => {
-    if(business === 'Bakebe' && pax === 2){
-      handleOptionChange('Share')
+    if (business !== "BakeBe") {
+      handleOptionChange("");
     }
-    else{
-      handleOptionChange('')
-    }
-  }, [pax, business])
+  }, [pax, business]);
 
   const maxPerInterval = useMemo(() => {
     let max = "";
@@ -279,12 +306,23 @@ export function TDMBookingDetails({
     return max;
   }, [bookingTime, bookingDate, intervals]);
 
-  function handleBookingTime(e){
-    setBookingTime(e.target.value ? e.target.value : null)
-    setPax(1)
+  function handleBookingTime(e) {
+    if (e.target.value) {
+      const data = JSON.parse(e.target.value);
+      setBookingTime(data?.value ? data?.value : null);
+      setPax(1);
+      setDisabled(false);
+      setSlotIdentifier(data?.slot);
+  
+    } else {
+      setBookingTime(null);
+      setPax(0);
+      setDisabled(true);
+      setSlotIdentifier(null);
+    }
   }
 
-  function handleCart(){
+  function handleCart() {
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
@@ -292,22 +330,27 @@ export function TDMBookingDetails({
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       Pax: parseInt(pax),
-      Option: selectedOption
-    }
+      Option: selectedOption,
+    };
 
-    setBookingDate('')
-    setBookingTime('')
-    setPax(1)
-    dispatch(setCart([...cart, booking]))
-    setStep(2)
+    setBookingDate("");
+    setBookingTime("");
+    setPax(1);
+    dispatch(setCart([...cart, booking]));
+    setStep(2);
   }
+
+  const handleBothFunctions = (event) => {
+    handlePax(event);
+    handlePersons(event);
+  };
 
   return (
     <div className="w-full py-10 flex justify-center">
       <div className="w-[80vw] sm:w-[50vw]">
         <div className="text-center flex gap-6 flex-col justify-center items-center">
-          <img src={nx} className="w-[60px] object-contain" alt="nx"/>
-          <img src={tnglogo} className="w-[400px] object-cover" alt="tng"/>
+          <img src={nx} className="w-[60px] object-contain" alt="nx" />
+          <img src={tnglogo} className="w-[400px] object-cover" alt="tng" />
         </div>
         <div className="flex flex-col">
           <p className="text-center font-bold text-lg mb-10 mt-5">
@@ -357,18 +400,16 @@ export function TDMBookingDetails({
                 </p>
                 <select
                   onChange={handleBookingTime}
-                  value={bookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                 >
-                  <option value={''}>Select a time</option>
+                  <option value={""}>Select a time</option>
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
-                      console.log(item?.slot, 'slot...', intervals)
                       if (item?.slot === 0) {
                         return (
                           <option
                             key={index}
-                            value={item.value}
+                            value={JSON.stringify(item)}
                             disabled={true}
                           >
                             {item.label}
@@ -376,7 +417,7 @@ export function TDMBookingDetails({
                         );
                       } else {
                         return (
-                          <option key={index} value={item.value}>
+                          <option key={index} value={JSON.stringify(item)}>
                             {item.label}
                           </option>
                         );
@@ -386,41 +427,83 @@ export function TDMBookingDetails({
               </div>
               <div>
                 <p className="text-sm">
-                  {business === 'BakeBe' ? 'HOW MANY ARE ATTENDING?' : 'NUMBER OF PASSES:'} <small style={{ color: "red" }}>*</small>
+                  {business === "BakeBe"
+                    ? "NUMBER OF PERSONS?:"
+                    : "NUMBER OF PASSES:"}{" "}
+                  <small style={{ color: "red" }}>*</small>
                 </p>
-                <input
-                  type="number"
-                  onChange={handlePax}
-                  defaultValue={1}
-                  disabled={bookingTime ? false : true}
-                  min={1}
-                  max={business === 'BakeBe' ? 2 : maxPerInterval}
-                  value={pax}
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
-                />
+
+                {business !== "BakeBe" ? (
+                  <input
+                    type="number"
+                    onChange={handlePax}
+                    defaultValue={1}
+                    disabled={bookingTime ? false : true}
+                    min={1}
+                    max={business === "BakeBe" ? 2 : maxPerInterval}
+                    value={pax}
+                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
+                  />
+                ) : (
+                  <select
+                    onChange={handleBothFunctions}
+                    disabled={bookingTime ? false : true}
+                    // value={pax}
+                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
+                  >
+                    <option value={0} selected>
+                      {" "}
+                      -- Select an option --
+                    </option>
+                    <option value={1}> 1</option>
+                    {/* {slotIdentifier >= 2 ? <option value={2}>2</option> : <></>} */}
+                    <option value={2}>2</option> : <></>
+                    {/*                    
+                    {personCount.map((item, index) => {
+                      if (slotIdentifier) {
+                        return (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        );
+                      }
+                    })} */}
+                  </select>
+                )}
               </div>
-              {
-                (business === 'BakeBe' && pax == 2) &&
+              {business === "BakeBe" && numberOfPersons == 2 &&  (
                 <div className="flex flex-col w-full gap-2">
                   <div className="flex items-center gap-2">
-                    <input type="radio" 
-                    value="Share"
-                    onChange={(e) => handleOptionChange(e.target.value)}
-                    checked={selectedOption === 'Share'}
+                    <input
+                      type="radio"
+                      value="Share"
+                      onChange={(e) => {
+                        handleOptionChange(e.target.value);
+                        handlePax(e);
+                      }}
+                      checked={selectedOption === "Share" || slotIdentifier === 1}
                     />
-                    <div className="text-xs">Number of persons bake the pastry</div>
+                    <div className="text-xs">Baking the recipe with a peer</div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <input type="radio" className="mt-[2px]"
+                    <input
+                      type="radio"
+                      className="mt-[2px]"
                       value="Individual"
-                      onChange={(e) => handleOptionChange(e.target.value)}
-                      checked={selectedOption === 'Individual'}
+                      onChange={(e) => {
+                        handleOptionChange(e.target.value);
+                        handlePax(2);
+                      }}
+                      checked={selectedOption === "Individual"}
+                      disabled={disabled || slotIdentifier===1}
                     />
-                    <div className="text-xs">One Pastry per person Bailing the recipe with a peek</div>
+                    <div className="text-xs">One Pastry per person </div>
                   </div>
-                  <div className="text-xs text-white">+ Additional charge will be put on your total bill</div>
+                  <div className="text-xs text-white font-bold">
+                    + Additional charge will be put on your total bill
+                  </div>
                 </div>
-              }
+              )}
             </div>
             <div className="flex flex-col w-full sm:w-[40vw]">
               <div className="shadow-md rounded-md">
@@ -475,38 +558,36 @@ export function TDMBookingDetails({
             >
               Back
             </button>
-            {
-              (bookingDate && bookingTime && pax > 0) ?
+            {bookingDate && bookingTime && pax > 0 ? (
               <button
                 onClick={handleNext}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
               >
                 Next
               </button>
-              :
+            ) : (
               <button
                 disabled
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#51CEC5] text-white"
               >
                 Next
               </button>
-            }
-            {
-              (bookingDate && bookingTime && pax > 0) ?
+            )}
+            {bookingDate && bookingTime && pax > 0 ? (
               <button
                 onClick={handleCart}
                 className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#E992A1] text-white"
               >
                 Add More
               </button>
-              :
+            ) : (
               <button
                 disabled
                 className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#51CEC5] text-white"
               >
                 Add More
               </button>
-            }
+            )}
           </div>
         </div>
       </div>

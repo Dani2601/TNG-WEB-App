@@ -84,7 +84,7 @@ export function TDMPaymentDetails({
           TicketID: item?.Ticket?.id,
           BookingDate: item?.BookingDate,
           BookingTime: item?.BookingTime,
-          Pax: 2,
+          Pax: item?.Pax,
           Status: "Unused"
         }
       )),
