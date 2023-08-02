@@ -92,7 +92,9 @@ const PaymentSuccess = () => {
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex gap-4">
         {qrCode?.map((item, index) => (
-          <div id={`qrcode-${index}`} key={index}> 
+          <div id={`qrcode-${index}`} key={index}   
+          className="absolute -left-full -top-full"
+          > 
             <QRCode value={item} />
           </div>
         ))}
