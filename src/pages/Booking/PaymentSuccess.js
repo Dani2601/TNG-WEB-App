@@ -46,9 +46,13 @@ const PaymentSuccess = () => {
     const bookingData = await ViewTransactionViaCode(code)
     if(bookingData?.data.length > 0){
       
-    let encrypt = await Promise.all(bookingData?.data?.map(async(item) => await encryptData({Code: item.QRCode, UserID: item.CustomerID, Status: item.Status })))
+    const encryptedData = await Promise.all(bookingData?.data?.map(async (item) => await encryptData({
+      Code: item.QRCode,
+      UserID: item.CustomerID,
+      Status: item.Status,
+    })));
 
-    setQRCode(encrypt);
+    setQRCode(encryptedData);
 
     setTimeout(async () => {
       const pdfFileNames = bookingData?.data?.map((item, index) => `${new Date().valueOf()}/pdf/${index}/${new Date().valueOf()}`);
