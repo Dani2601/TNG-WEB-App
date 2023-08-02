@@ -100,7 +100,7 @@ export function GootopiaBooking() {
 
   return (
     <>
-    <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
+    {/* <QRcode value = {qrCode} id = 'qrcode' className="hidden"/> */}
       {step == 1 && (
         <SelectLocation
           step={step}

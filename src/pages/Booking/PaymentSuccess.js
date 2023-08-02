@@ -6,6 +6,10 @@ import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
 import routes from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
+import { generatePDF } from "../../helper/PDF";
+import { sendEmailWithAttachment } from "../../functions/Email";
+import QRCode from "react-qr-code";
+import { ViewTransactionViaCode } from "../../functions/Booking";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -25,12 +29,36 @@ const PaymentSuccess = () => {
   const dispatch = useDispatch()
   const [link, setLink] = useState()
   const navigate = useNavigate()
+  const [qrCode, setQRCode] = useState("default");
 
   useEffect(() => {
     dispatch(setCart([]))
     const urlParams = new URLSearchParams(window.location.search);
     const business = urlParams.get("bus");
-    setLink(business_unit[business])
+    const qrcode = urlParams.get("qc");
+    const code = urlParams.get("c");
+    const getBookingData = async () => {
+      const bookingData = await ViewTransactionViaCode(business,qrcode,code)
+    console.log("booking data",bookingData)
+    setQRCode(qrcode);
+      setTimeout(() =>{
+          generatePDF({
+            InvoiceCode : code,
+            BusinessUnit : bookingData?.forPDF?.BusinessUnit,
+            Branch : bookingData?.forPDF?.Branch,
+            Customer : bookingData?.forPDF?.Customer,
+            BookingDate : bookingData?.data?.Items[0]?.BookingDate,
+            BookingTime : bookingData?.data?.Items[0]?.BookingTime,
+            NumberOfPass: String(bookingData?.data?.Items[0]?.Pax),
+            TotalPrice : String(bookingData?.data?.TotalPrice),
+            PDFFile : bookingData?.data?.PDFFile
+          });
+        sendEmailWithAttachment({Email : bookingData?.forPDF?.Email, Message : `Hello ${bookingData?.forPDF?.Customer}`, Filename: bookingData?.data?.PDFFile});
+        // toast.success("Successfully added");
+        setLink(business_unit[business])
+      },3000)
+    }
+    getBookingData();
   }, [])
 
   function handleLink(){
@@ -39,6 +67,9 @@ const PaymentSuccess = () => {
   
   return (
     <div className="flex flex-col items-center justify-center h-screen">
+      <div>
+      <QRCode value={qrCode} id='qrcode' className="hidden"/>
+      </div>
       <svg
         className="w-16 h-16 text-green-500 mb-4"
         xmlns="http://www.w3.org/2000/svg"

@@ -14,8 +14,8 @@ const generatePDF = (data) => {
     })
 
     // Transforms the canvas into a base64 image
+    console.log("base64Image",document.getElementById('qrcode'))
     let base64Image = document.getElementById('qrcode').toDataURL()
-
     // For the Background Color of PDF
     pdf.setFillColor("#e891a0");
     pdf.rect(0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight(),"DF");
