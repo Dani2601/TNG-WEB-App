@@ -61,4 +61,27 @@ async function viewMyTickets(e) {
   }
 }
 
-export { addBooking, viewMyTransaction, viewMyTickets };
+async function ViewTransactionViaCode(BusinessUnitID,QRCode,Code) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}ViewTransactionByCode`,
+      {
+        BusinessUnitID: BusinessUnitID,
+        QRCode: QRCode,
+        Code: Code
+      }
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    return {
+      valid: false,
+    };
+  }
+}
+
+export { addBooking, viewMyTransaction, viewMyTickets, ViewTransactionViaCode };
