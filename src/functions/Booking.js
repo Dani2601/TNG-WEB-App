@@ -61,13 +61,11 @@ async function viewMyTickets(e) {
   }
 }
 
-async function ViewTransactionViaCode(BusinessUnitID,QRCode,Code) {
+async function ViewTransactionViaCode(Code) {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_REST_API}ViewTransactionByCode`,
       {
-        BusinessUnitID: BusinessUnitID,
-        QRCode: QRCode,
         Code: Code
       }
     );

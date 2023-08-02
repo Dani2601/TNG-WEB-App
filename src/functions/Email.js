@@ -12,6 +12,7 @@ function sendEmailWithAttachment(emailData) {
         }
     );
 
+    console.log(data)
     if (data?.valid) {
       return {
         valid: true,

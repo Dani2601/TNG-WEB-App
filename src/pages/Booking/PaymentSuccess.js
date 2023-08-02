@@ -10,6 +10,7 @@ import { generatePDF } from "../../helper/PDF";
 import { sendEmailWithAttachment } from "../../functions/Email";
 import QRCode from "react-qr-code";
 import { ViewTransactionViaCode } from "../../functions/Booking";
+import { encryptData } from "../../helper/DataEncryption";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -29,7 +30,7 @@ const PaymentSuccess = () => {
   const dispatch = useDispatch()
   const [link, setLink] = useState()
   const navigate = useNavigate()
-  const [qrCode, setQRCode] = useState("default");
+  const [qrCode, setQRCode] = useState([]);
 
   useEffect(() => {
     dispatch(setCart([]))
@@ -37,29 +38,47 @@ const PaymentSuccess = () => {
     const business = urlParams.get("bus");
     const qrcode = urlParams.get("qc");
     const code = urlParams.get("c");
-    const getBookingData = async () => {
-      const bookingData = await ViewTransactionViaCode(business,qrcode,code)
-    console.log("booking data",bookingData)
-    setQRCode(qrcode);
-      setTimeout(() =>{
-          generatePDF({
-            InvoiceCode : code,
-            BusinessUnit : bookingData?.forPDF?.BusinessUnit,
-            Branch : bookingData?.forPDF?.Branch,
-            Customer : bookingData?.forPDF?.Customer,
-            BookingDate : bookingData?.data?.Items[0]?.BookingDate,
-            BookingTime : bookingData?.data?.Items[0]?.BookingTime,
-            NumberOfPass: String(bookingData?.data?.Items[0]?.Pax),
-            TotalPrice : String(bookingData?.data?.TotalPrice),
-            PDFFile : bookingData?.data?.PDFFile
-          });
-        sendEmailWithAttachment({Email : bookingData?.forPDF?.Email, Message : `Hello ${bookingData?.forPDF?.Customer}`, Filename: bookingData?.data?.PDFFile});
-        // toast.success("Successfully added");
-        setLink(business_unit[business])
-      },3000)
-    }
-    getBookingData();
+    getBookingData(business,qrcode,code);
   }, [])
+
+  
+  const getBookingData = async (business,qrcode,code) => {
+    const bookingData = await ViewTransactionViaCode(code)
+    if(bookingData?.data.length > 0){
+      
+    let encrypt = await Promise.all(bookingData?.data?.map(async(item) => await encryptData({Code: item.QRCode, UserID: item.CustomerID, Status: item.Status })))
+
+    setQRCode(encrypt);
+
+    setTimeout(async () => {
+      const pdfFileNames = bookingData?.data?.map((item, index) => `${new Date().valueOf()}/pdf/${index}/${new Date().valueOf()}`);
+    
+      await Promise.all(
+        bookingData?.data?.map(async (item, index) => {
+          const pdfFileName = pdfFileNames[index];
+          await generatePDF({
+            InvoiceCode: item?.Code,
+            BusinessUnit: item.BusinessUnitName,
+            Branch: item.Branch,
+            Customer: item?.FullName,
+            BookingDate: item?.BookingDate,
+            BookingTime: item?.BookingTime,
+            TotalPrice: String(item?.TotalPrice),
+            PDFFile: pdfFileName,
+          }, index);
+        })
+      );
+    
+      const files = pdfFileNames;
+      await sendEmailWithAttachment({
+        Email: bookingData?.data[0]?.Email,
+        Message: `Hello ${bookingData?.data[0]?.FullName}`,
+        Filename: files,
+      });
+    }, 3000);
+    
+    }
+  }
 
   function handleLink(){
     navigate(link || routes.LandingTFR)
@@ -67,8 +86,12 @@ const PaymentSuccess = () => {
   
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <div>
-      <QRCode value={qrCode} id='qrcode' className="hidden"/>
+      <div className="flex gap-4">
+        {qrCode?.map((item, index) => (
+          <div id={`qrcode-${index}`} key={index}> 
+            <QRCode value={item} />
+          </div>
+        ))}
       </div>
       <svg
         className="w-16 h-16 text-green-500 mb-4"
