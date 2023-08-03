@@ -81,7 +81,7 @@ const PaymentSuccess = () => {
         });
 
         setIsDataLoaded(true); // Data retrieval process completed, set isDataLoaded to true
-      }, 3000);
+      }, 2000);
     }
   }
 
