@@ -81,7 +81,7 @@ const PaymentSuccess = () => {
         });
 
         setIsDataLoaded(true); // Data retrieval process completed, set isDataLoaded to true
-      }, 1000);
+      }, 1500);
     }
   }
 
@@ -136,7 +136,7 @@ const PaymentSuccess = () => {
       </p>
       {!isDataLoaded && (
         <p>
-          Redirecting in {secondsLeft} {secondsLeft === 1 ? 'second' : 'seconds'}...
+          Waiting for redirecting...
         </p>
       )}
     </div>
