@@ -32,7 +32,7 @@ const PaymentSuccess = () => {
   const navigate = useNavigate()
   const [qrCode, setQRCode] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(4); // Set the countdown time in seconds
+  const [secondsLeft, setSecondsLeft] = useState(5); // Set the countdown time in seconds
 
   useEffect(() => {
     dispatch(setCart([]))
@@ -81,7 +81,7 @@ const PaymentSuccess = () => {
         });
 
         setIsDataLoaded(true); // Data retrieval process completed, set isDataLoaded to true
-      }, 2000);
+      }, 2500);
     }
   }
 
@@ -104,8 +104,16 @@ const PaymentSuccess = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const business = urlParams.get("bus");
       navigate(business_unit[business]);
+    } else {
+      if (secondsLeft > 0) {
+        const timer = setTimeout(() => {
+          setSecondsLeft(prevSeconds => prevSeconds - 1);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+      }
     }
-  }, [isDataLoaded, link]);
+  }, [secondsLeft, isDataLoaded]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
