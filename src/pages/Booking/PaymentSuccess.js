@@ -101,13 +101,11 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     if (isDataLoaded) {
-      navigate(link || routes.LandingTFR);
+      const urlParams = new URLSearchParams(window.location.search);
+      const business = urlParams.get("bus");
+      navigate(business_unit[business]);
     }
   }, [isDataLoaded, link]);
-
-  function handleLink() {
-    navigate(link || routes.LandingTFR);
-  }
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
