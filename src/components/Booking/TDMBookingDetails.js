@@ -261,7 +261,7 @@ export function TDMBookingDetails({
 
   console.log("bookingDate", bookingDate);
 
-  const allowedDays = ["Monday", "Tuesday", "Wednesday","Thursday","Friday"];
+  const allowedDays = ["Monday", "Tuesday", "Wednesday"];
 
   function handleClear() {
     setBookingDate(null);
