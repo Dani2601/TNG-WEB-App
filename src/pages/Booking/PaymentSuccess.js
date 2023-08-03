@@ -81,21 +81,19 @@ const PaymentSuccess = () => {
         });
 
         setIsDataLoaded(true); // Data retrieval process completed, set isDataLoaded to true
-      }, 2500);
+      }, 1000);
     }
   }
 
   useEffect(() => {
-    if (secondsLeft > 0) {
-      const timer = setInterval(() => {
+    if (!isDataLoaded && secondsLeft > 0) {
+      const timer = setTimeout(() => {
         setSecondsLeft(prevSeconds => prevSeconds - 1);
       }, 1000);
-
-      return () => clearInterval(timer);
-    } else {
-      if (!isDataLoaded) {
-        setIsDataLoaded(true); // Timeout completed, but data retrieval process might not be finished yet. Set isDataLoaded to true.
-      }
+  
+      return () => clearTimeout(timer);
+    } else if (!isDataLoaded && secondsLeft === 0) {
+      setIsDataLoaded(true); // Timeout completed, but data retrieval process might not be finished yet. Set isDataLoaded to true.
     }
   }, [secondsLeft, isDataLoaded]);
 
@@ -104,16 +102,8 @@ const PaymentSuccess = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const business = urlParams.get("bus");
       navigate(business_unit[business]);
-    } else {
-      if (secondsLeft > 0) {
-        const timer = setTimeout(() => {
-          setSecondsLeft(prevSeconds => prevSeconds - 1);
-        }, 1000);
-
-        return () => clearTimeout(timer);
-      }
     }
-  }, [secondsLeft, isDataLoaded]);
+  }, [isDataLoaded, link]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
