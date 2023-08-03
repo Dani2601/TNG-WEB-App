@@ -19,11 +19,11 @@ const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
 const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
 
 const business_unit = {
-    [BAKEBE_KEY]: routes.BookingBakebe,
-    [GOOTOPIA_KEY]: routes.BookingGootopia,
-    [TFR_KEY]: routes.BookingTFR,
-    [DESSERT_KEY]: routes.DessertBooking,
-    [TIS_KEY]: routes.BookingInflatable
+  [BAKEBE_KEY]: routes.BookingBakebe,
+  [GOOTOPIA_KEY]: routes.BookingGootopia,
+  [TFR_KEY]: routes.BookingTFR,
+  [DESSERT_KEY]: routes.DessertBooking,
+  [TIS_KEY]: routes.BookingInflatable
 }
 
 const PaymentSuccess = () => {
@@ -31,6 +31,8 @@ const PaymentSuccess = () => {
   const [link, setLink] = useState()
   const navigate = useNavigate()
   const [qrCode, setQRCode] = useState([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(5); // Set the countdown time in seconds
 
   useEffect(() => {
     dispatch(setCart([]))
@@ -38,63 +40,82 @@ const PaymentSuccess = () => {
     const business = urlParams.get("bus");
     const qrcode = urlParams.get("qc");
     const code = urlParams.get("c");
-    getBookingData(business,qrcode,code);
-  }, [])
+    getBookingData(business, qrcode, code);
+  }, []);
 
-  
-  const getBookingData = async (business,qrcode,code) => {
+  const getBookingData = async (business, qrcode, code) => {
     const bookingData = await ViewTransactionViaCode(code)
-    if(bookingData?.data.length > 0){
-      
-    const encryptedData = await Promise.all(bookingData?.data?.map(async (item) => await encryptData({
-      Code: item.QRCode,
-      UserID: item.CustomerID,
-      Status: item.Status,
-    })));
+    if (bookingData?.data.length > 0) {
+      const encryptedData = await Promise.all(bookingData?.data?.map(async (item) => await encryptData({
+        Code: item.QRCode,
+        UserID: item.CustomerID,
+        Status: item.Status,
+      })));
 
-    setQRCode(encryptedData);
+      setQRCode(encryptedData);
 
-    setTimeout(async () => {
-      const pdfFileNames = bookingData?.data?.map((item, index) => `${new Date().valueOf()}/pdf/${index}/${new Date().valueOf()}`);
-    
-      await Promise.all(
-        bookingData?.data?.map(async (item, index) => {
-          const pdfFileName = pdfFileNames[index];
-          await generatePDF({
-            InvoiceCode: item?.Code,
-            BusinessUnit: item.BusinessUnitName,
-            Branch: item.Branch,
-            Customer: item?.FullName,
-            BookingDate: item?.BookingDate,
-            BookingTime: item?.BookingTime,
-            TotalPrice: String(item?.TotalPrice),
-            PDFFile: pdfFileName,
-          }, index);
-        })
-      );
-    
-      const files = pdfFileNames;
-      await sendEmailWithAttachment({
-        Email: bookingData?.data[0]?.Email,
-        Message: `Hello ${bookingData?.data[0]?.FullName}`,
-        Filename: files,
-      });
-    }, 3000);
-    
+      setTimeout(async () => {
+        const pdfFileNames = bookingData?.data?.map((item, index) => `${new Date().valueOf()}/pdf/${index}/${new Date().valueOf()}`);
+
+        await Promise.all(
+          bookingData?.data?.map(async (item, index) => {
+            const pdfFileName = pdfFileNames[index];
+            await generatePDF({
+              InvoiceCode: item?.Code,
+              BusinessUnit: item.BusinessUnitName,
+              Branch: item.Branch,
+              Customer: item?.FullName,
+              BookingDate: item?.BookingDate,
+              BookingTime: item?.BookingTime,
+              TotalPrice: String(item?.TotalPrice),
+              PDFFile: pdfFileName,
+            }, index);
+          })
+        );
+
+        const files = pdfFileNames;
+        await sendEmailWithAttachment({
+          Email: bookingData?.data[0]?.Email,
+          Message: `Hello ${bookingData?.data[0]?.FullName}`,
+          Filename: files,
+        });
+
+        setIsDataLoaded(true); // Data retrieval process completed, set isDataLoaded to true
+      }, 3000);
     }
   }
 
-  function handleLink(){
-    navigate(link || routes.LandingTFR)
+  useEffect(() => {
+    if (secondsLeft > 0) {
+      const timer = setInterval(() => {
+        setSecondsLeft(prevSeconds => prevSeconds - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else {
+      if (!isDataLoaded) {
+        setIsDataLoaded(true); // Timeout completed, but data retrieval process might not be finished yet. Set isDataLoaded to true.
+      }
+    }
+  }, [secondsLeft, isDataLoaded]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      navigate(link || routes.LandingTFR);
+    }
+  }, [isDataLoaded, link]);
+
+  function handleLink() {
+    navigate(link || routes.LandingTFR);
   }
-  
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex gap-4">
         {qrCode?.map((item, index) => (
-          <div id={`qrcode-${index}`} key={index}   
-          className="absolute -left-full -top-full"
-          > 
+          <div id={`qrcode-${index}`} key={index}
+            className="absolute -left-full -top-full"
+          >
             <QRCode value={item} />
           </div>
         ))}
@@ -117,12 +138,11 @@ const PaymentSuccess = () => {
       <p className="text-gray-600 text-center mb-4">
         Thank you for your payment. Your booking is confirmed.
       </p>
-      <button
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={handleLink}
-      >
-        Okay
-      </button>
+      {!isDataLoaded && (
+        <p>
+          Redirecting in {secondsLeft} {secondsLeft === 1 ? 'second' : 'seconds'}...
+        </p>
+      )}
     </div>
   );
 };
