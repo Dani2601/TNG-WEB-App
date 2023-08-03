@@ -32,7 +32,7 @@ const PaymentSuccess = () => {
   const navigate = useNavigate()
   const [qrCode, setQRCode] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(5); // Set the countdown time in seconds
+  const [secondsLeft, setSecondsLeft] = useState(4); // Set the countdown time in seconds
 
   useEffect(() => {
     dispatch(setCart([]))
