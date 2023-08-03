@@ -66,8 +66,6 @@ export function TDMBookingDetails({
     }
   }
 
-  console.log("currentTime",currentTime);
-
   function handleNext() {
     const booking = {
       BusinessUnitID: business_unit[business],
@@ -261,6 +259,8 @@ export function TDMBookingDetails({
     }
   }, [bookingDate, ticket, reserve]);
 
+  console.log("bookingDate", bookingDate);
+
   const allowedDays = ["Monday", "Tuesday", "Wednesday"];
 
   function handleClear() {
@@ -349,6 +349,10 @@ export function TDMBookingDetails({
     handlePersons(event);
   };
 
+  const currentTime = moment.tz("Asia/Manila");
+
+  const isBookingDateToday = moment(bookingDate).isSame(currentTime, "day");
+
   return (
     <div className="w-full py-10 flex justify-center">
       <div className="w-[80vw] sm:w-[50vw]">
@@ -412,8 +416,6 @@ export function TDMBookingDetails({
                       const itemTime = moment(item.value, "h:mm A").tz(
                         "Asia/Manila"
                       );
-
-                      console.log("item", item.value);
                       if (item?.slot === 0) {
                         return (
                           <option
@@ -424,17 +426,27 @@ export function TDMBookingDetails({
                             {item.label}
                           </option>
                         );
-                      } else if (itemTime.isBefore(currentTime)) {
-                        // Disable the option if itemTime is before the current time
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                            disabled={true}
-                          >
-                            {item.label}
-                          </option>
-                        );
+                      // } else if (itemTime.isBefore(currentTime)) {
+                      //   // Disable the option if itemTime is before the current time
+                      //   return (
+                      //     <option
+                      //       key={index}
+                      //       value={JSON.stringify(item)}
+                      //       disabled={true}
+                      //     >
+                      //       {item.label}
+                      //     </option>
+                      //   );
+                      // } else if (!isBookingDateToday) {
+                      //   return (
+                      //     <option
+                      //       key={index}
+                      //       value={JSON.stringify(item)}
+                      //       disabled={false}
+                      //     >
+                      //       {item.label}
+                      //     </option>
+                      //   );
                       } else {
                         return (
                           <option key={index} value={JSON.stringify(item)}>
