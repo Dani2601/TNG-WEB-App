@@ -6,11 +6,6 @@ import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
 import routes from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
-import { generatePDF } from "../../helper/PDF";
-import { sendEmailWithAttachment } from "../../functions/Email";
-import QRCode from "react-qr-code";
-import { ViewTransactionViaCode } from "../../functions/Booking";
-import { encryptData } from "../../helper/DataEncryption";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -30,60 +25,12 @@ const PaymentSuccess = () => {
   const dispatch = useDispatch()
   const [link, setLink] = useState()
   const navigate = useNavigate()
-  const [qrCode, setQRCode] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(5); // Set the countdown time in seconds
 
   useEffect(() => {
     dispatch(setCart([]))
-    const urlParams = new URLSearchParams(window.location.search);
-    const business = urlParams.get("bus");
-    const qrcode = urlParams.get("qc");
-    const code = urlParams.get("c");
-    getBookingData(business, qrcode, code);
   }, []);
-
-  const getBookingData = async (business, qrcode, code) => {
-    const bookingData = await ViewTransactionViaCode(code)
-    if (bookingData?.data.length > 0) {
-      const encryptedData = await Promise.all(bookingData?.data?.map(async (item) => await encryptData({
-        Code: item.QRCode,
-        UserID: item.CustomerID,
-        Status: item.Status,
-      })));
-
-      setQRCode(encryptedData);
-
-      setTimeout(async () => {
-        const pdfFileNames = bookingData?.data?.map((item, index) => `${new Date().valueOf()}/pdf/${index}/${new Date().valueOf()}`);
-
-        await Promise.all(
-          bookingData?.data?.map(async (item, index) => {
-            const pdfFileName = pdfFileNames[index];
-            await generatePDF({
-              InvoiceCode: item?.Code,
-              BusinessUnit: item.BusinessUnitName,
-              Branch: item.Branch,
-              Customer: item?.FullName,
-              BookingDate: item?.BookingDate,
-              BookingTime: item?.BookingTime,
-              TotalPrice: String(item?.TotalPrice),
-              PDFFile: pdfFileName,
-            }, index);
-          })
-        );
-
-        const files = pdfFileNames;
-        await sendEmailWithAttachment({
-          Email: bookingData?.data[0]?.Email,
-          Message: `Hello ${bookingData?.data[0]?.FullName}`,
-          Filename: files,
-        });
-
-        setIsDataLoaded(true); // Data retrieval process completed, set isDataLoaded to true
-      }, 1500);
-    }
-  }
 
   useEffect(() => {
     if (!isDataLoaded && secondsLeft > 0) {
@@ -103,19 +50,10 @@ const PaymentSuccess = () => {
       const business = urlParams.get("bus");
       navigate(business_unit[business]);
     }
-  }, [isDataLoaded, link]);
+  }, [isDataLoaded]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <div className="flex gap-4">
-        {qrCode?.map((item, index) => (
-          <div id={`qrcode-${index}`} key={index}
-            className="absolute -left-full -top-full"
-          >
-            <QRCode value={item} />
-          </div>
-        ))}
-      </div>
       <svg
         className="w-16 h-16 text-green-500 mb-4"
         xmlns="http://www.w3.org/2000/svg"
