@@ -63,9 +63,7 @@ export default function Tickets() {
   };
 
   const getEditData = (data) => {
-    const objData = [
-      { Code: data.QRCode, UserID: data.CustomerID, Status: data.Status },
-    ];
+    const objData = { Code: data.QRCode, UserID: data.CustomerID, Status: data.Status }
     
     const encrypt = encryptData(objData)
 
