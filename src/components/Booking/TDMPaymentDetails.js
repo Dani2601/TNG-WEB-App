@@ -15,6 +15,7 @@ import { verifyCouponCode } from "../../functions/Coupon";
 import { toast } from "react-toastify";
 import { bpi, gcash, grabpay, maya, rcbc, shopeepay, ubp } from "../../assets/Payment/ewallet";
 import routes from "../../constants/routes";
+import { TCModalContainer } from "../Modal/TermsAndCondition";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -45,12 +46,14 @@ export function TDMPaymentDetails({
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [activeAccordion, setActiveAccordion] = useState(null);
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
 
   const handleAccordionClick = (accordionName) => {
     setActiveAccordion(accordionName === activeAccordion ? null : accordionName);
   };
 
-
+  const [showModal, setShowModal] = useState(false)
   const [coupon, setCoupon] = useState(null);
   const [grandTotal, setGrandTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
@@ -258,8 +261,13 @@ export function TDMPaymentDetails({
     toast.success("Coupon Removed");
   }
 
+  function handleCloseModal(){
+    setShowModal(false)
+  }
+
   return (
     <div className="w-full py-10 flex justify-center">
+      <TCModalContainer showModal={showModal} handleCloseModal={handleCloseModal} handleProceed={handleNext} business={business}/>
       <div className="w-[80vw] sm:w-[50vw]">
         <div className="text-center flex gap-6 flex-col justify-center items-center">
           <img src={nx} className="w-[60px] object-contain" />
@@ -410,7 +418,7 @@ export function TDMPaymentDetails({
               </button>
               :
               <button
-                onClick={handleNext}
+                onClick={() => setShowModal(true)}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
               >
                 Checkout

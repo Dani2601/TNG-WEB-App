@@ -11,11 +11,13 @@ export default function TISContainer({children, scroll}) {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full min-h-screen">
       <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
+      <div className='flex flex-col flex-grow'>
         <InflatableMenubar scroll={scroll}/>
         {children}
-        <InflatableFooter/>
+      </div>
+      <InflatableFooter/>
     </div>
   )
 }

@@ -105,13 +105,6 @@ export default function InflatableSelectLocation({ step, setStep, setLocation, l
             </div>
           </div>
         </div>
-        {/* <div className="pt-80">
-          <img
-            class="w-full rotate-180 "
-            src={dripping}
-            alt="gootopialanding "
-          />
-        </div> */}
       </div>
     </TISContainer>
   );
