@@ -35,7 +35,7 @@ export default function TCModalContainer({
       ariaHideApp={false}
       modalWidth={"40vw"}
     >
-      <div className="p-6 max-h-[60vh] flex flex-col font-poppins">
+      <div className="p-6 max-h-[80vh] flex flex-col font-poppins">
         <p className="text-3xl font-bold mt-4">Terms and Conditions</p>
         <p className="mb-4 text-gray-600 font-medium">{title[business]}</p>
         {content[business]}
