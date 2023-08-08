@@ -58,6 +58,7 @@ export function TDMBookingDetails({
   const [numberOfPersons, setNumberOfPersons] = useState(1);
   const [disabled, setDisabled] = useState(false);
   const [slotIdentifier, setSlotIdentifier] = useState(null);
+  const [paxCount, setPaxCount] = useState(null)
   function handleBack() {
     if (business === "BakeBe") {
       setStep(3);
@@ -272,6 +273,7 @@ export function TDMBookingDetails({
   function handlePax(e) {
     if (business !== "BakeBe") {
       let input = parseInt(e.target.value);
+      setPaxCount(input)
       if (input > 0) {
         let intervalData = intervals?.find(
           (item) => item.value === bookingTime
@@ -290,6 +292,8 @@ export function TDMBookingDetails({
       }
     }
   }
+
+  console.log("Pax", pax, paxCount)
 
   function handlePersons(e) {
     let input = parseInt(e.target.value);
@@ -480,7 +484,7 @@ export function TDMBookingDetails({
                     disabled={bookingTime ? false : true}
                     min={1}
                     max={business === "BakeBe" ? 2 : maxPerInterval}
-                    value={pax}
+                    
                     className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
                   />
                 ) : (
@@ -599,7 +603,7 @@ export function TDMBookingDetails({
             >
               Back
             </button>
-            {bookingDate && bookingTime && pax > 0 ? (
+            {bookingDate && bookingTime && pax > 0 && paxCount > 0 ? (
               <button
                 onClick={handleNext}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
@@ -614,7 +618,7 @@ export function TDMBookingDetails({
                 Next
               </button>
             )}
-            {bookingDate && bookingTime && pax > 0 ? (
+            {bookingDate && bookingTime && pax > 0 && paxCount > 0 ? (
               <button
                 onClick={handleCart}
                 className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#E992A1] text-white"
