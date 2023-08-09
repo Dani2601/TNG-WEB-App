@@ -272,15 +272,9 @@ export function TDMBookingDetails({
 
   function handlePax(e) {
     if (business !== "BakeBe") {
-      let input = parseInt(e.target.value);
-      setPaxCount(input)
-      if (input > 0) {
-        let intervalData = intervals?.find(
-          (item) => item.value === bookingTime
-        );
-        if (input <= intervalData.slot) {
-          setPax(input);
-        }
+      let input = e.target.value !== "" ? parseInt(e.target.value) : ""; // Parse input as integer if not empty
+      if (input === "" || (input > 0 && input <= maxPerInterval)) { // Check if input is empty or within the allowed range
+        setPax(input);
       }
     } else {
       let intervalData = intervals?.find((item) => item.value === bookingTime);
@@ -603,7 +597,7 @@ export function TDMBookingDetails({
             >
               Back
             </button>
-            {bookingDate && bookingTime && pax > 0 && paxCount > 0 ? (
+            {bookingDate && bookingTime && pax > 0 ? (
               <button
                 onClick={handleNext}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
@@ -618,7 +612,7 @@ export function TDMBookingDetails({
                 Next
               </button>
             )}
-            {bookingDate && bookingTime && pax > 0 && paxCount > 0 ? (
+            {bookingDate && bookingTime && pax > 0 ? (
               <button
                 onClick={handleCart}
                 className="shadow-md text-sm w-full sm:w-auto  py-2 px-6 bg-[#E992A1] text-white"
