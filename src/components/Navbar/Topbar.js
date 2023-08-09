@@ -138,8 +138,8 @@ export default function Topbar({ scroll }) {
             <div className="flex flex-row gap-1 laptop:gap-2 flex-1">
               <div>
                 <div
-                  onClick={() => handleCart(TFR_KEY, routes.LandingTFR)}
-                  className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                  // onClick={() => handleCart(TFR_KEY, routes.LandingTFR)}
+                  className={`border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
               ${
                 location.pathname === routes.LandingTFR ||
                 location.pathname === routes.BookingTFR
