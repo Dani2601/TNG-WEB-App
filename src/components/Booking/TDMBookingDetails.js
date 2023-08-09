@@ -108,7 +108,7 @@ export function TDMBookingDetails({
 
     setBookingDate("");
     setBookingTime("");
-    setPax(1);
+    setPax("");
 
     if (business === "BakeBe") {
       setStep(5);
@@ -213,7 +213,7 @@ export function TDMBookingDetails({
 
   function handleBookingDate(date) {
     setBookingDate(date);
-    setPax(1);
+    setPax("");
   }
 
   useEffect(() => {
@@ -267,7 +267,7 @@ export function TDMBookingDetails({
   function handleClear() {
     setBookingDate(null);
     setBookingTime(null);
-    setPax(1);
+    setPax("");
   }
 
   function handlePax(e) {
@@ -337,7 +337,7 @@ export function TDMBookingDetails({
 
     setBookingDate("");
     setBookingTime("");
-    setPax(1);
+    setPax("");
     dispatch(setCart([...cart, booking]));
     setStep(2);
   }
@@ -474,11 +474,10 @@ export function TDMBookingDetails({
                   <input
                     type="number"
                     onChange={handlePax}
-                    defaultValue={1}
                     disabled={bookingTime ? false : true}
                     min={1}
                     max={business === "BakeBe" ? 2 : maxPerInterval}
-                    
+                    value={pax}
                     className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
                   />
                 ) : (

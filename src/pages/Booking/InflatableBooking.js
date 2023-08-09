@@ -24,7 +24,7 @@ export function InflatableBooking() {
   const [location, setLocation] = useState("");
 
   const [ticket, setTicket] = useState("");
-  const [pax, setPax] = useState(1);
+  const [pax, setPax] = useState("");
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
   const [business, ] = useState("Inflatable")
