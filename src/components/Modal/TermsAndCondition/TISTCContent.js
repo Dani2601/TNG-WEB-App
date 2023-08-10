@@ -123,7 +123,7 @@ not follow the rules and regulations.
             <li className='text-sm'>PWD discounts and Senior discounts may be applied to the billing, but only in excess of the 
             total amount of the food stubs.</li>
             <li className='text-sm'>The stub must be fully consumed; any remaining amount not fully used will be forfeited.</li>
-            <li className='text-sm'>. Orders will only be accommodated until 4:30 PM; after the prescribed period, the stub will 
+            <li className='text-sm'>Orders will only be accommodated until 4:30 PM; after the prescribed period, the stub will 
             be forfeited.</li>
             <li className='text-sm'>The resort operating hours are until 6 PM only. </li>
             <li className='text-sm'>This stub is valid only on your booking/ participation date. </li>
