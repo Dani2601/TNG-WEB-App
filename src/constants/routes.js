@@ -9,7 +9,7 @@ const routes = {
   Packages: "/TheDessertMuseum/Packages",
 
   //Gootopia
-  LandingGootopia: "/",
+  LandingGootopia: "/Gootopia",
   ObstaclesGootopia: "/Gootopia/Obstacles",
   PackagesGootopia: "/Gootopia/Packages",
   FaqsGootopia: "/Gootopia/Faqs",
