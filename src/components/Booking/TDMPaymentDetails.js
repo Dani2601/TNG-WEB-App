@@ -339,10 +339,10 @@ export function TDMPaymentDetails({
                               </p>
                               <p className="text-xs">Time: {item?.BookingTime}</p>
                               <p className="text-xs">No. of pass: {item?.Pax}</p>
-                              {
+                              {/* {
                                 bookingType &&
                                 <p className="text-xs">Type: {item?.BookingType}</p>
-                              }
+                              } */}
                             </div>
                             <div className="flex flex-col items-end">
                               <p className="tex-4xl font-bold text-right">
