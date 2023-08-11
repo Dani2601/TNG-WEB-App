@@ -129,9 +129,13 @@ export default function TicketModal({
                  
                 </div>
                   <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px] mr-1">Invoice Number: </div>
-                  {editData.Code}
-                </div>
+                  <div className="tablet:w-[140px] mr-1">Ticket Code: </div>
+                    {editData?.TicketCode || editData?.Code}
+                  </div>
+                  <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  <div className="tablet:w-[140px] mr-1">Transaction Number: </div>
+                    {editData.Code}
+                  </div>
                 <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px] mr-1">TNG Unit: </div>
                   {editData.BusinessUnitName}

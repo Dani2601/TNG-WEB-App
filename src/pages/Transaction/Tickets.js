@@ -19,7 +19,8 @@ import { encryptData } from "../../helper/DataEncryption";
 import TicketModal from "../../components/Modal/Profile/TransactionModal/TicketModal";
 
 const tableHeader = [
-  "Code",
+  "Ticket Number",
+  "Transaction Number",
   "TNG",
   "Branch",
   "Booking Date",
@@ -143,8 +144,11 @@ export default function Tickets() {
                       setTimeout(() => showTooltip(true));
                     }}
                   >
-                    {data.Code}
+                    {data?.TicketCode || data?.Code}
                   </p>
+                </td>
+                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {data.Code}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
                   {data.BusinessUnitName}

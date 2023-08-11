@@ -31,11 +31,27 @@ export function HScreenCarouselBanner({items}) {
         prevArrow: <PrevArrow/>,
         nextArrow: <NextArrow/>,
     };
-
     useEffect(() => {
-        videoRef?.current?.play();
+      const videoElement = videoRef.current;
+  
+      if (videoElement) {
+          const playPromise = videoElement.play();
+  
+          playPromise.catch(error => {
+              if (error.name === "NotAllowedError" || error.name === "NotSupportedError") {
+                  // Handle error cases where autoplay is not allowed or not supported
+                  console.error("Video playback error:", error.message);
+              } else if (error.name === "AbortError") {
+                  // Video playback was interrupted
+                  console.error("Video playback was interrupted:", error.message);
+              } else {
+                  // Other types of errors
+                  console.error("An error occurred during video playback:", error);
+              }
+          });
+      }
     }, []);
-
+  
     return (
         <Slider {...settings}>
           {items.map((item) => (

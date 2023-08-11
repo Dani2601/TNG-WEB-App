@@ -267,7 +267,7 @@ export function TDMPaymentDetails({
 
   return (
     <div className="w-full py-10 flex justify-center">
-      <TCModalContainer showModal={showModal} handleCloseModal={handleCloseModal} handleProceed={handleNext} business={business}/>
+      <TCModalContainer loading={loading} showModal={showModal} handleCloseModal={handleCloseModal} handleProceed={handleNext} business={business}/>
       <div className="w-[80vw] sm:w-[50vw]">
         <div className="text-center flex gap-6 flex-col justify-center items-center">
           <img src={nx} className="w-[60px] object-contain" />
@@ -339,10 +339,10 @@ export function TDMPaymentDetails({
                               </p>
                               <p className="text-xs">Time: {item?.BookingTime}</p>
                               <p className="text-xs">No. of pass: {item?.Pax}</p>
-                              {
+                              {/* {
                                 bookingType &&
                                 <p className="text-xs">Type: {item?.BookingType}</p>
-                              }
+                              } */}
                             </div>
                             <div className="flex flex-col items-end">
                               <p className="tex-4xl font-bold text-right">
@@ -409,21 +409,12 @@ export function TDMPaymentDetails({
             </div>
           </div>
           <div className="flex justify-center flex-wrap gap-5 py-5 w-60 self-center">
-            {
-              loading ?
-              <button
-                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
-              >
-                Loading...
-              </button>
-              :
-              <button
-                onClick={() => setShowModal(true)}
-                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
-              >
-                Checkout
-              </button>
-            }
+            <button
+              onClick={() => setShowModal(true)}
+              className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
+            >
+              Checkout
+            </button>
           </div>
         </div>
       </div>
