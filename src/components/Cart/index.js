@@ -32,6 +32,8 @@ export default function Cart() {
     };
     
     return (
+
+
         <div className={`cart ${cart.length > 0 && 'cursor-pointer'}`} onClick={handleCartClick}>
             {
                 cart?.length > 0 &&
@@ -47,7 +49,9 @@ export default function Cart() {
                     </div>
                 )
             }
+            
             <BsFillCartFill/>
         </div>
+       
     )
 }

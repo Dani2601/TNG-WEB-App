@@ -12,10 +12,11 @@ export default function BakebeContainer({ children }) {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full" >
       <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
 
       {children}
+      {/* <div className="text-black p-10  bottom-0 fixed" >12312312312</div> */}
       <BakebeFooter />
     </div>
   );

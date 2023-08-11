@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  bakebenav,
-  gootopianav,
-  isnav,
-  logo,
-  nx,
-  tdmnav,
-} from "../../assets/Dessert";
+import tdmnav from "../../assets/Header/tdmnav.png";
+import bakebenav from "../../assets/Header/bakebenav.png";
+import gootopianav from "../../assets/Header/gootopianav.png";
+import isnav from "../../assets/Header/isnav.png";
+import { nx, logo } from "../../assets/Dessert";
 
 import tfrnav from "../../assets/TFR/THE FUN ROOF-WHITE.png";
 import { MdMenu } from "react-icons/md";
@@ -28,7 +25,7 @@ const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
 
 export default function Topbar({ scroll }) {
   const [showMenu, setShowMenu] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [openEditBusinessUnitModal, setOpenEditBusinessUnitModal] =
     useState(false);
   const menuRef = useRef(null);
@@ -37,7 +34,7 @@ export default function Topbar({ scroll }) {
   const { logout } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [page, setPage] = useState(null)
+  const [page, setPage] = useState(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,32 +70,29 @@ export default function Topbar({ scroll }) {
     setOpenEditBusinessUnitModal(false);
   };
 
-  function handleCart(business, route){
-    if(cart?.length > 0){
-      const businessUnitID = cart.map((item) => item.BusinessUnitID)[0]
-      if(business === businessUnitID){
-        navigate(route)
+  function handleCart(business, route) {
+    if (cart?.length > 0) {
+      const businessUnitID = cart.map((item) => item.BusinessUnitID)[0];
+      if (business === businessUnitID) {
+        navigate(route);
+      } else {
+        setIsModalVisible(true);
+        setPage(route);
       }
-      else{
-        setIsModalVisible(true)
-        setPage(route)
-      }
-    }
-    else{
-      navigate(route)
+    } else {
+      navigate(route);
     }
   }
 
-  function handleCloseModal(){
-    setIsModalVisible(false)
+  function handleCloseModal() {
+    setIsModalVisible(false);
   }
 
-  
-  function handleProceed(){
-    dispatch(setCart([]))
-    setIsModalVisible(false)
-    navigate(page)
-    setPage(null)
+  function handleProceed() {
+    dispatch(setCart([]));
+    setIsModalVisible(false);
+    navigate(page);
+    setPage(null);
   }
 
   return (
@@ -110,14 +104,18 @@ export default function Topbar({ scroll }) {
           openEditBusinessUnitModal={openEditBusinessUnitModal}
         />
       )}
-      <ConfirmationCartModal showModal={isModalVisible} handleCloseModal={handleCloseModal} handleProceed={handleProceed}/>
+      <ConfirmationCartModal
+        showModal={isModalVisible}
+        handleCloseModal={handleCloseModal}
+        handleProceed={handleProceed}
+      />
       <div className="bg-[#212121] ">
         <div className="py-auto">
           <div className="flex flex-row justify-between h-[65px] items-center mx-[5px] gap-1 laptop:mx-[20px]">
             <div className="flex flex-row flex-none">
-              <div>
+              {/* <div>
                 <img src={nx} alt="" className="h-10 w-10 object-contain" />
-              </div>
+              </div> */}
               <div>
                 <a
                   className="cursor-pointer"
@@ -133,13 +131,13 @@ export default function Topbar({ scroll }) {
               </div>
             </div>
 
-            <div class="h-[40px]  bg-white w-[2px] mr-[3px]"></div>
+            <div class="h-[40px]  bg-white w-[2px] mr-[3px] hidden tablet:block"></div>
 
             <div className="flex flex-row gap-1 laptop:gap-2 flex-1">
               {/* <div>
                 <div
                   // onClick={() => handleCart(TFR_KEY, routes.LandingTFR)}
-                  className={`border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                  className={`  rounded-full h-[35px] laptop:h-[46px] 
               ${
                 location.pathname === routes.LandingTFR ||
                 location.pathname === routes.BookingTFR
@@ -156,9 +154,16 @@ export default function Topbar({ scroll }) {
               </div> */}
 
               <div>
-                  <div
+                <div
+                  //  style={{
+                  //   backgroundImage: `url(${
+                  //     tdmnav
+                  //   })`,
+                  //   backgroundSize: "100% auto",
+                  //   backgroundRepeat: tdmnav ? "no-repeat" : "",
+                  // }}
                   onClick={() => handleCart(DESSERT_KEY, routes.LandingDesert)}
-                    className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                  className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px]
                 ${
                   location.pathname === routes.LandingDesert ||
                   location.pathname === routes.Packages ||
@@ -166,55 +171,57 @@ export default function Topbar({ scroll }) {
                     ? "bg-[#664653]"
                     : ""
                 }`}
-                  >
-                    <img
-                      src={tdmnav}
-                      alt=""
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                >
+                  <img src={tdmnav} alt="" className="w-full h-full" />
+                </div>
               </div>
               <div>
-                  <div
-                  onClick={() => handleCart(TIS_KEY, routes.LandingInflatableIsland)}
-                  className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px]
+                <div
+                  onClick={() =>
+                    handleCart(TIS_KEY, routes.LandingInflatableIsland)
+                  }
+                  className={`cursor-pointer     rounded-full h-[35px] laptop:h-[46px]
                   ${
                     location.pathname === routes.LandingInflatableIsland ||
                     location.pathname === routes.BookingInflatable
-                    ? "bg-[#664653]" : ""
-                  }`}>
-                    <img
-                      src={isnav}
-                      alt=""
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                      ? "bg-[#664653]"
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={isnav}
+                    alt=""
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
 
               <div>
-                  <div
+                <div
                   onClick={() => handleCart(BAKEBE_KEY, routes.LandingBakebe)}
-                  className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                  className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px]
                 ${
                   location.pathname === routes.LandingBakebe ||
                   location.pathname === routes.BookingBakebe
                     ? "bg-[#664653]"
                     : ""
                 }`}
-                  >
-                    {" "}
-                    <img
-                      alt=""
-                      src={bakebenav}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                >
+                  {" "}
+                  <img
+                    alt=""
+                    src={bakebenav}
+                    className="w-full h-full"
+                  />
+                </div>
               </div>
 
               <div>
-              <div
-                onClick={() => handleCart(GOOTOPIA_KEY, routes.LandingGootopia)}
-                className={`cursor-pointer border-2 border-white py-1 px-3 rounded-full h-[35px] laptop:h-[46px] 
+                <div
+                  onClick={() =>
+                    handleCart(GOOTOPIA_KEY, routes.LandingGootopia)
+                  }
+                  className={`cursor-pointer   rounded-full h-[35px] laptop:h-[46px]
               ${
                 location.pathname === routes.LandingGootopia ||
                 location.pathname === routes.ObstaclesGootopia ||
@@ -226,13 +233,13 @@ export default function Topbar({ scroll }) {
                   ? "bg-[#664653]"
                   : ""
               }`}
-                  >
-                    <img
-                      alt=""
-                      src={gootopianav}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                >
+                  <img
+                    alt=""
+                    src={gootopianav}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
             </div>
             <div
