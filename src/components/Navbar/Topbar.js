@@ -163,7 +163,7 @@ export default function Topbar({ scroll }) {
                   //   backgroundRepeat: tdmnav ? "no-repeat" : "",
                   // }}
                   onClick={() => handleCart(DESSERT_KEY, routes.LandingDesert)}
-                  className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px]
+                  className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
                 ${
                   location.pathname === routes.LandingDesert ||
                   location.pathname === routes.Packages ||
@@ -180,7 +180,7 @@ export default function Topbar({ scroll }) {
                   onClick={() =>
                     handleCart(TIS_KEY, routes.LandingInflatableIsland)
                   }
-                  className={`cursor-pointer     rounded-full h-[35px] laptop:h-[46px]
+                  className={`cursor-pointer rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
                   ${
                     location.pathname === routes.LandingInflatableIsland ||
                     location.pathname === routes.BookingInflatable
@@ -199,7 +199,7 @@ export default function Topbar({ scroll }) {
               <div>
                 <div
                   onClick={() => handleCart(BAKEBE_KEY, routes.LandingBakebe)}
-                  className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px]
+                  className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
                 ${
                   location.pathname === routes.LandingBakebe ||
                   location.pathname === routes.BookingBakebe
@@ -221,7 +221,7 @@ export default function Topbar({ scroll }) {
                   onClick={() =>
                     handleCart(GOOTOPIA_KEY, routes.LandingGootopia)
                   }
-                  className={`cursor-pointer   rounded-full h-[35px] laptop:h-[46px]
+                  className={`cursor-pointer rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
               ${
                 location.pathname === routes.LandingGootopia ||
                 location.pathname === routes.ObstaclesGootopia ||
