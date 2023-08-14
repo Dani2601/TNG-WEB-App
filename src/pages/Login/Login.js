@@ -44,7 +44,7 @@ function Landing() {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
         login();
-        navigate(routes.LandingBakebe);
+        navigate(routes.Home);
       } else {
         toast.error(
           response.errorMsg.length === undefined
