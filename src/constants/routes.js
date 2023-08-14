@@ -3,6 +3,9 @@ const routes = {
   Login: "/Login",
   Register: "/Register",
 
+  //Landing Page
+  Home: "/",
+
   //Dessert Museum
   LandingDesert: "/LandingDessert",
   DessertBooking: "/TheDessertMuseum/Booking",

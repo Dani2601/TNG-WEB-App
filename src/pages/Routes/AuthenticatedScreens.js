@@ -28,6 +28,7 @@ import { InflatableBooking } from "../Booking/InflatableBooking";
 import Tickets from "../Transaction/Tickets";
 import PaymentSuccess from "../Booking/PaymentSuccess";
 import PaymentFailed from "../Booking/PaymentFailed";
+import Landing from "../Landing/Landing";
 
 export default function AuthenticatedScreens() {
   return (
@@ -36,6 +37,9 @@ export default function AuthenticatedScreens() {
         <title>The Next Experience</title>
       </Helmet>
       <Routes>
+
+      <Route path={routes.Home} element={<Landing />} />
+
         {/* DessertMusuem */}
         <Route path={routes.LandingDesert} element={<LandingDesert />} />
         <Route path={routes.Packages} element={<DessertPackages />} />

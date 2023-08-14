@@ -208,11 +208,7 @@ export default function Topbar({ scroll }) {
                 }`}
                 >
                   {" "}
-                  <img
-                    alt=""
-                    src={bakebenav}
-                    className="w-full h-full"
-                  />
+                  <img alt="" src={bakebenav} className="w-full h-full" />
                 </div>
               </div>
 
@@ -262,6 +258,13 @@ export default function Topbar({ scroll }) {
                   >
                     {user ? (
                       <>
+                        <Link
+                          to={routes.Home}
+                          className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
+                          role="menuitem"
+                        >
+                          Home
+                        </Link>
                         <Link
                           to={routes.Profile}
                           className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"

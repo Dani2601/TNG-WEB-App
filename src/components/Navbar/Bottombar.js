@@ -16,6 +16,7 @@ import axios from "axios";
 import { setCart, setToken, setUser } from "../../store/action";
 import ChangePassModal from "../Modal/Profile/ChangePass/ChangePass";
 import { ConfirmationCartModal } from "../Modal/ConfirmationCartModal";
+import { FaUser } from "react-icons/fa";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -111,6 +112,87 @@ export default function Bottombar({ scroll }) {
       />
       <div className="z-[49] tablet:hidden fixed bottom-0 h-[60px] w-full bg-[#252525] rounded-t-[50px] shadow-2xl">
         <div className="flex flex-row justify-around items-center px-8 pt-2">
+          <div>
+            {!user ? (
+              <Link to={routes.Login}>
+                <FaUser color="white" size={25} className="cursor-pointer" />
+              </Link>
+            ) : (
+              <MdMenu
+                color="white"
+                size={30}
+                className="cursor-pointer"
+                onClick={handleMenuClick}
+              />
+            )}
+
+            {showMenu && (
+              <div
+                className={`absolute top-[-250px] left-5 w-48 bg-[#212121] rounded-md z-50 text-[12px] font-poppins font-medium`}
+              >
+                <div
+                  className="py-1"
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="user-menu"
+                >
+                  {user ? (
+                    <>
+                      <Link
+                        to={routes.Home}
+                        className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
+                        role="menuitem"
+                      >
+                        Home
+                      </Link>
+                      <Link
+                        to={routes.Profile}
+                        className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
+                        role="menuitem"
+                      >
+                        Profile
+                      </Link>
+                      <div
+                        className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
+                        role="menuitem"
+                        onClick={openEditModal}
+                      >
+                        Change Password
+                      </div>
+                      <Link
+                        to={routes.Tickets}
+                        className="cursor-pointer text-white flex items-center py-3 px-4 text-md hover:bg-gray-700"
+                        role="menuitem"
+                      >
+                        Tickets
+                      </Link>
+                      <Link
+                        to={routes.Transaction}
+                        className="cursor-pointer text-white flex items-center py-3 px-4 text-md hover:bg-gray-700"
+                        role="menuitem"
+                      >
+                        Transactions
+                      </Link>
+                      <div
+                        className="cursor-pointer text-white flex items-center   py-3 px-4 text-md hover:bg-gray-700"
+                        role="menuitem"
+                        onClick={_logout}
+                      >
+                        Logout
+                      </div>
+                    </>
+                  ) : (
+                    <Link to={routes.Login}>
+                      <div className="text-white flex items-center py-3 px-4 text-md">
+                        Login
+                      </div>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div>
             <div
               //  style={{

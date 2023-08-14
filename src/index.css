@@ -23,6 +23,10 @@
     @apply bg-gradient-to-l from-[#55ace2a4]  to-[#6bc4c1a1] bg-opacity-5;
   }
 
+  .landinggradient {
+    @apply bg-gradient-to-br from-[#234a63]  to-[#2b404c] bg-opacity-5;
+  }
+
   .bakebegradient {
     @apply bg-gradient-to-r from-[#fef584]  to-[#feb2af] bg-opacity-5;
   }
