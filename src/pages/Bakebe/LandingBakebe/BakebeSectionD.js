@@ -167,7 +167,7 @@ export default function BakebeSectionD() {
             </div>
           </div>
         </div>
-        <div className="my-[10%] flex flex-row justify-center items-center">
+        <div className="my-[10%] flex flex-row justify-center items-center z-10">
           <div
             id="map"
             ref={mapRef}

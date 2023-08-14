@@ -8,6 +8,12 @@
     padding: 16px;
     border-radius: 20px;
 }
+@media (max-width: 768px) { /* Adjust the breakpoint as needed */
+    .cart {
+        right: 10px;
+        bottom: 70px;
+    }
+}
 
 .modal {
     display: none;

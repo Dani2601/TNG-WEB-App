@@ -13,7 +13,9 @@ export default function DesertMuseumContainer({children, scroll}) {
     <div className="flex flex-col w-full">
       <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
         <DesertMuseumMenubar scroll={scroll}/>
+        <div className='z-0'>
         {children}
+        </div>
         <DessertFooter/>
     </div>
   )

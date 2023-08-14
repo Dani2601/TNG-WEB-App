@@ -1,9 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState, useEffect } from 'react'; // Import useState and useEffect
-import { useAuth } from './context/AuthenticationContext';
-import { AuthenticatedScreens, UnauthenticatedScreens } from './pages/Routes';
-import Cart from './components/Cart';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState, useEffect } from "react"; // Import useState and useEffect
+import { useAuth } from "./context/AuthenticationContext";
+import { AuthenticatedScreens, UnauthenticatedScreens } from "./pages/Routes";
+import Cart from "./components/Cart";
+import Bottombar from "./components/Navbar/Bottombar";
 
 function App() {
   const { loggedIn } = useAuth();
@@ -23,7 +24,9 @@ function App() {
         </div>
       ) : (
         <>
+          <Bottombar/>
           <Cart />
+
           {loggedIn ? <AuthenticatedScreens /> : <UnauthenticatedScreens />}
         </>
       )}

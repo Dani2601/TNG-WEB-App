@@ -109,7 +109,7 @@ export default function Topbar({ scroll }) {
         handleCloseModal={handleCloseModal}
         handleProceed={handleProceed}
       />
-      <div className="bg-[#212121] ">
+      <div className="bg-[#212121] hidden tablet:block">
         <div className="py-auto">
           <div className="flex flex-row justify-between h-[65px] items-center mx-[5px] gap-1 laptop:mx-[20px]">
             <div className="flex flex-row flex-none">
