@@ -28,6 +28,9 @@ import routes from "../../constants/routes";
 import booknow from "../../assets/TFR/button BOOK NOW GAMES.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
 
 const BusinessUnits = [
   { id: 1, image: TRF1, link: `/` },
@@ -49,6 +52,18 @@ export default function Landing() {
   const handleMenuClick = () => {
     setShowMenu(!showMenu);
   };
+  const controls = useAnimation();
+
+  const [ref, inView] = useInView({
+    triggerOnce: true, // Only trigger the animation once
+    threshold: 0.5, // Cus
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
 
   return (
     <>
@@ -58,73 +73,162 @@ export default function Landing() {
         handleMenuClick={handleMenuClick}
       />
 
-      <div className="h-full p-8 mb-auto font-poppins landinggradient">
+      <div
+        id="promo"
+        ref={ref}
+        className="h-full p-8 mb-auto font-poppins landinggradient"
+      >
         <div className="flex flex-col justify-center items-center tablet:gap-4">
+          <motion.div
+            initial="hidden"
+            animate={controls}
+            transition={{ duration: 2, delay: 1 }}
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 0 },
+            }}
+          >
+            <div className="w-[80%] tablet:w-[500px]">
+              <img src={TNGLOGOWHITE} alt="Main Logo" />
+            </div>
+          </motion.div>
           <div className="w-[80%] tablet:w-[500px]">
-            <img src={TNGLOGOWHITE} alt="Main Logo" />
-          </div>
-          <div className="w-[80%] tablet:w-[500px]">
-            <img src={OURBRANDS} alt="Main Logo" />
+            <motion.div
+              initial="hidden"
+              animate={controls}
+              transition={{ duration: 1, delay: 2 }}
+              variants={{
+                visible: { opacity: 1, y: 0 },
+                hidden: { opacity: 0, y: 0 },
+              }}
+            >
+              <img src={OURBRANDS} alt="Main Logo" />
+            </motion.div>
           </div>
 
           <div className="flex flex-row justify-center items-center flex-wrap">
-            <div className="w-[100px] mobileL:w-[250px]  tablet:w-[300px]">
-              <img src={TDM_Logo01} alt="Main Logo" />
-            </div>
-            <div className="w-[50px] mobileL:w-[130px]  tablet:w-[300px]">
-              <img src={inflatableIsland} alt="Main Logo" className="mx-auto" />
-            </div>
-            <div className="w-[75px] mobileL:w-[250px] tablet:w-[300px]">
-              <img src={gootopia} alt="Main Logo" />
-            </div>
-            <div className="w-[70px] mobileL:w-[250px]  tablet:w-[300px]">
-              <img src={pink} alt="Main Logo" className="tablet:m-6" />
-            </div>
+            <motion.div
+              initial="hidden"
+              animate={controls}
+              transition={{ duration: 1, delay: 3 }}
+              variants={{
+                visible: { opacity: 1, y: 0 },
+                hidden: { opacity: 0, y: 0 },
+              }}
+            >
+              <div className="w-[100px] mobileL:w-[250px]  tablet:w-[300px]">
+                <img src={TDM_Logo01} alt="Main Logo" />
+              </div>
+            </motion.div>
+            <motion.div
+              initial="hidden"
+              animate={controls}
+              transition={{ duration: 1, delay: 4 }}
+              variants={{
+                visible: { opacity: 1, y: 0 },
+                hidden: { opacity: 0, y: 0 },
+              }}
+            >
+              <div className="w-[50px] mobileL:w-[130px]  tablet:w-[300px]">
+                <img
+                  src={inflatableIsland}
+                  alt="Main Logo"
+                  className="mx-auto"
+                />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              animate={controls}
+              transition={{ duration: 1, delay: 5 }}
+              variants={{
+                visible: { opacity: 1, y: 0 },
+                hidden: { opacity: 0, y: 0 },
+              }}
+            >
+              <div className="w-[75px] mobileL:w-[250px] tablet:w-[300px]">
+                <img src={gootopia} alt="Main Logo" />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              animate={controls}
+              transition={{ duration: 1, delay: 6 }}
+              variants={{
+                visible: { opacity: 1, y: 0 },
+                hidden: { opacity: 0, y: 0 },
+              }}
+            >
+              <div className="w-[70px] mobileL:w-[250px]  tablet:w-[300px]">
+                <img src={pink} alt="Main Logo" className="tablet:m-6" />
+              </div>
+            </motion.div>
           </div>
 
-          <div className="flex flex-col justify-center items-center gap-3 py-10">
-            {Array.from({ length: Math.ceil(BusinessUnits.length / 2) }).map(
-              (_, rowIndex) => (
-                <div
-                  key={rowIndex}
-                  className="flex flex-row justify-center gap-5 tablet:gap-10"
-                >
-                  {BusinessUnits.slice(rowIndex * 2, rowIndex * 2 + 2).map(
-                    (item) => (
-                      <button
-                        key={item.id}
-                        className="mb-1 tablet:mb-5 h-[50%] w-[50%] cursor-pointer rounded-3xl border-[3px] border-slate-300 relative hoverEffectsTopbar"
-                      >
-                        <Link to={user ? item.link : routes.Login}>
-                          <img
-                            src={item.image}
-                            alt="logo"
-                            className="rounded-3xl"
-                          />
-                          <div className="absolute inset-x-0 bottom-1 tablet:bottom-6 flex items-center justify-center">
+          <motion.div
+            initial="hidden"
+            animate={controls}
+            transition={{ duration: 1, delay: 7 }}
+            variants={{
+              visible: { opacity: 1, y: -10 },
+              hidden: { opacity: 0, y: 100 },
+            }}
+          >
+            <div className="flex flex-col justify-center items-center gap-3 py-10">
+              {Array.from({ length: Math.ceil(BusinessUnits.length / 2) }).map(
+                (_, rowIndex) => (
+                  <div
+                    key={rowIndex}
+                    className="flex flex-row justify-center gap-5 tablet:gap-10"
+                  >
+                    {BusinessUnits.slice(rowIndex * 2, rowIndex * 2 + 2).map(
+                      (item) => (
+                        <button
+                          key={item.id}
+                          className="mb-1 tablet:mb-5 h-[50%] w-[50%] cursor-pointer rounded-3xl border-[3px] border-slate-300 relative hoverEffectsTopbar"
+                        >
+                          <Link to={user ? item.link : routes.Login}>
                             <img
-                              src={booknow}
-                              className="h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px] z-10"
+                              src={item.image}
+                              alt="logo"
+                              className="rounded-3xl"
                             />
-                          </div>
-                        </Link>
-                      </button>
-                    )
-                  )}
-                </div>
-              )
-            )}
-          </div>
-
-       
+                            <div className="absolute inset-x-0 bottom-1 tablet:bottom-6 flex items-center justify-center">
+                              <img
+                                src={booknow}
+                                className="h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px] z-10"
+                              />
+                            </div>
+                          </Link>
+                        </button>
+                      )
+                    )}
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
 
+      <motion.div
+            initial="hidden"
+            animate={controls}
+            transition={{ duration: 1, delay: 8 }}
+            variants={{
+              visible: { opacity: 1, y: -10 },
+              hidden: { opacity: 0, y: 100 },
+            }}
+          >
       <div className=" bg-white w-full flex justify-center pt-[50px] tablet:pt-[100px] pb-[100px] ">
-            <div className="h-[70%] w-[70%]">
-              <img src={ASSEENON} alt="Main Logo" className="" />
-            </div>
-          </div>
+        <div className="h-[70%] w-[70%]">
+          <img src={ASSEENON} alt="Main Logo" className="" />
+        </div>
+      </div>
+      </motion.div>
+
     </>
   );
 }
