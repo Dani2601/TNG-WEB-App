@@ -287,8 +287,6 @@ export function TDMBookingDetails({
     }
   }
 
-  console.log("Pax", pax, paxCount)
-
   function handlePersons(e) {
     let input = parseInt(e.target.value);
     setNumberOfPersons(input);

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getBranches } from "../../functions/Branches";
-import { format } from "date-fns";
+import { addHours, format, parse } from "date-fns";
 import { CiTrash } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa";
 import { setCart } from "../../store/action";
@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { bpi, gcash, grabpay, maya, rcbc, shopeepay, ubp } from "../../assets/Payment/ewallet";
 import routes from "../../constants/routes";
 import { TCModalContainer } from "../Modal/TermsAndCondition";
+import { getBookingsByTicketID } from "../../functions/Tickets";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -59,6 +60,7 @@ export function TDMPaymentDetails({
   const [discount, setDiscount] = useState(0)
   const dispatch = useDispatch()
   const [code, setCode] = useState('')
+  const [reserve, setReserve] = useState([])
 
   const total = cart?.reduce((total, item) => total + item.Ticket.Price * item.Pax, 0);
 
@@ -184,71 +186,145 @@ export function TDMPaymentDetails({
   }, []);
 
   function handleVerify() {
-    verifyCouponCode({
-      Code: code,
-      BranchID: cart[0].Location.id
-    })
-    .then((res) => {
-      if(res.valid){
-        setCoupon(res)
-        setCode("")
-        toast.success("Coupon Applied");
-      }
-      else{
-        toast.error(res.errorMsg);
-      }
-    })
-    .catch(() => {
-      toast.error("Something went wrong");
-    })
+    if(cart.length > 0){
+      verifyCouponCode({
+        Code: code,
+        BranchID: cart[0].Location.id
+      })
+      .then((res) => {
+        if(res.valid){
+          setCoupon(res)
+          setCode("")
+        }
+        else{
+          toast.error(res.errorMsg);
+        }
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      })
+    }
+    else{
+      toast.error("Invalid Coupon")
+      setDiscount(0)
+      setCoupon(null)
+      setCode("")
+    }
   }
 
+  
   useEffect(() => {
-    if(coupon){
-      
+    if (ticket?.id && bookingDate) {
+      getBookingsByTicketID(
+        location,
+        ticket?.id,
+        format(bookingDate, "yyyy-MM-dd")
+      )
+        .then((res) => {
+          if (res.valid) {
+            setReserve(res.data);
+          } else {
+            setReserve([]);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [ticket, bookingDate, location]);
+
+  useEffect(() => {
+    if(coupon && cart.length > 0){
       let discount = coupon?.data?.Discount;
       let qty = coupon?.data?.Quantity;
       let ticketid = coupon?.data?.TicketID
       let discountType = coupon?.data?.Type
       let ticketFee = coupon?.ticket?.Price
-      const checkCart = cart?.find((item) => 
-        item?.Ticket?.id === coupon?.data?.TicketID && 
-        item?.BookingDate === coupon?.data?.BookingDate &&
-        item?.BookingTime === coupon?.data?.BookingTime
+      let slotData = null;
+      let slot = 0;
+
+      const inputTime = parse(coupon?.data?.BookingTime, 'HH:mm', new Date());
+      const convertedTime = addHours(inputTime, 24);
+      const formattedTime = format(convertedTime, 'hh:mm a');
+
+      const checkCart = cart?.find((item) => {
+        if(item?.Ticket?.id === coupon?.data?.TicketID && 
+          item?.BookingDate === coupon?.data?.BookingDate &&
+          item?.BookingTime == formattedTime
+          ){
+            slotData = item.Ticket.CreatedInterval.find(data => data.timeInterval == formattedTime)
+            return item
+          }
+      }
+        // item?.BookingTime === coupon?.data?.BookingTime
       )
+      
       const booking = {
         BusinessUnitID: coupon?.ticket?.BusinessUnitID,
         Location: coupon?.ticket?.BranchID,
         Ticket: coupon?.ticket,
         BookingDate: coupon?.data?.BookingDate,
-        BookingTime: coupon?.data?.BookingTime,
+        BookingTime: formattedTime,
         Pax: coupon?.data?.Quantity,
         Option: ""
       }
-      
-      if(checkCart?.Pax < coupon?.data?.Quantity){
-        const updatedTickets = cart?.map(ticket => {
-          if (ticket?.Ticket?.id === coupon?.data?.TicketID &&
-            ticket?.BookingDate === coupon?.data?.BookingDate &&
-            ticket?.BookingTime === coupon?.data?.BookingTime
-            ) {
-            return { ...ticket, Pax: coupon?.data?.Quantity };
+
+      let reservation = reserve?.filter(
+        (res) => res.BookingTime === slotData.timeInterval
+      );
+
+      let cartReserve = cart?.filter(
+        (cartItem) =>
+          cartItem.BookingTime === slotData.timeInterval &&
+          cartItem.Ticket?.id === checkCart?.Ticket?.id
+      );
+
+      slot = parseInt(slotData.slot) - (reservation.length + cartReserve.length);
+      if(slot > 0){
+        let remainingSlot = slot - coupon?.data?.Quantity
+        if(remainingSlot > 0){
+          if(!checkCart){
+            dispatch(setCart([...cart, booking]))
+            setDiscount((ticketFee) * qty)
+            toast.success("Coupon Applied");
           }
-          return ticket;
-        });
-        dispatch(setCart(updatedTickets))
-      }
-      else{
-        if(!checkCart){
-          dispatch(setCart([...cart, booking]))
+          else{
+            const updatedTickets = cart?.map(ticket => {
+              if (ticket?.Ticket?.id === coupon?.data?.TicketID &&
+                ticket?.BookingDate === coupon?.data?.BookingDate &&
+                ticket?.BookingTime === formattedTime
+                ) {
+                return { ...ticket, Pax: ticket.Pax + coupon?.data?.Quantity };
+              }
+              return ticket;
+            });
+            console.log(updatedTickets)
+            dispatch(setCart(updatedTickets))
+            setDiscount((ticketFee) * qty)
+            toast.success("Coupon Applied");
+          }
+        }
+        else{
+          toast.error("Invalid Coupon")
+          setDiscount(0)
+          setCoupon(null)
+          setCode("")
         }
       }
-      setDiscount((ticketFee) * qty)
+      else{
+        toast.error("Invalid Coupon")
+        setDiscount(0)
+        setCoupon(null)
+        setCode("")
+      }
     }
   },[coupon])
 
   function handleRemoveItem(e){
     dispatch(setCart(cart.filter((_, index) => index !== e)))
+    setDiscount(0)
+    setCoupon(null)
+    setCode('')
     if(cart.length == 0){
       setStep(1)
     }
@@ -268,7 +344,7 @@ export function TDMPaymentDetails({
   return (
     <div className="w-full py-10 flex justify-center">
       <TCModalContainer loading={loading} showModal={showModal} handleCloseModal={handleCloseModal} handleProceed={handleNext} business={business}/>
-      <div className="w-[80vw] sm:w-[50vw]">
+      <div className="w-[80vw] sm:w-[80vw] md:w-[50vw]">
         <div className="text-center flex gap-6 flex-col justify-center items-center">
           <img src={nx} className="w-[60px] object-contain" />
           <img src={tnglogo} className="w-[400px] object-cover" />
@@ -371,10 +447,11 @@ export function TDMPaymentDetails({
                     <p>Coupon</p>
                     <input
                       type="text"
-                      value={code}
+                      value={code || (coupon?.data?.Code || "")}
+                      disabled={coupon?.data?.Code ? true : false}
                       placeholder="Enter your coupon here"
                       onChange={(e) => setCode(e.target.value)}
-                      className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                      className={`${coupon?.data?.Code && 'bg-gray-200'} w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3`}
                     />
                     {
                       !coupon ?
@@ -410,6 +487,7 @@ export function TDMPaymentDetails({
           </div>
           <div className="flex justify-center flex-wrap gap-5 py-5 w-60 self-center">
             <button
+              disabled={cart.length > 0 ? false : true}
               onClick={() => setShowModal(true)}
               className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
             >
