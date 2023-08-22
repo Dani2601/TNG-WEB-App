@@ -79,7 +79,9 @@ export default function Landing() {
         className="h-full p-8 mb-auto font-poppins landinggradient"
       >
         <div className="flex flex-col justify-center items-center tablet:gap-4">
-          <motion.div
+  
+            <div className="w-[80%] self-center tablet:w-[500px]">
+            <motion.div
             initial="hidden"
             animate={controls}
             transition={{ duration: 2, delay: 1 }}
@@ -88,10 +90,10 @@ export default function Landing() {
               hidden: { opacity: 0, y: 0 },
             }}
           >
-            <div className="w-[80%] tablet:w-[500px]">
               <img src={TNGLOGOWHITE} alt="Main Logo" />
+              </motion.div>
             </div>
-          </motion.div>
+      
           <div className="w-[80%] tablet:w-[500px]">
             <motion.div
               initial="hidden"
