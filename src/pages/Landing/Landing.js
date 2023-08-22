@@ -78,27 +78,47 @@ export default function Landing() {
         ref={ref}
         className="h-full p-8 mb-auto font-poppins landinggradient"
       >
-        <div className="flex flex-col justify-center items-center tablet:gap-4">
-  
-            <div className="w-[80%] self-center tablet:w-[500px]">
-            <motion.div
+        <div className="flex flex-col justify-center items-center gap-3 tablet:gap-4">
+          <motion.div
             initial="hidden"
             animate={controls}
-            transition={{ duration: 2, delay: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
             variants={{
               visible: { opacity: 1, y: 0 },
               hidden: { opacity: 0, y: 0 },
             }}
           >
-              <img src={TNGLOGOWHITE} alt="Main Logo" />
-              </motion.div>
+            <div className="w-[80%] mx-auto tablet:w-[500px]">
+              <img src={TNGLOGOWHITE} alt="Main Logo" className="" />
             </div>
-      
+          </motion.div>
+          
+          <motion.div
+            initial="hidden"
+            animate={controls}
+            transition={{ duration: 1, delay: 0.5 }}
+            variants={{
+              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 0 },
+            }}
+          >
+            <div className="hidden mobileL:block bg-white tracking-[5px] tablet:tracking-[10px] font-light text-[10px] mobileL:text-[19px] px-5 text-black  text-center">
+              CURIOUS CONCEPTS. CURATED EXPERIENCES.
+            </div>
+
+            <div className=" mobileL:hidden bg-white tracking-[5px] px-2 font-light text-[10px]  text-black  text-center">
+              CURIOUS CONCEPTS.
+            </div>
+
+            <div className="mobileL:hidden bg-white tracking-[5px] px-2 font-light text-[10px]  text-black  text-center mt-1">
+              CURATED EXPERIENCES.
+            </div>
+          </motion.div>
           <div className="w-[80%] tablet:w-[500px]">
             <motion.div
               initial="hidden"
               animate={controls}
-              transition={{ duration: 1, delay: 2 }}
+              transition={{ duration: 1, delay: 1 }}
               variants={{
                 visible: { opacity: 1, y: 0 },
                 hidden: { opacity: 0, y: 0 },
@@ -112,7 +132,7 @@ export default function Landing() {
             <motion.div
               initial="hidden"
               animate={controls}
-              transition={{ duration: 1, delay: 3 }}
+              transition={{ duration: 1, delay: 1.5 }}
               variants={{
                 visible: { opacity: 1, y: 0 },
                 hidden: { opacity: 0, y: 0 },
@@ -125,7 +145,7 @@ export default function Landing() {
             <motion.div
               initial="hidden"
               animate={controls}
-              transition={{ duration: 1, delay: 4 }}
+              transition={{ duration: 1, delay: 2 }}
               variants={{
                 visible: { opacity: 1, y: 0 },
                 hidden: { opacity: 0, y: 0 },
@@ -143,7 +163,7 @@ export default function Landing() {
             <motion.div
               initial="hidden"
               animate={controls}
-              transition={{ duration: 1, delay: 5 }}
+              transition={{ duration: 1, delay: 2.5 }}
               variants={{
                 visible: { opacity: 1, y: 0 },
                 hidden: { opacity: 0, y: 0 },
@@ -157,7 +177,7 @@ export default function Landing() {
             <motion.div
               initial="hidden"
               animate={controls}
-              transition={{ duration: 1, delay: 6 }}
+              transition={{ duration: 1, delay: 3 }}
               variants={{
                 visible: { opacity: 1, y: 0 },
                 hidden: { opacity: 0, y: 0 },
@@ -172,7 +192,7 @@ export default function Landing() {
           <motion.div
             initial="hidden"
             animate={controls}
-            transition={{ duration: 1, delay: 7 }}
+            transition={{ duration: 1, delay: 3.5 }}
             variants={{
               visible: { opacity: 1, y: -10 },
               hidden: { opacity: 0, y: 100 },
@@ -201,6 +221,7 @@ export default function Landing() {
                               <img
                                 src={booknow}
                                 className="h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px] z-10"
+                                alt="booknow"
                               />
                             </div>
                           </Link>
@@ -216,21 +237,20 @@ export default function Landing() {
       </div>
 
       <motion.div
-            initial="hidden"
-            animate={controls}
-            transition={{ duration: 1, delay: 8 }}
-            variants={{
-              visible: { opacity: 1, y: -10 },
-              hidden: { opacity: 0, y: 100 },
-            }}
-          >
-      <div className=" bg-white w-full flex justify-center pt-[50px] tablet:pt-[100px] pb-[100px] ">
-        <div className="h-[70%] w-[70%]">
-          <img src={ASSEENON} alt="Main Logo" className="" />
+        initial="hidden"
+        animate={controls}
+        transition={{ duration: 1, delay: 4 }}
+        variants={{
+          visible: { opacity: 1, y: -10 },
+          hidden: { opacity: 0, y: 100 },
+        }}
+      >
+        <div className=" bg-white w-full flex justify-center pt-[50px] tablet:pt-[100px] pb-[100px] ">
+          <div className="h-[70%] w-[70%]">
+            <img src={ASSEENON} alt="Main Logo" className="" />
+          </div>
         </div>
-      </div>
       </motion.div>
-
     </>
   );
 }
