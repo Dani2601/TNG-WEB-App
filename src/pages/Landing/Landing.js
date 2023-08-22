@@ -66,18 +66,14 @@ export default function Landing() {
   }, [controls, inView]);
 
   return (
-    <>
+    <div id="promo" ref={ref}>
       <Topbar
         showMenu={showMenu}
         setShowMenu={setShowMenu}
         handleMenuClick={handleMenuClick}
       />
 
-      <div
-        id="promo"
-        ref={ref}
-        className="h-full p-8 mb-auto font-poppins landinggradient"
-      >
+      <div className="h-full p-8 mb-auto font-poppins landinggradient">
         <div className="flex flex-col justify-center items-center gap-3 tablet:gap-4">
           <motion.div
             initial="hidden"
@@ -92,7 +88,7 @@ export default function Landing() {
               <img src={TNGLOGOWHITE} alt="Main Logo" className="" />
             </div>
           </motion.div>
-          
+
           <motion.div
             initial="hidden"
             animate={controls}
@@ -251,6 +247,6 @@ export default function Landing() {
           </div>
         </div>
       </motion.div>
-    </>
+    </div>
   );
 }
