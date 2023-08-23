@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getBranches } from "../../functions/Branches";
-import { addHours, format, parse } from "date-fns";
+import { addHours, format, isValid, parse } from "date-fns";
 import { CiTrash } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa";
 import { setCart } from "../../store/action";
@@ -234,89 +234,104 @@ export function TDMPaymentDetails({
   }, [ticket, bookingDate, location]);
 
   useEffect(() => {
-    if(coupon && cart.length > 0){
-      let discount = coupon?.data?.Discount;
-      let qty = coupon?.data?.Quantity;
-      let ticketid = coupon?.data?.TicketID
-      let discountType = coupon?.data?.Type
-      let ticketFee = coupon?.ticket?.Price
-      let slotData = null;
-      let slot = 0;
-
-      const inputTime = parse(coupon?.data?.BookingTime, 'HH:mm', new Date());
-      const convertedTime = addHours(inputTime, 24);
-      const formattedTime = format(convertedTime, 'hh:mm a');
-
-      const checkCart = cart?.find((item) => {
-        if(item?.Ticket?.id === coupon?.data?.TicketID && 
-          item?.BookingDate === coupon?.data?.BookingDate &&
-          item?.BookingTime == formattedTime
-          ){
-            slotData = item.Ticket.CreatedInterval.find(data => data.timeInterval == formattedTime)
-            return item
-          }
-      }
-        // item?.BookingTime === coupon?.data?.BookingTime
-      )
-      
-      const booking = {
-        BusinessUnitID: coupon?.ticket?.BusinessUnitID,
-        Location: coupon?.ticket?.BranchID,
-        Ticket: coupon?.ticket,
-        BookingDate: coupon?.data?.BookingDate,
-        BookingTime: formattedTime,
-        Pax: coupon?.data?.Quantity,
-        Option: ""
-      }
-
-      let reservation = reserve?.filter(
-        (res) => res.BookingTime === slotData.timeInterval
-      );
-
-      let cartReserve = cart?.filter(
-        (cartItem) =>
-          cartItem.BookingTime === slotData.timeInterval &&
-          cartItem.Ticket?.id === checkCart?.Ticket?.id
-      );
-
-      slot = parseInt(slotData.slot) - (reservation.length + cartReserve.length);
-      if(slot > 0){
-        let remainingSlot = slot - coupon?.data?.Quantity
-        if(remainingSlot > 0){
-          if(!checkCart){
-            dispatch(setCart([...cart, booking]))
-            setDiscount((ticketFee) * qty)
-            toast.success("Coupon Applied");
+    try {
+      if(coupon && cart.length > 0){
+        let discount = coupon?.data?.Discount;
+        let qty = coupon?.data?.Quantity;
+        let ticketid = coupon?.data?.TicketID
+        let discountType = coupon?.data?.Type
+        let ticketFee = coupon?.ticket?.Price
+        let slotData = null;
+        let slot = 0;
+  
+        const inputTime = parse(coupon?.data?.BookingTime, 'HH:mm', new Date());
+        const convertedTime = addHours(inputTime, 24);
+        const formattedTime = format(convertedTime, 'hh:mm a');
+  
+        const checkCart = cart?.find((item) => {
+          if(item?.Ticket?.id === coupon?.data?.TicketID && 
+            item?.BookingDate === coupon?.data?.BookingDate &&
+            item?.BookingTime == formattedTime
+            ){
+              slotData = item.Ticket.CreatedInterval.find(data => data.timeInterval == formattedTime)
+              return item
+            }
+        }
+          // item?.BookingTime === coupon?.data?.BookingTime
+        )
+  
+        const booking = {
+          BusinessUnitID: coupon?.ticket?.BusinessUnitID,
+          Location: coupon?.ticket?.BranchID,
+          Ticket: coupon?.ticket,
+          BookingDate: coupon?.data?.BookingDate,
+          BookingTime: formattedTime,
+          Pax: coupon?.data?.Quantity,
+          Option: ""
+        }
+  
+        if(slotData){
+    
+          let reservation = reserve?.filter(
+            (res) => res.BookingTime === slotData.timeInterval
+          );
+    
+          let cartReserve = cart?.filter(
+            (cartItem) =>
+              cartItem.BookingTime === slotData.timeInterval &&
+              cartItem.Ticket?.id === checkCart?.Ticket?.id
+          );
+    
+          slot = parseInt(slotData.slot) - (reservation.length + cartReserve.length);
+          if(slot > 0){
+            let remainingSlot = slot - coupon?.data?.Quantity
+            if(remainingSlot > 0){
+              if(!checkCart){
+                dispatch(setCart([...cart, booking]))
+                setDiscount((ticketFee) * qty)
+                toast.success("Coupon Applied");
+              }
+              else{
+                const updatedTickets = cart?.map(ticket => {
+                  if (ticket?.Ticket?.id === coupon?.data?.TicketID &&
+                    ticket?.BookingDate === coupon?.data?.BookingDate &&
+                    ticket?.BookingTime === formattedTime
+                    ) {
+                    return { ...ticket, Pax: ticket.Pax + coupon?.data?.Quantity };
+                  }
+                  return ticket;
+                });
+                console.log(updatedTickets)
+                dispatch(setCart(updatedTickets))
+                setDiscount((ticketFee) * qty)
+                toast.success("Coupon Applied");
+              }
+            }
+            else{
+              toast.error("Invalid Coupon")
+              setDiscount(0)
+              setCoupon(null)
+              setCode("")
+            }
           }
           else{
-            const updatedTickets = cart?.map(ticket => {
-              if (ticket?.Ticket?.id === coupon?.data?.TicketID &&
-                ticket?.BookingDate === coupon?.data?.BookingDate &&
-                ticket?.BookingTime === formattedTime
-                ) {
-                return { ...ticket, Pax: ticket.Pax + coupon?.data?.Quantity };
-              }
-              return ticket;
-            });
-            console.log(updatedTickets)
-            dispatch(setCart(updatedTickets))
-            setDiscount((ticketFee) * qty)
-            toast.success("Coupon Applied");
+            toast.error("Invalid Coupon")
+            setDiscount(0)
+            setCoupon(null)
+            setCode("")
           }
         }
         else{
-          toast.error("Invalid Coupon")
-          setDiscount(0)
-          setCoupon(null)
-          setCode("")
+          dispatch(setCart([...cart, booking]))
+          setDiscount((ticketFee) * qty)
+          toast.success("Coupon Applied");
         }
       }
-      else{
-        toast.error("Invalid Coupon")
-        setDiscount(0)
-        setCoupon(null)
-        setCode("")
-      }
+    } catch (error) {
+      toast.error("Invalid Coupon")
+      setDiscount(0)
+      setCoupon(null)
+      setCode("")
     }
   },[coupon])
 
@@ -400,34 +415,39 @@ export function TDMPaymentDetails({
                     </p>
                   </div>
                     {
-                      cart?.map((item, index) => (
-                        <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
-                          <div className="flex justify-between items-center">
-                            <p className="font-bold text-sm">{item?.Ticket?.Name}</p>
-                            <FaTrash size={10} color="red" className="cursor-pointer" onClick={() => handleRemoveItem(index)}/>
-                          </div>
-                          <div className="flex justify-between py-2">
-                            <div className="flex flex-col">
-                              <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
-                              <p className="text-xs">
-                                Date:{" "}
-                                {item?.BookingDate ? format(new Date(item?.BookingDate), "MM/dd/yyyy") : ""}
-                              </p>
-                              <p className="text-xs">Time: {item?.BookingTime}</p>
-                              <p className="text-xs">No. of pass: {item?.Pax}</p>
-                              {/* {
-                                bookingType &&
-                                <p className="text-xs">Type: {item?.BookingType}</p>
-                              } */}
+                      cart?.map((item, index) => {
+                        console.log(new Date(item.BookingDate),  item.BookingDate)
+                        return(
+                          <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
+                            <div className="flex justify-between items-center">
+                              <p className="font-bold text-sm">{item?.Ticket?.Name}</p>
+                              <FaTrash size={10} color="red" className="cursor-pointer" onClick={() => handleRemoveItem(index)}/>
                             </div>
-                            <div className="flex flex-col items-end">
-                              <p className="tex-4xl font-bold text-right">
-                                ₱ {item?.Ticket?.Price}
-                              </p>
+                            <div className="flex justify-between py-2">
+                              <div className="flex flex-col">
+                                <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
+                                <p className="text-xs">
+                                  Date:{" "}
+                                  {item?.BookingDate && isValid(item.BookingDate)
+                                  ? format(new Date(item.BookingDate), "MM/dd/yyyy")
+                                  : ""}
+                                </p>
+                                <p className="text-xs">Time: {item?.BookingTime}</p>
+                                <p className="text-xs">No. of pass: {item?.Pax}</p>
+                                {/* {
+                                  bookingType &&
+                                  <p className="text-xs">Type: {item?.BookingType}</p>
+                                } */}
+                              </div>
+                              <div className="flex flex-col items-end">
+                                <p className="tex-4xl font-bold text-right">
+                                  ₱ {item?.Ticket?.Price}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))
+                        )
+                        })
                     }
                   <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
                     <div className="flex justify-between">

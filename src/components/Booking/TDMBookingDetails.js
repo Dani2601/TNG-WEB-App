@@ -59,6 +59,8 @@ export function TDMBookingDetails({
   const [disabled, setDisabled] = useState(false);
   const [slotIdentifier, setSlotIdentifier] = useState(null);
   const [paxCount, setPaxCount] = useState(null)
+  const [allowedDays, setAllowedDays] = useState([])
+
   function handleBack() {
     if (business === "BakeBe") {
       setStep(3);
@@ -116,6 +118,12 @@ export function TDMBookingDetails({
       setStep(4);
     }
   }
+
+  useEffect(() => {
+    if(ticket?.Day.length > 0){
+      setAllowedDays(ticket?.Day)
+    }
+  }, [ticket])
 
   useEffect(() => {
     if (business === "Gootopia") {
@@ -259,10 +267,6 @@ export function TDMBookingDetails({
       setIntervals([]);
     }
   }, [bookingDate, ticket, reserve]);
-
-  console.log("bookingDate", bookingDate);
-
-  const allowedDays = ["Monday", "Tuesday", "Wednesday"];
 
   function handleClear() {
     setBookingDate(null);
