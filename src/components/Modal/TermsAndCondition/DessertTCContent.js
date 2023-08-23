@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function DessertTCContent() {
   return (
-    <div className="flex-grow overflow-y-auto">
+    <div className="flex-grow">
         <ul className="list-disc list-inside flex flex-col gap-4">
             <li className='text-sm'>Guests are required to come 15 MINUTES 
 BEFORE THEIR SCHEDULED SLOT for processing 
