@@ -5,6 +5,7 @@ import { useAuth } from "./context/AuthenticationContext";
 import { AuthenticatedScreens, UnauthenticatedScreens } from "./pages/Routes";
 import Cart from "./components/Cart";
 import Bottombar from "./components/Navbar/Bottombar";
+import Modal from "react-modal";
 
 function App() {
   const { loggedIn } = useAuth();

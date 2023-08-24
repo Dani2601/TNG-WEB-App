@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
+Modal.setAppElement("#root");
+
 export function ModalContainer({isOpen, modalWidth, onRequestClose, children}) {
     const [width, setWidth] = useState(window.innerWidth)
 
@@ -41,9 +43,11 @@ export function ModalContainer({isOpen, modalWidth, onRequestClose, children}) {
 
     return (
         <Modal isOpen={isOpen}
-        onRequestClose={onRequestClose} style={customStyles}
-        contentLabel="Example Modal"
+        onRequestClose={onRequestClose} 
+        style={customStyles}
+        contentLabel="Modal Container"
         headerClassName="modal-header"
+        appElement={document.getElementById("root")} 
         >
             {children}
         </Modal>
