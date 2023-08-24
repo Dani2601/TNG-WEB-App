@@ -1,9 +1,26 @@
-import { useEffect, useState } from "react";
-import { DessertTCContent, TFRTCContent } from ".";
+import { useEffect, useRef, useState } from "react";
 import { ModalContainer } from "../ModalContainer";
 import BakebeTCContent from "./BakebeTCContent";
 import GootopiaTCContent from "./GootopiaTCContent";
+import TFRTCContent from "./TFRTCContent";
+import DessertTCContent from "./DessertTCContent";
 import TISTCContent from "./TISTCContent";
+
+var content = {
+  "BakeBe": <BakebeTCContent/>,
+  "Gootopia": <GootopiaTCContent/>,
+  "Inflatable": <TISTCContent/>,
+  "TFR": <TFRTCContent/>,
+  "undefined": <DessertTCContent/>
+};
+
+var title = {
+  "BakeBe": "BakeBe PH",
+  "Gootopia": "GOOTOPIA",
+  "Inflatable": "INFLATABLE ISLAND BEACH CLUB",
+  "TFR": "The Fun Roof",
+  "undefined": "THE DESSERT MUSEUM"
+};
 
 export default function TCModalContainer({
   showModal,
@@ -12,28 +29,30 @@ export default function TCModalContainer({
   handleProceed,
   loading
 }) {
+
   const [scrolledDown, setScrolledDown] = useState(false);
   const [modalWidth, setModalWidth] = useState("60vw");
 
-
-  const handleScroll = (e) => {
-    const target = e.target;
-    const reachedBottom = ((target.scrollHeight - target.scrollTop <= target.clientHeight) || (((target.scrollHeight - target.scrollTop) - 200) <= target.clientHeight));
-    console.log(target.scrollHeight - target.scrollTop, target.clientHeight )
-    setScrolledDown(reachedBottom);
-  };
+  
+  const contentRef = useRef(null);
 
   useEffect(() => {
-    const modalContentElement = document.querySelector(".modal-content");
+    if (contentRef.current) {
+      const target = contentRef.current;
+      const handleScroll = () => {
+        const reachedBottom =
+          target.scrollHeight - target.scrollTop <= target.clientHeight ||
+          (target.scrollHeight - target.scrollTop - 200) <= target.clientHeight;
+        setScrolledDown(reachedBottom);
+      };
 
-    if (modalContentElement) {
-      modalContentElement.addEventListener("scroll", handleScroll);
+      target.addEventListener("scroll", handleScroll);
 
       return () => {
-        modalContentElement.removeEventListener("scroll", handleScroll);
+        target.removeEventListener("scroll", handleScroll);
       };
     }
-  }, []);
+  }, [contentRef.current]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,21 +68,9 @@ export default function TCModalContainer({
     };
   }, []);
 
-  const content = {
-    "BakeBe": <BakebeTCContent/>,
-    "Gootopia": <GootopiaTCContent/>,
-    "Inflatable": <TISTCContent/>,
-    "TFR": <TFRTCContent/>,
-    "undefined": <DessertTCContent/>
-  };
-
-  const title = {
-    "BakeBe": "BakeBe PH",
-    "Gootopia": "GOOTOPIA",
-    "Inflatable": "INFLATABLE ISLAND BEACH CLUB",
-    "TFR": "The Fun Roof",
-    "undefined": "THE DESSERT MUSEUM"
-  };
+  function closeModal(){
+    handleCloseModal()
+  }
 
   return (
     <ModalContainer
@@ -76,9 +83,9 @@ export default function TCModalContainer({
         <p className="text-3xl font-bold mt-4">Terms and Conditions</p>
         <p className="mb-4 text-gray-600 font-medium">{title[business]}</p>
         <div
-          className="modal-content"
+          ref={contentRef}
+          className="tc-content"
           style={{
-            maxHeight: "60vh",
             overflowY: "auto",
           }}
         >
@@ -102,7 +109,7 @@ export default function TCModalContainer({
               "I have read and accept the terms and conditions."
             )}
           </button>
-          <p className="cursor-pointer" onClick={handleCloseModal}>
+          <p className="cursor-pointer" onClick={closeModal}>
             Cancel
           </p>
         </div>

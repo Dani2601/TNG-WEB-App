@@ -358,7 +358,16 @@ export function TDMPaymentDetails({
 
   return (
     <div className="w-full py-10 flex justify-center">
-      <TCModalContainer loading={loading} showModal={showModal} handleCloseModal={handleCloseModal} handleProceed={handleNext} business={business}/>
+      { 
+        showModal && 
+        <TCModalContainer 
+          loading={loading} 
+          showModal={showModal} 
+          handleCloseModal={handleCloseModal} 
+          handleProceed={handleNext} 
+          business={business}
+        /> 
+      }
       <div className="w-[80vw] sm:w-[80vw] md:w-[50vw]">
         <div className="text-center flex gap-6 flex-col justify-center items-center">
           <img src={nx} className="w-[60px] object-contain" />
@@ -416,7 +425,6 @@ export function TDMPaymentDetails({
                   </div>
                     {
                       cart?.map((item, index) => {
-                        console.log(new Date(item.BookingDate),  item.BookingDate)
                         return(
                           <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
                             <div className="flex justify-between items-center">
