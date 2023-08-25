@@ -32,18 +32,26 @@ export default function TCModalContainer({
 
   const [scrolledDown, setScrolledDown] = useState(false);
   const [modalWidth, setModalWidth] = useState("60vw");
-
   
   const contentRef = useRef(null);
 
   useEffect(() => {
     if (contentRef.current) {
       const target = contentRef.current;
+      const requiresScroll = target.scrollHeight > target.clientHeight;
+
+      if (!requiresScroll) {
+        // Content doesn't require scrolling, so enable the button
+        setScrolledDown(true);
+      }
+
       const handleScroll = () => {
-        const reachedBottom =
-          target.scrollHeight - target.scrollTop <= target.clientHeight ||
-          (target.scrollHeight - target.scrollTop - 200) <= target.clientHeight;
-        setScrolledDown(reachedBottom);
+        if (requiresScroll) {
+          const reachedBottom =
+            target.scrollHeight - target.scrollTop <= target.clientHeight ||
+            (target.scrollHeight - target.scrollTop - 200) <= target.clientHeight;
+          setScrolledDown(reachedBottom);
+        }
       };
 
       target.addEventListener("scroll", handleScroll);
