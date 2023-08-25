@@ -15,8 +15,12 @@
     @apply transition ease-in-out delay-150  hover:scale-105 hover:bg-[#3b3b3b] duration-200 ;
   }
 
-  .hoverPackageEffects {
+  /* .hoverPackageEffects {
     @apply transition ease-in-out delay-[400] hover:-translate-y-1 hover:scale-150 duration-[550] hover:drop-shadow-2xl;
+  } */
+
+  .hoverPackageEffects {
+    @apply transition ease-in-out delay-[400] hover:-translate-y-1 hover:scale-100 duration-[550] hover:drop-shadow-2xl;
   }
 
   .bluegradient {
