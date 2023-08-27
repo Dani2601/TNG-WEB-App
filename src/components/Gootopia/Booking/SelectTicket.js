@@ -33,25 +33,19 @@ let ticket = [
   },
 ];
 
-export default function SelectTicket({
-  setStep,
-  location,
-  setTicket,
-  ticket,
-}) {
+export default function SelectTicket({ setStep, location, setTicket, ticket }) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
-  const [visible, setVisible] = useState(false)
-  const dispatch = useDispatch()
+  const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
 
-  function handleBack(){
-    if(cart.length > 0){
-        setVisible(true)
-    }
-    else{
-        setStep(1)
+  function handleBack() {
+    if (cart.length > 0) {
+      setVisible(true);
+    } else {
+      setStep(1);
     }
   }
 
@@ -61,7 +55,7 @@ export default function SelectTicket({
 
   function handleCloseModal() {
     setShowModal(false);
-    setTicket("")
+    setTicket("");
   }
 
   function handleProceed() {
@@ -70,11 +64,7 @@ export default function SelectTicket({
   }
 
   useEffect(() => {
-    getTicketGootopia(
-      user.id,
-      process.env.REACT_APP_GOOTOPIA_KEY,
-      location
-    )
+    getTicketGootopia(user.id, process.env.REACT_APP_GOOTOPIA_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);
@@ -84,11 +74,11 @@ export default function SelectTicket({
       .catch();
   }, [location, user]);
 
-  function handleCart(){
-    if(cart.length > 0){
-        dispatch(setCart([]))
+  function handleCart() {
+    if (cart.length > 0) {
+      dispatch(setCart([]));
     }
-    setStep(1)
+    setStep(1);
   }
 
   return (
@@ -100,7 +90,11 @@ export default function SelectTicket({
         setStep={setStep}
         handleProceed={handleProceed}
       />
-      <ConfirmationCartModal showModal={visible} handleCloseModal={() => setVisible(false)} handleProceed={handleCart}/>
+      <ConfirmationCartModal
+        showModal={visible}
+        handleCloseModal={() => setVisible(false)}
+        handleProceed={handleCart}
+      />
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
         <img class="w-full" src={dripping} alt="gootopialanding" />
         <div className="flex flex-row justify-center">
@@ -116,57 +110,62 @@ export default function SelectTicket({
                 Start your adventure by choosing one of our ticket types below
               </div>
               <div className="flex flex-row flex-wrap justify-center w-full">
-              {tickets.length > 0 ? (
-                tickets?.map((data, index) => {
-                  return (
-                    <div className="flex flex-row hoverEffects" key={index}>
-                      <button className=" self-center" onClick={()=> {handleNext(); setTicket(data)}}>
-                        <div className="relative">
-                          <img
-                            src={bookingCard}
-                            alt="Your Image"
-                            className="h-[214px] w-[320px] tablet:w-[480px] tablet:h-[351px]"
-                          />
-                          <div className="absolute top-[40px] left-[53px]  tablet:top-[60px]  tablet:left-[75px] text-left flex justify-center items-center font-poppins">
-                            <div className=" w-[132px] h-[112px] tablet:w-[180px] tablet:h-[222px] flex flex-col overflow-y-auto">
-                              <div className="text-gootopia-pinkText text-[14px] tablet:text-[17px] font-bold mb-1">
-                                {data.Name}
-                              </div>
-                              <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[14px] mb-2">
-                                <div className="text-black  font-bold mr-1  line-through">
-                                  ₱{data.OldPrice}
+                {tickets.length > 0 ? (
+                  tickets?.map((data, index) => {
+                    return (
+                      <div className="flex flex-row hoverEffects" key={index}>
+                        <button
+                          className=" self-center"
+                          onClick={() => {
+                            handleNext();
+                            setTicket(data);
+                          }}
+                        >
+                          <div className="relative">
+                            <img
+                              src={bookingCard}
+                              alt="bookingCard"
+                              className="h-[214px] w-[320px] tablet:w-[480px] tablet:h-[351px]"
+                            />
+                            <div className="absolute top-[40px] left-[53px]  tablet:top-[60px]  tablet:left-[75px] text-left flex justify-center items-center font-poppins">
+                              <div className=" w-[132px] h-[112px] tablet:w-[180px] tablet:h-[222px] flex flex-col overflow-y-auto">
+                                <div className="text-gootopia-pinkText text-[14px] tablet:text-[17px] font-bold mb-1">
+                                  {data.Name}
                                 </div>
-                                <div className="text-black  font-bold mr-1  ">
-                                  ₱{data.Price}
+                                <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[14px] mb-2">
+                                  <div className="text-black  font-bold mr-1  line-through">
+                                    ₱{data.OldPrice}
+                                  </div>
+                                  <div className="text-black  font-bold mr-1  ">
+                                    ₱{data.Price}
+                                  </div>
+                                  <div className="text-gootopia-purp font-bold mr-1 mb-1">
+                                    {data.Notes} {data.Notes && "%"}
+                                  </div>
                                 </div>
-                                <div className="text-gootopia-purp font-bold mr-1 mb-1">
-                                  {data.Notes} {data.Notes && "%"}
+                                <div className="text-black text-[12px] tablet:text-[17px] ">
+                                  {data.Description}
                                 </div>
-                              </div>
-                              <div className="text-black text-[12px] tablet:text-[17px] ">
-                                {data.Description}
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </button>
-                    </div>
-                  );
-                })
-              ) : (
-                <div>No available Tickets yet.</div>
-              )}
+                        </button>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div>No available Tickets yet.</div>
+                )}
               </div>
 
-           
               <div className="flex flex-row justify-center w-full">
-              <button
-                onClick={handleBack}
-                className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins rounded-3xl text-center mt-10"
-              >
-                {" "}
-                Back{" "}
-              </button>
+                <button
+                  onClick={handleBack}
+                  className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins rounded-3xl text-center mt-10"
+                >
+                  {" "}
+                  Back{" "}
+                </button>
               </div>
             </div>
           </div>
