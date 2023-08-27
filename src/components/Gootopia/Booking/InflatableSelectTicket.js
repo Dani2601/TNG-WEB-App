@@ -45,17 +45,16 @@ export default function InflatableSelectTicket({
 
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
-  const [visible, setVisible] = useState(false)
-  const dispatch = useDispatch()
+  const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
 
-  function handleBack(){
-    if(cart.length > 0){
-        setVisible(true)
+  function handleBack() {
+    if (cart.length > 0) {
+      setVisible(true);
+    } else {
+      setStep(1);
     }
-    else{
-        setStep(1)
-    }
-}
+  }
 
   function handleNext() {
     setShowModal(true);
@@ -63,7 +62,7 @@ export default function InflatableSelectTicket({
 
   function handleCloseModal() {
     setShowModal(false);
-    setTicket("")
+    setTicket("");
   }
 
   function handleProceed() {
@@ -72,11 +71,7 @@ export default function InflatableSelectTicket({
   }
 
   useEffect(() => {
-    getTicketGootopia(
-      user.id,
-      process.env.REACT_APP_INFLATABLE_KEY,
-      location
-    )
+    getTicketGootopia(user.id, process.env.REACT_APP_INFLATABLE_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);
@@ -86,13 +81,12 @@ export default function InflatableSelectTicket({
       .catch();
   }, [location, user]);
 
-  
-  function handleCart(){
-    if(cart.length > 0){
-        dispatch(setCart([]))
+  function handleCart() {
+    if (cart.length > 0) {
+      dispatch(setCart([]));
     }
-    setStep(1)
-}
+    setStep(1);
+  }
 
   return (
     <TISContainer>
@@ -102,9 +96,12 @@ export default function InflatableSelectTicket({
         ticket={ticket}
         setStep={setStep}
         handleProceed={handleProceed}
-        
       />
-      <ConfirmationCartModal showModal={visible} handleCloseModal={() => setVisible(false)} handleProceed={handleCart}/>
+      <ConfirmationCartModal
+        showModal={visible}
+        handleCloseModal={() => setVisible(false)}
+        handleProceed={handleCart}
+      />
       <div className="max-h-full min-h-[600px]">
         <div className="flex flex-row justify-center">
           <span className="font-inflatable font-bold text-[#20422b] text-xl  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
@@ -119,57 +116,62 @@ export default function InflatableSelectTicket({
                 Start your adventure by choosing one of our ticket types below
               </div>
               <div className="flex flex-row flex-wrap justify-center">
-              {tickets.length > 0 ? (
-                tickets?.map((data, index) => {
-                  return (
-                    <div className="flex flex-row hoverEffects" key={index}>
-                      <button className=" self-center" onClick={()=> {handleNext(); setTicket(data)}}>
-                        <div className="relative">
-                          <img
-                            src={bookingCard}
-                            alt="Your Image"
-                            className="h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg"
-                          />
-                          <div className="absolute top-[40px] left-[53px]  tablet:top-[50px]  tablet:left-[70px] text-left flex justify-center items-center font-poppins">
-                            <div className=" w-[132px] h-[112px] tablet:w-[180px] tablet:h-[252px] flex flex-col overflow-y-auto">
-                              <div className="text-black text-lg tablet:text-[15px] font-bold mb-1">
-                                {data.Name}
-                              </div>
-                              <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
-                                <div className="text-black  font-bold mr-1  line-through">
-                                  ₱{data.OldPrice}
+                {tickets.length > 0 ? (
+                  tickets?.map((data, index) => {
+                    return (
+                      <div className="flex flex-row hoverEffects" key={index}>
+                        <button
+                          className=" self-center"
+                          onClick={() => {
+                            handleNext();
+                            setTicket(data);
+                          }}
+                        >
+                          <div className="relative">
+                            <img
+                              src={bookingCard}
+                              alt="bookingCard"
+                              className="h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg"
+                            />
+                            <div className="absolute top-[20px] left-[20px]  text-left flex justify-center items-center font-poppins">
+                              <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
+                                <div className="text-black text-lg tablet:text-[15px] font-bold mb-1">
+                                  {data.Name}
                                 </div>
-                                <div className="text-white font-bold mr-1  ">
-                                  ₱{data.Price}
+                                <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
+                                  <div className="text-black  font-bold mr-1  line-through">
+                                    ₱{data.OldPrice}
+                                  </div>
+                                  <div className="text-white font-bold mr-1  ">
+                                    ₱{data.Price}
+                                  </div>
+                                  <div className="text-red-500 font-bold mr-1 mb-1">
+                                    {data.Notes} {data.Notes && "%"}
+                                  </div>
                                 </div>
-                                <div className="text-red-500 font-bold mr-1 mb-1">
-                                  {data.Notes} {data.Notes && "%"}
+                                <div className="text-black text-[12px] tablet:text-[12px] overflow-y-auto">
+                                  {data.Description}
                                 </div>
-                              </div>
-                              <div className="text-black text-[12px] tablet:text-[12px] ">
-                                {data.Description}
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </button>
-                    </div>
-                  );
-                })
-              ) : (
-                <div>No available Tickets yet.</div>
-              )}
+                        </button>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div>No available Tickets yet.</div>
+                )}
               </div>
 
-           
               <div className="flex flex-row justify-center w-full">
-              <button
-                onClick={handleBack}
-                className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins rounded-3xl text-center mt-10"
-              >
-                {" "}
-                Back{" "}
-              </button>
+                <button
+                  onClick={handleBack}
+                  className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins rounded-3xl text-center mt-10"
+                >
+                  {" "}
+                  Back{" "}
+                </button>
               </div>
             </div>
           </div>
