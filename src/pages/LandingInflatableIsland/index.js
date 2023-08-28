@@ -9,6 +9,7 @@ import Attractions from '../../components/Attractions/Attractions';
 import Location from '../../components/Location/Location';
 import InFlatableBookingSection from '../../components/Booking/InFlatableBookingSection';
 import { useRef } from 'react';
+import { PromoDiscountSection } from '../PromoDiscountSection/PromoDiscountSection';
 
 const carouselData = [
   {
@@ -27,6 +28,7 @@ const carouselData = [
     type: 'img'
   }
 ];
+const inflatble = process.env.REACT_APP_INFLATABLE_KEY;
 
 export default function LandingInflatableIsland() {
 
@@ -41,6 +43,9 @@ export default function LandingInflatableIsland() {
         <HScreenCarouselBanner items={carouselData}/>
         <Introduction />
         {/* <SpiralCarousel/> */}
+        <div className="bg-tdm-pink py-10 font-poppins">
+        <PromoDiscountSection businessUnitId={inflatble} />
+      </div>
         <WorldSays/>
         <Attractions setRef={attracts}/>
         <Location/>

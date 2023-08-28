@@ -6,7 +6,12 @@ import rightcake1 from "../../../assets/Bakebe/rightcake (1).png";
 // import ScrollAnimation from "react-animate-on-scroll";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
+import routes from "../../../constants/routes";
+import { useSelector } from "react-redux";
 export default function BakebeSectionA() {
+  const { user } = useSelector((state) => state.record);
+
   const controls = useAnimation();
   const [ref, inView] = useInView({
     triggerOnce: true, // Only trigger the animation once
@@ -104,11 +109,11 @@ export default function BakebeSectionA() {
                     Co-Baking Space that teaches you to bake with an app!
                   </div>
                   <div className="  ">
-                    <a href="#promo">
+                    <Link to={user ? routes.BookingBakebe : routes.Login}>
                       <button className="rounded-full px-[24px] py-[10px] bg-bakebe-pink text-white mt-8 laptop4K:[30px] hoverEffects">
                         BOOK NOW
                       </button>
-                    </a>
+                    </Link>
                   </div>
                 </motion.div>
                 {/* </ScrollAnimation> */}

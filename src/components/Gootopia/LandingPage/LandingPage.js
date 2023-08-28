@@ -12,6 +12,8 @@ import pipeleft from "../../../assets/Gootopia/pipeleft.png";
 import { Link } from "react-router-dom";
 import routes from "../../../constants/routes";
 import { useSelector } from "react-redux";
+import { PromoDiscountSection } from "../../../pages/PromoDiscountSection/PromoDiscountSection";
+const dessert = process.env.REACT_APP_GOOTOPIA_KEY;
 
 export default function LandingPage() {
   const { user } = useSelector((state) => state.record);
@@ -25,7 +27,12 @@ export default function LandingPage() {
             className="cursor-pointer"
             to={user ? routes.BookingGootopia : routes.Login}
           >
-            <img class="booknow hoverEffects" src={book1} alt="Workplace" width="600" />
+            <img
+              class="booknow hoverEffects"
+              src={book1}
+              alt="Workplace"
+              width="600"
+            />
           </Link>
         </div>
         <img class="w-full" src={gootopialanding} alt="gootopialanding" />
@@ -85,6 +92,10 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="bg-tdm-pink py-10 font-poppins">
+          <PromoDiscountSection businessUnitId={dessert} />
         </div>
 
         <div className="bg-[#F8E71C] pt-10">

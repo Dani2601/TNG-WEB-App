@@ -18,6 +18,7 @@ import routes from "../../../constants/routes";
 import { useSelector } from "react-redux";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { PromoDiscountSection } from "../../PromoDiscountSection/PromoDiscountSection";
 // import ScrollAnimation from "react-animate-on-scroll";
 
 // let promo = [
@@ -34,7 +35,7 @@ import { useInView } from "react-intersection-observer";
 //     src: cakepromob,
 //   },
 // ];
-
+const bakebe = process.env.REACT_APP_INFLATABLE_KEY
 export default function BakebeSectionC() {
   const [promo, setPromo] = useState([]);
   const { user } = useSelector((state) => state.record);
@@ -50,20 +51,6 @@ export default function BakebeSectionC() {
     }
   }, [controls, inView]);
 
-  useEffect(() => {
-    getPromos(process.env.REACT_APP_BAKEBE_KEY)
-      .then((response) => {
-        if (response.valid) {
-          // const locationArray = Object.values(response.data);
-          // setSelectedLocation(locationArray);
-          setPromo(response.data.items);
-        } else {
-        }
-      })
-      .catch();
-  }, []);
-
-  console.log("promo", promo);
 
   return (
     <div id="promo" className="h-full" ref={ref}>
@@ -86,11 +73,14 @@ export default function BakebeSectionC() {
                   }}
               >
         <div className="py-[50px] laptopL:py-[15%] ">
-          <div className="text-[24px] text-white text-center px-10 mb-10 my-10 laptopL:mt-[-5%]">
+          {/* <div className="text-[24px] text-white text-center px-10 mb-10 my-10 laptopL:mt-[-5%]">
             {" "}
-            PROMO AND DISCOUNTS
+            Promo and Discounts
+          </div> */}
+          <div>
+            <PromoDiscountSection businessUnitId={bakebe}/>
           </div>
-          <div className="flex flex-row flex-wrap justify-center pt-5 pb-[10%]  ">
+          {/* <div className="flex flex-row flex-wrap justify-center pt-5 pb-[10%]  ">
             {promo.length > 0
               ? promo.map((item) => {
                   console.log(item);
@@ -128,7 +118,7 @@ export default function BakebeSectionC() {
                   );
                 })
               : "No Data"}
-          </div>
+          </div> */}
         </div>
         </motion.div>
       </div>
