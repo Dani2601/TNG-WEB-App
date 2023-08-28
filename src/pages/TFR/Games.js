@@ -69,12 +69,16 @@ export default function Games() {
                 key={item.id}
                 className="relative w-[150px] tablet:w-[260px] mx-4 my-4"
               >
-                <img src={item.Image} className="relative w-full h-auto" />
-                <div className="absolute inset-x-0 bottom-4 tablet:bottom-6 flex items-center justify-center">
-                  <img
-                    src={booknow}
-                    className="h-[20px] tablet:h-[30px] z-10"
-                  />
+                <img
+                  src={item.Image}
+                  alt="tfr"
+                  className="relative w-full h-auto"
+                />
+                <div className="h-[20px] tablet:h-[30px] z-10 absolute inset-x-0 bottom-4 tablet:bottom-6 flex items-center justify-center">
+                  <div className="  bg-white text-tfr-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-tfr-pink hover:text-white">
+                    {" "}
+                    Book Now{" "}
+                  </div>
                 </div>
               </div>
             </Link>

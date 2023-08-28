@@ -217,12 +217,10 @@ export default function Landing() {
                               alt="logo"
                               className="rounded-3xl"
                             />
-                            <div className="absolute inset-x-0 bottom-1 tablet:bottom-6 flex items-center justify-center">
-                              <img
-                                src={booknow}
-                                className="h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px] z-10"
-                                alt="booknow"
-                              />
+                            <div className="absolute inset-x-0 bottom-1 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
+                              <div
+                                className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
+                              > Book Now </div>
                             </div>
                           </Link>
                         </button>
