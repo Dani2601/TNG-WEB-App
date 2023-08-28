@@ -110,8 +110,11 @@ export default function TCModalContainer({
             disabled={!scrolledDown || loading}
           >
             {loading ? (
-              <div className="flex items-center gap-2">
-                {/* Loading indicator */}
+              <div className="flex gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
+                </div>
+                I have read and accept the terms and conditions.
               </div>
             ) : (
               "I have read and accept the terms and conditions."

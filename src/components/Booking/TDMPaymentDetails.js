@@ -425,6 +425,7 @@ export function TDMPaymentDetails({
                   </div>
                     {
                       cart?.map((item, index) => {
+                        console.log(item.BookingDate)
                         return(
                           <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
                             <div className="flex justify-between items-center">
@@ -436,7 +437,7 @@ export function TDMPaymentDetails({
                                 <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
                                 <p className="text-xs">
                                   Date:{" "}
-                                  {item?.BookingDate && isValid(item.BookingDate)
+                                  {item?.BookingDate && isValid(new Date(item.BookingDate))
                                   ? format(new Date(item.BookingDate), "MM/dd/yyyy")
                                   : ""}
                                 </p>

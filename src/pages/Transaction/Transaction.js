@@ -171,6 +171,32 @@ export default function Transaction() {
                     <Status status={data.Status} />
                   </span>
                 </td>
+                
+                <td className="px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px] text-center">
+                  <button
+                    type="button"
+                    id="actionButton"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    className="cursor-pointer m-auto"
+                  >
+                    {/* <img src={Optionsicon} alt="Profile" className="h-7" /> */}
+                  </button>
+                  <ul
+                    className="
+                        dropdown-menu min-w-max absolute bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1
+                        hidden -0 bg-clip-padding border-none"
+                    aria-labelledby="actionButton"
+                  >
+                    <li>
+                        <a
+                          className="cursor-pointer dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-BrrringYellow"
+                        >
+                          Delete
+                        </a>  
+                    </li>
+                  </ul>
+                  </td>
               </tr>
             );
           });
