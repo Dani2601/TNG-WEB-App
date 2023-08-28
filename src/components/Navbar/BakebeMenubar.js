@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
 import { desertlogo, tdmnav } from "../../assets/Dessert";
 import close from "../../assets/Gootopia/closebutton.png";
@@ -16,10 +16,12 @@ import { Transition } from "@headlessui/react";
 export default function BakebeMenubar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useSelector((state) => state.record);
+  const [promo, setPromo] = useState([]);
 
   function toggleMenu() {
     setIsOpen(!isOpen);
   }
+
 
   return (
     <>
@@ -50,7 +52,7 @@ export default function BakebeMenubar() {
                     HOME
                   </a>
                   <a
-                    href="#promo"
+                    href="#howto"
                     // to={routes.ObstaclesGootopia}
                     className="w-1/3 text-center text-black rounded-md  "
                   >
@@ -77,13 +79,13 @@ export default function BakebeMenubar() {
                   >
                     PROMO AND DISCOUNTS
                   </a>
-                  <a
-                    href="#promo"
+                  <Link
+                    to={user ? routes.BookingBakebe : routes.Login}
                     // to={routes.FaqsGootopia}
                     className="w-1/3 text-center text-black rounded-md  "
                   >
                     BOOK NOW!
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -111,7 +113,6 @@ export default function BakebeMenubar() {
             } md:hidden w-full h-screen z-50 `}
           >
             <div className="text-[16px] flex flex-col items-center px-2 pt-2 pb-3 space-y-3 sm:px-3 text-bakebe-pink">
-           
               <a
                 href={"#howto"}
                 // to={routes.ObstaclesGootopia}
@@ -126,15 +127,15 @@ export default function BakebeMenubar() {
               >
                 PROMOS AND DISCOUNTS
               </a>
-              <a
-                href={"#promo"}
+              <Link
+                to={user ? routes.BookingBakebe : routes.Login}
                 // to={routes.FaqsGootopia}
                 className="block px-3 py-2 w-full text-left "
               >
                 BOOK NOW!
-              </a>
+              </Link>
 
-              <img src={rightcake} className="" />
+              <img src={rightcake} alt="cake" className="" />
             </div>
           </div>
         </>

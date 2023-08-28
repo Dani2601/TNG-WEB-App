@@ -9,6 +9,8 @@ import CarouselB from "../../../pages/TFR/CarouselB";
 import Games from "../../../pages/TFR/Games";
 import FindUsHere from "../../../pages/TFR/FindUsHere";
 import BookNow from "../../../pages/TFR/BookNow";
+import { PromoDiscountSection } from "../../../pages/PromoDiscountSection/PromoDiscountSection";
+const TFR = process.env.REACT_APP_TFR_KEY;
 
 export default function LandingPage() {
   return (
@@ -42,6 +44,9 @@ export default function LandingPage() {
         {/* 5th Section */}
         <Games />
 
+<div className="bg-tdm-pink py-10 font-poppins">
+        <PromoDiscountSection businessUnitId={TFR} />
+      </div>
         {/* 6th Section */}
         <FindUsHere />
 
