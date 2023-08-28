@@ -5,9 +5,8 @@ export function TicketBookingModal({
   showModal,
   handleCloseModal,
   handleProceed,
-  ticket
+  ticket,
 }) {
-
   return (
     <ModalContainer
       isOpen={showModal}
@@ -18,15 +17,29 @@ export function TicketBookingModal({
       <div className="p-4 text-center flex flex-col items-center font-poppins">
         <RiErrorWarningLine color={"#FACEA8"} size={70} />
         <p className="font-bold">{ticket?.Name}</p>
-        <div className="flex flex-row">
-          <div className="font-bold line-through mr-1">PHP{ticket?.OldPrice}</div>
-          <div className=" mr-1">PHP{ticket?.Price}</div>
-          <div >{ticket?.Notes}% OFF</div>
-  
-        </div>
+
+        {ticket?.OldPrice ? (
+          <>
+            {" "}
+            <div className="flex flex-row">
+              <div className="font-bold line-through mr-1">
+                PHP{ticket?.OldPrice}
+              </div>
+              <div className=" mr-1">PHP{ticket?.Price}</div>
+     
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex flex-row">
+              <div className=" mr-1">PHP{ticket?.Price}</div>
+            </div>
+          </>
+        )}
+
         <div className="text-[10px] mt-3">
-            Are you sure you want to add this ticket?
-          </div>
+          Are you sure you want to add this ticket?
+        </div>
         <div className="flex gap-2 mt-6">
           <button
             onClick={handleCloseModal}
