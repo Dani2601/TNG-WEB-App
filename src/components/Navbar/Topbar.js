@@ -5,7 +5,7 @@ import gootopianav from "../../assets/Header/gootopianav.png";
 import isnav from "../../assets/Header/isnav.png";
 import { nx, logo } from "../../assets/Dessert";
 
-import tfrnav from "../../assets/TFR/THE FUN ROOF-WHITE.png";
+import tfrnav from "../../assets/Header/tfrnav.png";
 import { MdMenu } from "react-icons/md";
 import routes from "../../constants/routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -134,10 +134,10 @@ export default function Topbar({ scroll }) {
             <div class="h-[40px]  bg-white w-[2px] mr-[3px] hidden tablet:block"></div>
 
             <div className="flex flex-row gap-1 laptop:gap-2 flex-1">
-              {/* <div>
+              <div>
                 <div
-                  // onClick={() => handleCart(TFR_KEY, routes.LandingTFR)}
-                  className={`  rounded-full h-[35px] laptop:h-[46px] 
+                  onClick={() => handleCart(TFR_KEY, routes.LandingTFR)}
+                  className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
               ${
                 location.pathname === routes.LandingTFR ||
                 location.pathname === routes.BookingTFR
@@ -145,23 +145,12 @@ export default function Topbar({ scroll }) {
                   : ""
               }`}
                 >
-                  <img
-                    src={tfrnav}
-                    alt=""
-                    className="w-full h-full object-contain max-w-[106px] max-h-[34px]"
-                  />
+                  <img src={tfrnav} alt="" className="w-full h-full" />
                 </div>
-              </div> */}
+              </div>
 
               <div>
                 <div
-                  //  style={{
-                  //   backgroundImage: `url(${
-                  //     tdmnav
-                  //   })`,
-                  //   backgroundSize: "100% auto",
-                  //   backgroundRepeat: tdmnav ? "no-repeat" : "",
-                  // }}
                   onClick={() => handleCart(DESSERT_KEY, routes.LandingDesert)}
                   className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
                 ${

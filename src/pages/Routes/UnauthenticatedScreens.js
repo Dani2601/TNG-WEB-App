@@ -41,7 +41,7 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.ContactsGootopia} element={<Contacts />} />
 
         {/* {TFR} temporary remove */}
-        {/* <Route path={routes.LandingTFR} element={<LandingTFR />} /> */}
+        <Route path={routes.LandingTFR} element={<LandingTFR />} />
         
         {/* {TFR} */}
         <Route path={routes.LandingInflatableIsland} element={<LandingInflatableIsland />} />

@@ -58,8 +58,8 @@ export default function AuthenticatedScreens() {
         <Route path={routes.PaymentFailed} element={<PaymentFailed />} />
 
         {/* {TFR} temporary remove*/}
-        {/* <Route path={routes.LandingTFR} element={<LandingTFR />} />
-        <Route path={routes.BookingTFR} element={<TFRBooking />} /> */}
+        <Route path={routes.LandingTFR} element={<LandingTFR />} />
+        <Route path={routes.BookingTFR} element={<TFRBooking />} />
 
         {/* {Bakebe} */}
         <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
