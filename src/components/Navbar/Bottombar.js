@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import tdmnav from "../../assets/Header/BottomNav/tdmnav.png";
 import bakebenav from "../../assets/Header/BottomNav/bakebenav.png";
 import gootopianav from "../../assets/Header/BottomNav/gootopianav.png";
+import tfrnav from "../../assets/Header/BottomNav/tfrnav.png";
+
 import isnav from "../../assets/Header/BottomNav/isnav.png";
+
 import { nx, logo } from "../../assets/Dessert";
 
-import tfrnav from "../../assets/TFR/THE FUN ROOF-WHITE.png";
 import { MdMenu } from "react-icons/md";
 import routes from "../../constants/routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -192,16 +194,22 @@ export default function Bottombar({ scroll }) {
               </div>
             )}
           </div>
-
           <div>
             <div
-              //  style={{
-              //   backgroundImage: `url(${
-              //     tdmnav
-              //   })`,
-              //   backgroundSize: "100% auto",
-              //   backgroundRepeat: tdmnav ? "no-repeat" : "",
-              // }}
+              onClick={() => handleCart(DESSERT_KEY, routes.LandingTFR)}
+              className={`cursor-pointer  rounded-full h-[45px] hoverEffectsTopbar
+                ${
+                  location.pathname === routes.LandingTFR ||
+                  location.pathname === routes.BookingTFR
+                    ? "bg-[#664653]"
+                    : ""
+                }`}
+            >
+              <img src={tfrnav} alt="" className="w-full h-full" />
+            </div>
+          </div>
+          <div>
+            <div
               onClick={() => handleCart(DESSERT_KEY, routes.LandingDesert)}
               className={`cursor-pointer  rounded-full h-[45px] hoverEffectsTopbar
                 ${
