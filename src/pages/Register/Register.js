@@ -67,16 +67,18 @@ function Register() {
         values.address,
         values.password
       );
-      if (response.valid) {
-        console.log(response);
 
-        dispatch(setUser(response.user));
-        dispatch(setToken(response.token));
-        login();
-        navigate(routes.LandingDesert);
-      } else {
-        toast.error(response.errorMsg);
-      }
+      console.log("response",response)
+      // if (response.valid) {
+      //   console.log(response);
+
+      //   dispatch(setUser(response.user));
+      //   dispatch(setToken(response.token));
+      //   login();
+      //   navigate(routes.LandingDesert);
+      // } else {
+      //   toast.error(response.errorMsg);
+      // }
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -94,7 +96,7 @@ function Register() {
     setShowCPassword((prev) => !prev);
   }, []);
 
-
+  console.log("error",formik.errors)
   return (
     <>
       <Topbar

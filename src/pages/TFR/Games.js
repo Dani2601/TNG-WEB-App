@@ -67,7 +67,7 @@ export default function Games() {
               {" "}
               <div
                 key={item.id}
-                className="relative w-[150px] tablet:w-[260px] mx-4 my-4"
+                className="relative w-[150px] h-[141px] tablet:w-[260px] tablet:h-[244px] mx-4 my-4 object-cover overflow-hidden"
               >
                 <img
                   src={item.Image}

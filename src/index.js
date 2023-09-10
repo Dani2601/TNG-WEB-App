@@ -10,6 +10,7 @@ import store, { persistor } from "./store/store";
 import { ToastContainer } from "react-toastify";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import ThemeContainer from "./context/ThemeContainer";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import "./index.css";
 import "tw-elements";
