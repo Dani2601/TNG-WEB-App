@@ -7,6 +7,7 @@ import TDM_Logo01 from "../../assets/TDM_Logo01.png";
 import inflatableIsland from "../../assets/inflatableIsland.webp";
 import gootopia from "../../assets/gootopia.webp";
 import pink from "../../assets/pink.webp";
+
 import TDM1 from "../../assets/Landing/TNG-Booking-TDM-1.jpg";
 import TDM2 from "../../assets/Landing/TNG-Booking-TDM-2.jpg";
 
@@ -31,10 +32,11 @@ import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
+import { Carousel } from "react-responsive-carousel";
 
 const BusinessUnits = [
-  { id: 1, image: TRF1, link: `/` },
-  { id: 2, image: TRF2, link: `/` },
+  { id: 1, image: TRF1, link: routes.LandingTFR },
+  { id: 2, image: TRF2, link: routes.LandingTFR },
   { id: 3, image: TDM1, link: routes.DessertBooking },
   { id: 4, image: TDM2, link: routes.DessertBooking },
   { id: 5, image: BAKE1, link: routes.BookingBakebe },
@@ -198,7 +200,7 @@ export default function Landing() {
               hidden: { opacity: 0, y: 100 },
             }}
           >
-            <div className="flex flex-col justify-center items-center gap-3 py-10">
+            {/* <div className="flex flex-col justify-center items-center gap-3 py-10">
               {Array.from({ length: Math.ceil(BusinessUnits.length / 2) }).map(
                 (_, rowIndex) => (
                   <div
@@ -217,11 +219,6 @@ export default function Landing() {
                               alt="logo"
                               className="rounded-3xl"
                             />
-                            <div className="absolute inset-x-0 bottom-1 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
-                              <div
-                                className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
-                              > Book Now </div>
-                            </div>
                           </Link>
                         </button>
                       )
@@ -229,6 +226,159 @@ export default function Landing() {
                   </div>
                 )
               )}
+            </div> */}
+            <div className="flex flex-col gap-10 items-center py-10 mb-4">
+              <div className="tablet:flex tablet:flex-row gap-10 flex flex-col  items-center">
+                <Carousel
+                  autoPlay
+                  showStatus={false}
+                  showThumbs={false}
+                  infiniteLoop={true}
+                  interval={2000}
+                  showIndicators={false}
+                  className="mb-1 tablet:mb-5 tablet:h-[50%] tablet:w-[50%] w-[200px] h-[141px] mobileL:w-[80%] mobileL:h-[80%] cursor-pointer rounded-3xl hoverEffectsTopbar"
+                >
+                  {BusinessUnits.slice(0, 2).map((item, index) => {
+                    return (
+                      <div
+                        key={item.id}
+                        className="rounded-3xl border-[3px] border-slate-300 relative "
+                      >
+                        <img alt="" src={item.image} className="rounded-3xl" />
+                        <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
+                          <Link
+                            to={user ? item.link : routes.Login}
+                            className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
+                          >
+                            {" "}
+                            Book Now
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Carousel>
+
+                <Carousel
+                  autoPlay
+                  showStatus={false}
+                  showThumbs={false}
+                  infiniteLoop={true}
+                  interval={2000}
+                  showIndicators={false}
+                  className="mb-1 tablet:mb-5 tablet:h-[50%] tablet:w-[50%] w-[200px] h-[141px] mobileL:w-[80%] mobileL:h-[80%] cursor-pointer hoverEffectsTopbar rounded-3xl "
+                >
+                  {BusinessUnits.slice(2, 4).map((item, index) => {
+                    return (
+                      <div
+                        key={item.id}
+                        className="rounded-3xl border-[3px] border-slate-300 relative "
+                      >
+                        <img alt="" src={item.image} className="rounded-3xl" />
+                        <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
+                          <Link
+                            to={user ? item.link : routes.Login}
+                            className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
+                          >
+                            {" "}
+                            Book Now
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="tablet:flex tablet:flex-row gap-10 flex flex-col  items-center">
+                <Carousel
+                  autoPlay
+                  showStatus={false}
+                  showThumbs={false}
+                  infiniteLoop={true}
+                  interval={2000}
+                  showIndicators={false}
+                  className="mb-1 tablet:mb-5 tablet:h-[50%] tablet:w-[50%] w-[200px] h-[141px] mobileL:w-[80%] mobileL:h-[80%] cursor-pointer hoverEffectsTopbar rounded-3xl"
+                >
+                  {BusinessUnits.slice(4, 6).map((item, index) => {
+                    return (
+                      <div
+                        key={item.id}
+                        className="rounded-3xl border-[3px] border-slate-300 relative "
+                      >
+                        <img alt="" src={item.image} className="rounded-3xl" />
+                        <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
+                          <Link
+                            to={user ? item.link : routes.Login}
+                            className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
+                          >
+                            {" "}
+                            Book Now
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Carousel>
+                <Carousel
+                  autoPlay
+                  showStatus={false}
+                  showThumbs={false}
+                  infiniteLoop={true}
+                  interval={2000}
+                  showIndicators={false}
+                  className="mb-1 tablet:mb-5 tablet:h-[50%] tablet:w-[50%] w-[200px] h-[141px] mobileL:w-[80%] mobileL:h-[80%] cursor-pointer hoverEffectsTopbar rounded-3xl"
+                >
+                  {BusinessUnits.slice(6, 8).map((item, index) => {
+                    return (
+                      <div
+                        key={item.id}
+                        className="rounded-3xl border-[3px] border-slate-300 relative "
+                      >
+                        <img alt="" src={item.image} className="rounded-3xl" />
+                        <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
+                          <Link
+                            to={user ? item.link : routes.Login}
+                            className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
+                          >
+                            {" "}
+                            Book Now
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Carousel>
+              </div>
+              <Carousel
+                autoPlay
+                showStatus={false}
+                showThumbs={false}
+                infiniteLoop={true}
+                interval={2000}
+                showIndicators={false}
+                className="mb-1 tablet:mb-5 tablet:h-[50%] tablet:w-[50%] w-[200px] h-[141px] mobileL:w-[80%] mobileL:h-[80%] cursor-pointer hoverEffectsTopbar "
+              >
+                {BusinessUnits.slice(8, 10).map((item, index) => {
+                  return (
+                    <div
+                      key={item.id}
+                      className="rounded-3xl border-[3px] border-slate-300 relative "
+                    >
+                      <img alt="" src={item.image} className="rounded-3xl" />
+                      <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
+                        <Link
+                          to={user ? item.link : routes.Login}
+                          className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
+                        >
+                          {" "}
+                          Book Now
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </Carousel>
             </div>
           </motion.div>
         </div>
