@@ -45,7 +45,7 @@ export default function Packages() {
         BusinessUnitID: GOOTOPIA_KEY,
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.valid) {
           setPackages(res.data.data);
         } else {
@@ -63,7 +63,7 @@ export default function Packages() {
         BusinessUnitID: GOOTOPIA_KEY,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.valid) {
           setPackageImage(res.data.data);
         } else {
@@ -86,7 +86,7 @@ export default function Packages() {
         Message: values?.message,
       })
       .then((result) => {
-        console.log(result.data);
+        //console.log(result.data);
         if (result.data.valid) {
           toast.success("Successfully submit");
           formik.handleReset();

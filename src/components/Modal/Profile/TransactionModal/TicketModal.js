@@ -43,7 +43,7 @@ export default function TicketModal({
   editData,
   qrData,
 }) {
-  console.log(editData);
+  //console.log(editData);
   const customStyles = {
     content: {
       width: "100%",

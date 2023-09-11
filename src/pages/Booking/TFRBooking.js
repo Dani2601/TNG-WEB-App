@@ -19,11 +19,13 @@ import { generatePDF } from "../../helper/PDF";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
 import { useEffect } from "react";
+import SelectCategory from "../../components/TFR/Booking/SelectCategory";
+import { TFRBookingDetails } from "../../components/Booking/TFRBookingDetails";
 
 export function TFRBooking() {
   const [step, setStep] = useState(1);
   const [location, setLocation] = useState("");
-
+  const [categories,setCategories] = useState("Games")
   const [ticket, setTicket] = useState("");
   const [pax, setPax] = useState("");
   const [bookingDate, setBookingDate] = useState("");
@@ -100,6 +102,7 @@ export function TFRBooking() {
   return (
     <>
     <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
+
       {step == 1 && (
         <SelectLocation
           step={step}
@@ -112,18 +115,21 @@ export function TFRBooking() {
         <SelectTicket
           setStep={setStep}
           ticket={ticket}
+          categories={categories}
+          setCategories={setCategories}
           setTicket={setTicket}
           location={location}
         />
       )}
       {step == 3 && (
         <TFRContainer>
-          <TDMBookingDetails
+          <TFRBookingDetails
             setStep={setStep}
             ticket={ticket}
             location={location}
             pax={pax}
             setPax={setPax}
+            setCategories={setCategories}
             bookingDate={bookingDate}
             setBookingDate={setBookingDate}
             bookingTime={bookingTime}

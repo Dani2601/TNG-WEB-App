@@ -51,7 +51,7 @@ function Landing() {
             ? "Password is wrong"
             : response.errorMsg
         );
-        console.log(response.errorMsg.length);
+       // console.log(response.errorMsg.length);
       }
     } catch (error) {
       toast.error("Something went wrong");

@@ -57,7 +57,7 @@ export function GootopiaBooking() {
   function submit(e) {
     addBooking(e)
       .then((result) => {
-        console.log(result)
+       // console.log(result)
         if (result.valid) {
           setLoading(false)
           window.location.href = result.data.invoice_url;
