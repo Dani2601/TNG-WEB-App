@@ -40,6 +40,7 @@ export function TDMPaymentDetails({
 
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
+
   const [isChecked, setIsChecked] = useState(false);
   const [fullname, setFullname] = useState("");
   const [contact, setContact] = useState("");
@@ -76,6 +77,8 @@ export function TDMPaymentDetails({
     }
   }
 
+  console.log("cart1",cart)
+
   function handleNext() {
     setLoading(true)
     let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
@@ -89,6 +92,7 @@ export function TDMPaymentDetails({
           TicketID: item?.Ticket?.id,
           BookingDate: item?.BookingDate,
           BookingTime: item?.BookingTime,
+          BookingEndTime: item?.BookingEndTime ? item?.BookingEndTime : "",
           Pax: item?.Pax,
           Status: "Unused"
         }
@@ -265,6 +269,7 @@ export function TDMPaymentDetails({
           Location: coupon?.ticket?.BranchID,
           Ticket: coupon?.ticket,
           BookingDate: coupon?.data?.BookingDate,
+          // BookingEndTime: coupon?.data?.BookingEndTime ? coupon?.data?.BookingEndTime : "",
           BookingTime: formattedTime,
           Pax: coupon?.data?.Quantity,
           Option: ""
@@ -439,7 +444,8 @@ export function TDMPaymentDetails({
                                   ? format(new Date(item.BookingDate), "MM/dd/yyyy")
                                   : ""}
                                 </p>
-                                <p className="text-xs">Time: {item?.BookingTime}</p>
+                                <p className="text-xs">
+                                Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>
                                 <p className="text-xs">No. of pass: {item?.Pax}</p>
                                 {/* {
                                   bookingType &&
@@ -503,11 +509,11 @@ export function TDMPaymentDetails({
               <div className="shadow-md rounded-md">
                 <div className="w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]" />
                 <div className="flex justify-center py-4 px-6">
-                  <p className="text-xs">
+                  {/* <p className="text-xs">
                     Please note that our TWO HOUR TOUR starts every 15 minutes.
                     Guests are required to come 20 minutes before their
                     scheduled slot for processing of tickets.
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

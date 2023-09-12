@@ -42,7 +42,7 @@ export function TDMBookingDetails({
   setPax,
   bookingDate,
   setBookingDate,
-  bookingTime,
+bookingTime,
   setBookingTime,
   business = "Dessert",
   handleOptionChange,
@@ -77,6 +77,7 @@ export function TDMBookingDetails({
       Ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
+      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
       Pax: parseInt(pax),
       Option: selectedOption,
     };
@@ -314,8 +315,10 @@ export function TDMBookingDetails({
   }, [bookingTime, bookingDate, intervals]);
 
   function handleBookingTime(e) {
+  
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
+        console.log("data",data)
       setBookingTime(data?.value ? data?.value : null);
       setPax(1);
       setDisabled(false);
@@ -335,6 +338,7 @@ export function TDMBookingDetails({
       Ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
+      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
       Pax: parseInt(pax),
       Option: selectedOption,
     };
@@ -446,7 +450,6 @@ export function TDMBookingDetails({
                   <option value={""}>Select a time</option>
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
-                      console.log(item)
                       const itemTime = moment(item.value, "h:mm A").tz(
                         "Asia/Manila"
                       );
@@ -603,7 +606,7 @@ export function TDMBookingDetails({
                           Date:{" "}
                           {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
-                        <p className="text-xs">Time: {bookingTime}</p>
+                        <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime )? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
                         <p className="text-xs">No. of pass: {pax}</p>
                       </div>
                       <div className="flex items-ebd">
