@@ -146,6 +146,13 @@ export default function TransactionModa({
                   <div className="tablet:w-[140px] mr-1">Branch: </div>
                   {editData.Branch}
                 </div>
+                {
+                  editData?.Payment?.Discount &&
+                  <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-3 tablet:mt-5 tablet:ml-5 ">
+                    <div className="tablet:w-[140px] mr-1 font-bold ">Total Discount: </div>
+                    {"₱ " + editData?.Payment?.Discount}
+                  </div>
+                }
                 <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-3 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px] mr-1 font-bold ">Total Price: </div>
                   {"₱ " + editData.TotalPrice}

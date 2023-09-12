@@ -61,13 +61,13 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
         <div className='w-full py-10 flex justify-center'>
         <ConfirmationCartModal showModal={visible} handleCloseModal={() => setVisible(false)} handleProceed={handleCart}/>
         <TDMModalBooking showModal={showModal} ticket={ticket} handleCloseModal={handleCloseModal} setStep={setStep} handleProceed={handleProceed}/>
-        <div className='w-[80vw] sm:w-[50vw]'>
+        <div className='w-[80vw] sm:w-[90vw]'>
             <div className='text-center flex gap-6 flex-col justify-center items-center'>
                 <p className='text-[30px] text-[#FF98C3]'>Select Ticket</p>
                 <p className='text-sm'>Please note that our TWO HOUR TOUR starts every 15 minutes.<br/>Guests are required to come 20 minutes before their scheduled slot<br/>for processing of tickets.</p>
             </div>
             
-            <div className='flex flex-col sm:flex-row py-10 gap-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 py-10'>
                 {
                     tickets.length > 0 ?
                     tickets?.map((item, index) => <DessertTicketCard key={index} item={item} ticket={ticket} setTicket={setTicket}/>)
