@@ -1,21 +1,18 @@
 import React, { useCallback, useState } from "react";
 import dripping from "../../../assets/Gootopia/Obstacles/SlimeDown.png";
 
-import abouts from "../../../assets/Gootopia/FAQ's/about.png";
-import GootopiaContainer from "../../Container/GootopiaContainter";
-import bookingCard from "../../../assets/Gootopia/Booking/BookingCard.png";
-import routes from "../../../constants/routes";
+
 import { Link, useNavigate } from "react-router-dom";
 import { TicketBookingModal } from "../../Modal/Gootopia/TicketBookingModal";
 import { getTicketGootopia } from "../../../functions/Tickets";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TFRContainer from "../../Container/TFRContainer";
-import TFRMenubarNonSpa from "../../Navbar/TFRMenubar";
 import booknow from "../../../assets/TFR/button BOOK NOW GAMES.png";
 import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
 import { setCart } from "../../../store/action";
 import { useMemo } from "react";
+import TFRMenubarNonSpa from "../../Navbar/TFRMenubarNonSpa";
 
 let ticket = [
   {
@@ -100,7 +97,7 @@ export default function SelectTicket({
  
   return (
     <TFRContainer>
-      <TFRMenubarNonSpa />
+      < TFRMenubarNonSpa/>
       <ConfirmationCartModal
         showModal={visible}
         handleCloseModal={() => setVisible(false)}
@@ -137,7 +134,7 @@ export default function SelectTicket({
               </select>
               <div className="flex flex-row flex-wrap justify-center">
                 {/* {tickets.length > 0 ? ( */}
-                <div className="cursor-pointer flex flex-wrap justify-center items-center laptop:mx-[20%] pb-5 tablet:pb-10 ">
+                <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 ">
                   {tickets
                     .filter((item) => item.Category === categories)
                     .map((item) => {

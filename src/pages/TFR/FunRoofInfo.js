@@ -20,18 +20,18 @@ export default function FunRoofInfo() {
               className="mt-2 h-auto w-[200px] mx-auto tablet:w-[240px] laptop:w-[360px] laptopL:w-[480px] laptop4k:w-[600px]"
             />
             <div className=" text-center mt-2 mobileL:hidden tracking-wide">
-              Step into The Fun Room, an electrifying escape in the heart of
+              Step into The Fun Roof, an electrifying escape in the heart of
               Poblacion, Manila...
             </div>
             <div className=" text-center mt-2 hidden tablet:hidden mobileL:block tracking-wide">
-              Step into The Fun Room, an electrifying escape in the heart of
+              Step into The Fun Roof, an electrifying escape in the heart of
               Poblacion, Manila. With vibrant neon lights and retro vibes,
               indulge in games like billiards, indoor golf, and pinball while
               enjoying a wide selection of delicious...
             </div>
 
             <div className=" text-center mt-4 hidden tablet:block tracking-wide laptop:text-[20px] laptop4K:text-[100px]">
-              Step into The Fun Room, an electrifying escape in the heart of
+              Step into The Fun Roof, an electrifying escape in the heart of
               Poblacion, Manila. With vibrant neon lights and retro vibes,
               indulge in games like billiards, indoor golf, and pinball while
               enjoying a wide selection of delicious food and drinks. Get ready

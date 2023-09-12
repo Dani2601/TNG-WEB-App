@@ -15,6 +15,7 @@ import { setCart } from "../../store/action";
 import { number } from "yup";
 import moment from "moment-timezone";
 import { current } from "@reduxjs/toolkit";
+import { convertToNormalTime } from "../../helper/DateTime";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -224,6 +225,7 @@ export function TDMBookingDetails({
     setPax("");
   }
 
+
   useEffect(() => {
     if (bookingDate) {
       setIntervals(
@@ -365,6 +367,24 @@ export function TDMBookingDetails({
   
   const currentDateInPhilippines = getCurrentDateInPhilippines();
 
+  const withoutFilters = useMemo(
+    () =>
+      (ticket?.Category === "Games" &&
+        (ticket?.SubCategory === "DrunkenPinball" ||
+        ticket?.SubCategory === "Drunken Pinball" ||
+          ticket?.SubCategory === "BoomBattleShot" ||
+          ticket?.SubCategory === "Boom Battleshot" ||
+          ticket?.SubCategory === "ExtremeBasketBall" ||
+          ticket?.SubCategory === "Extreme Basketball" ||
+          ticket?.SubCategory === "StarBlaster" ||
+          ticket?.SubCategory === "Star Blaster" ||
+          ticket?.SubCategory === "Ring The Bell")) ||
+      (ticket?.Category === "Entrance And Events" &&
+        ticket?.SubCategory === "Entrance"),
+    [ticket]
+  );
+
+
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -426,6 +446,7 @@ export function TDMBookingDetails({
                   <option value={""}>Select a time</option>
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
+                      console.log(item)
                       const itemTime = moment(item.value, "h:mm A").tz(
                         "Asia/Manila"
                       );
@@ -439,7 +460,7 @@ export function TDMBookingDetails({
                             {item.label}
                           </option>
                         );
-                      } else if (formattedBookingDate === currentDateInPhilippines) {
+                      } else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
                         // Disable the option if itemTime is before the current time
                         return (
                           <option
@@ -447,10 +468,31 @@ export function TDMBookingDetails({
                             value={JSON.stringify(item)}
                             disabled={itemTime.isBefore(currentTime) ? true : false}
                           >
-                            {item.label}
+                            {`${item.label}`}
                           </option>
                         );
-                      } else {
+                      } else if ( business === "TFR" && withoutFilters) {
+                        // Disable the option if itemTime is before the current time
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item)}
+                          >
+                            {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
+                          </option>
+                        );
+                      } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
+                        // Disable the option if itemTime is before the current time
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item)}
+                            disabled={itemTime.isBefore(currentTime) ? true : false}
+                          >
+                             {item.label}
+                          </option>
+                        );
+                      }else {
                         return (
                           <option key={index} value={JSON.stringify(item)} >
                             {item.label}
