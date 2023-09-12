@@ -17,6 +17,7 @@ import { bpi, gcash, grabpay, maya, rcbc, shopeepay, ubp } from "../../assets/Pa
 import routes from "../../constants/routes";
 import { TCModalContainer } from "../Modal/TermsAndCondition";
 import { getBookingsByTicketID } from "../../functions/Tickets";
+import { WaiverModalContainer } from "../Modal/Waiver";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
