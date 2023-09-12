@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import SelectCategory from "../../components/TFR/Booking/SelectCategory";
 import { TFRBookingDetails } from "../../components/Booking/TFRBookingDetails";
 import TFRMenubarNonSpa from "../../components/Navbar/TFRMenubarNonSpa";
+import { TFRPaymentDetails } from "../../components/Booking/TFRPaymentDetails";
 
 export function TFRBooking() {
   const [step, setStep] = useState(1);
@@ -128,7 +129,7 @@ export function TFRBooking() {
         <TFRContainer>
           <TFRMenubarNonSpa />
 
-          <TDMBookingDetails
+          <TFRBookingDetails
             setStep={setStep}
             ticket={ticket}
             location={location}
@@ -152,7 +153,7 @@ export function TFRBooking() {
         <TFRContainer>
           <TFRMenubarNonSpa />
 
-          <TDMPaymentDetails
+          <TFRPaymentDetails
             setStep={setStep}
             ticket={ticket}
             location={location}

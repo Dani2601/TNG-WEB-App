@@ -6,14 +6,14 @@ import GeneralWaiverContent from "./GeneralWaiverContent";
 import TheThrowWaiverContent from "./TheThrowWaiverContent";
 
 var content = {
-  "CrazyGold": <CrazyGoldWaiverContent/>,
+  "CrazyGolf": <CrazyGoldWaiverContent/>,
   "BattlingCages": <BattlingCagesWaiverContent/>,
   "General": <GeneralWaiverContent/>,
   "TheThrow": <TheThrowWaiverContent/>
 };
 
 var title = {
-  "CrazyGold": "CRAZY GOLF: GUESTS WAIVER, RELEASE, and UNDERTAKING",
+  "CrazyGolf": "CRAZY GOLF: GUESTS WAIVER, RELEASE, and UNDERTAKING",
   "BattlingCages": "BATTING CAGES: GUESTS WAIVER, RELEASE, and UNDERTAKING",
   "General": "THE FUN ROOF GUESTS WAIVER, RELEASE, and UNDERTAKING",
   "TheThrow": "THE THROW: GUESTS WAIVER, RELEASE, and UNDERTAKING"

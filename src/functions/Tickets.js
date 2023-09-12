@@ -66,6 +66,31 @@ async function getTicketBakebe(
   }
 }
 
+async function getTFRBookingsByTicketID(branchID, ticketid, date, subcat) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}ViewTFRBookingsByTicketID`,
+      {
+        BranchID: branchID,
+        TicketID: ticketid,
+        BookingDate: date,
+        SubCategory: subcat
+      }
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    return {
+      valid: false,
+    };
+  }
+}
+
+
 async function getBookingsByTicketID(branchID, ticketid, date) {
   try {
     const { data } = await axios.post(
@@ -89,4 +114,9 @@ async function getBookingsByTicketID(branchID, ticketid, date) {
   }
 }
 
-export { getTicketGootopia, getBookingsByTicketID, getTicketBakebe };
+export { 
+  getTicketGootopia, 
+  getBookingsByTicketID, 
+  getTicketBakebe, 
+  getTFRBookingsByTicketID 
+};
