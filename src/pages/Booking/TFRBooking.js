@@ -16,7 +16,7 @@ import routes from "../../constants/routes";
 import QRcode from "qrcode.react";
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../../store/action";
 import { useEffect } from "react";
 import SelectCategory from "../../components/TFR/Booking/SelectCategory";
@@ -38,6 +38,8 @@ export function TFRBooking() {
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const { user, cart } = useSelector((state) => state.record);
+
 
   const locationR = useLocation();
 
