@@ -64,7 +64,14 @@ export function TDMPaymentDetails({
   const [code, setCode] = useState('')
   const [reserve, setReserve] = useState([])
 
-  const total = cart?.reduce((total, item) => total + item.Ticket.Price * item.Pax, 0);
+  const total = cart?.reduce((total, item) => {
+    if(item.Ticket.Promo === 'Buy 1 Take 1'){
+      return total + item.Ticket.Price * (item.Pax / 2)
+    }
+    else{
+      return total + item.Ticket.Price * item.Pax
+    }
+  }, 0);
 
   useEffect(() => {
     setGrandTotal(total - discount)
@@ -77,8 +84,6 @@ export function TDMPaymentDetails({
       setStep(2);
     }
   }
-
-  console.log("cart1",cart)
 
   function handleNext() {
     setLoading(true)
@@ -350,6 +355,23 @@ export function TDMPaymentDetails({
     }
   }
 
+  useEffect(() => {
+    if(cart?.length > 0){
+      let itemWithPromo = cart.filter(item => item?.Ticket?.Promo === 'Discount' || item?.Ticket?.Promo === 'Amount to Reach')
+      
+      const computeDiscount = itemWithPromo?.reduce((total, item) => {
+        if(item?.Ticket?.Promo === 'Amount to Reach'){
+          return total + ((parseInt(ticket?.PromoValue)) * item.Pax)
+        }
+        else{
+          return total + ((item?.Ticket?.Price * item.Pax) * (parseInt(item?.Ticket?.PromoValue)/100))
+        }
+      }, 0);
+
+      setDiscount(computeDiscount)
+    }
+  }, [cart])
+
   function handleCancelCoupon(){
     setDiscount(0)
     setCoupon(null)
@@ -440,18 +462,30 @@ export function TDMPaymentDetails({
                               <div className="flex flex-col">
                                 <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
                                 <p className="text-xs">
-                                  Date:{" "}
-                                  {item?.BookingDate && isValid(new Date(item.BookingDate))
+                                  Date:{" "} {item?.BookingDate && isValid(new Date(item.BookingDate))
                                   ? format(new Date(item.BookingDate), "MM/dd/yyyy")
                                   : ""}
                                 </p>
-                                <p className="text-xs">
-                                Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>
-                                <p className="text-xs">No. of pass: {item?.Pax}</p>
-                                {/* {
-                                  bookingType &&
-                                  <p className="text-xs">Type: {item?.BookingType}</p>
-                                } */}
+                                <p className="text-xs">Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>
+                                {
+                                  item?.Ticket?.Promo === 'Buy 1 Take 1' ?
+                                  <div>
+                                    <p className="text-xs">No. of pass: {item?.Pax/2} (+{item?.Pax/2})</p>
+                                    <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo}</span></p>
+                                  </div>
+                                  :
+                                  (
+                                    item?.Ticket?.Promo ?
+                                    <div>
+                                      <p className="text-xs">No. of pass: {item?.Pax}</p>
+                                      <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo === 'Discount' ? `${item?.Ticket?.PromoValue}%` : `₱${item?.Ticket?.PromoValue}`} {item?.Ticket?.Promo}</span></p>
+                                    </div>
+                                    :
+                                    <div>
+                                      <p className="text-xs">No. of pass: {item?.Pax}</p>
+                                    </div>
+                                  )
+                                }
                               </div>
                               <div className="flex flex-col items-end">
                                 <p className="tex-4xl font-bold text-right">
@@ -461,7 +495,7 @@ export function TDMPaymentDetails({
                             </div>
                           </div>
                         )
-                        })
+                      })
                     }
                   <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
                     <div className="flex justify-between">

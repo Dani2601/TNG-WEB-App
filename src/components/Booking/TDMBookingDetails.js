@@ -71,6 +71,7 @@ bookingTime,
   }
 
   function handleNext() {
+
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
@@ -78,7 +79,7 @@ bookingTime,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: parseInt(pax),
+      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
     if (cart.length > 0) {
@@ -280,7 +281,7 @@ bookingTime,
   function handlePax(e) {
     if (business !== "BakeBe") {
       let input = e.target.value !== "" ? parseInt(e.target.value) : ""; // Parse input as integer if not empty
-      if (input === "" || (input > 0 && input <= maxPerInterval)) { // Check if input is empty or within the allowed range
+      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
         setPax(input);
       }
     } else {
@@ -339,7 +340,7 @@ bookingTime,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: parseInt(pax),
+      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
 
@@ -463,7 +464,19 @@ bookingTime,
                             {item.label}
                           </option>
                         );
-                      } else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
+                      }
+                      else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item)}
+                            disabled={true}
+                          >
+                            {item.label}
+                          </option>
+                        );
+                      }
+                       else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
                         // Disable the option if itemTime is before the current time
                         return (
                           <option
@@ -607,17 +620,53 @@ bookingTime,
                           {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
                         <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime )? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
-                        <p className="text-xs">No. of pass: {pax}</p>
+                        {
+                          ticket?.Promo === 'Buy 1 Take 1' && pax ?
+                          <div>
+                            <p className="text-xs">No. of pass: {pax} (+{pax})</p>
+                            <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
+                          </div>
+                          :
+                          <p className="text-xs">No. of pass: {pax}</p>
+                        }
                       </div>
                       <div className="flex items-ebd">
                         <p className="tex-4xl font-bold">₱ {ticket?.Price}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                    <div className="text-sm font-bold">Total</div>
-                    <div className="font-bold">₱ {total}</div>
-                  </div>
+                  {
+                    ticket.Promo === 'Discount' && pax ?
+                    <div>
+                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                        <div className="text-sm font-bold">Discount ({ticket?.PromoValue}%)</div>
+                        <div className="font-bold">₱ {(ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                      </div>
+                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                        <div className="text-sm font-bold">Total</div>
+                        <div className="font-bold">₱ {total - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                      </div>
+                    </div>
+                    :
+                    (
+                    ticket.Promo === 'Amount to Reach' && pax ?
+                    <div>
+                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                        <div className="text-sm font-bold">Promo Amount (₱ {ticket?.PromoValue})</div>
+                        <div className="font-bold">₱ {(parseInt(ticket?.PromoValue)) * pax}</div>
+                      </div>
+                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                        <div className="text-sm font-bold">Total</div>
+                        <div className="font-bold">₱ {total - ((parseInt(ticket?.PromoValue)) * pax)}</div>
+                      </div>
+                    </div>
+                    :
+                    <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                      <div className="text-sm font-bold">Total</div>
+                      <div className="font-bold">₱ {total}</div>
+                    </div>
+                    )
+                  }
                 </div>
               </div>
               <div className="shadow-md rounded-md">
