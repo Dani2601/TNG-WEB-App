@@ -43,7 +43,7 @@ export default function TransactionModa({
   editData,
   qrData,
 }) {
-  console.log(editData);
+  //console.log(editData);
   const customStyles = {
     content: {
       width: "100%",
@@ -112,7 +112,7 @@ export default function TransactionModa({
       window.location.href = editData.Payment.actions[0].url;
     } else {
       // Handle the case when the URL is missing in the response
-      console.error('Invalid response data. Missing URL for redirection.');
+      //console.error('Invalid response data. Missing URL for redirection.');
     }
   }
 

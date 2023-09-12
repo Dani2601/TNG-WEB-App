@@ -5,7 +5,7 @@ import { TDMReserveTicket } from "../../components/Booking/TDMReserveTicket";
 import DesertMuseumContainer from "../../components/Container";
 
 import { addBooking } from "../../functions/Booking";
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify";
 import TFRContainer from "../../components/Container/TFRContainer";
 import SelectTicket from "../../components/TFR/Booking/SelectTicket";
 import SelectLocation from "../../components/TFR/Booking/SelectLocation";
@@ -13,54 +13,57 @@ import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
 import { useLocation, useNavigate } from "react-router-dom";
 import routes from "../../constants/routes";
-import QRcode from 'qrcode.react'
+import QRcode from "qrcode.react";
 import { sendEmailWithAttachment } from "../../functions/Email";
 import { generatePDF } from "../../helper/PDF";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
 import { useEffect } from "react";
+import SelectCategory from "../../components/TFR/Booking/SelectCategory";
+import { TFRBookingDetails } from "../../components/Booking/TFRBookingDetails";
+import TFRMenubarNonSpa from "../../components/Navbar/TFRMenubarNonSpa";
 
 export function TFRBooking() {
   const [step, setStep] = useState(1);
   const [location, setLocation] = useState("");
-
+  const [categories, setCategories] = useState("Games");
   const [ticket, setTicket] = useState("");
   const [pax, setPax] = useState("");
   const [bookingDate, setBookingDate] = useState("");
   const [bookingTime, setBookingTime] = useState("");
-  const [business, ] = useState("TFR");
+  const [business] = useState("TFR");
   const [selectedType, setSelectedType] = useState("");
-  const navigate = useNavigate();  
-  const [selectedOption, setSelectedOption] = useState('Individual');
+  const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState("Individual");
   const [qrCode, setQRCode] = useState("default");
-  const dispatch = useDispatch()
-  const [loading, setLoading] = useState(false)
-  
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
   const locationR = useLocation();
 
   useEffect(() => {
-    if(locationR.state?.step){
-      setStep(4)
+    if (locationR.state?.step) {
+      setStep(4);
     }
-  }, [locationR])
+  }, [locationR]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
   };
 
   const total = useMemo(() => {
-    if(ticket){
-      let price = ticket?.Price
-      return price * pax
+    if (ticket) {
+      let price = ticket?.Price;
+      return price * pax;
     }
-    return 0
-  }, [ticket, pax])
+    return 0;
+  }, [ticket, pax]);
 
   function submit(e) {
     addBooking(e)
       .then((result) => {
         if (result.valid) {
-          setLoading(false)
+          setLoading(false);
           window.location.href = result.data.invoice_url;
           // setBookingDate("");
           // setBookingDate("");
@@ -87,19 +90,20 @@ export function TFRBooking() {
           //   toast.success("Successfully added");
           // },3000)
         } else {
-          setLoading(false)
+          setLoading(false);
           toast.error("Failed to submit");
         }
       })
       .catch((e) => {
-        setLoading(false)
+        setLoading(false);
         toast.error("Something went wrong");
       });
   }
 
   return (
     <>
-    <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
+      <QRcode value={qrCode} id="qrcode" className="hidden" />
+
       {step == 1 && (
         <SelectLocation
           step={step}
@@ -112,18 +116,23 @@ export function TFRBooking() {
         <SelectTicket
           setStep={setStep}
           ticket={ticket}
+          categories={categories}
+          setCategories={setCategories}
           setTicket={setTicket}
           location={location}
         />
       )}
       {step == 3 && (
         <TFRContainer>
+          <TFRMenubarNonSpa />
+
           <TDMBookingDetails
             setStep={setStep}
             ticket={ticket}
             location={location}
             pax={pax}
             setPax={setPax}
+            setCategories={setCategories}
             bookingDate={bookingDate}
             setBookingDate={setBookingDate}
             bookingTime={bookingTime}
@@ -139,6 +148,8 @@ export function TFRBooking() {
       )}
       {step == 4 && (
         <TFRContainer>
+          <TFRMenubarNonSpa />
+
           <TDMPaymentDetails
             setStep={setStep}
             ticket={ticket}

@@ -301,7 +301,6 @@ export function TDMPaymentDetails({
                   }
                   return ticket;
                 });
-                console.log(updatedTickets)
                 dispatch(setCart(updatedTickets))
                 setDiscount((ticketFee) * qty)
                 toast.success("Coupon Applied");
@@ -425,7 +424,6 @@ export function TDMPaymentDetails({
                   </div>
                     {
                       cart?.map((item, index) => {
-                        console.log(item.BookingDate)
                         return(
                           <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
                             <div className="flex justify-between items-center">

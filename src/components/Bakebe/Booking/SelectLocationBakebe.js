@@ -42,7 +42,6 @@ export default function SelectLocationBakebe({
     }
   };
 
-  console.log(selectedBranch);
 
   useEffect(() => {
     getBranches(user.id, process.env.REACT_APP_BAKEBE_KEY)

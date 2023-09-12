@@ -68,7 +68,7 @@ function Register() {
         values.password
       );
 
-      console.log("response",response)
+      //console.log("response",response)
       // if (response.valid) {
       //   console.log(response);
 

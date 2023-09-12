@@ -15,7 +15,6 @@ import { setCart } from "../../store/action";
 import { number } from "yup";
 import moment from "moment-timezone";
 import { current } from "@reduxjs/toolkit";
-import { convertToNormalTime } from "../../helper/DateTime";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -34,7 +33,7 @@ const business_unit = {
 const personCount = [1, 2];
 const currentTime = moment().tz("Asia/Manila"); // Get the current time in the Philippines timezone
 
-export function TDMBookingDetails({
+export function TFRBookingDetails({
   setStep,
   ticket,
   location,
@@ -44,11 +43,12 @@ export function TDMBookingDetails({
   setBookingDate,
   bookingTime,
   setBookingTime,
-  business = "Dessert",
+  business = "TFR",
   handleOptionChange,
   selectedOption,
   total = 0,
   setLocation,
+  setCategories,
 }) {
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
@@ -59,15 +59,12 @@ export function TDMBookingDetails({
   const [numberOfPersons, setNumberOfPersons] = useState(1);
   const [disabled, setDisabled] = useState(false);
   const [slotIdentifier, setSlotIdentifier] = useState(null);
-  const [paxCount, setPaxCount] = useState(null)
-  const [allowedDays, setAllowedDays] = useState([])
+  const [paxCount, setPaxCount] = useState(null);
+  const [allowedDays, setAllowedDays] = useState([]);
 
   function handleBack() {
-    if (business === "BakeBe") {
-      setStep(3);
-    } else {
-      setStep(2);
-    }
+    setStep(2);
+    setCategories("Games");
   }
 
   function handleNext() {
@@ -108,83 +105,21 @@ export function TDMBookingDetails({
     } else {
       dispatch(setCart([...cart, booking]));
     }
-
     setBookingDate("");
     setBookingTime("");
     setPax("");
-
-    if (business === "BakeBe") {
-      setStep(5);
-    } else {
-      setStep(4);
-    }
+    setStep(4);
   }
 
   useEffect(() => {
-    if(ticket?.Day.length > 0){
-      setAllowedDays(ticket?.Day)
+    if (ticket?.Day.length > 0) {
+      setAllowedDays(ticket?.Day);
     }
-  }, [ticket])
+  }, [ticket]);
 
   useEffect(() => {
-    if (business === "Gootopia") {
-      getBranches(user.id, GOOTOPIA_KEY)
-        .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
-          }
-        })
-        .catch((error) => {
-          // Handle error case
-        });
-    } else if (business === "TFR") {
+    if (business === "TFR") {
       getBranches(user.id, TFR_KEY)
-        .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
-          }
-        })
-        .catch((error) => {
-          // Handle error case
-        });
-    } else if (business === "Inflatable") {
-      getBranches(user.id, TIS_KEY)
-        .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
-          }
-        })
-        .catch((error) => {
-          // Handle error case
-        });
-    } else if (business === "BakeBe") {
-      getBranches(user.id, BAKEBE_KEY)
-        .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
-          }
-        })
-        .catch((error) => {
-          // Handle error case
-        });
-    } else {
-      getBranches(user.id, DESSERT_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -224,7 +159,6 @@ export function TDMBookingDetails({
     setBookingDate(date);
     setPax("");
   }
-
 
   useEffect(() => {
     if (bookingDate) {
@@ -279,7 +213,8 @@ export function TDMBookingDetails({
   function handlePax(e) {
     if (business !== "BakeBe") {
       let input = e.target.value !== "" ? parseInt(e.target.value) : ""; // Parse input as integer if not empty
-      if (input === "" || (input > 0 && input <= maxPerInterval)) { // Check if input is empty or within the allowed range
+      if (input === "" || (input > 0 && input <= maxPerInterval)) {
+        // Check if input is empty or within the allowed range
         setPax(input);
       }
     } else {
@@ -344,6 +279,7 @@ export function TDMBookingDetails({
     setPax("");
     dispatch(setCart([...cart, booking]));
     setStep(2);
+    setCategories("Games");
   }
 
   const handleBothFunctions = (event) => {
@@ -351,40 +287,33 @@ export function TDMBookingDetails({
     handlePersons(event);
   };
 
-
-  const getBookingDate = moment(bookingDate, 'ddd MMM DD YYYY HH:mm:ss ZZ');
-  const formattedBookingDate = getBookingDate.format('MMM DD YYYY');
+  const getBookingDate = moment(bookingDate, "ddd MMM DD YYYY HH:mm:ss ZZ");
+  const formattedBookingDate = getBookingDate.format("MMM DD YYYY");
 
   function getCurrentDateInPhilippines() {
     // Get the current date in the Philippines
-    const currentDateInPhilippines = moment().utcOffset('+0800');
-    
+    const currentDateInPhilippines = moment().utcOffset("+0800");
+
     // Format the current date to the desired format (Aug 09 2023)
-    const formattedCurrentDate = currentDateInPhilippines.format('MMM DD YYYY');
-    
+    const formattedCurrentDate = currentDateInPhilippines.format("MMM DD YYYY");
+
     return formattedCurrentDate;
   }
-  
+
   const currentDateInPhilippines = getCurrentDateInPhilippines();
 
-  const withoutFilters = useMemo(
+  const hideDateSelection = useMemo(
     () =>
       (ticket?.Category === "Games" &&
         (ticket?.SubCategory === "DrunkenPinball" ||
-        ticket?.SubCategory === "Drunken Pinball" ||
           ticket?.SubCategory === "BoomBattleShot" ||
-          ticket?.SubCategory === "Boom Battleshot" ||
           ticket?.SubCategory === "ExtremeBasketBall" ||
-          ticket?.SubCategory === "Extreme Basketball" ||
-          ticket?.SubCategory === "StarBlaster" ||
-          ticket?.SubCategory === "Star Blaster" ||
-          ticket?.SubCategory === "Ring The Bell")) ||
+          ticket?.SubCategory === "StarBlase" ||
+          ticket?.SubCategory === "RingTheBell")) ||
       (ticket?.Category === "Entrance And Events" &&
         ticket?.SubCategory === "Entrance"),
     [ticket]
   );
-
-
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -435,153 +364,75 @@ export function TDMBookingDetails({
                   />
                 </div>
               </div>
+              {!hideDateSelection && (
+                <div>
+                  <p className="text-sm">
+                    PICK A BOOKING HOUR:{" "}
+                    <small style={{ color: "red" }}>*</small>
+                  </p>
+                  <select
+                    onChange={handleBookingTime}
+                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  >
+                    <option value={""}>Select a time</option>
+                    {intervals?.length > 0 &&
+                      intervals?.map((item, index) => {
+                        const itemTime = moment(item.value, "h:mm A").tz(
+                          "Asia/Manila"
+                        );
+                        if (item?.slot === 0) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={true}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        } else if (
+                          formattedBookingDate === currentDateInPhilippines
+                        ) {
+                          // Disable the option if itemTime is before the current time
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={
+                                itemTime.isBefore(currentTime) ? true : false
+                              }
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        } else {
+                          return (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {item.label}
+                            </option>
+                          );
+                        }
+                      })}
+                  </select>
+                </div>
+              )}
+
               <div>
                 <p className="text-sm">
-                  PICK A BOOKING HOUR: <small style={{ color: "red" }}>*</small>
-                </p>
-                <select
-                  onChange={handleBookingTime}
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-                >
-                  <option value={""}>Select a time</option>
-                  {intervals?.length > 0 &&
-                    intervals?.map((item, index) => {
-                      console.log(item)
-                      const itemTime = moment(item.value, "h:mm A").tz(
-                        "Asia/Manila"
-                      );
-                      if (item?.slot === 0) {
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                            disabled={true}
-                          >
-                            {item.label}
-                          </option>
-                        );
-                      } else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
-                        // Disable the option if itemTime is before the current time
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                            disabled={itemTime.isBefore(currentTime) ? true : false}
-                          >
-                            {`${item.label}`}
-                          </option>
-                        );
-                      } else if ( business === "TFR" && withoutFilters) {
-                        // Disable the option if itemTime is before the current time
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                          >
-                            {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
-                          </option>
-                        );
-                      } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
-                        // Disable the option if itemTime is before the current time
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                            disabled={itemTime.isBefore(currentTime) ? true : false}
-                          >
-                             {item.label}
-                          </option>
-                        );
-                      }else {
-                        return (
-                          <option key={index} value={JSON.stringify(item)} >
-                            {item.label}
-                          </option>
-                        );
-                      }
-                    })}
-                </select>
-              </div>
-              <div>
-                <p className="text-sm">
-                  {business === "BakeBe"
-                    ? "NUMBER OF PERSONS?:"
-                    : "NUMBER OF PASSES:"}{" "}
+                  NUMBER OF PASSES:
                   <small style={{ color: "red" }}>*</small>
                 </p>
 
-                {business !== "BakeBe" ? (
-                  <input
-                    type="number"
-                    onChange={handlePax}
-                    disabled={bookingTime ? false : true}
-                    min={1}
-                    max={business === "BakeBe" ? 2 : maxPerInterval}
-                    value={pax}
-                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
-                  />
-                ) : (
-                  <select
-                    onChange={handleBothFunctions}
-                    disabled={bookingTime ? false : true}
-                    // value={pax}
-                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
-                  >
-                    <option value={0} selected>
-                      {" "}
-                      -- Select an option --
-                    </option>
-                    <option value={1}> 1</option>
-                    {/* {slotIdentifier >= 2 ? <option value={2}>2</option> : <></>} */}
-                    <option value={2}>2</option> : <></>
-                    {/*                    
-                    {personCount.map((item, index) => {
-                      if (slotIdentifier) {
-                        return (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
-                        );
-                      }
-                    })} */}
-                  </select>
-                )}
+                <input
+                  type="number"
+                  onChange={handlePax}
+                  disabled={bookingTime ? false : true}
+                  min={1}
+                  max={maxPerInterval}
+                  value={pax}
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
+                />
               </div>
-              {business === "BakeBe" && numberOfPersons == 2 && (
-                <div className="flex flex-col w-full gap-2">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      value="Share"
-                      onChange={(e) => {
-                        handleOptionChange(e.target.value);
-                        handlePax(e);
-                      }}
-                      checked={
-                        selectedOption === "Share" || slotIdentifier === 1
-                      }
-                    />
-                    <div className="text-xs">Baking the recipe with a peer</div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <input
-                      type="radio"
-                      className="mt-[2px]"
-                      value="Individual"
-                      onChange={(e) => {
-                        handleOptionChange(e.target.value);
-                        handlePax(2);
-                      }}
-                      checked={selectedOption === "Individual"}
-                      disabled={disabled || slotIdentifier === 1}
-                    />
-                    <div className="text-xs">One Pastry per person </div>
-                  </div>
-                  <div className="text-xs text-white font-bold">
-                    + Additional charge will be put on your total bill
-                  </div>
-                </div>
-              )}
             </div>
             <div className="flex flex-col w-full sm:w-[40vw]">
               <div className="shadow-md rounded-md">

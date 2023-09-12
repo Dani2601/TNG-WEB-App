@@ -12,47 +12,53 @@ import axios from "axios";
 import TFRContainer from "../../Container/TFRContainer";
 import TFRMenubar from "../../Navbar/TFRMenubar";
 import TFRMenubarNonSpa from "../../Navbar/TFRMenubarNonSpa";
+import banner2 from "../../../assets/TFR/Home.png";
 
-export default function SelectLocation({
+let CategoriesData = [
+  {
+    id: "1",
+    title: "Entrance And Events",
+    description: "Entry to The Fun Roof",
+  },
+  {
+    id: "2",
+    title: "Games",
+    description: "Entrance Ticket Required if applicable (Thurs-Saturday)",
+  },
+  {
+    id: "3",
+    title: "Table Bookings",
+    description: "Advance booking is recommended",
+  },
+];
+
+export default function SelectCategory({
   step,
   setStep,
-  setLocation,
-  location,
+  setCategories,
+  categories,
 }) {
-  const [branch, setBranch] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState(false);
-  const { user } = useSelector((state) => state.record);
+  // const [branch, setBranch] = useState([]);
+  // const { user } = useSelector((state) => state.record);
+
+  const [selectedCategories, setSelectedCategories] = useState(false);
   const navigate = useNavigate();
 
   function handleBack() {
-    navigate(routes.LandingTFR);
-  }
-
-  function handleProceed() {
     setStep(2);
   }
 
-  const handleSelectBranch = (data) => {
-    if (selectedBranch !== data.id) {
-      setSelectedBranch(data.id);
-      setLocation(data.id);
+  function handleProceed() {
+    setStep(3);
+  }
+
+  const handleSelectTicket = (data) => {
+    if (selectedCategories !== data.id) {
+      setSelectedCategories(data.id);
+      setCategories(data.title);
     }
   };
 
-  //console.log(selectedBranch);
-
-  useEffect(() => {
-    getBranches(user.id, process.env.REACT_APP_TFR_KEY)
-      .then((response) => {
-        if (response.valid) {
-          // const locationArray = Object.values(response.data);
-          // setSelectedLocation(locationArray);
-          setBranch(response.data);
-        } else {
-        }
-      })
-      .catch();
-  }, []);
 
   return (
     <TFRContainer>
@@ -63,42 +69,51 @@ export default function SelectLocation({
       >
         <div className="flex flex-row justify-center mt-5">
           <span className=" text-tfr-yellow text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
-            SELECT A LOCATION
+            SELECT CATEGORY
           </span>
         </div>
 
         <div className="flex flex-row justify-center">
           <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
-              <div className="flex flex-row">
-                {branch.map((data, index) => (
+              <div className="flex flex-col gap-3">
+                {CategoriesData.map((data, index) => (
                   <div className="flex flex-col mr-3 hoverEffects" key={index}>
                     <button
-                      className={`outline-4 self-center ${
-                        selectedBranch === data.id
+                      className={`outline-2 self-center rounded-[7px] w-[150px] h-[85px] tablet:w-[175px] tablet:h-[130px] bg-black object-cover ${
+                        selectedCategories === data.id
+                          ? "outline text-tfr-pink"
+                          : ""
+                      } ${
+                        selectedCategories === data.id
                           ? "outline-[15px] text-tfr-pink"
                           : ""
                       }`}
-                      onClick={() => handleSelectBranch(data)}
+                      onClick={() => handleSelectTicket(data)}
                     >
-                      <img
+                      {/* <img
                         className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] bg-black object-cover ${
-                          selectedBranch === data.id
+                          selectedCategories === data.id
                             ? "outline text-tfr-pink"
                             : ""
                         }`}
-                        src={data?.Image}
+                        src={banner2}
                         alt="gootopia"
-                      />
+                      /> */}
+                      <div className="flex flex-col w-full h-full items-center py-1 px-1">
+                        <div className="text-tfr-pink my-auto text-[12px] tablet:text-[14px] font-poppins font-bold self-center h-[40%]">
+                          {data?.title}
+                        </div>
+                        <div className="text-slate-400 my-auto text-[10px] tablet:text-[12px] font-poppins font-bold self-center h-[60%]">
+                          {data?.description}
+                        </div>
+                      </div>
                     </button>
-                    <div className="text-tfr-pink text-[12px] tablet:text-[14px] w-[75px] tablet:w-[120px] h-auto text-center font-poppins font-bold self-center mt-1">
-                      {data?.Address}
-                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="flex flex-row justify-end">
+              <div className="flex flex-row justify-end mt-2">
                 <div>
                   <button
                     onClick={() => handleBack()}
@@ -106,7 +121,7 @@ export default function SelectLocation({
                   >
                     Back
                   </button>
-                  {selectedBranch ? (
+                  {selectedCategories ? (
                     <button
                       onClick={() => handleProceed()}
                       className="ml-3 text-white text-[12px] tablet:text-[14px] bg-tfr-pink font-poppins px-3 py-1 rounded-3xl"

@@ -15,7 +15,7 @@ async function loginViaEmail(email, password) {
 
     if (data?.valid) {
       const decrypt = await decryptData(data.response);
-      console.log(decrypt)
+     // console.log(decrypt)
       return {
         valid: true,
         token: data.token,

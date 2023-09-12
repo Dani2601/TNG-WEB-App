@@ -16,7 +16,7 @@ const AuthProvider = (props) => {
 
   useEffect(() => {
       let userToken = token;
-      console.log(userToken)
+      //console.log(userToken)
       if (userToken != null) {
         setLoading(true)
         reauthenticate(userToken)

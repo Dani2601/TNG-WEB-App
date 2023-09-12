@@ -115,7 +115,7 @@ export default function Tickets() {
       );
     } else {
       if (record?.length > 0) {
-        console.log(record);
+      //  console.log(record);
         return record
           .filter((data) => {
             if (search === null) return data;

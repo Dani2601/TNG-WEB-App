@@ -39,7 +39,7 @@ export default function Games() {
       .catch();
   }, [user]);
 
-  console.log("tickets", tickets);
+  //.log("tickets", tickets);
   return (
     <div className="" id="games">
       <div

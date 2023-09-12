@@ -64,8 +64,8 @@ export default function Transaction() {
     const objData = [
       { Code: data.Code, UserID: data.CustomerID, Status: data.Status },
     ];
-    
-    const encrypt = encryptData(objData)
+
+    const encrypt = encryptData(objData);
 
     setOpenEditBusinessUnitModal(true);
     setEditData(data);
@@ -114,7 +114,7 @@ export default function Transaction() {
       );
     } else {
       if (record?.length > 0) {
-        console.log(record);
+        // console.log(record);
         return record
           .filter((data) => {
             if (search === null) return data;
@@ -171,7 +171,7 @@ export default function Transaction() {
                     <Status status={data.Status} />
                   </span>
                 </td>
-                
+
                 <td className="px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px] text-center">
                   <button
                     type="button"
@@ -189,14 +189,12 @@ export default function Transaction() {
                     aria-labelledby="actionButton"
                   >
                     <li>
-                        <a
-                          className="cursor-pointer dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-BrrringYellow"
-                        >
-                          Delete
-                        </a>  
+                      <a className="cursor-pointer dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-BrrringYellow">
+                        Delete
+                      </a>
                     </li>
                   </ul>
-                  </td>
+                </td>
               </tr>
             );
           });
@@ -230,7 +228,11 @@ export default function Transaction() {
         />
       )}
       <div className="min-h-screen flex flex-col bluegradient">
-      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
+        <Topbar
+          showMenu={showMenu}
+          setShowMenu={setShowMenu}
+          handleMenuClick={handleMenuClick}
+        />
         <div className=" p-10 gap-8 mb-auto font-poppins ">
           <div className="text-2xl flex flex-row">
             {title}

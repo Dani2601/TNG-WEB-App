@@ -29,7 +29,6 @@ export default function Faqs() {
         Message: values?.message,
       })
       .then((result) => {
-        console.log(result.data);
         if (result.data.valid) {
           toast.success("Successfully submit");
           formik.handleReset();
