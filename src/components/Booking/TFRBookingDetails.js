@@ -210,27 +210,27 @@ bookingTime,
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
-      if(ticket?.SubCategory === 'Entrance'){
-        let ecount = 200
-        getBookingsByTicketID(
-          location,
-          ticket?.id,
-          format(bookingDate, "yyyy-MM-dd"),
-        )
-          .then((res) => {
-            console.log(res?.data)
-            if (res?.valid) {
-              ecount = ecount - res.data.length
-              setEntranceBooked(ecount);
-            } else {
-              setEntranceBooked(ecount);
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-    }
-    else if(ticket?.SubCategory === 'Drinking Deck Tables'){
+    //   if(ticket?.SubCategory === 'Entrance'){
+    //     let ecount = 200
+    //     getBookingsByTicketID(
+    //       location,
+    //       ticket?.id,
+    //       format(bookingDate, "yyyy-MM-dd"),
+    //     )
+    //       .then((res) => {
+    //         console.log(res?.data)
+    //         if (res?.valid) {
+    //           ecount = ecount - res.data.length
+    //           setEntranceBooked(ecount);
+    //         } else {
+    //           setEntranceBooked(ecount);
+    //         }
+    //       })
+    //       .catch((e) => {
+    //         console.log(e);
+    //       });
+    // }
+    if(ticket?.SubCategory === 'Drinking Deck Tables'){
       let ecount = 4
       setDescription('Up to 4 pax')
       getBookingsByTicketID(
@@ -514,15 +514,19 @@ bookingTime,
 
   function handlePax(e) {
     let input = e.target.value !== "" ? parseInt(e.target.value) : ""; // Parse input as integer if not empty
-    if(ticket?.SubCategory === 'Entrance'){
-      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= entranceBooked : input <= entranceBooked) )) { // Check if input is empty or within the allowed range
-        setPax(input);
-      }
-    }
-    else{
-      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
-        setPax(input);
-      }
+    // if(ticket?.SubCategory === 'Entrance'){
+    //   if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= entranceBooked : input <= entranceBooked) )) { // Check if input is empty or within the allowed range
+    //     setPax(input);
+    //   }
+    // }
+    // else{
+    //   if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
+    //     setPax(input);
+    //   }
+    // }
+    
+    if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
+      setPax(input);
     }
   }
 
@@ -537,7 +541,11 @@ bookingTime,
 
   const maxPerInterval = useMemo(() => {
     let max = "";
-    if (bookingDate && bookingTime && intervals) {
+    if(ticket?.SubCategory === 'Entrance'){
+      let intervalData = intervals[0]
+      max = intervalData?.slot;  
+    }
+    else if (bookingDate && bookingTime && intervals) {
       let intervalData = intervals?.find((item) => item.value === bookingTime);
       max = intervalData?.slot;
     }
@@ -617,8 +625,6 @@ bookingTime,
         ticket?.SubCategory === "Entrance"),
     [ticket]
   );
-
-  console.log(ticket?.Category, ticket?.SubCategory)
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -764,7 +770,7 @@ bookingTime,
                     onChange={handlePax}
                     disabled={(ticket?.SubCategory === 'Entrance' ? false : (bookingTime ? false : true))}
                     min={1}
-                    max={ticket?.SubCategory === "Entrance" ? entranceBooked : maxPerInterval}
+                    max={maxPerInterval}
                     value={pax}
                     className="w-full shadow-md py-2 px-4 border-2 border-gray-400"
                   />
