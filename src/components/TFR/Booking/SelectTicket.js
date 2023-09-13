@@ -1,6 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useCallback, useState } from "react";
 import dripping from "../../../assets/Gootopia/Obstacles/SlimeDown.png";
-
 
 import { Link, useNavigate } from "react-router-dom";
 import { TicketBookingModal } from "../../Modal/Gootopia/TicketBookingModal";
@@ -52,11 +52,10 @@ export default function SelectTicket({
   function handleBack() {
     if (cart.length > 0) {
       setVisible(true);
-      setCategories("Games")
+      setCategories("Games");
     } else {
       setStep(1);
-      setCategories("Games")
-
+      setCategories("Games");
     }
   }
 
@@ -92,12 +91,14 @@ export default function SelectTicket({
     setStep(1);
   }
 
-  const handleCategories = useCallback((e) => setCategories(e.target.value), [setCategories]);
+  const handleCategories = useCallback(
+    (e) => setCategories(e.target.value),
+    [setCategories]
+  );
 
- 
   return (
     <TFRContainer>
-      < TFRMenubarNonSpa/>
+      <TFRMenubarNonSpa />
       <ConfirmationCartModal
         showModal={visible}
         handleCloseModal={() => setVisible(false)}
@@ -115,98 +116,220 @@ export default function SelectTicket({
         className="max-h-full min-h-screen bg-[#252525] "
         style={{ fontFamily: "Nulshock, sans-serif" }}
       >
-        {" "}
-        <div className="flex flex-row justify-center">
-          <span className=" text-tfr-yellow text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
+        <div className="flex flex-col items-center justify-center">
+          <span className=" text-tfr-yellow text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k mt-8">
             SELECT A TICKET
           </span>
-        </div>
-        <div className="flex flex-row justify-center">
-          <div>
-            <div className="flex flex-col">
-              <div className="self-center text-tfr-purple font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
-                Start your adventure by choosing one of our ticket types below
-              </div>
-              <select onChange={e => handleCategories(e)} className="self-center text-tfr-purple font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px] px-2 py-4 rounded-2xl">
-                <option value="Games"> Games </option>
-                <option value="Entrance And Events"> Entrance and Events </option>
-                <option value="Table Bookings"> Table Bookings </option>
-              </select>
-              <div className="flex flex-row flex-wrap justify-center">
-                {/* {tickets.length > 0 ? ( */}
-                <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 ">
-                  {tickets
-                    .filter((item) => item.Category === categories)
-                    .map((item) => {
-                      return (
-                        <div
-                          key={item.id}
-                          className="relative mx-4 my-4 hoverEffects"
-                          onClick={() => {
-                            handleNext();
-                            setTicket(item);
-                          }}
-                        >
-                          <img
-                            src={item.Image}
-                            className="relative w-[150px] tablet:w-[260px] h-[141px] tablet:h-[245px] object-cover"
-                            alt={"Ticket_Image"}
-                          />
-                          <div className="absolute inset-x-0 bottom-2 tablet:bottom-6 flex items-center justify-center">
-                            <div className="self-center tablet:pt-1 text-center font-poppins font-bold bg-[#3b3b3b] text-tfr-yellow h-[20px] w-[80px] tablet:h-[30px] z-10 tablet:rounded-[10px] rounded-[5px] shadow-xl">
-                              ₱ {item.Price}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-
-                  {/* {tickets.map((item) => {
-                      return (
-                        <div
-                          key={item.id}
-                          className="relative mx-4 my-4 hoverEffects"
-                          onClick={() => {
-                            handleNext();
-                            setTicket(item);
-                          }}
-                        >
-                          <img
-                            src={item.Image}
-                            className="relative w-[150px] tablet:w-[260px] h-[141px] tablet:h-[245px] object-cover"
-                            alt={"Ticket_Image"}
-                          />
-                          <div className="absolute inset-x-0 bottom-2 tablet:bottom-6 flex items-center justify-center">
-                            <div className="self-center tablet:pt-1 text-center font-poppins font-bold bg-[#3b3b3b] text-tfr-yellow h-[20px] w-[80px] tablet:h-[30px] z-10 tablet:rounded-[10px] rounded-[5px] shadow-xl">
-                              ₱ {item.Price}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })} */}
-                </div>
-                {tickets.filter((item) => item.Category === categories)
-                  .length === 0 && <div>No available Tickets yet.</div>}
-              </div>
-
-              <div className="flex flex-row justify-center w-full">
-                <button
-                  onClick={handleBack}
-                  className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-tfr-pink bg-[white] font-poppins rounded-3xl text-center mt-10"
-                >
-                  {" "}
-                  Back{" "}
-                </button>
-              </div>
-            </div>
+          <div className="self-center text-tfr-purple font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
+            Start your adventure by choosing one of our ticket types below
           </div>
         </div>
-        <div className="pt-80">
-          <img
-            class="w-full rotate-180 "
-            src={dripping}
-            alt="gootopialanding "
-          />
+        <div className="flex flex-row justify-center">
+          <div className="flex flex-col">
+            <div className="flex flex-col items-center">
+              {/* {tickets?.filter((item) => item.Category === "Table Bookings")
+                  .length > 0 && (
+                  <>
+                    <div className="text-slate-300 text-[23px] text-center">
+                      Entrance And Events
+                    </div>
+                    <div className="text-slate-400  text-center">
+                      Door charge on Thursdays - Saturdays
+                    </div>
+                  </>
+                )} */}
+              <div className="text-slate-300 text-[23px] text-center">
+                Entrance And Events
+              </div>
+              <div className="text-slate-400  text-center">
+                Door charge on Thursdays - Saturdays
+              </div>
+            </div>
+            <div className="flex flex-row flex-wrap justify-center">
+              <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
+              {tickets.length > 0 ? (
+                  tickets
+                    ?.filter((item) => item.Category === "Entrance And Events")
+                    .map((item, index) => {
+                      return (
+                        <div
+                          onClick={() => {
+                            handleNext();
+                            setTicket(item);
+                          }}
+                          key={item.id}
+                          className="flex flex-col items-center border-[2px] border-slate-700 h-[300px] w-[200px] rounded-xl hoverEffects"
+                        >
+                          <div className="h-[60%] w-full flex flex-col items-center justify-center">
+                            <div className="relative  ">
+                              <img
+                                src={item?.Image}
+                                className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
+                                alt={item?.Image}
+                              />
+                              <div className="absolute inset-x-0 bottom-2  flex items-center justify-center">
+                                <div className="self-center  text-center font-poppins font-bold bg-[#4e4e4e] text-tfr-yellow h-[20px] w-[80px]  z-10 rounded-[5px] shadow-xl">
+                                  ₱ {item?.Price}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="h-[40%] w-full flex flex-col items-center ">
+                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                            {item?.Name}
+                            </div>
+                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[12px] px-2">
+                              {item?.Description}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                ) : (
+                  <div>No available Tickets yet.</div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              {/* {tickets?.filter((item) => item.Category === "Table Bookings")
+                  .length > 0 && (
+                  <>
+                    <div className="text-slate-300 text-[23px] text-center">
+                      Entrance And Events
+                    </div>
+                    <div className="text-slate-400  text-center">
+                      Door charge on Thursdays - Saturdays
+                    </div>
+                  </>
+                )} */}
+              <div className="text-slate-300 text-[23px] text-center">
+                Games
+              </div>
+              <div className="text-slate-400  text-center">
+                Play the most insane drinking games
+              </div>
+            </div>
+            <div className="flex flex-row flex-wrap justify-center">
+              <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
+              {tickets.length > 0 ? (
+                  tickets
+                    ?.filter((item) => item.Category === "Games")
+                    .map((item, index) => {
+                      return (
+                        <div
+                          onClick={() => {
+                            handleNext();
+                            setTicket(item);
+                          }}
+                          key={item.id}
+                          className="flex flex-col items-center border-[2px] border-slate-700 h-[300px] w-[200px] rounded-xl hoverEffects"
+                        >
+                          <div className="h-[60%] w-full flex flex-col items-center justify-center">
+                            <div className="relative  ">
+                              <img
+                                src={item?.Image}
+                                className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
+                                alt={item?.Image}
+                              />
+                              <div className="absolute inset-x-0 bottom-2  flex items-center justify-center">
+                                <div className="self-center  text-center font-poppins font-bold bg-[#4e4e4e] text-tfr-yellow h-[20px] w-[80px]  z-10 rounded-[5px] shadow-xl">
+                                  ₱ {item?.Price}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="h-[40%] w-full flex flex-col items-center ">
+                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                            {item?.Name}
+                            </div>
+                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[12px] px-2">
+                              {item?.Description}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                ) : (
+                  <div>No available Tickets yet.</div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              {/* {tickets?.filter((item) => item.Category === "Table Bookings")
+                  .length > 0 && (
+                  <>
+                    <div className="text-slate-300 text-[23px] text-center">
+                      Entrance And Events
+                    </div>
+                    <div className="text-slate-400  text-center">
+                      Door charge on Thursdays - Saturdays
+                    </div>
+                  </>
+                )} */}
+              <div className="text-slate-300 text-[23px] text-center">
+                Table Bookings
+              </div>
+              <div className="text-slate-400  text-center">
+                Advance reservations recommended
+              </div>
+            </div>
+            <div className="flex flex-row flex-wrap justify-center ">
+              <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
+                {tickets.length > 0 ? (
+                  tickets
+                    ?.filter((item) => item.Category === "Table Bookings")
+                    .map((item, index) => {
+                      return (
+                        <div
+                          onClick={() => {
+                            handleNext();
+                            setTicket(item);
+                          }}
+                          key={item.id}
+                          className="flex flex-col items-center border-[2px] border-slate-700 h-[300px] w-[200px] rounded-xl hoverEffects"
+                        >
+                          <div className="h-[60%] w-full flex flex-col items-center justify-center">
+                            <div className="relative  ">
+                              <img
+                                src={item?.Image}
+                                className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
+                                alt={item?.Image}
+                              />
+                              <div className="absolute inset-x-0 bottom-2  flex items-center justify-center">
+                                <div className="self-center  text-center font-poppins font-bold bg-[#4e4e4e] text-tfr-yellow h-[20px] w-[80px]  z-10 rounded-[5px] shadow-xl">
+                                  ₱ {item?.Price}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="h-[40%] w-full flex flex-col items-center ">
+                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                            {item?.Name}
+                            </div>
+                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[12px] px-2">
+                              {item?.Description}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                ) : (
+                  <div>No available Tickets yet.</div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-center w-full mb-10">
+              <button
+                onClick={handleBack}
+                className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-tfr-pink bg-[white] font-poppins rounded-3xl text-center mt-10"
+              >
+                Back
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </TFRContainer>
