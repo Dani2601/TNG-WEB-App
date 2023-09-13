@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useCallback, useState } from "react";
 import dripping from "../../../assets/Gootopia/Obstacles/SlimeDown.png";
 
@@ -94,7 +95,7 @@ export default function SelectTicket({
 
   const handleCategories = useCallback((e) => setCategories(e.target.value), [setCategories]);
 
- 
+ console.log("tickets",tickets);
   return (
     <TFRContainer>
       < TFRMenubarNonSpa/>
@@ -139,24 +140,30 @@ export default function SelectTicket({
                     .filter((item) => item.Category === categories)
                     .map((item) => {
                       return (
-                        <div
-                          key={item.id}
-                          className="relative mx-4 my-4 hoverEffects"
-                          onClick={() => {
-                            handleNext();
-                            setTicket(item);
-                          }}
-                        >
-                          <img
-                            src={item.Image}
-                            className="relative w-[150px] tablet:w-[260px] h-[141px] tablet:h-[245px] object-cover"
-                            alt={"Ticket_Image"}
-                          />
-                          <div className="absolute inset-x-0 bottom-2 tablet:bottom-6 flex items-center justify-center">
-                            <div className="self-center tablet:pt-1 text-center font-poppins font-bold bg-[#3b3b3b] text-tfr-yellow h-[20px] w-[80px] tablet:h-[30px] z-10 tablet:rounded-[10px] rounded-[5px] shadow-xl">
-                              ₱ {item.Price}
+                        <div>
+                          <div
+                            key={item.id}
+                            className="relative mx-4 my-4 hoverEffects"
+                            onClick={() => {
+                              handleNext();
+                              setTicket(item);
+                            }}
+                          >
+                            <img
+                              src={item?.Image}
+                              className="relative w-[150px] tablet:w-[260px] h-[141px] tablet:h-[245px] object-cover"
+                              alt={"Ticket_Image"}
+                            />
+                            <div className="absolute inset-x-0 bottom-2 tablet:bottom-6 flex items-center justify-center">
+                              <div className="self-center tablet:pt-1 text-center font-poppins font-bold bg-[#3b3b3b] text-tfr-yellow h-[20px] w-[80px] tablet:h-[30px] z-10 tablet:rounded-[10px] rounded-[5px] shadow-xl">
+                                ₱ {item?.Price}
+                              </div>
                             </div>
                           </div>
+                          
+                          <div className="justify-center text-center pt-3 text-tfr-yellow truncate w-[150px] tablet:w-[260px]">
+                               <a title={item?.Description}>{item?.Description}</a>
+                              </div>
                         </div>
                       );
                     })}
