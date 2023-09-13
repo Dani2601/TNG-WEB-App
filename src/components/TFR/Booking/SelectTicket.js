@@ -138,7 +138,7 @@ export default function SelectTicket({
                     </div>
                   </>
                 )} */}
-              <div className="text-slate-300 text-[23px] text-center">
+              <div className="text-tfr-yellow text-[23px] text-center">
                 Entrance And Events
               </div>
               <div className="text-slate-400  text-center">
@@ -158,7 +158,7 @@ export default function SelectTicket({
                             setTicket(item);
                           }}
                           key={item.id}
-                          className="flex flex-col items-center border-[2px] border-slate-700 h-[300px] w-[200px] rounded-xl hoverEffects"
+                          className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                           <div className="h-[60%] w-full flex flex-col items-center justify-center">
                             <div className="relative  ">
@@ -203,7 +203,7 @@ export default function SelectTicket({
                     </div>
                   </>
                 )} */}
-              <div className="text-slate-300 text-[23px] text-center">
+              <div className="text-tfr-yellow text-[23px] text-center">
                 Games
               </div>
               <div className="text-slate-400  text-center">
@@ -223,7 +223,7 @@ export default function SelectTicket({
                             setTicket(item);
                           }}
                           key={item.id}
-                          className="flex flex-col items-center border-[2px] border-slate-700 h-[300px] w-[200px] rounded-xl hoverEffects"
+                          className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                           <div className="h-[60%] w-full flex flex-col items-center justify-center">
                             <div className="relative  ">
@@ -268,7 +268,7 @@ export default function SelectTicket({
                     </div>
                   </>
                 )} */}
-              <div className="text-slate-300 text-[23px] text-center">
+              <div className="text-tfr-yellow text-[23px] text-center">
                 Table Bookings
               </div>
               <div className="text-slate-400  text-center">
@@ -288,7 +288,7 @@ export default function SelectTicket({
                             setTicket(item);
                           }}
                           key={item.id}
-                          className="flex flex-col items-center border-[2px] border-slate-700 h-[300px] w-[200px] rounded-xl hoverEffects"
+                          className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                           <div className="h-[60%] w-full flex flex-col items-center justify-center">
                             <div className="relative  ">
