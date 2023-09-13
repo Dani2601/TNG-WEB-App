@@ -424,7 +424,7 @@ export function TFRPaymentDetails({
         </div>
         <div className="flex flex-col">
           <p className="text-center font-bold text-lg mb-10 mt-5">
-            PAYMENT DETAILS TFR
+            PAYMENT DETAILS
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex p-5 gap-3 flex-col w-full sm:w-[40vw] bg-gradient-to-b from-[#E890A1] via-[#E9959F] to-[#EFC391]">
