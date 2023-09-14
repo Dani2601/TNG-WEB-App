@@ -160,28 +160,31 @@ export default function SelectTicket({
                           key={item.id}
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
-                          <div className="h-[60%] w-full flex flex-col items-center justify-center">
-                            <div className="relative  ">
+                          <div className="h-[70%] w-full flex flex-col items-center relative">
+                            <div className="relative py-3">
                               <img
                                 src={item?.Image}
-                                className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
+                                className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
                                 alt={item?.Image}
                               />
-                              <div className="absolute inset-x-0 bottom-2 flex items-center justify-center bg-[#4e4e4e] shadow-xl gap-1">
-                                <div className="font-bold text-center flex justity-center line-through text-tfr-pink">
-                                  PHP{item?.OldPrice}
-                                </div>
-                                <div className="text-center flex justity-center font-poppins font-bold text-tfr-yellow z-10 rounded-[5px] ">
-                                  ₱ {item?.Price}
-                                </div>
+                            </div>
+                            <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
+                              <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-tfr-yellow bg-[#4e4e4e] shadow-xl">
+                                <p className="mx-auto">PHP{item?.Price}</p>
                               </div>
+                              {
+                                item?.OldPrice &&
+                                <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-tfr-pink bg-[#4e4e4e] shadow-xl">
+                                  <p className="mx-auto">PHP{item?.OldPrice}</p>
+                                </div>
+                              }
                             </div>
                           </div>
-                          <div className="h-[40%] w-full flex flex-col items-center ">
+                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
                             <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[12px] px-2">
+                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[8px] px-2">
                               {item?.Description}
                             </div>
                           </div>
@@ -228,28 +231,31 @@ export default function SelectTicket({
                           key={item.id}
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
-                          <div className="h-[60%] w-full flex flex-col items-center justify-center">
-                            <div className="relative  ">
-                              <img
-                                src={item?.Image}
-                                className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
-                                alt={item?.Image}
-                              />
-                              <div className="absolute inset-x-0 bottom-2 flex items-center justify-center bg-[#4e4e4e] shadow-xl gap-1">
-                                <div className="font-bold text-center flex justity-center line-through text-tfr-pink">
-                                  PHP{item?.OldPrice}
-                                </div>
-                                <div className="text-center flex justity-center font-poppins font-bold text-tfr-yellow z-10 rounded-[5px] ">
-                                  ₱ {item?.Price}
-                                </div>
-                              </div>
-                            </div>
+                        <div className="h-[70%] w-full flex flex-col items-center relative">
+                          <div className="relative py-3">
+                            <img
+                              src={item?.Image}
+                              className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                              alt={item?.Image}
+                            />
                           </div>
-                          <div className="h-[40%] w-full flex flex-col items-center ">
+                          <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
+                            <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-tfr-yellow bg-[#4e4e4e] shadow-xl">
+                              <p className="mx-auto">PHP{item?.Price}</p>
+                            </div>
+                            {
+                              item?.OldPrice &&
+                              <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-tfr-pink bg-[#4e4e4e] shadow-xl">
+                                <p className="mx-auto">PHP{item?.OldPrice}</p>
+                              </div>
+                            }
+                          </div>
+                        </div>
+                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
                             <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[12px] px-2">
+                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[8px] px-2">
                               {item?.Description}
                             </div>
                           </div>
@@ -296,28 +302,31 @@ export default function SelectTicket({
                           key={item.id}
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
-                          <div className="h-[60%] w-full flex flex-col items-center justify-center">
-                            <div className="relative  ">
-                              <img
-                                src={item?.Image}
-                                className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
-                                alt={item?.Image}
-                              />
-                              <div className="absolute inset-x-0 bottom-2 flex items-center justify-center bg-[#4e4e4e] shadow-xl gap-1">
-                                <div className="font-bold text-center flex justity-center line-through text-tfr-pink">
-                                  PHP{item?.OldPrice}
-                                </div>
-                                <div className="text-center flex justity-center font-poppins font-bold text-tfr-yellow z-10 rounded-[5px] ">
-                                  ₱ {item?.Price}
-                                </div>
-                              </div>
-                            </div>
+                        <div className="h-[70%] w-full flex flex-col items-center relative">
+                          <div className="relative py-3">
+                            <img
+                              src={item?.Image}
+                              className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                              alt={item?.Image}
+                            />
                           </div>
-                          <div className="h-[40%] w-full flex flex-col items-center ">
+                          <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
+                            <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-tfr-yellow bg-[#4e4e4e] shadow-xl">
+                              <p className="mx-auto">PHP{item?.Price}</p>
+                            </div>
+                            {
+                              item?.OldPrice &&
+                              <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-tfr-pink bg-[#4e4e4e] shadow-xl">
+                                <p className="mx-auto">PHP{item?.OldPrice}</p>
+                              </div>
+                            }
+                          </div>
+                        </div>
+                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
                             <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[12px] px-2">
+                            <div className="h-[70%] text-center overflow-x-auto text-slate-400 text-[8px] px-2">
                               {item?.Description}
                             </div>
                           </div>
