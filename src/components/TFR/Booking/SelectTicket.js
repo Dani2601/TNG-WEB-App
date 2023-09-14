@@ -161,10 +161,10 @@ export default function SelectTicket({
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                           <div className="h-[70%] w-full flex flex-col items-center relative">
-                            <div className="relative py-3">
+                            <div className="relative">
                               <img
                                 src={item?.Image}
-                                className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                                className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
                                 alt={item?.Image}
                               />
                             </div>
@@ -232,10 +232,10 @@ export default function SelectTicket({
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                         <div className="h-[70%] w-full flex flex-col items-center relative">
-                          <div className="relative py-3">
+                          <div className="relative">
                             <img
                               src={item?.Image}
-                              className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                              className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
                               alt={item?.Image}
                             />
                           </div>
@@ -303,10 +303,10 @@ export default function SelectTicket({
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                         <div className="h-[70%] w-full flex flex-col items-center relative">
-                          <div className="relative py-3">
+                          <div className="relative">
                             <img
                               src={item?.Image}
-                              className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                              className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
                               alt={item?.Image}
                             />
                           </div>
