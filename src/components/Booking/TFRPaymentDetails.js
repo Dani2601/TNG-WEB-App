@@ -490,7 +490,7 @@ export function TFRPaymentDetails({
                                 </p>
                                 {
                                     item?.Ticket?.SubCategory === 'Entrance' ?
-                                    <p className="text-xs">Time: Anytime</p>
+                                    <p className="text-xs">Time: Opening hours</p>
                                     :
                                     <p className="text-xs">Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>
                                 }

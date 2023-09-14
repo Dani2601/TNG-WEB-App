@@ -857,7 +857,7 @@ bookingTime,
                           Date:{" "}
                           {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
-                        <p className="text-xs">Time:{ticket?.SubCategory === 'Entrance' ? 'Anytime' : `${bookingTime} ${(withoutFilters && bookingTime ) ? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
+                        <p className="text-xs">Time:{ticket?.SubCategory === 'Entrance' ? 'Opening hours' : `${bookingTime} ${(withoutFilters && bookingTime ) ? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
                         {
                           ticket?.Promo === 'Buy 1 Take 1' && pax ?
                           <div>
