@@ -167,8 +167,11 @@ export default function SelectTicket({
                                 className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
                                 alt={item?.Image}
                               />
-                              <div className="absolute inset-x-0 bottom-2  flex items-center justify-center">
-                                <div className="self-center  text-center font-poppins font-bold bg-[#4e4e4e] text-tfr-yellow h-[20px] w-[80px]  z-10 rounded-[5px] shadow-xl">
+                              <div className="absolute inset-x-0 bottom-2 flex items-center justify-center bg-[#4e4e4e] shadow-xl gap-1">
+                                <div className="font-bold text-center flex justity-center line-through text-tfr-pink">
+                                  PHP{item?.OldPrice}
+                                </div>
+                                <div className="text-center flex justity-center font-poppins font-bold text-tfr-yellow z-10 rounded-[5px] ">
                                   ₱ {item?.Price}
                                 </div>
                               </div>
@@ -232,8 +235,11 @@ export default function SelectTicket({
                                 className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
                                 alt={item?.Image}
                               />
-                              <div className="absolute inset-x-0 bottom-2  flex items-center justify-center">
-                                <div className="self-center  text-center font-poppins font-bold bg-[#4e4e4e] text-tfr-yellow h-[20px] w-[80px]  z-10 rounded-[5px] shadow-xl">
+                              <div className="absolute inset-x-0 bottom-2 flex items-center justify-center bg-[#4e4e4e] shadow-xl gap-1">
+                                <div className="font-bold text-center flex justity-center line-through text-tfr-pink">
+                                  PHP{item?.OldPrice}
+                                </div>
+                                <div className="text-center flex justity-center font-poppins font-bold text-tfr-yellow z-10 rounded-[5px] ">
                                   ₱ {item?.Price}
                                 </div>
                               </div>
@@ -297,8 +303,11 @@ export default function SelectTicket({
                                 className="relative w-[160px]  h-[160px]  object-cover rounded-2xl"
                                 alt={item?.Image}
                               />
-                              <div className="absolute inset-x-0 bottom-2  flex items-center justify-center">
-                                <div className="self-center  text-center font-poppins font-bold bg-[#4e4e4e] text-tfr-yellow h-[20px] w-[80px]  z-10 rounded-[5px] shadow-xl">
+                              <div className="absolute inset-x-0 bottom-2 flex items-center justify-center bg-[#4e4e4e] shadow-xl gap-1">
+                                <div className="font-bold text-center flex justity-center line-through text-tfr-pink">
+                                  PHP{item?.OldPrice}
+                                </div>
+                                <div className="text-center flex justity-center font-poppins font-bold text-tfr-yellow z-10 rounded-[5px] ">
                                   ₱ {item?.Price}
                                 </div>
                               </div>
