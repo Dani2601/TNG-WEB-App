@@ -44,9 +44,9 @@ export default function LandingPage() {
         {/* 5th Section */}
         <Games />
 
-<div className="bg-tdm-pink py-10 font-poppins">
-        <PromoDiscountSection businessUnitId={TFR} />
-      </div>
+        <div className="bg-tdm-pink py-10 font-poppins">
+          <PromoDiscountSection businessUnitId={TFR} />
+        </div>
         {/* 6th Section */}
         <FindUsHere />
 
