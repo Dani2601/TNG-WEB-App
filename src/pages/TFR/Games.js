@@ -59,30 +59,32 @@ export default function Games() {
         </div>
 
         <div className="flex flex-wrap justify-center items-center laptop:mx-[20%] pb-5 tablet:pb-10">
-          {tickets.map((item) => (
-            <Link
-              className="cursor-pointer hoverEffects"
-              to={user ? routes.BookingTFR : routes.Login}
-            >
-              {" "}
-              <div
-                key={item.id}
-                className="relative w-[150px] h-[141px] tablet:w-[260px] tablet:h-[244px] mx-4 my-4 object-cover overflow-hidden"
+          {tickets
+            ?.filter((item) => item.Category === "Games")
+            .map((item) => (
+              <Link
+                className="cursor-pointer hoverEffects"
+                to={user ? routes.BookingTFR : routes.Login}
               >
-                <img
-                  src={item.Image}
-                  alt="tfr"
-                  className="relative w-full h-auto"
-                />
-                <div className="h-[20px] tablet:h-[30px] z-10 absolute inset-x-0 bottom-4 tablet:bottom-6 flex items-center justify-center">
-                  <div className="  bg-white text-tfr-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-tfr-pink hover:text-white">
-                    {" "}
-                    Book Now{" "}
+                {" "}
+                <div
+                  key={item.id}
+                  className="relative w-[150px] h-[141px] tablet:w-[260px] tablet:h-[244px] mx-4 my-4 object-cover overflow-hidden"
+                >
+                  <img
+                    src={item.Image}
+                    alt="tfr"
+                    className="relative w-full h-full"
+                  />
+                  <div className="h-[20px] tablet:h-[30px] z-10 absolute inset-x-0 bottom-4 tablet:bottom-6 flex items-center justify-center">
+                    <div className="  bg-white text-tfr-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-tfr-pink hover:text-white">
+                      {" "}
+                      Book Now{" "}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
         </div>
 
         {/* <img

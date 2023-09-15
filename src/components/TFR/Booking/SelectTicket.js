@@ -180,12 +180,12 @@ export default function SelectTicket({
                               }
                             </div>
                           </div>
-                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
-                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                          <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
+                            <div className=" text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[8px] px-2">
-                              {item?.Description}
+                            <div className=" text-center  text-slate-400 text-[8px] px-2">
+                              {item?.Description} {item?.Description}
                             </div>
                           </div>
                         </div>
@@ -251,12 +251,12 @@ export default function SelectTicket({
                             }
                           </div>
                         </div>
-                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
-                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                        <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
+                            <div className=" text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[8px] px-2">
-                              {item?.Description}
+                            <div className=" text-center  text-slate-400 text-[8px] px-2">
+                              {item?.Description} {item?.Description}
                             </div>
                           </div>
                         </div>
@@ -322,12 +322,12 @@ export default function SelectTicket({
                             }
                           </div>
                         </div>
-                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
-                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                          <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
+                            <div className=" text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%] text-center overflow-x-auto text-slate-400 text-[8px] px-2">
-                              {item?.Description}
+                            <div className=" text-center  text-slate-400 text-[8px] px-2">
+                              {item?.Description} {item?.Description}
                             </div>
                           </div>
                         </div>
