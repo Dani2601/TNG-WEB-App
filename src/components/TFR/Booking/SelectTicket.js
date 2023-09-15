@@ -149,7 +149,7 @@ export default function SelectTicket({
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
               {tickets.length > 0 ? (
                   tickets
-                    ?.filter((item) => item.Category === "Entrance And Events")
+                    ?.filter((item) => item.Category === "Entrance And Events").sort((a, b) => a.Name.localeCompare(b.Name))
                     .map((item, index) => {
                       return (
                         <div
@@ -220,7 +220,7 @@ export default function SelectTicket({
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
               {tickets.length > 0 ? (
                   tickets
-                    ?.filter((item) => item.Category === "Games")
+                    ?.filter((item) => item.Category === "Games").sort((a, b) => a.Name.localeCompare(b.Name))
                     .map((item, index) => {
                       return (
                         <div
@@ -291,7 +291,7 @@ export default function SelectTicket({
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
                 {tickets.length > 0 ? (
                   tickets
-                    ?.filter((item) => item.Category === "Table Bookings")
+                    ?.filter((item) => item.Category === "Table Bookings").sort((a, b) => a.Name.localeCompare(b.Name))
                     .map((item, index) => {
                       return (
                         <div

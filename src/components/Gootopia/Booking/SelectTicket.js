@@ -111,7 +111,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
               </div>
               <div className="flex flex-row flex-wrap justify-center w-full">
                 {tickets.length > 0 ? (
-                  tickets?.map((data, index) => {
+                  tickets?.sort((a, b) => a.Name.localeCompare(b.Name)).map((data, index) => {
                     return (
                       <div className="flex flex-row hoverEffects" key={index}>
                         <button
