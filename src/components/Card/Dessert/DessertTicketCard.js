@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function DessertTicketCard({item, ticket, setTicket}) {
-  console.log(ticket)
   return (
     <div onClick={() => setTicket(item)} className='cursor-pointer relative text-center my-4 leading-6 text-sm w-full w-full hoverEffects'>
       {

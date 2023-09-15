@@ -218,7 +218,7 @@ export default function SelectTicketBakebe({
             else if (data.Name.toLowerCase().includes(search.toLowerCase())) {
               return data;
             }
-          })
+          }).sort((a, b) => a.Name.localeCompare(b.Name))
           .map((data, index) => {
             return (
               <div class="hoverEffects border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">

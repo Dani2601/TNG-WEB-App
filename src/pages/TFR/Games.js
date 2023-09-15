@@ -62,7 +62,7 @@ export default function Games() {
 
         <div className="flex flex-wrap justify-center items-center laptop:mx-[20%] pb-5 tablet:pb-10">
           {tickets
-            ?.filter((item) => item.Category === "Games")
+            ?.filter((item) => item.Category === "Games").sort((a, b) => a.Name.localeCompare(b.Name))
             .map((item) => (
               <Link
                 className="cursor-pointer hoverEffects"
