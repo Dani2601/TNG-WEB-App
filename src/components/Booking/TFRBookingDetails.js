@@ -10,7 +10,10 @@ import { useState } from "react";
 import { format, parse, setDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getBookingsByTicketID, getTFRBookingsByTicketID } from "../../functions/Tickets";
+import {
+  getBookingsByTicketID,
+  getTFRBookingsByTicketID,
+} from "../../functions/Tickets";
 import { setCart } from "../../store/action";
 import { number } from "yup";
 import moment from "moment-timezone";
@@ -42,7 +45,7 @@ export function TFRBookingDetails({
   setPax,
   bookingDate,
   setBookingDate,
-bookingTime,
+  bookingTime,
   setBookingTime,
   business = "Dessert",
   handleOptionChange,
@@ -59,14 +62,14 @@ bookingTime,
   const [numberOfPersons, setNumberOfPersons] = useState(1);
   const [disabled, setDisabled] = useState(false);
   const [slotIdentifier, setSlotIdentifier] = useState(null);
-  const [paxCount, setPaxCount] = useState(null)
-  const [allowedDays, setAllowedDays] = useState([])
-  const [entranceBooked, setEntranceBooked] = useState(200)
-  const [dDTBooked, setDDTBooked] = useState(0)
-  const [cBooked, setCBooked] = useState(0)
-  const [bTBooked, setBTBooked] = useState(0)
-  const [cTBooked, setCTBooked] = useState(0)
-  const [description, setDescription] = useState(null)
+  const [paxCount, setPaxCount] = useState(null);
+  const [allowedDays, setAllowedDays] = useState([]);
+  const [entranceBooked, setEntranceBooked] = useState(200);
+  const [dDTBooked, setDDTBooked] = useState(0);
+  const [cBooked, setCBooked] = useState(0);
+  const [bTBooked, setBTBooked] = useState(0);
+  const [cTBooked, setCTBooked] = useState(0);
+  const [description, setDescription] = useState(null);
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -77,7 +80,6 @@ bookingTime,
   }
 
   function handleNext() {
-
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
@@ -85,7 +87,7 @@ bookingTime,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      Pax: ticket?.Promo === "Buy 1 Take 1" ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
     if (cart.length > 0) {
@@ -129,10 +131,10 @@ bookingTime,
   }
 
   useEffect(() => {
-    if(ticket?.Day.length > 0){
-      setAllowedDays(ticket?.Day)
+    if (ticket?.Day.length > 0) {
+      setAllowedDays(ticket?.Day);
     }
-  }, [ticket])
+  }, [ticket]);
 
   useEffect(() => {
     if (business === "Gootopia") {
@@ -210,129 +212,125 @@ bookingTime,
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
-    //   if(ticket?.SubCategory === 'Entrance'){
-    //     let ecount = 200
-    //     getBookingsByTicketID(
-    //       location,
-    //       ticket?.id,
-    //       format(bookingDate, "yyyy-MM-dd"),
-    //     )
-    //       .then((res) => {
-    //         console.log(res?.data)
-    //         if (res?.valid) {
-    //           ecount = ecount - res.data.length
-    //           setEntranceBooked(ecount);
-    //         } else {
-    //           setEntranceBooked(ecount);
-    //         }
-    //       })
-    //       .catch((e) => {
-    //         console.log(e);
-    //       });
-    // }
-    if(ticket?.SubCategory === 'Drinking Deck Tables'){
-      let ecount = 4
-      setDescription('Up to 4 pax')
-      getBookingsByTicketID(
-        location,
-        ticket?.id,
-        format(bookingDate, "yyyy-MM-dd"),
-      )
-        .then((res) => {
-          console.log(res?.data)
-          if (res?.valid) {
-            ecount = ecount - res.data.length
-            setDDTBooked(ecount);
-            setReserve(res.data);
-          } else {
-            setDDTBooked(ecount);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    else if(ticket?.SubCategory === 'Cabanas'){
-      let ecount = 4
-      setDescription('6-4 pax')
-      getBookingsByTicketID(
-        location,
-        ticket?.id,
-        format(bookingDate, "yyyy-MM-dd"),
-      )
-        .then((res) => {
-          if (res?.valid) {
-            ecount = ecount - res.data.length
-            setCBooked(ecount);
-            setReserve(res.data);
-          } else {
-            setCBooked(ecount);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    else if(ticket?.SubCategory === 'Bar Tables'){
-      let ecount = 10
-      setDescription('4-6 pax')
-      getBookingsByTicketID(
-        location,
-        ticket?.id,
-        format(bookingDate, "yyyy-MM-dd"),
-      )
-        .then((res) => {
-          console.log(res?.data)
-          if (res?.valid) {
-            ecount = ecount - res.data.length
-            setBTBooked(ecount);
-            setReserve(res.data);
-          } else {
-            setBTBooked(ecount);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    else if(ticket?.SubCategory === 'Carousel Table'){
-      let ecount = 4
-      setDescription('5-6 pax')
-      getBookingsByTicketID(
-        location,
-        ticket?.id,
-        format(bookingDate, "yyyy-MM-dd"),
-      )
-        .then((res) => {
-          console.log(res?.data)
-          if (res?.valid) {
-            ecount = ecount - res.data.length
-            setCTBooked(ecount);
-            setReserve(res.data);
-          } else {
-            setCTBooked(ecount);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    else{
-      getBookingsByTicketID(
-        location,
-        ticket?.id,
-        format(bookingDate, "yyyy-MM-dd")
-      )
-        .then((res) => {
-          if (res.valid) {
-            setReserve(res.data);
-          } else {
-            setReserve([]);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      //   if(ticket?.SubCategory === 'Entrance'){
+      //     let ecount = 200
+      //     getBookingsByTicketID(
+      //       location,
+      //       ticket?.id,
+      //       format(bookingDate, "yyyy-MM-dd"),
+      //     )
+      //       .then((res) => {
+      //         console.log(res?.data)
+      //         if (res?.valid) {
+      //           ecount = ecount - res.data.length
+      //           setEntranceBooked(ecount);
+      //         } else {
+      //           setEntranceBooked(ecount);
+      //         }
+      //       })
+      //       .catch((e) => {
+      //         console.log(e);
+      //       });
+      // }
+      if (ticket?.SubCategory === "Drinking Deck Tables") {
+        let ecount = 4;
+        setDescription("Up to 4 pax");
+        getBookingsByTicketID(
+          location,
+          ticket?.id,
+          format(bookingDate, "yyyy-MM-dd")
+        )
+          .then((res) => {
+            console.log(res?.data);
+            if (res?.valid) {
+              ecount = ecount - res.data.length;
+              setDDTBooked(ecount);
+              setReserve(res.data);
+            } else {
+              setDDTBooked(ecount);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (ticket?.SubCategory === "Cabanas") {
+        let ecount = 4;
+        setDescription("6-4 pax");
+        getBookingsByTicketID(
+          location,
+          ticket?.id,
+          format(bookingDate, "yyyy-MM-dd")
+        )
+          .then((res) => {
+            if (res?.valid) {
+              ecount = ecount - res.data.length;
+              setCBooked(ecount);
+              setReserve(res.data);
+            } else {
+              setCBooked(ecount);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (ticket?.SubCategory === "Bar Tables") {
+        let ecount = 10;
+        setDescription("4-6 pax");
+        getBookingsByTicketID(
+          location,
+          ticket?.id,
+          format(bookingDate, "yyyy-MM-dd")
+        )
+          .then((res) => {
+            console.log(res?.data);
+            if (res?.valid) {
+              ecount = ecount - res.data.length;
+              setBTBooked(ecount);
+              setReserve(res.data);
+            } else {
+              setBTBooked(ecount);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (ticket?.SubCategory === "Carousel Table") {
+        let ecount = 4;
+        setDescription("5-6 pax");
+        getBookingsByTicketID(
+          location,
+          ticket?.id,
+          format(bookingDate, "yyyy-MM-dd")
+        )
+          .then((res) => {
+            console.log(res?.data);
+            if (res?.valid) {
+              ecount = ecount - res.data.length;
+              setCTBooked(ecount);
+              setReserve(res.data);
+            } else {
+              setCTBooked(ecount);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else {
+        getBookingsByTicketID(
+          location,
+          ticket?.id,
+          format(bookingDate, "yyyy-MM-dd")
+        )
+          .then((res) => {
+            if (res.valid) {
+              setReserve(res.data);
+            } else {
+              setReserve([]);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     }
   }, [ticket, bookingDate, location]);
@@ -342,10 +340,9 @@ bookingTime,
     setPax("");
   }
 
-
   useEffect(() => {
     if (bookingDate) {
-      if(ticket?.SubCategory === 'Halloween Event'){
+      if (ticket?.SubCategory === "Halloween Event") {
         setIntervals(
           ticket?.CreatedInterval.map((item) => {
             let reservation = reserve?.filter(
@@ -363,8 +360,7 @@ bookingTime,
               );
               return {
                 value: item.timeInterval,
-                slot:
-                  parseInt(200) - (sumOfCart + (reservation.length || 0)),
+                slot: parseInt(200) - (sumOfCart + (reservation.length || 0)),
                 label: `${item.timeInterval} - ${
                   parseInt(200) - (sumOfCart + (reservation.length || 0))
                 } slot(s)`,
@@ -374,7 +370,7 @@ bookingTime,
                 (total, item) => total + item.Pax,
                 0
               );
-  
+
               return {
                 value: item.timeInterval,
                 slot: parseInt(200) - sumOfCart,
@@ -383,8 +379,7 @@ bookingTime,
             }
           })
         );
-      }
-      else if(ticket?.SubCategory === 'Drinking Deck Tables'){
+      } else if (ticket?.SubCategory === "Drinking Deck Tables") {
         setIntervals(
           ticket?.CreatedInterval.map((item) => {
             let reservation = reserve?.filter(
@@ -402,8 +397,7 @@ bookingTime,
               );
               return {
                 value: item.timeInterval,
-                slot:
-                  parseInt(4) - (sumOfCart + (reservation.length || 0)),
+                slot: parseInt(4) - (sumOfCart + (reservation.length || 0)),
                 label: `${item.timeInterval} - ${
                   parseInt(4) - (sumOfCart + (reservation.length || 0))
                 } slot(s)`,
@@ -413,7 +407,7 @@ bookingTime,
                 (total, item) => total + item.Pax,
                 0
               );
-  
+
               return {
                 value: item.timeInterval,
                 slot: parseInt(4) - sumOfCart,
@@ -422,8 +416,7 @@ bookingTime,
             }
           })
         );
-      }
-      else if(ticket?.SubCategory === 'Cabanas'){
+      } else if (ticket?.SubCategory === "Cabanas") {
         setIntervals(
           ticket?.CreatedInterval.map((item) => {
             let reservation = reserve?.filter(
@@ -441,8 +434,7 @@ bookingTime,
               );
               return {
                 value: item.timeInterval,
-                slot:
-                  parseInt(4) - (sumOfCart + (reservation.length || 0)),
+                slot: parseInt(4) - (sumOfCart + (reservation.length || 0)),
                 label: `${item.timeInterval} - ${
                   parseInt(4) - (sumOfCart + (reservation.length || 0))
                 } slot(s)`,
@@ -452,7 +444,7 @@ bookingTime,
                 (total, item) => total + item.Pax,
                 0
               );
-  
+
               return {
                 value: item.timeInterval,
                 slot: parseInt(4) - sumOfCart,
@@ -461,8 +453,7 @@ bookingTime,
             }
           })
         );
-      }
-      else{
+      } else {
         setIntervals(
           ticket?.CreatedInterval.map((item) => {
             let reservation = reserve?.filter(
@@ -491,11 +482,13 @@ bookingTime,
                 (total, item) => total + item.Pax,
                 0
               );
-  
+
               return {
                 value: item.timeInterval,
                 slot: parseInt(item.slot) - sumOfCart,
-                label: `${item.timeInterval} - ${item.slot - sumOfCart} slot(s)`,
+                label: `${item.timeInterval} - ${
+                  item.slot - sumOfCart
+                } slot(s)`,
               };
             }
           })
@@ -524,8 +517,15 @@ bookingTime,
     //     setPax(input);
     //   }
     // }
-    
-    if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
+
+    if (
+      input === "" ||
+      (input > 0 &&
+        (ticket?.Promo === "Buy 1 Take 1"
+          ? input * 2 <= maxPerInterval
+          : input <= maxPerInterval))
+    ) {
+      // Check if input is empty or within the allowed range
       setPax(input);
     }
   }
@@ -541,11 +541,10 @@ bookingTime,
 
   const maxPerInterval = useMemo(() => {
     let max = "";
-    if(ticket?.SubCategory === 'Entrance'){
-      let intervalData = intervals[0]
-      max = intervalData?.slot;  
-    }
-    else if (bookingDate && bookingTime && intervals) {
+    if (ticket?.SubCategory === "Entrance") {
+      let intervalData = intervals[0];
+      max = intervalData?.slot;
+    } else if (bookingDate && bookingTime && intervals) {
       let intervalData = intervals?.find((item) => item.value === bookingTime);
       max = intervalData?.slot;
     }
@@ -553,10 +552,9 @@ bookingTime,
   }, [bookingTime, bookingDate, intervals]);
 
   function handleBookingTime(e) {
-  
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
-        console.log("data",data)
+      console.log("data", data);
       setBookingTime(data?.value ? data?.value : null);
       setPax(1);
       setDisabled(false);
@@ -577,7 +575,7 @@ bookingTime,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      Pax: ticket?.Promo === "Buy 1 Take 1" ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
 
@@ -593,27 +591,26 @@ bookingTime,
     handlePersons(event);
   };
 
-
-  const getBookingDate = moment(bookingDate, 'ddd MMM DD YYYY HH:mm:ss ZZ');
-  const formattedBookingDate = getBookingDate.format('MMM DD YYYY');
+  const getBookingDate = moment(bookingDate, "ddd MMM DD YYYY HH:mm:ss ZZ");
+  const formattedBookingDate = getBookingDate.format("MMM DD YYYY");
 
   function getCurrentDateInPhilippines() {
     // Get the current date in the Philippines
-    const currentDateInPhilippines = moment().utcOffset('+0800');
-    
+    const currentDateInPhilippines = moment().utcOffset("+0800");
+
     // Format the current date to the desired format (Aug 09 2023)
-    const formattedCurrentDate = currentDateInPhilippines.format('MMM DD YYYY');
-    
+    const formattedCurrentDate = currentDateInPhilippines.format("MMM DD YYYY");
+
     return formattedCurrentDate;
   }
-  
+
   const currentDateInPhilippines = getCurrentDateInPhilippines();
 
   const withoutFilters = useMemo(
     () =>
       (ticket?.Category === "Games" &&
         (ticket?.SubCategory === "DrunkenPinball" ||
-        ticket?.SubCategory === "Drunken Pinball" ||
+          ticket?.SubCategory === "Drunken Pinball" ||
           ticket?.SubCategory === "BoomBattleShot" ||
           ticket?.SubCategory === "Boom Battleshot" ||
           ticket?.SubCategory === "ExtremeBasketBall" ||
@@ -675,87 +672,98 @@ bookingTime,
                   />
                 </div>
               </div>
-              {
-               ticket?.SubCategory !== 'Entrance' && 
-              <div>
-              <p className="text-sm">
-                PICK A BOOKING HOUR: <small style={{ color: "red" }}>*</small>
-              </p>
-              <select
-                onChange={handleBookingTime}
-                className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-              >
-                <option value={""}>Select a time</option>
-                {intervals?.length > 0 &&
-                  intervals?.map((item, index) => {
-                    const itemTime = moment(item.value, "h:mm A").tz(
-                      "Asia/Manila"
-                    );
-                    if (item?.slot === 0) {
-                      return (
-                        <option
-                          key={index}
-                          value={JSON.stringify(item)}
-                          disabled={true}
-                        >
-                          {item.label}
-                        </option>
-                      );
-                    }
-                    else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
-                      return (
-                        <option
-                          key={index}
-                          value={JSON.stringify(item)}
-                          disabled={true}
-                        >
-                          {item.label}
-                        </option>
-                      );
-                    }
-                     else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
-                      // Disable the option if itemTime is before the current time
-                      return (
-                        <option
-                          key={index}
-                          value={JSON.stringify(item)}
-                          disabled={itemTime.isBefore(currentTime) ? true : false}
-                        >
-                          {`${item.label}`}
-                        </option>
-                      );
-                    } else if ( business === "TFR" && withoutFilters) {
-                      // Disable the option if itemTime is before the current time
-                      return (
-                        <option
-                          key={index}
-                          value={JSON.stringify(item)}
-                        >
-                          {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
-                        </option>
-                      );
-                    } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
-                      // Disable the option if itemTime is before the current time
-                      return (
-                        <option
-                          key={index}
-                          value={JSON.stringify(item)}
-                          disabled={itemTime.isBefore(currentTime) ? true : false}
-                        >
-                           {item.label}
-                        </option>
-                      );
-                    }else {
-                      return (
-                        <option key={index} value={JSON.stringify(item)} >
-                          {item.label}
-                        </option>
-                      );
-                    }
-                  })}
-              </select>
-            </div>
-              }
+              {ticket?.SubCategory !== "Entrance" && (
+                <div>
+                  <p className="text-sm">
+                    PICK A BOOKING HOUR:{" "}
+                    <small style={{ color: "red" }}>*</small>
+                  </p>
+                  <select
+                    onChange={handleBookingTime}
+                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  >
+                    <option value={""}>Select a time</option>
+                    {intervals?.length > 0 &&
+                      intervals?.map((item, index) => {
+                        const itemTime = moment(item.value, "h:mm A").tz(
+                          "Asia/Manila"
+                        );
+                        if (item?.slot === 0) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={true}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        } else if (
+                          ticket?.Promo === "Buy 1 Take 1" &&
+                          item?.slot < parseInt(ticket.PromoValue) + 1
+                        ) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={true}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        } else if (
+                          business !== "TFR" &&
+                          formattedBookingDate === currentDateInPhilippines
+                        ) {
+                          // Disable the option if itemTime is before the current time
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={
+                                itemTime.isBefore(currentTime) ? true : false
+                              }
+                            >
+                              {`${item.label}`}
+                            </option>
+                          );
+                        } else if (business === "TFR" && withoutFilters) {
+                          // Disable the option if itemTime is before the current time
+                          return (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.value} - ${convertToNormalTime(
+                                ticket.TimeEnd
+                              )} - ${item.slot} slot(s)`}
+                            </option>
+                          );
+                        } else if (
+                          business === "TFR" &&
+                          !withoutFilters &&
+                          formattedBookingDate === currentDateInPhilippines
+                        ) {
+                          // Disable the option if itemTime is before the current time
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={
+                                itemTime.isBefore(currentTime) ? true : false
+                              }
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        } else {
+                          return (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {item.label}
+                            </option>
+                          );
+                        }
+                      })}
+                  </select>
+                </div>
+              )}
               <div>
                 <p className="text-sm">
                   {ticket?.Category === "Table Bookings"
@@ -768,7 +776,13 @@ bookingTime,
                   <input
                     type="number"
                     onChange={handlePax}
-                    disabled={(ticket?.SubCategory === 'Entrance' ? false : (bookingTime ? false : true))}
+                    disabled={
+                      ticket?.SubCategory === "Entrance"
+                        ? false
+                        : bookingTime
+                        ? false
+                        : true
+                    }
                     min={1}
                     max={maxPerInterval}
                     value={pax}
@@ -857,58 +871,109 @@ bookingTime,
                           Date:{" "}
                           {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
-                        <p className="text-xs">Time:{ticket?.SubCategory === 'Entrance' ? 'Opening hours' : `${bookingTime} ${(withoutFilters && bookingTime ) ? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
-                        {
-                          ticket?.Promo === 'Buy 1 Take 1' && pax ?
+
+                        <p className="text-xs">
+                          Time:
+                          {ticket?.Category === "Table Bookings" ||
+                          ticket?.SubCategory === "DrunkenPinball" ||
+                          ticket?.SubCategory === "Entrance" ||
+                          ticket?.SubCategory === "Drunken Pinball" ||
+                          ticket?.SubCategory === "BoomBattleShot" ||
+                          ticket?.SubCategory === "Boom Battleshot" ||
+                          ticket?.SubCategory === "ExtremeBasketBall" ||
+                          ticket?.SubCategory === "Extreme Basketball" ||
+                          ticket?.SubCategory === "StarBlaster" ||
+                          ticket?.SubCategory === "Star Blaster" ||
+                          ticket?.SubCategory === "Ring The Bell"
+                            ? "Opening hours"
+                            : `${bookingTime} ${
+                                withoutFilters && bookingTime
+                                  ? `- ` + convertToNormalTime(ticket.TimeEnd)
+                                  : ""
+                              }`}
+                        </p>
+
+                        {ticket?.Promo === "Buy 1 Take 1" && pax ? (
                           <div>
-                            <p className="text-xs">No. of {ticket?.Category === 'Table Bookings' ? 'slot' : 'pass'}: {pax} (+{pax})</p>
-                            <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
+                            <p className="text-xs">
+                              No. of{" "}
+                              {ticket?.Category === "Table Bookings"
+                                ? "slot"
+                                : "pass"}
+                              : {pax} (+{pax})
+                            </p>
+                            <p className="text-xs">
+                              Promo:{" "}
+                              <span className="font-semibold">
+                                {ticket.Promo}
+                              </span>
+                            </p>
                           </div>
-                          :
-                          <p className="text-xs">No. of {ticket?.Category === 'Table Bookings' ? 'slot' : 'pass'}: {pax}</p>
-                        }
-                        {
-                          description &&
+                        ) : (
+                          <p className="text-xs">
+                            No. of{" "}
+                            {ticket?.Category === "Table Bookings"
+                              ? "slot"
+                              : "pass"}
+                            : {pax}
+                          </p>
+                        )}
+                        {description && (
                           <p className="text-xs">Pax: {description}</p>
-                        }
+                        )}
                       </div>
                       <div className="flex items-ebd">
                         <p className="tex-4xl font-bold">₱ {ticket?.Price}</p>
                       </div>
                     </div>
                   </div>
-                  {
-                    ticket.Promo === 'Discount' && pax ?
+                  {ticket.Promo === "Discount" && pax ? (
                     <div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Discount ({ticket?.PromoValue}%)</div>
-                        <div className="font-bold">₱ {(ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                        <div className="text-sm font-bold">
+                          Discount ({ticket?.PromoValue}%)
+                        </div>
+                        <div className="font-bold">
+                          ₱{" "}
+                          {ticket?.Price *
+                            pax *
+                            (parseInt(ticket?.PromoValue) / 100)}
+                        </div>
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {total - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                        <div className="font-bold">
+                          ₱{" "}
+                          {total -
+                            ticket?.Price *
+                              pax *
+                              (parseInt(ticket?.PromoValue) / 100)}
+                        </div>
                       </div>
                     </div>
-                    :
-                    (
-                    ticket.Promo === 'Amount to Reach' && pax ?
+                  ) : ticket.Promo === "Amount to Reach" && pax ? (
                     <div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Promo Amount (₱ {ticket?.PromoValue})</div>
-                        <div className="font-bold">₱ {(parseInt(ticket?.PromoValue)) * pax}</div>
+                        <div className="text-sm font-bold">
+                          Promo Amount (₱ {ticket?.PromoValue})
+                        </div>
+                        <div className="font-bold">
+                          ₱ {parseInt(ticket?.PromoValue) * pax}
+                        </div>
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {total - ((parseInt(ticket?.PromoValue)) * pax)}</div>
+                        <div className="font-bold">
+                          ₱ {total - parseInt(ticket?.PromoValue) * pax}
+                        </div>
                       </div>
                     </div>
-                    :
+                  ) : (
                     <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                       <div className="text-sm font-bold">Total</div>
                       <div className="font-bold">₱ {total}</div>
                     </div>
-                    )
-                  }
+                  )}
                 </div>
               </div>
               <div className="shadow-md rounded-md">
@@ -930,7 +995,9 @@ bookingTime,
             >
               Back
             </button>
-            {bookingDate && (ticket?.SubCategory === 'Entrance' || bookingTime) && pax > 0 ? (
+            {bookingDate &&
+            (ticket?.SubCategory === "Entrance" || bookingTime) &&
+            pax > 0 ? (
               <button
                 onClick={handleNext}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
