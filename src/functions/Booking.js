@@ -82,4 +82,25 @@ async function ViewTransactionViaCode(Code) {
   }
 }
 
-export { addBooking, viewMyTransaction, viewMyTickets, ViewTransactionViaCode };
+async function ViewEvents(business) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}ViewAllDisabledDates`,
+      {
+        Business: business
+      }
+    );
+
+    if (data?.valid) {
+      return data;
+    } else {
+      return data;
+    }
+  } catch (e) {
+    return {
+      valid: false,
+    };
+  }
+}
+
+export { addBooking, viewMyTransaction, viewMyTickets, ViewTransactionViaCode, ViewEvents };

@@ -67,7 +67,7 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
                 <p className='text-sm'>Please note that our TWO HOUR TOUR starts every 15 minutes.<br/>Guests are required to come 20 minutes before their scheduled slot<br/>for processing of tickets.</p>
             </div>
             
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 py-10'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10 py-10'>
                 {
                     tickets.length > 0 ?
                     tickets?.map((item, index) => <DessertTicketCard key={index} item={item} ticket={ticket} setTicket={setTicket}/>)
