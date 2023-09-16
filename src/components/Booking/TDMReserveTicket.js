@@ -70,7 +70,7 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10 py-10'>
                 {
                     tickets.length > 0 ?
-                    tickets?.map((item, index) => <DessertTicketCard key={index} item={item} ticket={ticket} setTicket={setTicket}/>)
+                    tickets?.sort((a, b) => a.Name.localeCompare(b.Name)).map((item, index) => <DessertTicketCard key={index} item={item} ticket={ticket} setTicket={setTicket}/>)
                     :
                     <div>No available Tickets yet.</div>
                 }

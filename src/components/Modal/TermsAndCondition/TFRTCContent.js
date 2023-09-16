@@ -1,49 +1,68 @@
-import React from 'react'
+import React from "react";
 
 export default function TISTCContent() {
   return (
     <div className="flex-grow overflow-y-auto">
-    <ul className="list-disc list-inside flex flex-col gap-4">
-            <li className='text-sm text-justify'>Guests are required to come 15 MINUTES 
-                BEFORE THEIR SCHEDULED SLOT for 
-                processing of tickets. LATE GOERS are subjected to 
-                a RESCHEDULING FEE OF PHP 100/head and can 
-                only be accommodated upon slot availability.
-            </li>
-            <li className='text-sm text-justify'>NO SHOWS can be rescheduled up to 7 days 
-                after the booked date, LATE RESCHEDULING CAN 
-                ONLY BE DONE ONCE and will be subjected to Php 
-                200 rescheduling fee and slot availability. After more 
-                than 7 days of your booked date, attempts to 
-                reschedule will not be allowed and your slots will be 
-                forfeited.
-            </li>
-            <li className='text-sm text-justify'>All patrons must sign a waiver form before they enter Gootopia.</li>
-            <li className='text-sm text-justify'>
-                The activities, exhibits, and/or equipment at 
-                Gootopia may require a certain degree of skill, ability, 
-                and physical condition. INJURIES may occur if not 
-                cautious. In signing the waiver form, you expressly 
-                accept this risk of injury to yourself, your friends, and 
-                your families.
-            </li>
-            <li className='text-sm text-justify'>
-                Participation is the use of Gootopia facilities 
-                including, but not limited to, viewing and/or use of 
-                exhibits, and any equipment, in any and all activities. Participation is voluntary and neither you, 
-                nor the minors in your care, friends, or family are being forced to participate.
-            </li>
-            <li className='text-sm text-justify'>
-                The undersigned agrees on behalf of himself/herself, the minors in his/her care, or anyone else he 
-                may represent and assigns to release Gootopia and affiliated officials, officers, employees, agents, 
-                and volunteers from any and all claims of injury arising out of or in connection with the 
-                participation in Gootopia
-            </li>
-            <li className='text-sm text-justify'>
-                Gootopia bars individuals under the influence of alcohol, medication or drugs from entering or 
-                participating on the premises.
-            </li>
-        </ul>
+      <ul className="list-disc list-inside flex flex-col gap-4">
+        <li className="text-sm text-justify">
+          This ticket admits one person and must be presented at the entrance.
+        </li>
+        <li className="text-sm text-justify">
+          All guests must present an ID for proof of age and identification
+          purposes.
+        </li>
+        <li className="text-sm text-justify">
+          All patrons must sign a waiver form before they enter Gootopia.
+        </li>
+        <li className="text-sm text-justify">
+          No outside food and drinks are allowed.
+        </li>
+        <li className="text-sm text-justify">
+          In the event that the ticket holder is unable to come on the scheduled
+          date and seeks to reschedule, a rescheduling fee of P200 will apply.
+        </li>
+        <li className="text-sm text-justify">
+          All guests may be subject to search upon entry.
+        </li>
+        <li className="text-sm text-justify">
+          The Fun Roof is not responsible for any lost, stolen, or damaged
+          items.
+        </li>
+        <li className="text-sm text-justify">
+          Damage fee to installations, games and furniture starts at Php 5,000.
+        </li>
+        <li className="text-sm text-justify">
+          The Fun Roof reserves the right to deny entry to any person for any
+          reason, including but not limited to, intoxication, disruptive
+          behavior, or failure to comply with dress code requirements.
+          Unauthorized entry may be rescheduled for a fee of ₱200.00.
+        </li>
+        <li className="text-sm text-justify">
+          The Fun Roof reserves the right to eject any individual who poses a
+          threat to the safety or enjoyment of other patrons without refund.
+        </li>
+        <li className="text-sm text-justify">
+          Management will not be held responsible for injuries sustained in the
+          museum if you do not follow the rules and regulations.
+        </li>
+        <li className="text-sm text-justify">
+          Management reserves the right to refuse entry.
+        </li>
+        <li className="text-sm text-justify">
+          Management reserves the right to change prices and rates without prior
+          notice.
+        </li>
+        <li className="text-sm text-justify">
+          Management may photograph, film, videotape, record or otherwise
+          reproduce the image and/or voice of any person who uses the hashtag
+          #TheFunRoof and use the same for any purpose without permission or
+          payment.
+        </li>
+        <li className="text-sm text-justify">
+          Management reserves the right to amend the terms & conditions without
+          prior notice.
+        </li>
+      </ul>
     </div>
-  )
+  );
 }

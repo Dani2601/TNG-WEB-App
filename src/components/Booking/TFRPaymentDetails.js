@@ -489,7 +489,17 @@ export function TFRPaymentDetails({
                                   : ""}
                                 </p>
                                 {
-                                    item?.Ticket?.SubCategory === 'Entrance' ?
+                                    item?.Ticket?.Category === "Table Bookings" ||
+                                    item?.Ticket?.SubCategory === "DrunkenPinball" ||
+                                    item?.Ticket?.SubCategory === "Entrance" ||
+                                    item?.Ticket?.SubCategory === "Drunken Pinball" ||
+                                    item?.Ticket?.SubCategory === "BoomBattleShot" ||
+                                    item?.Ticket?.SubCategory === "Boom Battleshot" ||
+                                    item?.Ticket?.SubCategory === "ExtremeBasketBall" ||
+                                    item?.Ticket?.SubCategory === "Extreme Basketball" ||
+                                    item?.Ticket?.SubCategory === "StarBlaster" ||
+                                    item?.Ticket?.SubCategory === "Star Blaster" ||
+                                    item?.Ticket?.SubCategory === "Ring The Bell" ?
                                     <p className="text-xs">Time: Opening hours</p>
                                     :
                                     <p className="text-xs">Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>

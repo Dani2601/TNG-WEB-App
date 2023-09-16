@@ -149,7 +149,7 @@ export default function SelectTicket({
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
               {tickets.length > 0 ? (
                   tickets
-                    ?.filter((item) => item.Category === "Entrance And Events")
+                    ?.filter((item) => item.Category === "Entrance And Events").sort((a, b) => a.Name.localeCompare(b.Name))
                     .map((item, index) => {
                       return (
                         <div
@@ -161,10 +161,10 @@ export default function SelectTicket({
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                           <div className="h-[70%] w-full flex flex-col items-center relative">
-                            <div className="relative py-3">
+                            <div className="relative">
                               <img
                                 src={item?.Image}
-                                className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                                className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
                                 alt={item?.Image}
                               />
                             </div>
@@ -180,11 +180,11 @@ export default function SelectTicket({
                               }
                             </div>
                           </div>
-                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
-                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                          <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
+                            <div className=" text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[8px] px-2">
+                            <div className=" text-center  text-slate-400 text-[8px] px-2">
                               {item?.Description}
                             </div>
                           </div>
@@ -220,7 +220,7 @@ export default function SelectTicket({
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
               {tickets.length > 0 ? (
                   tickets
-                    ?.filter((item) => item.Category === "Games")
+                    ?.filter((item) => item.Category === "Games").sort((a, b) => a.Name.localeCompare(b.Name))
                     .map((item, index) => {
                       return (
                         <div
@@ -232,10 +232,10 @@ export default function SelectTicket({
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                         <div className="h-[70%] w-full flex flex-col items-center relative">
-                          <div className="relative py-3">
+                          <div className="relative">
                             <img
                               src={item?.Image}
-                              className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                              className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
                               alt={item?.Image}
                             />
                           </div>
@@ -251,11 +251,11 @@ export default function SelectTicket({
                             }
                           </div>
                         </div>
-                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
-                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                        <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
+                            <div className=" text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%]  text-center overflow-x-auto text-slate-400 text-[8px] px-2">
+                            <div className=" text-center  text-slate-400 text-[8px] px-2">
                               {item?.Description}
                             </div>
                           </div>
@@ -291,7 +291,7 @@ export default function SelectTicket({
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
                 {tickets.length > 0 ? (
                   tickets
-                    ?.filter((item) => item.Category === "Table Bookings")
+                    ?.filter((item) => item.Category === "Table Bookings").sort((a, b) => a.Name.localeCompare(b.Name))
                     .map((item, index) => {
                       return (
                         <div
@@ -303,10 +303,10 @@ export default function SelectTicket({
                           className="flex flex-col items-center border-[2px] border-tfr-yellow h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
                         <div className="h-[70%] w-full flex flex-col items-center relative">
-                          <div className="relative py-3">
+                          <div className="relative">
                             <img
                               src={item?.Image}
-                              className="relative w-[160px]  h-[160px] object-cover rounded-2xl"
+                              className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
                               alt={item?.Image}
                             />
                           </div>
@@ -322,11 +322,11 @@ export default function SelectTicket({
                             }
                           </div>
                         </div>
-                          <div className="h-[30%] w-full flex flex-col items-center pt-4">
-                            <div className="h-[30%] text-center  text-tfr-yellow text-[12px] px-2">
+                          <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
+                            <div className=" text-center  text-tfr-yellow text-[12px] px-2">
                             {item?.Name}
                             </div>
-                            <div className="h-[70%] text-center overflow-x-auto text-slate-400 text-[8px] px-2">
+                            <div className=" text-center  text-slate-400 text-[8px] px-2">
                               {item?.Description}
                             </div>
                           </div>
