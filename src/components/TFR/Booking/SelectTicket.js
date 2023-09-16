@@ -185,7 +185,7 @@ export default function SelectTicket({
                             {item?.Name}
                             </div>
                             <div className=" text-center  text-slate-400 text-[8px] px-2">
-                              {item?.Description} {item?.Description}
+                              {item?.Description}
                             </div>
                           </div>
                         </div>
@@ -256,7 +256,7 @@ export default function SelectTicket({
                             {item?.Name}
                             </div>
                             <div className=" text-center  text-slate-400 text-[8px] px-2">
-                              {item?.Description} {item?.Description}
+                              {item?.Description}
                             </div>
                           </div>
                         </div>
@@ -327,7 +327,7 @@ export default function SelectTicket({
                             {item?.Name}
                             </div>
                             <div className=" text-center  text-slate-400 text-[8px] px-2">
-                              {item?.Description} {item?.Description}
+                              {item?.Description}
                             </div>
                           </div>
                         </div>
