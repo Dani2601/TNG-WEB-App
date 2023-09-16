@@ -16,6 +16,7 @@ import { number } from "yup";
 import moment from "moment-timezone";
 import { current } from "@reduxjs/toolkit";
 import { convertToNormalTime } from "../../helper/DateTime";
+import { ViewEvents } from "../../functions/Booking";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -61,6 +62,7 @@ bookingTime,
   const [slotIdentifier, setSlotIdentifier] = useState(null);
   const [paxCount, setPaxCount] = useState(null)
   const [allowedDays, setAllowedDays] = useState([])
+  const [events, setEvents] = useState([])
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -221,12 +223,28 @@ bookingTime,
         });
     }
   }, [ticket, bookingDate, location]);
+  
+
+  useEffect(() => {
+    if (ticket?.BusinessUnitID) {
+      ViewEvents(
+        ticket?.BusinessUnitID,
+      )
+      .then((res) => {
+        if (res.valid) {
+          setEvents(res.data);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    }
+  }, [ticket, bookingDate, location]);
 
   function handleBookingDate(date) {
     setBookingDate(date);
     setPax("");
   }
-
 
   useEffect(() => {
     if (bookingDate) {
@@ -389,7 +407,25 @@ bookingTime,
     [ticket]
   );
 
+  function isDateInEvent(date) {
+    for (const event of events) {
+      const startDate = new Date(event.start);
+      const endDate = new Date(event.end);
+      if (date.toDateString() === startDate.toDateString() && date.toDateString() === endDate.toDateString()) {
+        return 'special-date';
+      }
+    }
+    return false;
+  }
 
+  const customDateStyle = date => {
+    if (isDateInEvent(date)) {
+      // Return the CSS class for dates within an event
+      return 'bg-red-500';
+    }
+    // Return the default CSS class for other dates
+    return '';
+  };
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -421,23 +457,27 @@ bookingTime,
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
                 <div className="flex w-full bg-blue-500">
-                  <DatePicker
-                    selected={bookingDate}
-                    onChange={handleBookingDate}
-                    wrapperClassName="w-full"
-                    className="h-[36px] w-full shadow-md py-2 px-4"
-                    filterDate={(date) => {
-                      const today = new Date(); // Get the current date
-                      today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
-                      return (
-                        date >= today &&
-                        allowedDays.includes(
-                          date.toLocaleDateString("en-US", { weekday: "long" })
-                        )
-                      );
-                    }}
-                    value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                  />
+                <DatePicker
+                  selected={bookingDate}
+                  onChange={handleBookingDate}
+                  wrapperClassName="w-full"
+                  className="h-[36px] w-full shadow-md py-2 px-4"
+                  filterDate={(date) => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const allDates = [];
+                    return (
+                      date >= today &&
+                      !allDates.includes(format(date, "MM/dd/yyyy")) &&
+                      allowedDays.includes(
+                        date.toLocaleDateString("en-US", { weekday: "long" })
+                      )
+                    );
+                  }}
+                  value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                  dayClassName={customDateStyle}
+                />
+
                 </div>
               </div>
               <div>
