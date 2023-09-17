@@ -19,6 +19,7 @@ import { number } from "yup";
 import moment from "moment-timezone";
 import { current } from "@reduxjs/toolkit";
 import { convertToNormalTime } from "../../helper/DateTime";
+import { ViewEvents } from "../../functions/Booking";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -70,6 +71,7 @@ export function TFRBookingDetails({
   const [bTBooked, setBTBooked] = useState(0);
   const [cTBooked, setCTBooked] = useState(0);
   const [description, setDescription] = useState(null);
+  const [events, setEvents] = useState([])
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -129,6 +131,22 @@ export function TFRBookingDetails({
       setStep(4);
     }
   }
+
+  useEffect(() => {
+    if (ticket?.BusinessUnitID) {
+      ViewEvents(
+        ticket?.BusinessUnitID,
+      )
+      .then((res) => {
+        if (res.valid) {
+          setEvents(res.data);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    }
+  }, [ticket, bookingDate, location]);
 
   useEffect(() => {
     if (ticket?.Day.length > 0) {
@@ -212,26 +230,6 @@ export function TFRBookingDetails({
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
-      //   if(ticket?.SubCategory === 'Entrance'){
-      //     let ecount = 200
-      //     getBookingsByTicketID(
-      //       location,
-      //       ticket?.id,
-      //       format(bookingDate, "yyyy-MM-dd"),
-      //     )
-      //       .then((res) => {
-      //         console.log(res?.data)
-      //         if (res?.valid) {
-      //           ecount = ecount - res.data.length
-      //           setEntranceBooked(ecount);
-      //         } else {
-      //           setEntranceBooked(ecount);
-      //         }
-      //       })
-      //       .catch((e) => {
-      //         console.log(e);
-      //       });
-      // }
       if (ticket?.SubCategory === "Drinking Deck Tables") {
         let ecount = 4;
         setDescription("Up to 4 pax");
@@ -501,7 +499,7 @@ export function TFRBookingDetails({
 
   function handleClear() {
     setBookingDate(null);
-    setBookingTime(null);
+    setBookingTime("");
     setPax("");
   }
 
@@ -555,12 +553,12 @@ export function TFRBookingDetails({
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
       console.log("data", data);
-      setBookingTime(data?.value ? data?.value : null);
+      setBookingTime(data?.value ? data?.value : "");
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
     } else {
-      setBookingTime(null);
+      setBookingTime("");
       setPax(0);
       setDisabled(true);
       setSlotIdentifier(null);
@@ -622,6 +620,24 @@ export function TFRBookingDetails({
         ticket?.SubCategory === "Entrance") && ticket?.Category === "Table Bookings",
     [ticket]
   );
+  
+  function isDateInEvent(date) {
+    for (const event of events) {
+      const startDate = new Date(event.start);
+      const endDate = new Date(event.end);
+      if (date.toDateString() === startDate.toDateString() && date.toDateString() === endDate.toDateString()) {
+        return 'special-date';
+      }
+    }
+    return false;
+  }
+
+  const customDateStyle = date => {
+    if (isDateInEvent(date)) {
+      return 'bg-red-500';
+    }
+    return '';
+  };
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -659,16 +675,35 @@ export function TFRBookingDetails({
                     wrapperClassName="w-full"
                     className="h-[36px] w-full shadow-md py-2 px-4"
                     filterDate={(date) => {
-                      const today = new Date(); // Get the current date
-                      today.setHours(0, 0, 0, 0); // Set the time to 00:00:00
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      const allDates = [];
+
+                      console.log(ticket?.SubCategory)
+                      if (ticket?.SubCategory === 'Entrance') {
+                        for (const item of events) {
+                          const startDate = new Date(item.start);
+                          const endDate = new Date(item.end);
+                    
+                          // Collect all dates that fall within the range of start and end dates in data
+                          const currentDate = new Date(startDate);
+                          while (currentDate <= endDate) {
+                            allDates.push(format(currentDate, "MM/dd/yyyy"));
+                            currentDate.setDate(currentDate.getDate() + 1);
+                          }
+                        }
+                      }
+
                       return (
                         date >= today &&
+                        !allDates.includes(format(date, "MM/dd/yyyy")) &&
                         allowedDays.includes(
                           date.toLocaleDateString("en-US", { weekday: "long" })
                         )
                       );
                     }}
                     value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                    dayClassName={customDateStyle}
                   />
                 </div>
               </div>
@@ -688,6 +723,49 @@ export function TFRBookingDetails({
                         const itemTime = moment(item.value, "h:mm A").tz(
                           "Asia/Manila"
                         );
+                        
+                      let filteredEvents = events.filter(event => {
+                        let startDateTime = new Date(event.start);
+                        let endDateTime = new Date(event.end);
+                      
+                        // Check if the event's start or end time falls on the same day as the given date
+                        return (
+                          startDateTime.getDate() === bookingDate.getDate() &&
+                          startDateTime.getMonth() === bookingDate.getMonth() &&
+                          startDateTime.getFullYear() === bookingDate.getFullYear()
+                        ) || (
+                          endDateTime.getDate() === bookingDate.getDate() &&
+                          endDateTime.getMonth() === bookingDate.getMonth() &&
+                          endDateTime.getFullYear() === bookingDate.getFullYear()
+                        );
+                      });
+                      let timeParts = item.value.match(/(\d+):(\d+) (AM|PM)/);
+                      let hours = parseInt(timeParts[1]);
+                      let minutes = parseInt(timeParts[2]);
+                      if (timeParts[3] === "PM" && hours !== 12) {
+                        hours += 12;
+                      }
+                      let timeDate = new Date(bookingDate);
+                      timeDate.setHours(hours, minutes, 0, 0);
+                      let currentTimeIsWithinEvent = filteredEvents.some(event => {
+                        let startDateTime = new Date(event.start);
+                        let endDateTime = new Date(event.end);
+                        return timeDate >= startDateTime && timeDate <= endDateTime;
+                      });
+
+                      if(currentTimeIsWithinEvent){
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item)}
+                            disabled={true}
+                          >
+                            {item.label}
+                          </option>
+                        );
+                      }
+                      else{
+                        
                         if (item?.slot === 0) {
                           return (
                             <option
@@ -760,6 +838,7 @@ export function TFRBookingDetails({
                             </option>
                           );
                         }
+                      }
                       })}
                   </select>
                 </div>
