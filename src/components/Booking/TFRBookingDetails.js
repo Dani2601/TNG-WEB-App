@@ -395,9 +395,9 @@ export function TFRBookingDetails({
               );
               return {
                 value: item.timeInterval,
-                slot: parseInt(4) - (sumOfCart + (reservation.length || 0)),
+                slot: parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)),
                 label: `${item.timeInterval} - ${
-                  parseInt(4) - (sumOfCart + (reservation.length || 0))
+                  parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))
                 } slot(s)`,
               };
             } else {
@@ -408,8 +408,8 @@ export function TFRBookingDetails({
 
               return {
                 value: item.timeInterval,
-                slot: parseInt(4) - sumOfCart,
-                label: `${item.timeInterval} - ${4 - sumOfCart} slot(s)`,
+                slot: parseInt(item?.slot) - sumOfCart,
+                label: `${item.timeInterval} - ${item?.slot - sumOfCart} slot(s)`,
               };
             }
           })
@@ -417,6 +417,7 @@ export function TFRBookingDetails({
       } else if (ticket?.SubCategory === "Cabanas") {
         setIntervals(
           ticket?.CreatedInterval.map((item) => {
+            console.log("created interval items",item);
             let reservation = reserve?.filter(
               (res) => res.BookingTime === item.timeInterval
             );
@@ -432,9 +433,9 @@ export function TFRBookingDetails({
               );
               return {
                 value: item.timeInterval,
-                slot: parseInt(4) - (sumOfCart + (reservation.length || 0)),
+                slot: parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)),
                 label: `${item.timeInterval} - ${
-                  parseInt(4) - (sumOfCart + (reservation.length || 0))
+                  parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))
                 } slot(s)`,
               };
             } else {
@@ -445,8 +446,8 @@ export function TFRBookingDetails({
 
               return {
                 value: item.timeInterval,
-                slot: parseInt(4) - sumOfCart,
-                label: `${item.timeInterval} - ${4 - sumOfCart} slot(s)`,
+                slot: parseInt(item?.slot) - sumOfCart,
+                label: `${item.timeInterval} - ${item?.slot - sumOfCart} slot(s)`,
               };
             }
           })
