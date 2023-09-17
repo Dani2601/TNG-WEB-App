@@ -619,7 +619,7 @@ export function TFRBookingDetails({
           ticket?.SubCategory === "Star Blaster" ||
           ticket?.SubCategory === "Ring The Bell")) ||
       (ticket?.Category === "Entrance And Events" &&
-        ticket?.SubCategory === "Entrance"),
+        ticket?.SubCategory === "Entrance") && ticket?.Category === "Table Bookings",
     [ticket]
   );
 
