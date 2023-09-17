@@ -466,6 +466,8 @@ bookingTime,
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     const allDates = [];
+                    
+
                     return (
                       date >= today &&
                       !allDates.includes(format(date, "MM/dd/yyyy")) &&
@@ -485,7 +487,6 @@ bookingTime,
                 </p>
                 <select
                   onChange={handleBookingTime}
-                  value={bookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                 >
                   <option value={""}>Select a time</option>
