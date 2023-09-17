@@ -69,16 +69,16 @@ function Register() {
       );
 
       //console.log("response",response)
-      // if (response.valid) {
-      //   console.log(response);
+      if (response.valid) {
+        console.log(response);
 
-      //   dispatch(setUser(response.user));
-      //   dispatch(setToken(response.token));
-      //   login();
-      //   navigate(routes.LandingDesert);
-      // } else {
-      //   toast.error(response.errorMsg);
-      // }
+        dispatch(setUser(response.user));
+        dispatch(setToken(response.token));
+        login();
+        navigate(routes.Home);
+      } else {
+        toast.error(response.errorMsg);
+      }
     } catch (error) {
       toast.error("Something went wrong");
     }
