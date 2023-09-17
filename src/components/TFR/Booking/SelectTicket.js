@@ -141,8 +141,9 @@ export default function SelectTicket({
               <div className="text-tfr-yellow text-[23px] text-center">
                 Entrance And Events
               </div>
-              <div className="text-slate-400  text-center">
-                Door charge on Thursdays - Saturdays
+              <div className="text-slate-400  text-center w-1/2">
+                {/* Door charge on Thursdays - Saturdays */}
+                No entrance fee on sun, tues & wed. door charge from thurs-sat. closed on mondays. entry fees subject to change  without prior notice.
               </div>
             </div>
             <div className="flex flex-row flex-wrap justify-center">
@@ -212,8 +213,9 @@ export default function SelectTicket({
               <div className="text-tfr-yellow text-[23px] text-center">
                 Games
               </div>
-              <div className="text-slate-400  text-center">
-                Play the most insane drinking games
+              <div className="text-slate-400  text-center w-1/2">
+                {/* Play the most insane drinking games */}
+                Play the most insane drinking games. Drinks can be purchased separately depending on the game.
               </div>
             </div>
             <div className="flex flex-row flex-wrap justify-center">
@@ -283,8 +285,9 @@ export default function SelectTicket({
               <div className="text-tfr-yellow text-[23px] text-center">
                 Table Bookings
               </div>
-              <div className="text-slate-400  text-center">
-                Advance reservations recommended
+              <div className="text-slate-400  text-center w-1/2">
+                {/* Advance reservations recommended */}
+                Advance Reservations Recommended. All prices are consumable and can be used for food, drinks and games.
               </div>
             </div>
             <div className="flex flex-row flex-wrap justify-center ">

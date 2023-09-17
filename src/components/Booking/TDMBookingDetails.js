@@ -244,6 +244,7 @@ bookingTime,
   function handleBookingDate(date) {
     setBookingDate(date);
     setPax("");
+    setBookingTime("");
   }
 
   useEffect(() => {
@@ -258,6 +259,7 @@ bookingTime,
               cartItem.BookingTime === item.timeInterval &&
               cartItem.Ticket?.id === ticket?.id
           );
+          
           if (reservation.length > 0) {
             const sumOfCart = cartReserve.reduce(
               (total, item) => total + item.Pax,
@@ -292,7 +294,7 @@ bookingTime,
 
   function handleClear() {
     setBookingDate(null);
-    setBookingTime(null);
+    setBookingTime("");
     setPax("");
   }
 
@@ -338,12 +340,12 @@ bookingTime,
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
         console.log("data",data)
-      setBookingTime(data?.value ? data?.value : null);
+      setBookingTime(data?.value ? data?.value : "");
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
     } else {
-      setBookingTime(null);
+      setBookingTime("");
       setPax(0);
       setDisabled(true);
       setSlotIdentifier(null);
@@ -420,10 +422,8 @@ bookingTime,
 
   const customDateStyle = date => {
     if (isDateInEvent(date)) {
-      // Return the CSS class for dates within an event
       return 'bg-red-500';
     }
-    // Return the default CSS class for other dates
     return '';
   };
 
@@ -477,7 +477,6 @@ bookingTime,
                   value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                   dayClassName={customDateStyle}
                 />
-
                 </div>
               </div>
               <div>
@@ -486,6 +485,7 @@ bookingTime,
                 </p>
                 <select
                   onChange={handleBookingTime}
+                  value={bookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
                 >
                   <option value={""}>Select a time</option>
@@ -494,7 +494,42 @@ bookingTime,
                       const itemTime = moment(item.value, "h:mm A").tz(
                         "Asia/Manila"
                       );
-                      if (item?.slot === 0) {
+
+                      let filteredEvents = events.filter(event => {
+                        let startDateTime = new Date(event.start);
+                        let endDateTime = new Date(event.end);
+                      
+                        // Check if the event's start or end time falls on the same day as the given date
+                        return (
+                          startDateTime.getDate() === bookingDate.getDate() &&
+                          startDateTime.getMonth() === bookingDate.getMonth() &&
+                          startDateTime.getFullYear() === bookingDate.getFullYear()
+                        ) || (
+                          endDateTime.getDate() === bookingDate.getDate() &&
+                          endDateTime.getMonth() === bookingDate.getMonth() &&
+                          endDateTime.getFullYear() === bookingDate.getFullYear()
+                        );
+                      });
+
+                      let timeParts = item.value.match(/(\d+):(\d+) (AM|PM)/);
+                      let hours = parseInt(timeParts[1]);
+                      let minutes = parseInt(timeParts[2]);
+                      if (timeParts[3] === "PM" && hours !== 12) {
+                        hours += 12;
+                      }
+                      let timeDate = new Date(bookingDate);
+                      timeDate.setHours(hours, minutes, 0, 0);
+                      console.log(timeDate)
+
+                      let currentTimeIsWithinEvent = filteredEvents.some(event => {
+                        let startDateTime = new Date(event.start);
+                        let endDateTime = new Date(event.end);
+
+                        return timeDate >= startDateTime && timeDate <= endDateTime;
+                      });
+
+
+                      if(currentTimeIsWithinEvent){
                         return (
                           <option
                             key={index}
@@ -505,55 +540,65 @@ bookingTime,
                           </option>
                         );
                       }
-                      else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                            disabled={true}
-                          >
-                            {item.label}
-                          </option>
-                        );
-                      }
-                       else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
-                        // Disable the option if itemTime is before the current time
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                            disabled={itemTime.isBefore(currentTime) ? true : false}
-                          >
-                            {`${item.label}`}
-                          </option>
-                        );
-                      } else if ( business === "TFR" && withoutFilters) {
-                        // Disable the option if itemTime is before the current time
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                          >
-                            {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
-                          </option>
-                        );
-                      } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
-                        // Disable the option if itemTime is before the current time
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(item)}
-                            disabled={itemTime.isBefore(currentTime) ? true : false}
-                          >
-                             {item.label}
-                          </option>
-                        );
-                      }else {
-                        return (
-                          <option key={index} value={JSON.stringify(item)} >
-                            {item.label}
-                          </option>
-                        );
+                      else{
+                        if (item?.slot === 0) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={true}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        }
+                        else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={true}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        }
+                        else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={itemTime.isBefore(currentTime) ? true : false}
+                            >
+                              {`${item.label}`}
+                            </option>
+                          );
+                        } else if ( business === "TFR" && withoutFilters) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                            >
+                              {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
+                            </option>
+                          );
+                        } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={itemTime.isBefore(currentTime) ? true : false}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        }else {
+                          return (
+                            <option key={index} value={JSON.stringify(item)} >
+                              {item.label}
+                            </option>
+                          );
+                        }
                       }
                     })}
                 </select>
