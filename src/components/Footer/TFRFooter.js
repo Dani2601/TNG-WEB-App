@@ -32,9 +32,9 @@ export default function TFRFooter() {
         </div>
         <div className="flex flex-col mt-1 text-[10px] tablet:text-[13px] tablet:laptop:laptopL:laptop4k">
           <div className=" text-center">OPENING HOURS:</div>
-          <div className=" text-center">7:00 PM to 3:00 AM</div>
+          <div className=" text-center"> Open every Tuesday - Sunday | 5PM TO 2AM!</div>
           <div className=" text-center">
-            +63 945-733-4256 | +63 956-369-7170
+            +63 945-733-4256 | +63 977-285-3602
           </div>
           <div className=" text-center">email@thefunroof.com</div>
           <div className=" text-center">Mattheus Building</div>

@@ -24,7 +24,7 @@ export default function LandingPage() {
         >
           <div className="flex h-[30px] laptop:h-[50px] tablet:text-[15px] flex-row justify-center uppercase text-tfr-yellow text-[12px] font-Nulshock font-bold">
             <div className="my-auto">
-              Open every Tuesday - Friday | 7PM TO LATE!
+              Open every Tuesday - Sunday | 5PM TO 2AM!
             </div>
           </div>
         </div>
