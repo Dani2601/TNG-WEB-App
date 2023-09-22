@@ -417,8 +417,8 @@ export function TDMPaymentDetails({
                   type="text"
                   value={fullname}
                   placeholder="Full Name"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-                />
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  disabled                />
               </div>
               <div>
                 <p className="text-sm">
@@ -428,8 +428,8 @@ export function TDMPaymentDetails({
                   type="number"
                   value={contact}
                   placeholder="Contact Number"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-                />
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  disabled                />
               </div>
               <div className="border-b-2 border-black pb-4">
                 <p className="text-sm">
@@ -439,8 +439,8 @@ export function TDMPaymentDetails({
                   type="email"
                   value={email}
                   placeholder="Email Address"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-                />
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  disabled                />
               </div>
             </div>
             <div className="flex flex-col w-full sm:w-[40vw]">
