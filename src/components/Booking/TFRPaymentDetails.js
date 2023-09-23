@@ -13,7 +13,15 @@ import { FaTrash } from "react-icons/fa";
 import { setCart } from "../../store/action";
 import { verifyCouponCode } from "../../functions/Coupon";
 import { toast } from "react-toastify";
-import { bpi, gcash, grabpay, maya, rcbc, shopeepay, ubp } from "../../assets/Payment/ewallet";
+import {
+  bpi,
+  gcash,
+  grabpay,
+  maya,
+  rcbc,
+  shopeepay,
+  ubp,
+} from "../../assets/Payment/ewallet";
 import routes from "../../constants/routes";
 import { TCModalContainer } from "../Modal/TermsAndCondition";
 import { getBookingsByTicketID } from "../../functions/Tickets";
@@ -34,11 +42,10 @@ export function TFRPaymentDetails({
   bookingTime,
   setSubmitData,
   business,
-  bookingType="",
+  bookingType = "",
   setLoading,
-  loading
+  loading,
 }) {
-
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
 
@@ -49,60 +56,59 @@ export function TFRPaymentDetails({
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [activeAccordion, setActiveAccordion] = useState(null);
-  const [title, setTitle] = useState('')
-  const [body, setBody] = useState('')
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   const handleAccordionClick = (accordionName) => {
-    setActiveAccordion(accordionName === activeAccordion ? null : accordionName);
+    setActiveAccordion(
+      accordionName === activeAccordion ? null : accordionName
+    );
   };
 
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
   const [coupon, setCoupon] = useState(null);
-  const [grandTotal, setGrandTotal] = useState(0)
-  const [discount, setDiscount] = useState(0)
-  const dispatch = useDispatch()
-  const [code, setCode] = useState('')
-  const [reserve, setReserve] = useState([])
-  const [showWaiverModal, setShowWaiverModal] = useState(false)
-  const [subCat, setSubCat] = useState("")
+  const [grandTotal, setGrandTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const dispatch = useDispatch();
+  const [code, setCode] = useState("");
+  const [reserve, setReserve] = useState([]);
+  const [showWaiverModal, setShowWaiverModal] = useState(false);
+  const [subCat, setSubCat] = useState("");
 
   const total = cart?.reduce((total, item) => {
-    if(item.Ticket.Promo === 'Buy 1 Take 1'){
-      return total + item.Ticket.Price * (item.Pax / 2)
-    }
-    else{
-      return total + item.Ticket.Price * item.Pax
+    if (item.Ticket.Promo === "Buy 1 Take 1") {
+      return total + item.Ticket.Price * (item.Pax / 2);
+    } else {
+      return total + item.Ticket.Price * item.Pax;
     }
   }, 0);
 
   useEffect(() => {
-    setGrandTotal(total - discount)
-  }, [total, discount])  
+    setGrandTotal(total - discount);
+  }, [total, discount]);
 
   function handleNext() {
-    setLoading(true)
+    setLoading(true);
     let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
 
     setSubmitData({
       CustomerID: user?.id,
       BusinessUnitID: cart[0]?.BusinessUnitID,
       BranchID: cart[0]?.Location?.id,
-      Items: cart.map((item) => (
-        {
-          TicketID: item?.Ticket?.id,
-          BookingDate: item?.BookingDate,
-          BookingTime: item?.BookingTime,
-          BookingEndTime: item?.BookingEndTime ? item?.BookingEndTime : "",
-          Pax: item?.Pax,
-          Status: "Unused"
-        }
-      )),
+      Items: cart.map((item) => ({
+        TicketID: item?.Ticket?.id,
+        BookingDate: item?.BookingDate,
+        BookingTime: item?.BookingTime,
+        BookingEndTime: item?.BookingEndTime ? item?.BookingEndTime : "",
+        Pax: item?.Pax,
+        Status: "Unused",
+      })),
       BookingType: bookingType,
       Payment: {
-        Discount: discount
+        Discount: discount,
       },
       Coupon: coupon?.data?.id || "",
-      PDFFile : pdfFileName,  
+      PDFFile: pdfFileName,
       TotalPrice: grandTotal,
     });
   }
@@ -190,33 +196,30 @@ export function TFRPaymentDetails({
   }, []);
 
   function handleVerify() {
-    if(cart.length > 0){
+    if (cart.length > 0) {
       verifyCouponCode({
         Code: code,
-        BranchID: cart[0].Location.id
+        BranchID: cart[0].Location.id,
       })
-      .then((res) => {
-        if(res.valid){
-          setCoupon(res)
-          setCode("")
-        }
-        else{
-          toast.error(res.errorMsg);
-        }
-      })
-      .catch(() => {
-        toast.error("Something went wrong");
-      })
-    }
-    else{
-      toast.error("Invalid Coupon")
-      setDiscount(0)
-      setCoupon(null)
-      setCode("")
+        .then((res) => {
+          if (res.valid) {
+            setCoupon(res);
+            setCode("");
+          } else {
+            toast.error(res.errorMsg);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong");
+        });
+    } else {
+      toast.error("Invalid Coupon");
+      setDiscount(0);
+      setCoupon(null);
+      setCode("");
     }
   }
 
-  
   useEffect(() => {
     if (ticket?.id && bookingDate) {
       getBookingsByTicketID(
@@ -239,31 +242,35 @@ export function TFRPaymentDetails({
 
   useEffect(() => {
     try {
-      if(coupon && cart.length > 0){
+      if (coupon && cart.length > 0) {
         let discount = coupon?.data?.Discount;
         let qty = coupon?.data?.Quantity;
-        let ticketid = coupon?.data?.TicketID
-        let discountType = coupon?.data?.Type
-        let ticketFee = coupon?.ticket?.Price
+        let ticketid = coupon?.data?.TicketID;
+        let discountType = coupon?.data?.Type;
+        let ticketFee = coupon?.ticket?.Price;
         let slotData = null;
         let slot = 0;
-  
-        const inputTime = parse(coupon?.data?.BookingTime, 'HH:mm', new Date());
+
+        const inputTime = parse(coupon?.data?.BookingTime, "HH:mm", new Date());
         const convertedTime = addHours(inputTime, 24);
-        const formattedTime = format(convertedTime, 'hh:mm a');
-  
-        const checkCart = cart?.find((item) => {
-          if(item?.Ticket?.id === coupon?.data?.TicketID && 
-            item?.BookingDate === coupon?.data?.BookingDate &&
-            item?.BookingTime == formattedTime
-            ){
-              slotData = item.Ticket.CreatedInterval.find(data => data.timeInterval == formattedTime)
-              return item
+        const formattedTime = format(convertedTime, "hh:mm a");
+
+        const checkCart = cart?.find(
+          (item) => {
+            if (
+              item?.Ticket?.id === coupon?.data?.TicketID &&
+              item?.BookingDate === coupon?.data?.BookingDate &&
+              item?.BookingTime == formattedTime
+            ) {
+              slotData = item.Ticket.CreatedInterval.find(
+                (data) => data.timeInterval == formattedTime
+              );
+              return item;
             }
-        }
+          }
           // item?.BookingTime === coupon?.data?.BookingTime
-        )
-  
+        );
+
         const booking = {
           BusinessUnitID: coupon?.ticket?.BusinessUnitID,
           Location: coupon?.ticket?.BranchID,
@@ -272,151 +279,163 @@ export function TFRPaymentDetails({
           // BookingEndTime: coupon?.data?.BookingEndTime ? coupon?.data?.BookingEndTime : "",
           BookingTime: formattedTime,
           Pax: coupon?.data?.Quantity,
-          Option: ""
-        }
-  
-        if(slotData){
-    
+          Option: "",
+        };
+
+        if (slotData) {
           let reservation = reserve?.filter(
             (res) => res.BookingTime === slotData.timeInterval
           );
-    
+
           let cartReserve = cart?.filter(
             (cartItem) =>
               cartItem.BookingTime === slotData.timeInterval &&
               cartItem.Ticket?.id === checkCart?.Ticket?.id
           );
-    
-          slot = parseInt(slotData.slot) - (reservation.length + cartReserve.length);
-          if(slot > 0){
-            let remainingSlot = slot - coupon?.data?.Quantity
-            if(remainingSlot > 0){
-              if(!checkCart){
-                dispatch(setCart([...cart, booking]))
-                setDiscount((ticketFee) * qty)
+
+          slot =
+            parseInt(slotData.slot) - (reservation.length + cartReserve.length);
+          if (slot > 0) {
+            let remainingSlot = slot - coupon?.data?.Quantity;
+            if (remainingSlot > 0) {
+              if (!checkCart) {
+                dispatch(setCart([...cart, booking]));
+                setDiscount(ticketFee * qty);
                 toast.success("Coupon Applied");
-              }
-              else{
-                const updatedTickets = cart?.map(ticket => {
-                  if (ticket?.Ticket?.id === coupon?.data?.TicketID &&
+              } else {
+                const updatedTickets = cart?.map((ticket) => {
+                  if (
+                    ticket?.Ticket?.id === coupon?.data?.TicketID &&
                     ticket?.BookingDate === coupon?.data?.BookingDate &&
                     ticket?.BookingTime === formattedTime
-                    ) {
-                    return { ...ticket, Pax: ticket.Pax + coupon?.data?.Quantity };
+                  ) {
+                    return {
+                      ...ticket,
+                      Pax: ticket.Pax + coupon?.data?.Quantity,
+                    };
                   }
                   return ticket;
                 });
-                dispatch(setCart(updatedTickets))
-                setDiscount((ticketFee) * qty)
+                dispatch(setCart(updatedTickets));
+                setDiscount(ticketFee * qty);
                 toast.success("Coupon Applied");
               }
+            } else {
+              toast.error("Invalid Coupon");
+              setDiscount(0);
+              setCoupon(null);
+              setCode("");
             }
-            else{
-              toast.error("Invalid Coupon")
-              setDiscount(0)
-              setCoupon(null)
-              setCode("")
-            }
+          } else {
+            toast.error("Invalid Coupon");
+            setDiscount(0);
+            setCoupon(null);
+            setCode("");
           }
-          else{
-            toast.error("Invalid Coupon")
-            setDiscount(0)
-            setCoupon(null)
-            setCode("")
-          }
-        }
-        else{
-          dispatch(setCart([...cart, booking]))
-          setDiscount((ticketFee) * qty)
+        } else {
+          dispatch(setCart([...cart, booking]));
+          setDiscount(ticketFee * qty);
           toast.success("Coupon Applied");
         }
       }
     } catch (error) {
-      toast.error("Invalid Coupon")
-      setDiscount(0)
-      setCoupon(null)
-      setCode("")
+      toast.error("Invalid Coupon");
+      setDiscount(0);
+      setCoupon(null);
+      setCode("");
     }
-  },[coupon])
+  }, [coupon]);
 
-  function handleRemoveItem(e){
-    dispatch(setCart(cart.filter((_, index) => index !== e)))
-    setDiscount(0)
-    setCoupon(null)
-    setCode('')
-    if(cart.length == 0){
-      setStep(1)
+  function handleRemoveItem(e) {
+    dispatch(setCart(cart.filter((_, index) => index !== e)));
+    setDiscount(0);
+    setCoupon(null);
+    setCode("");
+    if (cart.length == 0) {
+      setStep(1);
     }
   }
 
   useEffect(() => {
-    if(cart?.length > 0){
-      let itemWithPromo = cart.filter(item => item?.Ticket?.Promo === 'Discount' || item?.Ticket?.Promo === 'Amount to Reach')
-      
+    if (cart?.length > 0) {
+      let itemWithPromo = cart.filter(
+        (item) =>
+          item?.Ticket?.Promo === "Discount" ||
+          item?.Ticket?.Promo === "Amount to Reach"
+      );
+
       const computeDiscount = itemWithPromo?.reduce((total, item) => {
-        if(item?.Ticket?.Promo === 'Amount to Reach'){
-          return total + ((parseInt(ticket?.PromoValue)) * item.Pax)
-        }
-        else{
-          return total + ((item?.Ticket?.Price * item.Pax) * (parseInt(item?.Ticket?.PromoValue)/100))
+        if (item?.Ticket?.Promo === "Amount to Reach") {
+          return total + parseInt(ticket?.PromoValue) * item.Pax;
+        } else {
+          return (
+            total +
+            item?.Ticket?.Price *
+              item.Pax *
+              (parseInt(item?.Ticket?.PromoValue) / 100)
+          );
         }
       }, 0);
 
-      setDiscount(computeDiscount)
+      setDiscount(computeDiscount);
     }
-  }, [cart])
+  }, [cart]);
 
-  function handleCancelCoupon(){
-    setDiscount(0)
-    setCoupon(null)
-    setCode("")
+  function handleCancelCoupon() {
+    setDiscount(0);
+    setCoupon(null);
+    setCode("");
     toast.success("Coupon Removed");
   }
 
-  function handleCloseModal(){
-    setShowModal(false)
-    setShowWaiverModal(false)
+  function handleCloseModal() {
+    setShowModal(false);
+    setShowWaiverModal(false);
   }
 
-  function handleWaiver(){
-    const filterWithWaiver = cart?.find(item => 
-        item.Ticket?.SubCategory === 'Crazy Golf' || 
-        item.Ticket?.SubCategory === 'Battling Cage' || 
-        item.Ticket?.SubCategory === 'Shuriken Throw'
-    )
-    if(filterWithWaiver){
-        setShowWaiverModal(true)
-        let scategory = filterWithWaiver?.Ticket?.SubCategory === 'Crazy Golf' ? 'CrazyGolf' : 
-        ( filterWithWaiver?.Ticket?.SubCategory === 'Battling Cage' ? 'BattlingCages': (filterWithWaiver?.Ticket?.SubCategory === 'Shuriken Throw' ? 'TheThrow' : 'General') )
-        setSubCat(scategory)
-    }
-    else{
-        handleNext()
+  function handleWaiver() {
+    const filterWithWaiver = cart?.find(
+      (item) =>
+        item.Ticket?.SubCategory === "Crazy Golf" ||
+        item.Ticket?.SubCategory === "Battling Cage" ||
+        item.Ticket?.SubCategory === "Shuriken Throw"
+    );
+    if (filterWithWaiver) {
+      setShowWaiverModal(true);
+      let scategory =
+        filterWithWaiver?.Ticket?.SubCategory === "Crazy Golf"
+          ? "CrazyGolf"
+          : filterWithWaiver?.Ticket?.SubCategory === "Battling Cage"
+          ? "BattlingCages"
+          : filterWithWaiver?.Ticket?.SubCategory === "Shuriken Throw"
+          ? "TheThrow"
+          : "General";
+      setSubCat(scategory);
+    } else {
+      handleNext();
     }
   }
 
   return (
     <div className="w-full py-10 flex justify-center">
-      { 
-        showModal && 
-        <TCModalContainer 
-          loading={loading} 
-          showModal={showModal} 
-          handleCloseModal={handleCloseModal} 
-          handleProceed={handleWaiver} 
+      {showModal && (
+        <TCModalContainer
+          loading={loading}
+          showModal={showModal}
+          handleCloseModal={handleCloseModal}
+          handleProceed={handleWaiver}
           business={business}
-        /> 
-      }
-      { 
-        showWaiverModal && 
-        <WaiverModalContainer 
-          loading={loading} 
-          showModal={showWaiverModal} 
-          handleCloseModal={handleCloseModal} 
-          handleProceed={handleNext} 
+        />
+      )}
+      {showWaiverModal && (
+        <WaiverModalContainer
+          loading={loading}
+          showModal={showWaiverModal}
+          handleCloseModal={handleCloseModal}
+          handleProceed={handleNext}
           business={subCat}
-        /> 
-      }
+        />
+      )}
       <div className="w-[80vw] sm:w-[80vw] md:w-[50vw]">
         <div className="text-center flex gap-6 flex-col justify-center items-center">
           <img src={nx} className="w-[60px] object-contain" />
@@ -433,11 +452,13 @@ export function TFRPaymentDetails({
                 <p className="text-sm">
                   Full Name <small style={{ color: "red" }}>*</small>
                 </p>
+
                 <input
                   type="text"
                   value={fullname}
                   placeholder="Full Name"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  disabled
                 />
               </div>
               <div>
@@ -448,7 +469,8 @@ export function TFRPaymentDetails({
                   type="number"
                   value={contact}
                   placeholder="Contact Number"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  disabled
                 />
               </div>
               <div className="border-b-2 border-black pb-4">
@@ -459,7 +481,8 @@ export function TFRPaymentDetails({
                   type="email"
                   value={email}
                   placeholder="Email Address"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  disabled
                 />
               </div>
             </div>
@@ -472,68 +495,106 @@ export function TFRPaymentDetails({
                       Location: {cart[0]?.Location?.Name}
                     </p>
                   </div>
-                    {
-                      cart?.map((item, index) => {
-                        return(
-                          <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
-                            <div className="flex justify-between items-center">
-                              <p className="font-bold text-sm">{item?.Ticket?.Name}</p>
-                              <FaTrash size={10} color="red" className="cursor-pointer" onClick={() => handleRemoveItem(index)}/>
-                            </div>
-                            <div className="flex justify-between py-2">
-                              <div className="flex flex-col">
-                                <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
-                                <p className="text-xs">
-                                  Date:{" "} {item?.BookingDate && isValid(new Date(item.BookingDate))
-                                  ? format(new Date(item.BookingDate), "MM/dd/yyyy")
-                                  : ""}
-                                </p>
-                                {
-                                    item?.Ticket?.Category === "Table Bookings" ||
-                                    item?.Ticket?.SubCategory === "DrunkenPinball" ||
-                                    item?.Ticket?.SubCategory === "Entrance" ||
-                                    item?.Ticket?.SubCategory === "Drunken Pinball" ||
-                                    item?.Ticket?.SubCategory === "BoomBattleShot" ||
-                                    item?.Ticket?.SubCategory === "Boom Battleshot" ||
-                                    item?.Ticket?.SubCategory === "ExtremeBasketBall" ||
-                                    item?.Ticket?.SubCategory === "Extreme Basketball" ||
-                                    item?.Ticket?.SubCategory === "StarBlaster" ||
-                                    item?.Ticket?.SubCategory === "Star Blaster" ||
-                                    item?.Ticket?.SubCategory === "Ring The Bell" ?
-                                    <p className="text-xs">Time: Opening hours</p>
-                                    :
-                                    <p className="text-xs">Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>
-                                }
-                                {
-                                  item?.Ticket?.Promo === 'Buy 1 Take 1' ?
-                                  <div>
-                                    <p className="text-xs">No. of pass: {item?.Pax/2} (+{item?.Pax/2})</p>
-                                    <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo}</span></p>
-                                  </div>
-                                  :
-                                  (
-                                    item?.Ticket?.Promo ?
-                                    <div>
-                                      <p className="text-xs">No. of pass: {item?.Pax}</p>
-                                      <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo === 'Discount' ? `${item?.Ticket?.PromoValue}%` : `₱${item?.Ticket?.PromoValue}`} {item?.Ticket?.Promo}</span></p>
-                                    </div>
-                                    :
-                                    <div>
-                                      <p className="text-xs">No. of pass: {item?.Pax}</p>
-                                    </div>
+                  {cart?.map((item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="pt-4 pb-3 border-b-2 border-gray-200"
+                      >
+                        <div className="flex justify-between items-center">
+                          <p className="font-bold text-sm">
+                            {item?.Ticket?.Name}
+                          </p>
+                          <FaTrash
+                            size={10}
+                            color="red"
+                            className="cursor-pointer"
+                            onClick={() => handleRemoveItem(index)}
+                          />
+                        </div>
+                        <div className="flex justify-between py-2">
+                          <div className="flex flex-col">
+                            <p className="text-xs">
+                              Type of ticket: {item?.Ticket?.Type}
+                            </p>
+                            <p className="text-xs">
+                              Date:{" "}
+                              {item?.BookingDate &&
+                              isValid(new Date(item.BookingDate))
+                                ? format(
+                                    new Date(item.BookingDate),
+                                    "MM/dd/yyyy"
                                   )
-                                }
-                              </div>
-                              <div className="flex flex-col items-end">
-                                <p className="tex-4xl font-bold text-right">
-                                  ₱ {item?.Ticket?.Price}
+                                : ""}
+                            </p>
+                            {item?.Ticket?.Category === "Table Bookings" ||
+                            item?.Ticket?.SubCategory === "DrunkenPinball" ||
+                            item?.Ticket?.SubCategory === "Entrance" ||
+                            item?.Ticket?.SubCategory === "Drunken Pinball" ||
+                            item?.Ticket?.SubCategory === "BoomBattleShot" ||
+                            item?.Ticket?.SubCategory === "Boom Battleshot" ||
+                            item?.Ticket?.SubCategory === "ExtremeBasketBall" ||
+                            item?.Ticket?.SubCategory ===
+                              "Extreme Basketball" ||
+                            item?.Ticket?.SubCategory === "StarBlaster" ||
+                            item?.Ticket?.SubCategory === "Star Blaster" ||
+                            item?.Ticket?.SubCategory === "Ring The Bell" ? (
+                              <p className="text-xs">Time: Opening hours</p>
+                            ) : (
+                              <p className="text-xs">
+                                Time:
+                                {` ${item?.BookingTime} ${
+                                  item?.BookingEndTime
+                                    ? `- ` + item?.BookingEndTime
+                                    : ""
+                                }`}
+                              </p>
+                            )}
+                            {item?.Ticket?.Promo === "Buy 1 Take 1" ? (
+                              <div>
+                                <p className="text-xs">
+                                  No. of pass: {item?.Pax / 2} (+{item?.Pax / 2}
+                                  )
+                                </p>
+                                <p className="text-xs">
+                                  Promo:{" "}
+                                  <span className="font-semibold">
+                                    {item?.Ticket?.Promo}
+                                  </span>
                                 </p>
                               </div>
-                            </div>
+                            ) : item?.Ticket?.Promo ? (
+                              <div>
+                                <p className="text-xs">
+                                  No. of pass: {item?.Pax}
+                                </p>
+                                <p className="text-xs">
+                                  Promo:{" "}
+                                  <span className="font-semibold">
+                                    {item?.Ticket?.Promo === "Discount"
+                                      ? `${item?.Ticket?.PromoValue}%`
+                                      : `₱${item?.Ticket?.PromoValue}`}{" "}
+                                    {item?.Ticket?.Promo}
+                                  </span>
+                                </p>
+                              </div>
+                            ) : (
+                              <div>
+                                <p className="text-xs">
+                                  No. of pass: {item?.Pax}
+                                </p>
+                              </div>
+                            )}
                           </div>
-                        )
-                      })
-                    }
+                          <div className="flex flex-col items-end">
+                            <p className="tex-4xl font-bold text-right">
+                              ₱ {item?.Ticket?.Price}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                   <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
                     <div className="flex justify-between">
                       <div className="text-sm font-bold">Sub Total</div>
@@ -552,29 +613,30 @@ export function TFRPaymentDetails({
                     <p>Coupon</p>
                     <input
                       type="text"
-                      value={code || (coupon?.data?.Code || "")}
+                      value={code || coupon?.data?.Code || ""}
                       disabled={coupon?.data?.Code ? true : false}
                       placeholder="Enter your coupon here"
                       onChange={(e) => setCode(e.target.value)}
-                      className={`${coupon?.data?.Code && 'bg-gray-200'} w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3`}
+                      className={`${
+                        coupon?.data?.Code && "bg-gray-200"
+                      } w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3`}
                     />
-                    {
-                      !coupon ?
+                    {!coupon ? (
                       <button
-                      disabled={!code}
-                      onClick={handleVerify}
-                      className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
+                        disabled={!code}
+                        onClick={handleVerify}
+                        className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
                       >
-                      Verify
+                        Verify
                       </button>
-                      :
+                    ) : (
                       <button
-                      onClick={handleCancelCoupon}
-                      className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
+                        onClick={handleCancelCoupon}
+                        className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
                       >
-                      Cancel
+                        Cancel
                       </button>
-                    }
+                    )}
                   </div>
                 </div>
               </div>
