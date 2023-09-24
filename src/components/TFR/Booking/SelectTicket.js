@@ -143,7 +143,8 @@ export default function SelectTicket({
               </div>
               <div className="text-slate-400  text-center w-1/2">
                 {/* Door charge on Thursdays - Saturdays */}
-                No entrance fee on sun, tues & wed. door charge from thurs-sat. closed on mondays. entry fees subject to change  without prior notice.
+                {/* No entrance fee on sun, tues & wed. door charge from thurs-sat. */}
+                closed on mondays. entry fees subject to change  without prior notice.
               </div>
             </div>
             <div className="flex flex-row flex-wrap justify-center">
