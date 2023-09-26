@@ -624,7 +624,12 @@ export function TFRBookingDetails({
           ticket?.SubCategory === "Star Blaster" ||
           ticket?.SubCategory === "Ring The Bell")) ||
       (ticket?.Category === "Entrance And Events" &&
-        ticket?.SubCategory === "Entrance") || ticket?.Category === "Table Bookings",
+        ticket?.SubCategory === "Entrance") ||
+      ticket?.Category === "Table Bookings" ||
+      ticket?.Category === "EntranceWithoutTimeSlot" ||
+      ticket?.Category === "Entrance Without Time Slot"||
+      ticket?.Category === "GamesWithoutTimeSlot" ||
+      ticket?.Category === "Games Without Time Slot",
     [ticket]
   );
 
