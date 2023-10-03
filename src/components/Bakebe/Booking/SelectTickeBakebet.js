@@ -223,10 +223,12 @@ export default function SelectTicketBakebe({
             return (
               <div class="hoverEffects border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
                 <div className="h-[70%] fd-cl group-hover:opacity-0">
-                  <img
+                   <img
                     src={data.Image}
+                    alt={data.Image}
                     className="rounded-t-[30px] h-full w-full object-cover"
-                  />
+                  /> 
+              
                 </div>
                 <div className="h-[30%] flex flex-col mx-[10px] gap-2 my-[10px] fd-cl group-hover:opacity-0">
                   <div className="truncate">{data.Name}</div>
@@ -341,6 +343,7 @@ export default function SelectTicketBakebe({
         ticket={ticket}
         setStep={setStep}
         handleProceed={handleProceed}
+        business={"Bakebe"}
       />
 
       <div

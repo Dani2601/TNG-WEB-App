@@ -32,6 +32,7 @@ module.exports = {
           purp: "#972F78",
           pinkText: "#E677AA",
           yellowText: "#F8E71C",
+          darkPurp: "#7d449a"
         },
         tfr: {
           yellow: "#E9FF33",
