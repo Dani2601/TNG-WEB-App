@@ -6,6 +6,7 @@ export function TicketBookingModal({
   handleCloseModal,
   handleProceed,
   ticket,
+  business = "Bakebe",
 }) {
   return (
     <ModalContainer
@@ -18,6 +19,10 @@ export function TicketBookingModal({
         <RiErrorWarningLine color={"#FACEA8"} size={70} />
         <p className="font-bold">{ticket?.Name}</p>
         <div className="flex flex-row">
+          {business === "Bakebe" && (
+            <div className=" mr-1 line-through">PHP {ticket?.OldPrice}</div>
+          )}
+
           <div className=" mr-1">PHP {ticket?.Price}</div>
         </div>
         <div className="text-[10px] mt-3">
