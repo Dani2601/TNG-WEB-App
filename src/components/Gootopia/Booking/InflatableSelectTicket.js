@@ -115,50 +115,63 @@ export default function InflatableSelectTicket({
               <div className="self-center text-[#EBACB3] font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
                 Start your adventure by choosing one of our ticket types below
               </div>
-              <div className="flex flex-row flex-wrap justify-center">
+              <div className="flex flex-row flex-wrap justify-center cursor-pointer  items-center pb-5  py-4 gap-4 ">
                 {tickets.length > 0 ? (
-                  tickets?.sort((a, b) => a.Name.localeCompare(b.Name)).map((data, index) => {
-                    return (
-                      <div className="flex flex-row hoverEffects" key={index}>
-                        <button
-                          className=" self-center"
-                          onClick={() => {
-                            handleNext();
-                            setTicket(data);
-                          }}
+                  tickets
+                    ?.sort((a, b) => a.Name.localeCompare(b.Name))
+                    .map((data, index) => {
+                      return (
+                        <div
+                          className="flex flex-row hoverEffects w-[300px] tablet:w-full justify-center"
+                          key={index}
                         >
-                          <div className="relative">
-                            <img
-                              src={bookingCard}
-                              alt="bookingCard"
-                              className="h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg"
-                            />
-                            <div className="absolute top-[20px] left-[20px]  text-left flex justify-center items-center font-poppins">
-                              <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
-                                <div className="text-black text-lg tablet:text-[15px] font-bold mb-1">
-                                  {data.Name}
-                                </div>
-                                <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
-                                  <div className="text-black  font-bold mr-1  line-through">
-                                    ₱{data.OldPrice}
+                          <button
+                            className=" self-center"
+                            onClick={() => {
+                              handleNext();
+                              setTicket(data);
+                            }}
+                          >
+                            <div className="relative ">
+                              <img
+                                src={bookingCard}
+                                alt="bookingCard"
+                                className="h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg"
+                              />
+
+                              <div className="absolute top-[20px] left-[20px]   text-left flex justify-center items-center font-poppins overflow-y-auto">
+                                <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
+                                  <div className="flex flex-row justify-center mb-3">
+                                    <img
+                                      src={data?.Image}
+                                      alt="bookingCard"
+                                      className="h-[100px] w-[100px] tablet:w-[150px] tablet:h-[150px] rounded-lg"
+                                    />
                                   </div>
-                                  <div className="text-white font-bold mr-1  ">
-                                    ₱{data.Price}
+                                  <div className="text-black text-lg tablet:text-[15px] font-bold mb-1">
+                                    {data.Name}
                                   </div>
-                                  <div className="text-red-500 font-bold mr-1 mb-1">
-                                    {data.Notes} {data.Notes && "%"}
+                                  <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
+                                    <div className="text-black  font-bold mr-1  line-through">
+                                      ₱{data.OldPrice}
+                                    </div>
+                                    <div className="text-white font-bold mr-1  ">
+                                      ₱{data.Price}
+                                    </div>
+                                    <div className="text-red-500 font-bold mr-1 mb-1">
+                                      {data.Notes} {data.Notes && "%"}
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="text-black text-[12px] tablet:text-[12px] overflow-y-auto">
-                                  {data.Description}
+                                  <div className="text-black text-[12px] tablet:text-[12px] ">
+                                    {data.Description}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </button>
-                      </div>
-                    );
-                  })
+                          </button>
+                        </div>
+                      );
+                    })
                 ) : (
                   <div>No available Tickets yet.</div>
                 )}
@@ -167,7 +180,7 @@ export default function InflatableSelectTicket({
               <div className="flex flex-row justify-center w-full">
                 <button
                   onClick={handleBack}
-                  className="cursor-default text-[12px] py-2 px-10 font-bold tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins rounded-3xl text-center mt-10"
+                  className="cursor-default text-[12px] py-2 pb-10 px-10 font-bold tablet:text-[14px] text-[#E677AA] bg-[white] font-poppins rounded-3xl text-center mt-10"
                 >
                   {" "}
                   Back{" "}

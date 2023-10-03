@@ -267,8 +267,7 @@ bookingTime,
             );
             return {
               value: item.timeInterval,
-              slot:
-                parseInt(item.slot) - (sumOfCart + (reservation.length || 0)),
+              slot: ((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item.slot) - (sumOfCart + (reservation.length || 0))),
               label: `${item.timeInterval} - ${
                 parseInt(item.slot) - (sumOfCart + (reservation.length || 0))
               } slot(s)`,
@@ -281,7 +280,7 @@ bookingTime,
 
             return {
               value: item.timeInterval,
-              slot: parseInt(item.slot) - sumOfCart,
+              slot: ((parseInt(item.slot) - sumOfCart) <= 0 ? 0 : parseInt(item.slot) - sumOfCart),
               label: `${item.timeInterval} - ${item.slot - sumOfCart} slot(s)`,
             };
           }
@@ -427,8 +426,6 @@ bookingTime,
     return '';
   };
 
-  console.log(ticket?.id)
-  console.log(events)
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -564,7 +561,7 @@ bookingTime,
                         );
                       }
                       else{
-                        if (item?.slot === 0) {
+                        if (item?.slot <= 0) {
                           return (
                             <option
                               key={index}
