@@ -144,7 +144,7 @@ export default function SelectTicketBakebe({
       .catch((error) => {
         // Handle error case
       });
-  }, []);
+  }, [location, user.id]);
 
   useEffect(() => {
     setLoading(true);
@@ -168,14 +168,7 @@ export default function SelectTicketBakebe({
         }
       })
       .catch(setLoading(false));
-  }, [
-    location,
-    user,
-    categoryFilter,
-    difficultyFilter,
-    durationFilter,
-    pageSizeFilter,
-  ]);
+  }, [location, user, categoryFilter, difficultyFilter, durationFilter, pageSizeFilter, selectedType, pageNumber]);
 
   const tableData = useMemo(() => {
     if (loading) {
@@ -325,15 +318,7 @@ export default function SelectTicketBakebe({
         );
       }
     }
-  }, [
-    loading,
-    tickets,
-    search,
-    categoryFilter,
-    difficultyFilter,
-    durationFilter,
-    pageSizeFilter,
-  ]);
+  }, [loading, tickets, search, setTicket]);
 
   return (
     <BakebeContainer>

@@ -96,7 +96,7 @@ export default function SelectLocationBakebe({
                         alt="gootopia"
                       />
                     </button>
-                    <div className="text-bakebe-pink text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
+                    <div className="text-bakebe-pink text-[12px] tablet:text-[14px] w-[75px] tablet:w-[120px] text-center font-poppins font-bold self-center mt-1">
                       {data?.Address}
                     </div>
                   </div>
