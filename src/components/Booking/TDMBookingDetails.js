@@ -10,7 +10,7 @@ import { useState } from "react";
 import { format, parse, setDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getBookingsByTicketID } from "../../functions/Tickets";
+import { getBookingsByBranch, getBookingsByTicketID } from "../../functions/Tickets";
 import { setCart } from "../../store/action";
 import { number } from "yup";
 import moment from "moment-timezone";
@@ -206,9 +206,8 @@ bookingTime,
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
-      getBookingsByTicketID(
+      getBookingsByBranch(
         location,
-        ticket?.id,
         format(bookingDate, "yyyy-MM-dd")
       )
         .then((res) => {
@@ -222,8 +221,7 @@ bookingTime,
           console.log(e);
         });
     }
-  }, [ticket, bookingDate, location]);
-  
+  }, [ticket, bookingDate, location]);  
 
   useEffect(() => {
     if (ticket?.BusinessUnitID) {
@@ -267,9 +265,9 @@ bookingTime,
             );
             return {
               value: item.timeInterval,
-              slot: ((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item.slot) - (sumOfCart + (reservation.length || 0))),
+              slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
               label: `${item.timeInterval} - ${
-                parseInt(item.slot) - (sumOfCart + (reservation.length || 0))
+                parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))
               } slot(s)`,
             };
           } else {
@@ -280,8 +278,8 @@ bookingTime,
 
             return {
               value: item.timeInterval,
-              slot: ((parseInt(item.slot) - sumOfCart) <= 0 ? 0 : parseInt(item.slot) - sumOfCart),
-              label: `${item.timeInterval} - ${item.slot - sumOfCart} slot(s)`,
+              slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
+              label: `${item.timeInterval} - ${(selectedLocation?.Slots || 0) - sumOfCart} slot(s)`,
             };
           }
         })
