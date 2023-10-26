@@ -63,6 +63,7 @@ bookingTime,
   const [paxCount, setPaxCount] = useState(null)
   const [allowedDays, setAllowedDays] = useState([])
   const [events, setEvents] = useState([])
+  const [stringifyTime, setStringifyTime] = useState("")
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -245,6 +246,7 @@ bookingTime,
     setBookingDate(date);
     setPax("");
     setBookingTime("");
+    setStringifyTime("");
   }
 
   useEffect(() => {
@@ -335,14 +337,13 @@ bookingTime,
   }, [bookingTime, bookingDate, intervals]);
 
   function handleBookingTime(e) {
-  
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
-        console.log("data",data)
-      setBookingTime(data?.value ? data?.value : "");
+      setBookingTime(data?.value);
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
+      setStringifyTime(e.target.value)
     } else {
       setBookingTime("");
       setPax(0);
@@ -412,8 +413,13 @@ bookingTime,
     for (const event of events) {
       const startDate = new Date(event.start);
       const endDate = new Date(event.end);
-      if (date.toDateString() === startDate.toDateString() && date.toDateString() === endDate.toDateString()) {
-        return 'special-date';
+      
+      // Extract the date part of the event start and end times
+      const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+      const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+      
+      if (date >= eventStartDate && date <= eventEndDate) {
+        return "special-date";
       }
     }
     return false;
@@ -488,6 +494,7 @@ bookingTime,
                 <select
                   onChange={handleBookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  value={stringifyTime}
                 >
                   <option value={""}>Select a time</option>
                   {intervals?.length > 0 &&
