@@ -36,7 +36,8 @@ export function TDMPaymentDetails({
   business,
   bookingType="",
   setLoading,
-  loading
+  loading,
+  selectedOption=""
 }) {
 
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ export function TDMPaymentDetails({
   }, 0);
 
   useEffect(() => {
-    setGrandTotal(total - discount)
+    setGrandTotal((total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0)) - discount)
   }, [total, discount])  
 
   function handleBack() {
@@ -84,8 +85,6 @@ export function TDMPaymentDetails({
       setStep(2);
     }
   }
-
-  console.log("cart1",cart)
 
   function handleNext() {
     setLoading(true)
@@ -487,6 +486,10 @@ export function TDMPaymentDetails({
                                       <p className="text-xs">No. of pass: {item?.Pax}</p>
                                     </div>
                                   )
+                                }
+                                {
+                                  selectedOption &&
+                                  <p className="text-xs">Booking Type: {selectedOption}</p>
                                 }
                               </div>
                               <div className="flex flex-col items-end">

@@ -796,11 +796,13 @@ export function TFRBookingDetails({
                             (event) => {
                               let startDateTime = new Date(event.start);
                               let endDateTime = new Date(event.end);
-                              console.log(startDateTime, endDateTime, timeDate)
-
+                              // Extract the date part of the event start and end times
+                              const eventStartDate = new Date(startDateTime.getFullYear(), startDateTime.getMonth(), startDateTime.getDate());
+                              const eventEndDate = new Date(endDateTime.getFullYear(), endDateTime.getMonth(), endDateTime.getDate());
+                              
                               return (
-                                timeDate >= startDateTime &&
-                                timeDate <= endDateTime
+                                timeDate >= eventStartDate &&
+                                timeDate <= eventEndDate
                               );
                             }
                           );

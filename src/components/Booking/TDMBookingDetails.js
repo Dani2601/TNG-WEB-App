@@ -432,7 +432,6 @@ bookingTime,
     return '';
   };
 
-
   return (
     <div className="w-full py-10 flex justify-center">
       <div className="w-[80vw] sm:w-[50vw]">
@@ -552,7 +551,14 @@ bookingTime,
                           let startDateTime = new Date(event.start);
                           let endDateTime = new Date(event.end);
 
-                          return timeDate >= startDateTime && timeDate <= endDateTime;
+                          // Extract the date part of the event start and end times
+                          const eventStartDate = new Date(startDateTime.getFullYear(), startDateTime.getMonth(), startDateTime.getDate());
+                          const eventEndDate = new Date(endDateTime.getFullYear(), endDateTime.getMonth(), endDateTime.getDate());
+                          
+                          return (
+                            timeDate >= eventStartDate &&
+                            timeDate <= eventEndDate
+                          );
                         });
                       }
 
@@ -756,7 +762,7 @@ bookingTime,
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {total - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
                       </div>
                     </div>
                     :
@@ -769,13 +775,13 @@ bookingTime,
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {total - ((parseInt(ticket?.PromoValue)) * pax)}</div>
+                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
                       </div>
                     </div>
                     :
                     <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                       <div className="text-sm font-bold">Total</div>
-                      <div className="font-bold">₱ {total}</div>
+                      <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0))}</div>
                     </div>
                     )
                   }
