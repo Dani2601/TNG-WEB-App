@@ -48,7 +48,7 @@ const PaymentSuccess = () => {
     if (isDataLoaded) {
       const urlParams = new URLSearchParams(window.location.search);
       const business = urlParams.get("bus");
-      navigate(business_unit[business]);
+      navigate(business_unit[business], {replace: true});
     }
   }, [isDataLoaded]);
 

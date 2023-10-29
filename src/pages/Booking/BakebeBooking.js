@@ -168,6 +168,7 @@ export function BakebeBooking() {
             total={total}
             setLoading={setLoading}
             loading={loading}
+            selectedOption={selectedOption}
           />
         </BakebeContainer>
       )}
