@@ -16,12 +16,12 @@ export default function DessertTicketCard({ item, ticket, setTicket }) {
           ticket?.id === item?.id ? "bg-[#FF98C3]" : "bg-[#F9DCED]"
         } p-6 relative`}
       >
-        {item?.Image &&  <div className="w-[100px] h-[100px] tablet:w-[200px] tablet:h-[200px] mb-2  flex justify-center mx-auto object-cover ">
-          <img src={item?.Image} alt={"Ticket"} className="object-cover rounded-xl"/>
-        </div>
+        {item?.Image && (
+          <div className="w-full h-[100px] tablet:h-[200px] mb-2  flex justify-center mx-auto object-cover shadow-xl border-[1px] border-black">
+            <img src={item?.Image} alt={"Ticket"} className="w-full" />
+          </div>
+        )}
 
-        }
-       
         <p className="text-lg">{item?.Name}</p>
         <p className="mb-4 mt-4">{item?.Description}</p>
         <p className="mt-10">

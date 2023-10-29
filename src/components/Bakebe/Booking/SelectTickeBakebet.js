@@ -144,7 +144,7 @@ export default function SelectTicketBakebe({
       .catch((error) => {
         // Handle error case
       });
-  }, []);
+  }, [location, user.id]);
 
   useEffect(() => {
     setLoading(true);

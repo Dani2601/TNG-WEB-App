@@ -72,6 +72,7 @@ export function TFRBookingDetails({
   const [cTBooked, setCTBooked] = useState(0);
   const [description, setDescription] = useState(null);
   const [events, setEvents] = useState([]);
+  const [stringifyTime, setStringifyTime] = useState("")
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -333,7 +334,9 @@ export function TFRBookingDetails({
 
   function handleBookingDate(date) {
     setBookingDate(date);
+    setBookingTime("")
     setPax("");
+    setStringifyTime("");
   }
 
   useEffect(() => {
@@ -554,11 +557,11 @@ export function TFRBookingDetails({
   function handleBookingTime(e) {
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
-      console.log("data", data);
-      setBookingTime(data?.value ? data?.value : "");
+      setBookingTime(data?.value);
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
+      setStringifyTime(e.target.value)
     } else {
       setBookingTime("");
       setPax(0);
@@ -606,6 +609,8 @@ export function TFRBookingDetails({
 
   const currentDateInPhilippines = getCurrentDateInPhilippines();
 
+  console.log(events)
+
   const withoutFilters = useMemo(
     () =>
       (ticket?.Category === "Games" &&
@@ -632,10 +637,12 @@ export function TFRBookingDetails({
     for (const event of events) {
       const startDate = new Date(event.start);
       const endDate = new Date(event.end);
-      if (
-        date.toDateString() === startDate.toDateString() &&
-        date.toDateString() === endDate.toDateString()
-      ) {
+      
+      // Extract the date part of the event start and end times
+      const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+      const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+      
+      if (date >= eventStartDate && date <= eventEndDate) {
         return "special-date";
       }
     }
@@ -648,8 +655,6 @@ export function TFRBookingDetails({
     }
     return "";
   };
-
-  console.log(ticket?.id);
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -691,7 +696,6 @@ export function TFRBookingDetails({
                       today.setHours(0, 0, 0, 0);
                       const allDates = [];
 
-                      console.log(ticket?.SubCategory);
                       if (ticket?.SubCategory === "Entrance") {
                         for (const item of events) {
                           const startDate = new Date(item.start);
@@ -728,6 +732,7 @@ export function TFRBookingDetails({
                   <select
                     onChange={handleBookingTime}
                     className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                    value={stringifyTime}
                   >
                     <option value={""}>Select a time</option>
                     {intervals?.length > 0 &&
@@ -791,10 +796,13 @@ export function TFRBookingDetails({
                             (event) => {
                               let startDateTime = new Date(event.start);
                               let endDateTime = new Date(event.end);
-
+                              // Extract the date part of the event start and end times
+                              const eventStartDate = new Date(startDateTime.getFullYear(), startDateTime.getMonth(), startDateTime.getDate());
+                              const eventEndDate = new Date(endDateTime.getFullYear(), endDateTime.getMonth(), endDateTime.getDate());
+                              
                               return (
-                                timeDate >= startDateTime &&
-                                timeDate <= endDateTime
+                                timeDate >= eventStartDate &&
+                                timeDate <= eventEndDate
                               );
                             }
                           );

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { format, parse, setDate } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getBookingsByTicketID } from "../../functions/Tickets";
+import { getBookingsByBranch, getBookingsByTicketID } from "../../functions/Tickets";
 import { setCart } from "../../store/action";
 import { number } from "yup";
 import moment from "moment-timezone";
@@ -63,6 +63,7 @@ bookingTime,
   const [paxCount, setPaxCount] = useState(null)
   const [allowedDays, setAllowedDays] = useState([])
   const [events, setEvents] = useState([])
+  const [stringifyTime, setStringifyTime] = useState("")
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -206,9 +207,8 @@ bookingTime,
 
   useEffect(() => {
     if (ticket?.id && bookingDate) {
-      getBookingsByTicketID(
+      getBookingsByBranch(
         location,
-        ticket?.id,
         format(bookingDate, "yyyy-MM-dd")
       )
         .then((res) => {
@@ -223,7 +223,6 @@ bookingTime,
         });
     }
   }, [ticket, bookingDate, location]);
-  
 
   useEffect(() => {
     if (ticket?.BusinessUnitID) {
@@ -245,6 +244,7 @@ bookingTime,
     setBookingDate(date);
     setPax("");
     setBookingTime("");
+    setStringifyTime("");
   }
 
   useEffect(() => {
@@ -267,9 +267,9 @@ bookingTime,
             );
             return {
               value: item.timeInterval,
-              slot: ((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item.slot) - (sumOfCart + (reservation.length || 0))),
+              slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
               label: `${item.timeInterval} - ${
-                parseInt(item.slot) - (sumOfCart + (reservation.length || 0))
+                parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))
               } slot(s)`,
             };
           } else {
@@ -280,8 +280,8 @@ bookingTime,
 
             return {
               value: item.timeInterval,
-              slot: ((parseInt(item.slot) - sumOfCart) <= 0 ? 0 : parseInt(item.slot) - sumOfCart),
-              label: `${item.timeInterval} - ${item.slot - sumOfCart} slot(s)`,
+              slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
+              label: `${item.timeInterval} - ${(selectedLocation?.Slots || 0) - sumOfCart} slot(s)`,
             };
           }
         })
@@ -335,14 +335,13 @@ bookingTime,
   }, [bookingTime, bookingDate, intervals]);
 
   function handleBookingTime(e) {
-  
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
-        console.log("data",data)
-      setBookingTime(data?.value ? data?.value : "");
+      setBookingTime(data?.value);
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
+      setStringifyTime(e.target.value)
     } else {
       setBookingTime("");
       setPax(0);
@@ -412,8 +411,13 @@ bookingTime,
     for (const event of events) {
       const startDate = new Date(event.start);
       const endDate = new Date(event.end);
-      if (date.toDateString() === startDate.toDateString() && date.toDateString() === endDate.toDateString()) {
-        return 'special-date';
+      
+      // Extract the date part of the event start and end times
+      const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+      const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+      
+      if (date >= eventStartDate && date <= eventEndDate) {
+        return "special-date";
       }
     }
     return false;
@@ -425,7 +429,6 @@ bookingTime,
     }
     return '';
   };
-
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -488,6 +491,7 @@ bookingTime,
                 <select
                   onChange={handleBookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
+                  value={stringifyTime}
                 >
                   <option value={""}>Select a time</option>
                   {intervals?.length > 0 &&
@@ -545,7 +549,14 @@ bookingTime,
                           let startDateTime = new Date(event.start);
                           let endDateTime = new Date(event.end);
 
-                          return timeDate >= startDateTime && timeDate <= endDateTime;
+                          // Extract the date part of the event start and end times
+                          const eventStartDate = new Date(startDateTime.getFullYear(), startDateTime.getMonth(), startDateTime.getDate());
+                          const eventEndDate = new Date(endDateTime.getFullYear(), endDateTime.getMonth(), endDateTime.getDate());
+                          
+                          return (
+                            timeDate >= eventStartDate &&
+                            timeDate <= eventEndDate
+                          );
                         });
                       }
 
@@ -749,7 +760,7 @@ bookingTime,
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {total - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
                       </div>
                     </div>
                     :
@@ -762,13 +773,13 @@ bookingTime,
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {total - ((parseInt(ticket?.PromoValue)) * pax)}</div>
+                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
                       </div>
                     </div>
                     :
                     <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                       <div className="text-sm font-bold">Total</div>
-                      <div className="font-bold">₱ {total}</div>
+                      <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0))}</div>
                     </div>
                     )
                   }
