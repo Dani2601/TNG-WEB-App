@@ -86,8 +86,6 @@ export function TDMPaymentDetails({
     }
   }
 
-  console.log("cart1",cart)
-
   function handleNext() {
     setLoading(true)
     let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
