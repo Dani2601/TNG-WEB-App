@@ -141,7 +141,7 @@ export default function InflatableSelectTicket({
 
                               <div className="absolute top-[20px] inset-x-0   text-left flex justify-center items-center font-poppins overflow-y-auto">
                                 <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
-                                  <div className="flex flex-row justify-center mb-3 shadow-sm border-[1px] border-black  object-cover">
+                                  <div className="flex flex-row justify-center mb-3 shadow-sm border-[1px] border-[#FF98C3] object-cover">
                                     <img
                                       src={data?.Image}
                                       alt="bookingCard"
