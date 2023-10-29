@@ -17,8 +17,8 @@ export default function DessertTicketCard({ item, ticket, setTicket }) {
         } p-6 relative`}
       >
         {item?.Image && (
-          <div className="w-full h-[100px] tablet:h-[200px] mb-2  flex justify-center mx-auto object-cover shadow-xl border-[1px] border-black">
-            <img src={item?.Image} alt={"Ticket"} className="w-full" />
+          <div className="w-full h-[100px] tablet:h-[200px] mb-2  flex justify-center mx-auto object-cover shadow-xl border-[1px] border-[#FF98C3] rounded-3xl">
+            <img src={item?.Image} alt={"Ticket"} className="w-full rounded-3xl" />
           </div>
         )}
 
