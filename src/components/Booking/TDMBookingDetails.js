@@ -518,20 +518,15 @@ bookingTime,
                       timeDate.setHours(hours, minutes, 0, 0);
                       currentTimeIsWithinEvent = events.some(
                         (event) => {
-                          let startDateTime = new Date(event.start);
-                          let endDateTime = new Date(event.end);
-                          if(
-                            timeDate >= startDateTime &&
-                            timeDate <= endDateTime
-                          )
-                          {
-                              const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-                              if(findTicket){
-                                return true;
-                              }
-                              return false;
+                          const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
+                          if(findTicket){
+                            let startDateTime = new Date(event.start);
+                            let endDateTime = new Date(event.end);
+                            return (
+                              timeDate >= startDateTime &&
+                              timeDate <= endDateTime
+                            )
                           }
-                          return false
                         }
                       );
 
