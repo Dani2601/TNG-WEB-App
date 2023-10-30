@@ -71,6 +71,9 @@ bookingTime,
     } else {
       setStep(2);
     }
+    setBookingDate("");
+    setBookingTime("");
+    setPax("");
   }
 
   function handleNext() {
@@ -409,15 +412,18 @@ bookingTime,
 
   function isDateInEvent(date) {
     for (const event of events) {
-      const startDate = new Date(event.start);
-      const endDate = new Date(event.end);
-      
-      // Extract the date part of the event start and end times
-      const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-      const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-      
-      if (date >= eventStartDate && date <= eventEndDate) {
-        return "special-date";
+      const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
+      if(findTicket){
+        const startDate = new Date(event.start);
+        const endDate = new Date(event.end);
+        
+        // Extract the date part of the event start and end times
+        const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        
+        if (date >= eventStartDate && date <= eventEndDate) {
+          return "special-date";
+        }
       }
     }
     return false;
@@ -501,64 +507,33 @@ bookingTime,
                       );
 
                       let currentTimeIsWithinEvent = false;
-                      let isTicketIncluded = false;
-
-                      for (let i = 0; i < events.length; i++) {
-                        let event = events[i];
-                        
-                        if (event.activity && Array.isArray(event.activity)) {
-                          for (let j = 0; j < event.activity.length; j++) {
-                            if (event.activity[j].value === ticket?.id) {
-                              isTicketIncluded = true;
-                              break; // No need to continue searching once found
-                            }
+                      let timeParts =
+                      item.value.match(/(\d+):(\d+) (AM|PM)/);
+                      let hours = parseInt(timeParts[1]);
+                      let minutes = parseInt(timeParts[2]);
+                      if (timeParts[3] === "PM" && hours !== 12) {
+                        hours += 12;
+                      }
+                      let timeDate = new Date(bookingDate);
+                      timeDate.setHours(hours, minutes, 0, 0);
+                      currentTimeIsWithinEvent = events.some(
+                        (event) => {
+                          let startDateTime = new Date(event.start);
+                          let endDateTime = new Date(event.end);
+                          if(
+                            timeDate >= startDateTime &&
+                            timeDate <= endDateTime
+                          )
+                          {
+                              const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
+                              if(findTicket){
+                                return true;
+                              }
+                              return false;
                           }
+                          return false
                         }
-                        
-                        if (isTicketIncluded) {
-                          break; // No need to continue searching in other events
-                        }
-                      }
-                      
-                      if (isTicketIncluded) {
-                        let filteredEvents = events?.filter(event => {
-                          let startDateTime = new Date(event.start);
-                          let endDateTime = new Date(event.end);
-                        
-                          // Check if the event's start or end time falls on the same day as the given date
-                          return (
-                            startDateTime.getDate() === bookingDate.getDate() &&
-                            startDateTime.getMonth() === bookingDate.getMonth() &&
-                            startDateTime.getFullYear() === bookingDate.getFullYear()
-                          ) || (
-                            endDateTime.getDate() === bookingDate.getDate() &&
-                            endDateTime.getMonth() === bookingDate.getMonth() &&
-                            endDateTime.getFullYear() === bookingDate.getFullYear()
-                          );
-                        });
-
-                        let timeParts = item.value.match(/(\d+):(\d+) (AM|PM)/);
-                        let hours = parseInt(timeParts[1]);
-                        let minutes = parseInt(timeParts[2]);
-                        if (timeParts[3] === "PM" && hours !== 12) {
-                          hours += 12;
-                        }
-                        let timeDate = new Date(bookingDate);
-                        timeDate.setHours(hours, minutes, 0, 0);
-                        currentTimeIsWithinEvent = filteredEvents.some(event => {
-                          let startDateTime = new Date(event.start);
-                          let endDateTime = new Date(event.end);
-
-                          // Extract the date part of the event start and end times
-                          const eventStartDate = new Date(startDateTime.getFullYear(), startDateTime.getMonth(), startDateTime.getDate());
-                          const eventEndDate = new Date(endDateTime.getFullYear(), endDateTime.getMonth(), endDateTime.getDate());
-                          
-                          return (
-                            timeDate >= eventStartDate &&
-                            timeDate <= eventEndDate
-                          );
-                        });
-                      }
+                      );
 
                       if(currentTimeIsWithinEvent){
                         return (
