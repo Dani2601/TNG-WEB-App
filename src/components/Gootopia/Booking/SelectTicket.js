@@ -64,7 +64,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
   }
 
   useEffect(() => {
-    getTicketGootopia(user.id, process.env.REACT_APP_GOOTOPIA_KEY, location)
+    getTicketGootopia(user?.id || '123', process.env.REACT_APP_GOOTOPIA_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);

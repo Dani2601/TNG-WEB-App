@@ -44,7 +44,7 @@ export default function SelectLocationBakebe({
 
 
   useEffect(() => {
-    getBranches(user.id, process.env.REACT_APP_BAKEBE_KEY)
+    getBranches(user?.id || '123', process.env.REACT_APP_BAKEBE_KEY)
       .then((response) => {
         if (response.valid) {
           // const locationArray = Object.values(response.data);

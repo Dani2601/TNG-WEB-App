@@ -37,8 +37,7 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
 
     useEffect(() => {
         getTicketGootopia(
-          user.id,
-          "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583",
+          user?.id || '123', process.env.REACT_APP_DESSERT_KEY,
           location
         )
           .then((response) => {

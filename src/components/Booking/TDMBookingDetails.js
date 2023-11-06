@@ -136,7 +136,7 @@ bookingTime,
 
   useEffect(() => {
     if (business === "Gootopia") {
-      getBranches(user.id, GOOTOPIA_KEY)
+      getBranches(user?.id || '123', GOOTOPIA_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -150,7 +150,7 @@ bookingTime,
           // Handle error case
         });
     } else if (business === "TFR") {
-      getBranches(user.id, TFR_KEY)
+      getBranches(user?.id || '123', TFR_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -164,7 +164,7 @@ bookingTime,
           // Handle error case
         });
     } else if (business === "Inflatable") {
-      getBranches(user.id, TIS_KEY)
+      getBranches(user?.id || '123', TIS_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -178,7 +178,7 @@ bookingTime,
           // Handle error case
         });
     } else if (business === "BakeBe") {
-      getBranches(user.id, BAKEBE_KEY)
+      getBranches(user?.id || '123', BAKEBE_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -192,7 +192,7 @@ bookingTime,
           // Handle error case
         });
     } else {
-      getBranches(user.id, DESSERT_KEY)
+      getBranches(user?.id || '123', DESSERT_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array

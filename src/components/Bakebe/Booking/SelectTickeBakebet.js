@@ -131,7 +131,7 @@ export default function SelectTicketBakebe({
   }
 
   useEffect(() => {
-    getBranches(user.id, BAKEBE_KEY)
+    getBranches(user?.id || '123', BAKEBE_KEY)
       .then((response) => {
         if (response.valid) {
           // Convert the object into an array
@@ -144,12 +144,12 @@ export default function SelectTicketBakebe({
       .catch((error) => {
         // Handle error case
       });
-  }, [location, user.id]);
+  }, [location, user?.id]);
 
   useEffect(() => {
     setLoading(true);
     getTicketBakebe(
-      user.id,
+      user?.id || '123',
       process.env.REACT_APP_TFR_KEY,
       location,
       selectedType,
