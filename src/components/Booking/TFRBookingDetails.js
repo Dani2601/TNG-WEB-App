@@ -697,6 +697,22 @@ export function TFRBookingDetails({
                       today.setHours(0, 0, 0, 0);
                       const allDates = [];
 
+                      if (ticket?.SubCategory === "Entrance") {
+                        for (const item of events) {
+                          const findTicket = item?.activity?.find(item => item?.value === ticket?.id)
+                          if(findTicket){
+                            const startDate = new Date(item.start);
+                            const endDate = new Date(item.end);
+                            // Collect all dates that fall within the range of start and end dates in data
+                            const currentDate = new Date(startDate);
+                            while (currentDate <= endDate) {
+                              allDates.push(format(currentDate, "MM/dd/yyyy"));
+                              currentDate.setDate(currentDate.getDate() + 1);
+                            }
+                          }
+                        }
+                      }
+
                       return (
                         date >= today &&
                         !allDates.includes(format(date, "MM/dd/yyyy")) &&
@@ -751,8 +767,6 @@ export function TFRBookingDetails({
                             }
                           }
                         );
-
-                        console.log(currentTimeIsWithinEvent, 'dito', events)
                         
                         if (currentTimeIsWithinEvent) {
                           return (
