@@ -303,14 +303,13 @@ bookingTime,
 
   function handlePax(e) {
     if (business !== "BakeBe") {
-      let input = e.target.value !== "" ? parseInt(e.target.value) : ""; // Parse input as integer if not empty
+      let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
       if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
         setPax(input);
       }
     } else {
-      let intervalData = intervals?.find((item) => item.value === bookingTime);
-
-      if (intervalData.slot <= 1) {
+      let intervalData = intervals?.find((item) => item?.value === bookingTime);
+      if (intervalData?.slot <= 1) {
         setDisabled(true);
       } else {
         setDisabled(false);
@@ -374,10 +373,12 @@ bookingTime,
   }
 
   const handleBothFunctions = (event) => {
-    handlePax(event);
+    handlePax(event.target.value);
+    setPax(event.target.value)
     handlePersons(event);
   };
 
+  console.log(pax, 'pax')
 
   const getBookingDate = moment(bookingDate, 'ddd MMM DD YYYY HH:mm:ss ZZ');
   const formattedBookingDate = getBookingDate.format('MMM DD YYYY');
@@ -442,6 +443,7 @@ bookingTime,
       navigate(routes.Login)
     }
   }, [])
+
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -640,7 +642,7 @@ bookingTime,
                       {" "}
                       -- Select an option --
                     </option>
-                    <option value={1}> 1</option>
+                    <option value={1}>1</option>
                     {/* {slotIdentifier >= 2 ? <option value={2}>2</option> : <></>} */}
                     <option value={2}>2</option> : <></>
                     {/*                    
@@ -664,7 +666,7 @@ bookingTime,
                       value="Share"
                       onChange={(e) => {
                         handleOptionChange(e.target.value);
-                        handlePax(e);
+                        handlePax(1);
                       }}
                       checked={
                         selectedOption === "Share" || slotIdentifier === 1
