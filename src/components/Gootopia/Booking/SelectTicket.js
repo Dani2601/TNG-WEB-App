@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
 import { setCart } from "../../../store/action";
+import { SignInModal } from "../../Modal/SignInModal";
 
 let ticket = [
   {
@@ -40,6 +41,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
   const { user, cart } = useSelector((state) => state.record);
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false)
 
   function handleBack() {
     if (cart.length > 0) {
@@ -50,7 +52,12 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
   }
 
   function handleNext() {
-    setShowModal(true);
+    if(user?.id){
+      setShowModal(true);
+    }
+    else{
+      setModalVisible(true)
+    }
   }
 
   function handleCloseModal() {
@@ -94,6 +101,11 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
         showModal={visible}
         handleCloseModal={() => setVisible(false)}
         handleProceed={handleCart}
+      />
+      <SignInModal
+        showModal={modalVisible}
+        handleCloseModal={() => setModalVisible(false)}
+        handleProceed={handleProceed}
       />
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
         <img class="w-full" src={dripping} alt="gootopialanding" />

@@ -80,7 +80,7 @@ export default function BakebeMenubar() {
                     PROMO AND DISCOUNTS
                   </a>
                   <Link
-                    to={user ? routes.BookingBakebe : routes.Login}
+                    to={routes.BookingBakebe}
                     // to={routes.FaqsGootopia}
                     className="w-1/3 text-center text-black rounded-md  "
                   >
@@ -128,7 +128,7 @@ export default function BakebeMenubar() {
                 PROMOS AND DISCOUNTS
               </a>
               <Link
-                to={user ? routes.BookingBakebe : routes.Login}
+                to={routes.BookingBakebe}
                 // to={routes.FaqsGootopia}
                 className="block px-3 py-2 w-full text-left "
               >

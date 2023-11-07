@@ -9,7 +9,7 @@ export function ImageSection() {
     const { user } = useSelector((state) => state.record);
 
     function handleNavigate(){
-        navigate(user ? routes.DessertBooking : routes.Login)
+        navigate(routes.DessertBooking)
     }
 
   return (

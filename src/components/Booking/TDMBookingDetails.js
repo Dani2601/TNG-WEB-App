@@ -17,6 +17,7 @@ import moment from "moment-timezone";
 import { current } from "@reduxjs/toolkit";
 import { convertToNormalTime } from "../../helper/DateTime";
 import { ViewEvents } from "../../functions/Booking";
+import routes from "../../constants/routes";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -436,6 +437,11 @@ bookingTime,
     return '';
   };
 
+  useEffect(() => {
+    if(!user?.id){
+      navigate(routes.Login)
+    }
+  }, [])
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -731,7 +737,7 @@ bookingTime,
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
                       </div>
                     </div>
                     :
@@ -744,13 +750,13 @@ bookingTime,
                       </div>
                       <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                         <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
+                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
                       </div>
                     </div>
                     :
                     <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                       <div className="text-sm font-bold">Total</div>
-                      <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share') ? 500 : 0))}</div>
+                      <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0))}</div>
                     </div>
                     )
                   }

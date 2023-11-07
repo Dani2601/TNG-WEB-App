@@ -79,7 +79,7 @@ export default function TFRMenubar() {
                     CONTACT
                   </a>
                   <Link
-                    to={user ? routes.BookingTFR : routes.Login}
+                    to={routes.BookingTFR}
                     // href="#games"
                     className="text-center  rounded-md text-sm font-medium"
                   >
@@ -138,7 +138,7 @@ export default function TFRMenubar() {
               CONTACT
             </a>
             <Link
-              to={user ? routes.BookingTFR : routes.Login}
+              to={routes.BookingTFR}
               className="block px-3 py-2 w-full text-left text-base"
             >
               <img src={booknow} className="h-[37.63px] " />

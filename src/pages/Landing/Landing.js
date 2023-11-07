@@ -247,7 +247,7 @@ export default function Landing() {
                         <img alt="" src={item.image} className="rounded-3xl" />
                         <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
                           <Link
-                            to={user ? item.link : routes.Login}
+                            to={item.link}
                             className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
                           >
                             {" "}
@@ -277,7 +277,7 @@ export default function Landing() {
                         <img alt="" src={item.image} className="rounded-3xl" />
                         <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
                           <Link
-                            to={user ? item.link : routes.Login}
+                            to={item.link}
                             className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
                           >
                             {" "}
@@ -309,7 +309,7 @@ export default function Landing() {
                         <img alt="" src={item.image} className="rounded-3xl" />
                         <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
                           <Link
-                            to={user ? item.link : routes.Login}
+                            to={item.link}
                             className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
                           >
                             {" "}
@@ -338,7 +338,7 @@ export default function Landing() {
                         <img alt="" src={item.image} className="rounded-3xl" />
                         <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
                           <Link
-                            to={user ? item.link : routes.Login}
+                            to={item.link}
                             className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
                           >
                             {" "}
@@ -368,7 +368,7 @@ export default function Landing() {
                       <img alt="" src={item.image} className="rounded-3xl" />
                       <div className="absolute inset-x-0 bottom-3 tablet:bottom-6 flex items-center justify-center h-[15px] mobileL:h-[30px] tablet:h-[50px] laptopL:h-[80px]">
                         <Link
-                          to={user ? item.link : routes.Login}
+                          to={item.link}
                           className=" z-10 bg-white text-bakebe-pink text-[15px] tablet:text-[25px] py-1 px-4 tablet:py-2 tablet:px-8 rounded-sm tablet:rounded-lg font-poppins font-bold hover:bg-bakebe-pink hover:text-white"
                         >
                           {" "}

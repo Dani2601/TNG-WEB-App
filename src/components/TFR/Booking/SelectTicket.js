@@ -13,6 +13,8 @@ import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
 import { setCart } from "../../../store/action";
 import { useMemo } from "react";
 import TFRMenubarNonSpa from "../../Navbar/TFRMenubarNonSpa";
+import routes from "../../../constants/routes";
+import { SignInModal } from "../../Modal/SignInModal";
 
 let ticket = [
   {
@@ -47,6 +49,7 @@ export default function SelectTicket({
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
   const [visible, setVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch();
 
   function handleBack() {
@@ -60,7 +63,12 @@ export default function SelectTicket({
   }
 
   function handleNext() {
-    setShowModal(true);
+    if(user?.id){
+      setShowModal(true);
+    }
+    else{
+      setModalVisible(true)
+    }
   }
 
   function handleCloseModal() {
@@ -111,7 +119,11 @@ export default function SelectTicket({
         setStep={setStep}
         handleProceed={handleProceed}
       />
-
+      <SignInModal
+        showModal={modalVisible}
+        handleCloseModal={() => setModalVisible(false)}
+        handleProceed={handleProceed}
+      />
       <div
         className="max-h-full min-h-screen bg-[#252525] "
         style={{ fontFamily: "Nulshock, sans-serif" }}

@@ -36,7 +36,7 @@ export function BakebeBooking() {
   const [business] = useState("BakeBe");
   const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState("");
-  const [selectedOption, setSelectedOption] = useState('Share');
+  const [selectedOption, setSelectedOption] = useState('Individual');
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -75,7 +75,6 @@ export function BakebeBooking() {
     }
     return 0
   }, [ticket, pax, selectedOption])
-
   
   function submit(e) {
     addBooking(e)

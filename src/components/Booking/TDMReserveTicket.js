@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DessertTicketCard } from '../Card'
 import { ConfirmationCartModal } from '../Modal/ConfirmationCartModal'
 import { setCart } from '../../store/action'
+import routes from '../../constants/routes'
+import { useNavigate } from 'react-router-dom'
 
 export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
     const [showModal, setShowModal] = useState(false)
@@ -12,6 +14,7 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
     const [tickets, setTickets] = useState([])
     const [visible, setVisible] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     function handleBack(){
         if(cart.length > 0){
@@ -22,9 +25,14 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
         }
     }
     
-    function handleNext(){
-        setShowModal(true)
+  function handleNext() {
+    if(user?.id){
+      setShowModal(true);
     }
+    else{
+      navigate(routes.Login)
+    }
+  }
 
     function handleCloseModal(){
         setShowModal(false)

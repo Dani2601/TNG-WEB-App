@@ -59,9 +59,12 @@ function Landing() {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
         login();
-        if (cart.length > 0) {
+        if (cart?.length > 0) {
           const checkBusiness = cart[0]?.BusinessUnitID;
           navigate(business_unit[checkBusiness], { state: { step: true } });
+        }
+        else{
+          navigate('')
         }
       } else {
         toast.error(
@@ -69,7 +72,6 @@ function Landing() {
             ? "Password is wrong"
             : response.errorMsg
         );
-       // console.log(response.errorMsg.length);
       }
     } catch (error) {
       toast.error("Something went wrong");
