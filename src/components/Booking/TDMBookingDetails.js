@@ -374,11 +374,10 @@ bookingTime,
 
   const handleBothFunctions = (event) => {
     handlePax(event.target.value);
-    setPax(event.target.value)
+    setPax(parseInt(event.target.value))
     handlePersons(event);
   };
 
-  console.log(pax, 'pax')
 
   const getBookingDate = moment(bookingDate, 'ddd MMM DD YYYY HH:mm:ss ZZ');
   const formattedBookingDate = getBookingDate.format('MMM DD YYYY');
