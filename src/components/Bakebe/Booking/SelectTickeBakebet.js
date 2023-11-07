@@ -22,6 +22,7 @@ import Pagination from "../../../components/Pagination";
 import { getDifficulty } from "../../../constants/input";
 import DataTable from "../../DataTable";
 import TicketCard from "../../Card/Bakebe/TicketCard";
+import { SignInModal } from "../../Modal/SignInModal";
 let ticket = [
   {
     id: 1,
@@ -92,6 +93,7 @@ export default function SelectTicketBakebe({
   const [loading, setLoading] = useState(true);
   const difficultyCount = getDifficulty();
   const navigate = useNavigate();
+  const [modalVisible, setModalVisible] = useState(false)
 
   const handleFilterChangeCategory = (event) => {
     setCategoryFilter(event.target.value);
@@ -117,7 +119,12 @@ export default function SelectTicketBakebe({
   }
 
   function handleNext() {
-    setShowModal(true);
+    if(user?.id){
+      setShowModal(true);
+    }
+    else{
+      setModalVisible(true)
+    }
   }
 
   function handleCloseModal() {
@@ -330,7 +337,11 @@ export default function SelectTicketBakebe({
         handleProceed={handleProceed}
         business={"Bakebe"}
       />
-
+      <SignInModal
+        showModal={modalVisible}
+        handleCloseModal={() => setModalVisible(false)}
+        handleProceed={handleProceed}
+      />
       <div
         className="min-h-screen flex flex-col"
         style={{ fontFamily: "Gotham-Bold, sans-serif" }}

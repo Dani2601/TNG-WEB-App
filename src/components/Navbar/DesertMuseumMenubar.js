@@ -89,7 +89,7 @@ export default function DesertMuseumMenubar({scroll}) {
             MEDIA
           </a>
           <Link
-            to={user ? routes.DessertBooking : routes.Login}
+            to={routes.DessertBooking}
             className="text-white text-shadow-lg font-bold border-b-2 border-tdm-darkerpink hover:bg-gray-700 hover:text-white block px-3 py-2 w-full text-center text-base"
           >
             HOW TO BOOK

@@ -12,7 +12,7 @@ export default function BookNow() {
       className="flex flex-col bg-tfr-pink  items-center justify-center cursor-pointer "
       id="booknow"
     >
-      <Link to={user ? routes.BookingTFR : routes.Login} >
+      <Link to={routes.BookingTFR} >
         <img
           src={booknow2}
           alt={"Events"}

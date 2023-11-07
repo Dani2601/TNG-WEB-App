@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TISContainer from "../../Container/TISContainer";
 import { setCart } from "../../../store/action";
 import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
+import { SignInModal } from "../../Modal/SignInModal";
 
 let ticket = [
   {
@@ -46,7 +47,8 @@ export default function InflatableSelectTicket({
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
   const [visible, setVisible] = useState(false);
-  const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false)
+   const dispatch = useDispatch();
 
   function handleBack() {
     if (cart.length > 0) {
@@ -55,9 +57,14 @@ export default function InflatableSelectTicket({
       setStep(1);
     }
   }
-
+  
   function handleNext() {
-    setShowModal(true);
+    if(user?.id){
+      setShowModal(true);
+    }
+    else{
+      setModalVisible(true)
+    }
   }
 
   function handleCloseModal() {
@@ -101,6 +108,11 @@ export default function InflatableSelectTicket({
         showModal={visible}
         handleCloseModal={() => setVisible(false)}
         handleProceed={handleCart}
+      />
+      <SignInModal
+        showModal={modalVisible}
+        handleCloseModal={() => setModalVisible(false)}
+        handleProceed={handleProceed}
       />
       <div className="max-h-full min-h-[600px]">
         <div className="flex flex-row justify-center">

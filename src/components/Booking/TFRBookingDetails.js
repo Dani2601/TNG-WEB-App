@@ -20,6 +20,7 @@ import moment from "moment-timezone";
 import { current } from "@reduxjs/toolkit";
 import { convertToNormalTime } from "../../helper/DateTime";
 import { ViewEvents } from "../../functions/Booking";
+import routes from "../../constants/routes";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -155,6 +156,12 @@ export function TFRBookingDetails({
       setAllowedDays(ticket?.Day);
     }
   }, [ticket]);
+
+  useEffect(() => {
+    if(!user?.id){
+      navigate(routes.Login)
+    }
+  }, [])
 
   useEffect(() => {
     if (business === "Gootopia") {

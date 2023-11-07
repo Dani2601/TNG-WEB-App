@@ -17,7 +17,7 @@ export default function BookOnline() {
       />
       <Link
         className="m-5 cursor-pointer"
-        to={user ? routes.DessertBooking : routes.Login}
+        to={routes.DessertBooking}
       >
         <img
           src={booknow}

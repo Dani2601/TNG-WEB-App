@@ -66,7 +66,7 @@ export default function Games() {
             .map((item) => (
               <Link
                 className="cursor-pointer hoverEffects"
-                to={user ? routes.BookingTFR : routes.Login}
+                to={routes.BookingTFR}
               >
                 {" "}
                 <div
