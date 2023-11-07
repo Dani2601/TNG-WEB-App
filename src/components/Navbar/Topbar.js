@@ -57,7 +57,7 @@ export default function Topbar({ scroll }) {
     dispatch(setToken(null));
     dispatch(setUser(null));
     logout();
-    navigate(routes.Login);
+    navigate('');
   }
 
   // Open edit post Modal

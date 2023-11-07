@@ -25,7 +25,7 @@ export default function LandingPage() {
           {/* <img class="absolute" src={book1} alt="Workplace" width="" /> */}
           <Link
             className="cursor-pointer"
-            to={user ? routes.BookingGootopia : routes.Login}
+            to={routes.BookingGootopia}
           >
             <img
               class="booknow hoverEffects"
@@ -167,7 +167,7 @@ export default function LandingPage() {
               <div className="py-10 flex flex-row justify-center">
                 <Link
                   className="cursor-pointer"
-                  to={user ? routes.BookingGootopia : routes.Login}
+                  to={routes.BookingGootopia}
                 >
                   <img
                     class="w-[140px] tablet:w-[180px] tablet:laptop:laptopL:laptop4k hoverEffects"

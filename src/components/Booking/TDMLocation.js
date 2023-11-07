@@ -22,7 +22,7 @@ export function TDMLocation({ setStep, setLocation, location }) {
   }
 
   useEffect(() => {
-    getBranches(user.id, "26cc2c6c-bc0d-40d6-99b4-e8d0d8e0e583")
+    getBranches(user?.id || '123', process.env.REACT_APP_DESSERT_KEY)
       .then((response) => {
         if (response.valid) {
           // Convert the object into an array

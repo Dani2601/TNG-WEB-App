@@ -33,7 +33,7 @@ export default function SelectLocation({ step, setStep, setLocation, location })
   };
 
   useEffect(() => {
-    getBranches(user.id, process.env.REACT_APP_GOOTOPIA_KEY)
+    getBranches(user?.id || '123', process.env.REACT_APP_GOOTOPIA_KEY)
       .then((response) => {
         if (response.valid) {
           // const locationArray = Object.values(response.data);

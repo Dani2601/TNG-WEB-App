@@ -74,7 +74,7 @@ export default function SelectTicket({
   }
 
   useEffect(() => {
-    getTicketGootopia(user.id, process.env.REACT_APP_BAKEBE_KEY, location)
+    getTicketGootopia(user?.id || '123', process.env.REACT_APP_BAKEBE_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);

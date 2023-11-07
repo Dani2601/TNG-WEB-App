@@ -71,7 +71,7 @@ export default function InflatableSelectTicket({
   }
 
   useEffect(() => {
-    getTicketGootopia(user.id, process.env.REACT_APP_INFLATABLE_KEY, location)
+    getTicketGootopia(user?.id || '123', process.env.REACT_APP_INFLATABLE_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);

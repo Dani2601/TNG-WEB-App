@@ -51,6 +51,7 @@ export default function AuthenticatedScreens() {
         <Route path={routes.PackagesGootopia} element={<Packages />} />
         <Route path={routes.FaqsGootopia} element={<FAQS />} />
         <Route path={routes.ContactsGootopia} element={<Contacts />} />
+        
         {/* <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
         <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} /> */}
         <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />

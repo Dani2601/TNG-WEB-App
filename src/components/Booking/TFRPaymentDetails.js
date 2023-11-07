@@ -123,7 +123,7 @@ export function TFRPaymentDetails({
 
   useEffect(() => {
     if (business === "Gootopia") {
-      getBranches(user.id, GOOTOPIA_KEY)
+      getBranches(user?.id || '123', GOOTOPIA_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -137,7 +137,7 @@ export function TFRPaymentDetails({
           // Handle error case
         });
     } else if (business === "TFR") {
-      getBranches(user.id, TFR_KEY)
+      getBranches(user?.id || '123', TFR_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -151,7 +151,7 @@ export function TFRPaymentDetails({
           // Handle error case
         });
     } else if (business === "BakeBe") {
-      getBranches(user.id, BAKEBE_KEY)
+      getBranches(user?.id || '123', BAKEBE_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -165,7 +165,7 @@ export function TFRPaymentDetails({
           // Handle error case
         });
     } else if (business === "Inflatable") {
-      getBranches(user.id, TIS_KEY)
+      getBranches(user?.id || '123', TIS_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -179,7 +179,7 @@ export function TFRPaymentDetails({
           // Handle error case
         });
     } else {
-      getBranches(user.id, DESSERT_KEY)
+      getBranches(user?.id || '123', DESSERT_KEY)
         .then((response) => {
           if (response.valid) {
             // Convert the object into an array
@@ -415,6 +415,12 @@ export function TFRPaymentDetails({
       handleNext();
     }
   }
+  
+  useEffect(() => {
+    if(!user?.id){
+      navigate(routes.Login)
+    }
+  }, [])
 
   return (
     <div className="w-full py-10 flex justify-center">

@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthenticationContext";
 import { toast } from "react-toastify";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUser } from "../../store/action";
 import { Topbar } from "../../components/Navbar";
 import { loginViaEmail } from "../../functions/index";
@@ -21,8 +21,23 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
+const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
+const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
+const TFR_KEY = process.env.REACT_APP_TFR_KEY;
+const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
+const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
+
+const business_unit = {
+    [BAKEBE_KEY]: routes.BookingBakebe,
+    [GOOTOPIA_KEY]: routes.BookingGootopia,
+    [TFR_KEY]: routes.BookingTFR,
+    [DESSERT_KEY]: routes.DessertBooking,
+    [TIS_KEY]: routes.BookingInflatable
+}
+
 function Landing() {
   const navigate = useNavigate();
+  const { cart } = useSelector(state => state.record)
   const { login } = useAuth();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +59,10 @@ function Landing() {
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
         login();
-        navigate(routes.Home);
+        if (cart.length > 0) {
+          const checkBusiness = cart[0]?.BusinessUnitID;
+          navigate(business_unit[checkBusiness], { state: { step: true } });
+        }
       } else {
         toast.error(
           response.errorMsg.length === undefined

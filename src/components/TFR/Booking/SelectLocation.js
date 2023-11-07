@@ -42,7 +42,7 @@ export default function SelectLocation({
   //console.log(selectedBranch);
 
   useEffect(() => {
-    getBranches(user.id, process.env.REACT_APP_TFR_KEY)
+    getBranches(user?.id || '123', process.env.REACT_APP_TFR_KEY)
       .then((response) => {
         if (response.valid) {
           // const locationArray = Object.values(response.data);
