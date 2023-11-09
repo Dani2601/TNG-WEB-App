@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { Topbar } from "../../components/Navbar";
 import { viewMyTransaction } from "../../functions/Booking";
 import { encryptData } from "../../helper/DataEncryption";
+import PaymentStatus from "../../components/Status/PaymentStatus";
 
 const tableHeader = [
   "Code",
@@ -168,7 +169,7 @@ export default function Transaction() {
                 </td>
                 <td className=" font-poppins px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px] flex justify-center">
                   <span className="w-20 h-7 text-center flex justify-center items-center rounded-lg text-slate-50">
-                    <Status status={data.Status} />
+                    <PaymentStatus status={data.Status} />
                   </span>
                 </td>
 

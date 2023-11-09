@@ -301,7 +301,7 @@ export function TFRBookingDetails({
           });
       } else if (ticket?.SubCategory === "Carousel Table") {
         let ecount = 4;
-        setDescription("5-6 pax");
+        setDescription("Up to 4 pax");
         getBookingsByTicketID(
           location,
           ticket?.id,
