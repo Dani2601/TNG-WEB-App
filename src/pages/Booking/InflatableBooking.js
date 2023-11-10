@@ -50,7 +50,6 @@ export function InflatableBooking() {
     addBooking(e)
       .then((result) => {
         if (result.valid) {
-          setLoading(false)
           window.location.href = result.data.invoice_url;
         } else {
           setLoading(false)

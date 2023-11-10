@@ -57,35 +57,8 @@ export function GootopiaBooking() {
   function submit(e) {
     addBooking(e)
       .then((result) => {
-       // console.log(result)
         if (result.valid) {
-          setLoading(false)
           window.location.href = result.data.invoice_url;
-            // Redirect to the URL
-          // setBookingDate("");
-          // setBookingDate("");
-          // setPax(1);
-          // setTicket("");
-          // setLocation("");
-          // setStep(1);
-          // setQRCode(result?.forPDF?.QRCode);
-          // setTimeout(() =>{
-          //   generatePDF({
-          //     InvoiceCode : result?.forPDF?.InvoiceCode,
-          //     BusinessUnit : result?.forPDF?.BusinessUnit,
-          //     Branch : result?.forPDF?.Branch,
-          //     Customer : result?.forPDF?.Customer,
-          //     BookingDate : e?.BookingDate,
-          //     BookingTime : e?.BookingTime,
-          //     NumberOfPass: String(e?.Pax),
-          //     TotalPrice : String(e?.TotalPrice),
-          //     PDFFile : e?.PDFFile
-          //   });
-          //   sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
-          //   toast.success("Successfully added");
-          //   dispatch(setCart([]))
-          //   navigate(routes.LandingGootopia);
-          // },3000)
         } else {
           setLoading(false)
           toast.error("Failed to submit");

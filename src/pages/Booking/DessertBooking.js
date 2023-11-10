@@ -55,31 +55,6 @@ export function DessertBooking() {
     addBooking(e)
     .then((result) => {
       if(result.valid){
-        setLoading(false)
-        // setQRCode(result?.forPDF?.QRCode);
-        // setTimeout(() =>{
-        //   e?.Items.map((item => {
-        //     generatePDF({
-        //       InvoiceCode : result?.forPDF?.InvoiceCode,
-        //       BusinessUnit : result?.forPDF?.BusinessUnit,
-        //       Branch : result?.forPDF?.Branch,
-        //       Customer : result?.forPDF?.Customer,
-        //       BookingDate : item?.BookingDate,
-        //       BookingTime : item?.BookingTime,
-        //       NumberOfPass: String(item?.Pax),
-        //       TotalPrice : String(item?.TotalPrice),
-        //       PDFFile : e?.PDFFile
-        //     });
-        //   }))
-        //   setBookingDate('')
-        //   setBookingDate('')
-        //   setPax(1)
-        //   setTicket('')
-        //   setLocationR('')
-        //   setStep(1)
-        //   sendEmailWithAttachment({Email : result?.forPDF?.Email, Message : `Hello ${result?.forPDF?.Customer}`, Filename: e?.PDFFile});
-        //   // toast.success("Successfully added");
-        // },3000)
         window.location.href = result.data.invoice_url;
       }
       else{
