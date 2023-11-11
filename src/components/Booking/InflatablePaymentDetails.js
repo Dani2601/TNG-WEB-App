@@ -99,6 +99,7 @@ export function InflatablePaymentDetails({
           TicketID: item?.Ticket?.id,
           BookingDate: item?.BookingDate,
           BookingTime: item?.BookingTime,
+          EntranceTime: item?.EntranceTime ? item?.EntranceTime : "",
           BookingEndTime: item?.BookingEndTime ? item?.BookingEndTime : "",
           Pax: item?.Pax,
           Status: "Unused"
@@ -389,6 +390,8 @@ export function InflatablePaymentDetails({
       navigate(routes.Login)
     }
   }, [])
+
+  console.log(cart)
 
   return (
     <div className="w-full py-10 flex justify-center">
