@@ -132,7 +132,6 @@ export default function TransactionModa({
                 </div>
                 <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="mr-1 font-bold">Hi! {user.Name.split(' ').slice(0, 1).join(' ')}, here's the summary of your booking. </div>
-                 
                 </div>
                   <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px] mr-1">Invoice Number: </div>
@@ -147,11 +146,12 @@ export default function TransactionModa({
                   {editData.Branch}
                 </div>
                 {
-                  editData?.Payment?.Discount &&
-                  <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-3 tablet:mt-5 tablet:ml-5 ">
-                    <div className="tablet:w-[140px] mr-1 font-bold ">Total Discount: </div>
+                  (editData?.Payment?.Discount) ?
+                  <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                    <div className="tablet:w-[140px] mr-1">Total Discount: </div>
                     {"₱ " + editData?.Payment?.Discount}
                   </div>
+                  : ""
                 }
                 <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-3 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px] mr-1 font-bold ">Total Price: </div>
@@ -163,60 +163,6 @@ export default function TransactionModa({
                   </div>
                   <Status status={editData.Status}></Status>
                 </div>
-                {/* <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px]">Booking Code:</div>
-                  <input
-                    placeholder="N/A"
-                    value={editData.Code}
-                    className="shadow-md py-2 px-4 border-2 border-gray-400 "
-                  />
-                </div>
-                <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px]">TNG Unit:</div>
-                  <input
-                    placeholder="N/A"
-                    value={editData.BusinessUnitName}
-                    className="shadow-md py-2 px-4 border-2 border-gray-400 "
-                  />
-                </div>
-                <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px]">Branch:</div>
-                  <input
-                    placeholder="N/A"
-                    value={editData.Branch}
-                    className="shadow-md py-2 px-4 border-2 border-gray-400 "
-                  />
-                </div>
-                <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px]">Booking Date:</div>
-                  <input
-                    placeholder="N/A"
-                    value={editData.BookingDate}
-                    className="shadow-md py-2 px-4 border-2 border-gray-400 "
-                  />
-                </div>
-                <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px]">Booking Time:</div>
-                  <input
-                    placeholder="N/A"
-                    value={editData.BookingTime}
-                    className="shadow-md py-2 px-4 border-2 border-gray-400 "
-                  />
-                </div>
-                <div className="flex tablet:flex-row items-start tablet:items-center flex-col justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="w-[140px] font-bold">Total Price:</div>
-                  <input
-                    placeholder="N/A"
-                    value={"₱ " + editData.TotalPrice}
-                    className="shadow-md py-2 px-4 border-2 border-gray-400 "
-                  />
-                </div>
-                <div className="flex flex-row items-start tablet:items-center -ml-[52px] justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
-                  <div className="tablet:w-[140px] font-bold tablet:mr-0 pr-2">
-                    Status:
-                  </div>
-                  <Status status={editData.Status}></Status>
-                </div> */}
                 <div className="flex justify-center mt-4  text-[12px] tablet:text-[16px] font-bold gap-4 mx-auto">
                   <button
                     className=" bg-white h-8 rounded-[5px] px-3  text-modalgradient"

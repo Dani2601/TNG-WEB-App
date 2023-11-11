@@ -18,6 +18,8 @@ import { generatePDF } from "../../helper/PDF";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/action";
 import { useEffect } from "react";
+import { InflatableBookingDetails } from "../../components/Booking/InflatableBookingDetails";
+import { InflatablePaymentDetails } from "../../components/Booking/InflatablePaymentDetails";
 
 export function InflatableBooking() {
   const [step, setStep] = useState(1);
@@ -83,7 +85,7 @@ export function InflatableBooking() {
       )}
       {step == 3 && (
         <TISContainer>
-          <TDMBookingDetails
+          <InflatableBookingDetails
             setStep={setStep}
             ticket={ticket}
             location={location}
@@ -100,7 +102,7 @@ export function InflatableBooking() {
       )}
       {step == 4 && (
         <TISContainer>
-          <TDMPaymentDetails
+          <InflatablePaymentDetails
             setStep={setStep}
             ticket={ticket}
             location={location}
