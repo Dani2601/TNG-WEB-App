@@ -704,7 +704,7 @@ bookingTime,
                         selectedOption === "Share" || slotIdentifier === 1
                       }
                     />
-                    <div className="text-xs">Baking the recipe with a peer</div>
+                    <div className="text-xs">To this Bake project with a friend (Add Php 500 peer charge)</div>
                   </div>
                   <div className="flex items-start gap-2">
                     <input
