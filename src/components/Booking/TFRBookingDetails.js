@@ -367,9 +367,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: ((parseInt(200) - reservation?.length) <= 0 ? 0 : parseInt(200) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${
-                  parseInt(200) - (sumOfCart + (reservation.length || 0))
-                } slot(s)`,
+                label: `${item.timeInterval} - ${((parseInt(200) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(200) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
               };
             } else {
               const sumOfCart = cartReserve.reduce(
@@ -380,7 +378,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: ((parseInt(200) - sumOfCart) <= 0 ? 0 : parseInt(200) - sumOfCart),
-                label: `${item.timeInterval} - ${200 - sumOfCart} slot(s)`,
+                label: `${item.timeInterval} - ${((200 - sumOfCart) >= 0 ? (200 - sumOfCart) : 0)} slot(s)`,
               };
             }
           })
@@ -404,9 +402,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: (parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) <= 0 ? 0 : parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${
-                  parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))
-                } slot(s)`,
+                label: `${item.timeInterval} - ${((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
               };
             } else {
               const sumOfCart = cartReserve.reduce(
@@ -417,9 +413,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: ((parseInt(item?.slot) - sumOfCart) <= 0 ? 0 : parseInt(item?.slot) - sumOfCart),
-                label: `${item.timeInterval} - ${
-                  item?.slot - sumOfCart
-                } slot(s)`,
+                label: `${item.timeInterval} - ${((item?.slot - sumOfCart) >= 0 ? (item?.slot - sumOfCart) : 0)} slot(s)`,
               };
             }
           })
@@ -443,9 +437,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: ((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${
-                  parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))
-                } slot(s)`,
+                label: `${item.timeInterval} - ${((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
               };
             } else {
               const sumOfCart = cartReserve.reduce(
@@ -456,9 +448,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: ((parseInt(item?.slot) - sumOfCart) <= 0 ? 0 : parseInt(item?.slot) - sumOfCart),
-                label: `${item.timeInterval} - ${
-                  item?.slot - sumOfCart
-                } slot(s)`,
+                label: `${item.timeInterval} - ${((item?.slot - sumOfCart) >= 0 ? item?.slot - sumOfCart : 0)} slot(s)`,
               };
             }
           })
@@ -482,9 +472,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: ((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item.slot) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${
-                  parseInt(item.slot) - (sumOfCart + (reservation.length || 0))
-                } slot(s)`,
+                label: `${item.timeInterval} - ${((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? (parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) : 0)} slot(s)`,
               };
             } else {
               const sumOfCart = cartReserve.reduce(
@@ -495,9 +483,7 @@ export function TFRBookingDetails({
               return {
                 value: item.timeInterval,
                 slot: ((parseInt(item.slot) - sumOfCart) <= 0 ? 0 : parseInt(item.slot) - sumOfCart),
-                label: `${item.timeInterval} - ${
-                  item.slot - sumOfCart
-                } slot(s)`,
+                label: `${item.timeInterval} - ${((item.slot - sumOfCart) >= 0 ? item.slot - sumOfCart : 0)} slot(s)`,
               };
             }
           })

@@ -273,9 +273,7 @@ bookingTime,
             return {
               value: item.timeInterval,
               slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
-              label: `${item.timeInterval} - ${
-                parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))
-              } slot(s)`,
+              label: `${item.timeInterval} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
             };
           } else {
             const sumOfCart = cartReserve.reduce(
@@ -286,7 +284,7 @@ bookingTime,
             return {
               value: item.timeInterval,
               slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
-              label: `${item.timeInterval} - ${(selectedLocation?.Slots || 0) - sumOfCart} slot(s)`,
+              label: `${item.timeInterval} - ${((selectedLocation?.Slots || 0) - sumOfCart) >= 0 ? (selectedLocation?.Slots || 0) - sumOfCart : 0} slot(s)`,
             };
           }
         })
