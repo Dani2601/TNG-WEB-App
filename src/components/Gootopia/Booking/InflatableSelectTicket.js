@@ -127,7 +127,7 @@ export default function InflatableSelectTicket({
               <div className="self-center text-[#EBACB3] font-poppins mb-10 font-bold text-center mx-5 text-[12px] tablet:text-[16px]">
                 Start your adventure by choosing one of our ticket types below
               </div>
-              <div className="flex flex-row flex-wrap justify-center cursor-pointer  items-center pb-5  py-4 gap-4 ">
+              <div className="flex flex-row flex-wrap justify-center cursor-pointer  items-center pb-5 py-4 gap-4 ">
                 {tickets.length > 0 ? (
                   tickets
                     ?.sort((a, b) => a.Name.localeCompare(b.Name))
@@ -144,13 +144,7 @@ export default function InflatableSelectTicket({
                               setTicket(data);
                             }}
                           >
-                            <div className="relative ">
-                              <img
-                                src={bookingCard}
-                                alt="bookingCard"
-                                className="h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg"
-                              />
-
+                            <div className="relative h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg bg-[#EBACB3]">
                               <div className="absolute top-[20px] inset-x-0   text-left flex justify-center items-center font-poppins overflow-y-auto">
                                 <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
                                   <div className="flex flex-row justify-center mb-3 shadow-sm border-[1px] border-[#FF98C3] object-cover">
