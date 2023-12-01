@@ -43,6 +43,7 @@ export default function SelectTicket({
   ticket,
   categories,
   setCategories,
+  navigateToLocation
 }) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
@@ -57,7 +58,7 @@ export default function SelectTicket({
       setVisible(true);
       setCategories("Games");
     } else {
-      setStep(1);
+      navigateToLocation()
       setCategories("Games");
     }
   }
@@ -96,7 +97,7 @@ export default function SelectTicket({
     if (cart.length > 0) {
       dispatch(setCart([]));
     }
-    setStep(1);
+    navigateToLocation()
   }
 
   const handleCategories = useCallback(

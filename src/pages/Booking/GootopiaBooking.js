@@ -10,7 +10,7 @@ import SelectLocation from "../../components/Gootopia/Booking/SelectLocation";
 import { SelectTicket } from "../../components/Gootopia/Booking";
 import { addBooking } from "../../functions/Booking";
 import { toast } from 'react-toastify'
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import routes from "../../constants/routes";
 import QRcode from 'qrcode.react'
 import { sendEmailWithAttachment } from "../../functions/Email";
@@ -34,6 +34,7 @@ export function GootopiaBooking() {
   const [selectedOption, setSelectedOption] = useState('Individual');
   const locationR = useLocation();
   const [loading, setLoading] = useState(false)
+  const { locationParams } = useParams();
 
   useEffect(() => {
     if(locationR.state?.step){
@@ -41,6 +42,15 @@ export function GootopiaBooking() {
     }
   }, [locationR])
 
+  useEffect(() => {
+    if(locationParams){
+      setLocation(locationParams)
+      setStep(2)
+    }
+    else{
+      setStep(1)
+    }
+  }, [locationParams])
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -70,6 +80,16 @@ export function GootopiaBooking() {
         toast.error("Something went wrong");
       });
   }
+  
+  const navigateToNextStep = () => {
+    navigate(`/Gootopia/Booking/${location}`);
+    setStep(step + 1)
+  };
+
+  const navigateToLocation = () => {
+    navigate(`/Gootopia/Booking/`);
+    setStep(1)
+  };
 
   return (
     <>
@@ -80,6 +100,7 @@ export function GootopiaBooking() {
           setStep={setStep}
           location={location}
           setLocation={setLocation}
+          navigateToNextStep={navigateToNextStep}
         />
       )}
       {step === 2 && (
@@ -88,6 +109,7 @@ export function GootopiaBooking() {
           ticket={ticket}
           setTicket={setTicket}
           location={location}
+          navigateToLocation={navigateToLocation}
         />
       )}
       {step === 3 && (

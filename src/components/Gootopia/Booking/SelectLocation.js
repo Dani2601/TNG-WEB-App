@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import TISContainer from "../../Container/TISContainer";
 
-export default function SelectLocation({ step, setStep, setLocation, location }) {
+export default function SelectLocation({ step, setStep, setLocation, location, navigateToNextStep }) {
   const [branch, setBranch] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(false);
   const { user } = useSelector((state) => state.record);
@@ -22,7 +22,7 @@ export default function SelectLocation({ step, setStep, setLocation, location })
   }
 
   function handleProceed() {
-    setStep(2);
+    navigateToNextStep()
   }
 
   const handleSelectBranch = (data) => {

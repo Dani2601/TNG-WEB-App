@@ -8,7 +8,7 @@ import { setCart } from '../../store/action'
 import routes from '../../constants/routes'
 import { useNavigate } from 'react-router-dom'
 
-export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
+export function TDMReserveTicket({setStep, ticket, setTicket, location, navigateToLocation}) {
     const [showModal, setShowModal] = useState(false)
     const { user, cart } = useSelector(state => state.record) 
     const [tickets, setTickets] = useState([])
@@ -21,7 +21,7 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
             setVisible(true)
         }
         else{
-            setStep(1)
+            navigateToLocation()
         }
     }
     
@@ -61,7 +61,7 @@ export function TDMReserveTicket({setStep, ticket, setTicket, location}) {
         if(cart.length > 0){
             dispatch(setCart([]))
         }
-        setStep(1)
+        navigateToLocation()
     }
 
     return (

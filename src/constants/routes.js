@@ -9,6 +9,7 @@ const routes = {
   //Dessert Museum
   LandingDesert: "/LandingDessert",
   DessertBooking: "/TheDessertMuseum/Booking",
+  DessertBookingDefault: "/TheDessertMuseum/Booking/:locationParams",
   Packages: "/TheDessertMuseum/Packages",
 
   //Gootopia
@@ -18,10 +19,12 @@ const routes = {
   FaqsGootopia: "/Gootopia/Faqs",
   ContactsGootopia: "/Gootopia/Contacts",
   BookingGootopia: "/Gootopia/Booking",
+  BookingGootopiaDefault: "/Gootopia/Booking/:locationParams",
 
   //The Inflatable Island
   LandingInflatableIsland: '/TheInflateableIsland',
   BookingInflatable: "/TheInflateableIsland/Booking",
+  BookingInflatableDefault: "/TheInflateableIsland/Booking/:locationParams",
 
   //TFR
   LandingTFR: "/TFR",
@@ -30,11 +33,12 @@ const routes = {
   FaqsTFR: "/TFR/Faqs",
   ContactsTFR: "/TFR/Contacts",
   BookingTFR: "/TFR/Booking",
+  BookingTFRDefault: "/TFR/Booking/:locationParams/",
 
-  
   //Bakebe
   LandingBakebe: "/Bakebe",
   BookingBakebe: "/Bakebe/Booking",
+  BookingBakebeDefault: "/Bakebe/Booking/:locationParams",
 
   Profile: "/Profile",
   Tickets: "/Tickets",

@@ -18,6 +18,7 @@ export default function SelectLocation({
   setStep,
   setLocation,
   location,
+  navigateToNextStep
 }) {
   const [branch, setBranch] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(false);
@@ -29,7 +30,7 @@ export default function SelectLocation({
   }
 
   function handleProceed() {
-    setStep(2);
+    navigateToNextStep()
   }
 
   const handleSelectBranch = (data) => {

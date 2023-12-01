@@ -34,7 +34,7 @@ let ticket = [
   },
 ];
 
-export default function SelectTicket({ setStep, location, setTicket, ticket }) {
+export default function SelectTicket({ setStep, location, setTicket, ticket, navigateToLocation }) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
     if (cart.length > 0) {
       setVisible(true);
     } else {
-      setStep(1);
+      navigateToLocation()
     }
   }
 
@@ -85,7 +85,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket }) {
     if (cart.length > 0) {
       dispatch(setCart([]));
     }
-    setStep(1);
+    navigateToLocation()
   }
 
   return (

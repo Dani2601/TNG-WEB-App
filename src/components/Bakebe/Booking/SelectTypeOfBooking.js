@@ -46,6 +46,7 @@ export default function SelectTypeOfBooking({
   setLocation,
   selectedType,
   setSelectedType,
+  navigateToLocation
 }) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
@@ -53,7 +54,7 @@ export default function SelectTypeOfBooking({
   const { user } = useSelector((state) => state.record);
 
   function handleBack() {
-    setStep(1);
+    navigateToLocation()
   }
 
   function handleNext() {

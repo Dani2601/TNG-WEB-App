@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import routes from "../../constants/routes";
 import PageNotFound from "./PageNotFound";
@@ -43,6 +43,7 @@ export default function AuthenticatedScreens() {
         {/* DessertMusuem */}
         <Route path={routes.LandingDesert} element={<LandingDesert />} />
         <Route path={routes.Packages} element={<DessertPackages />} />
+        <Route path={routes.DessertBookingDefault} element={<DessertBooking />} />
         <Route path={routes.DessertBooking} element={<DessertBooking />} />
 
         {/* Gootopia */}
@@ -54,20 +55,24 @@ export default function AuthenticatedScreens() {
         
         {/* <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
         <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} /> */}
+        <Route path={routes.BookingGootopiaDefault} element={<GootopiaBooking />} />
         <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />
         <Route path={routes.PaymentSuccess} element={<PaymentSuccess />} />
         <Route path={routes.PaymentFailed} element={<PaymentFailed />} />
 
         {/* {TFR} temporary remove*/}
         <Route path={routes.LandingTFR} element={<LandingTFR />} />
+        <Route path={routes.BookingTFRDefault} element={<TFRBooking />} />
         <Route path={routes.BookingTFR} element={<TFRBooking />} />
 
         {/* {Bakebe} */}
         <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
+        <Route path={routes.BookingBakebeDefault} element={<BakebeBooking />} />
         <Route path={routes.BookingBakebe} element={<BakebeBooking />} />
 
         {/* Infatable */}
         <Route path={routes.LandingInflatableIsland} element={<LandingInflatableIsland />} />
+        <Route path={routes.BookingInflatableDefault} element={<InflatableBooking />} />
         <Route path={routes.BookingInflatable} element={<InflatableBooking />} />
 
         <Route path={routes.Profile} element={<Profile />} />

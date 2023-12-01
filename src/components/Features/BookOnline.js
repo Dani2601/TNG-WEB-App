@@ -17,7 +17,7 @@ export default function BookOnline() {
       />
       <Link
         className="m-5 cursor-pointer"
-        to={routes.DessertBooking}
+        to={'/TheDessertMuseum/Booking/'}
       >
         <img
           src={booknow}

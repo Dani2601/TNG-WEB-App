@@ -1,108 +1,122 @@
-import React, { useMemo } from 'react'
-import { useState } from 'react'
-import { TDMLocation } from '../../components/Booking/TDMLocation'
-import { TDMReserveTicket } from '../../components/Booking/TDMReserveTicket'
-import DesertMuseumContainer from '../../components/Container'
-import { TDMBookingDetails } from '../../components/Booking/TDMBookingDetails'
-import { TDMPaymentDetails } from '../../components/Booking/TDMPaymentDetails'
-import { addBooking } from '../../functions/Booking'
-import { toast } from 'react-toastify'
-import { useLocation, useNavigate, useParams, useRoutes } from 'react-router-dom'
-import routes from '../../constants/routes'
-import QRcode    from 'qrcode.react'
-import { generatePDF } from '../../helper/PDF'
-import { sendEmailWithAttachment } from '../../functions/Email'
-import { useDispatch } from 'react-redux'
-import { setCart } from '../../store/action'
-import { useEffect } from 'react'
+import React, { useMemo } from 'react';
+import { useState } from 'react';
+import { TDMLocation } from '../../components/Booking/TDMLocation';
+import { TDMReserveTicket } from '../../components/Booking/TDMReserveTicket';
+import DesertMuseumContainer from '../../components/Container';
+import { TDMBookingDetails } from '../../components/Booking/TDMBookingDetails';
+import { TDMPaymentDetails } from '../../components/Booking/TDMPaymentDetails';
+import { addBooking } from '../../functions/Booking';
+import { toast } from 'react-toastify';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import QRcode from 'qrcode.react';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-const dessertID = process.env.REACT_APP_DESSERT_KEY;
-const gootopiaID = process.env.REACT_APP_GOOTOPIA_KEY
+// ... (other imports)
 
 export function DessertBooking() {
-  const [step, setStep] = useState(1)
-  const [locationR, setLocationR] = useState('')
-  const [ticket, setTicket] = useState('')
-  const [pax, setPax] = useState("")
-  const [bookingDate, setBookingDate] = useState('')
-  const [bookingTime, setBookingTime] = useState('')
-  const navigate = useNavigate()
+  const [step, setStep] = useState(1);
+  const [locationR, setLocationR] = useState('');
+  const [ticket, setTicket] = useState('');
+  const [pax, setPax] = useState('');
+  const [bookingDate, setBookingDate] = useState('');
+  const [bookingTime, setBookingTime] = useState('');
   const [selectedOption, setSelectedOption] = useState('Individual');
-  const [qrCode, setQRCode] = useState("default");
-  const dispatch = useDispatch()
+  const [qrCode, setQRCode] = useState('default');
   const location = useLocation();
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { locationParams } = useParams();
 
-  useEffect(() => {
-    if(location.state?.step){
-      setStep(4)
-    }
-  }, [location])
+  // useEffect(() => {
+  //   if (location.state?.step) {
+  //     setStep(4);
+  //   }
+  // }, [location]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
   };
 
-  const total = useMemo(() => {
-    if(ticket){
-      let price = ticket?.Price
-      return price * pax
+  useEffect(() => {
+    if(locationParams){
+      setLocationR(locationParams)
+      setStep(2)
     }
-    return 0
-  }, [ticket, pax])
+    else{
+      setStep(1)
+    }
+  }, [locationParams])
 
-  function submit(e){
+  const total = useMemo(() => {
+    if (ticket) {
+      let price = ticket?.Price;
+      return price * pax;
+    }
+    return 0;
+  }, [ticket, pax]);
+
+  const navigateToNextStep = () => {
+    navigate(`/TheDessertMuseum/Booking/${locationR}`);
+    setStep(step + 1)
+  };
+
+  function submit(e) {
     addBooking(e)
-    .then((result) => {
-      if(result.valid){
-        window.location.href = result.data.invoice_url;
-      }
-      else{
-        setLoading(false)
-        toast.error('Failed to submit')
-      }
-    })
-    .catch((e) => {
-      setLoading(false)
-      toast.error('Something went wrong')
-    })
+      .then((result) => {
+        if (result.valid) {
+          window.location.href = result.data.invoice_url;
+        } else {
+          setLoading(false);
+          toast.error('Failed to submit');
+        }
+      })
+      .catch((e) => {
+        setLoading(false);
+        toast.error('Something went wrong');
+      });
   }
+
+  
+  const navigateToLocation = () => {
+    navigate(`/TheDessertMuseum/Booking/`);
+    setStep(1)
+  };
+
+  // Define a common prop object to pass to all step components
+  const commonProps = {
+    setStep,
+    ticket,
+    location: locationR,
+    setLocation: setLocationR,
+    pax,
+    setPax,
+    bookingDate,
+    setBookingDate,
+    bookingTime,
+    setBookingTime,
+    handleOptionChange,
+    selectedOption,
+    total,
+    navigateToNextStep, // Include the common function
+    navigateToLocation
+  };
 
   return (
     <DesertMuseumContainer>
-      <QRcode value = {qrCode} id = 'qrcode' className="hidden"/>
-      {
-        step === 1 &&
-        <TDMLocation setStep={setStep} location={locationR} setLocation={setLocationR}/>
-      }
-      {
-        step === 2 &&
-        <TDMReserveTicket setStep={setStep} ticket={ticket} setTicket={setTicket} location={locationR}/>
-      }
-      {
-        step === 3 &&
-        <TDMBookingDetails setStep={setStep} ticket={ticket} location={locationR}
-          setLocation={setLocationR}
-          pax={pax} setPax={setPax} 
-          bookingDate={bookingDate} setBookingDate={setBookingDate}
-          bookingTime={bookingTime} setBookingTime={setBookingTime}
-          handleOptionChange={handleOptionChange}
-          selectedOption={selectedOption}
-          total={total}
-        />
-      }
-      {
-        step === 4 &&
-        <TDMPaymentDetails setStep={setStep} ticket={ticket} location={locationR}     
-          pax={pax} setPax={setPax} 
-          bookingDate={bookingDate} setBookingDate={setBookingDate}
-          bookingTime={bookingTime} setBookingTime={setBookingTime}
+      <QRcode value={qrCode} id='qrcode' className='hidden' />
+      {step === 1 && <TDMLocation {...commonProps} />}
+      {step === 2 && <TDMReserveTicket {...commonProps} setTicket={setTicket} />}
+      {step === 3 && <TDMBookingDetails {...commonProps} />}
+      {step === 4 && (
+        <TDMPaymentDetails
+          {...commonProps}
           setSubmitData={submit}
           bookingType={selectedOption}
           setLoading={setLoading}
           loading={loading}
         />
-      }
+      )}
     </DesertMuseumContainer>
-  )
+  );
 }

@@ -40,6 +40,7 @@ export default function InflatableSelectTicket({
   location,
   setTicket,
   ticket,
+  navigateToLocation
 }) {
   const [showModal, setShowModal] = useState(false);
   const [tickets, setTickets] = useState([]);
@@ -54,7 +55,7 @@ export default function InflatableSelectTicket({
     if (cart.length > 0) {
       setVisible(true);
     } else {
-      setStep(1);
+      navigateToLocation()
     }
   }
   
@@ -92,7 +93,7 @@ export default function InflatableSelectTicket({
     if (cart.length > 0) {
       dispatch(setCart([]));
     }
-    setStep(1);
+    navigateToLocation()
   }
 
   return (

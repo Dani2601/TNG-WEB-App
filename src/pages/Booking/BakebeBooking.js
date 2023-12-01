@@ -10,7 +10,7 @@ import TFRContainer from "../../components/Container/TFRContainer";
 import SelectTicket from "../../components/TFR/Booking/SelectTicket";
 import { TDMBookingDetails } from "../../components/Booking/TDMBookingDetails";
 import { TDMPaymentDetails } from "../../components/Booking/TDMPaymentDetails";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import routes from "../../constants/routes";
 import {
   SelectLocationBakebe,
@@ -40,6 +40,7 @@ export function BakebeBooking() {
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
+  const { locationParams } = useParams();
 
   const locationR = useLocation();
 
@@ -48,6 +49,16 @@ export function BakebeBooking() {
       setStep(5)
     }
   }, [locationR])
+  
+  useEffect(() => {
+    if(locationParams){
+      setLocation(locationParams)
+      setStep(2)
+    }
+    else{
+      setStep(1)
+    }
+  }, [locationParams])
 
   const handleOptionChange = (e) => {
     setSelectedOption(e);
@@ -92,6 +103,18 @@ export function BakebeBooking() {
         toast.error("Something went wrong");
       });
   }
+  
+  const navigateToNextStep = () => {
+    navigate(`/Bakebe/Booking/${location}`);
+    setStep(step + 1)
+  };
+
+  
+  const navigateToLocation = () => {
+    navigate(`/Bakebe/Booking/`);
+    setStep(1)
+  };
+
 
   return (
     <>
@@ -102,6 +125,7 @@ export function BakebeBooking() {
           setStep={setStep}
           location={location}
           setLocation={setLocation}
+          navigateToNextStep={navigateToNextStep}
         />
       )}
       {step == 2 && (
@@ -113,6 +137,7 @@ export function BakebeBooking() {
           setLocation={setLocation}
           selectedType={selectedType}
           setSelectedType={setSelectedType}
+          navigateToLocation={navigateToLocation}
         />
       )}
       {step == 3 && (

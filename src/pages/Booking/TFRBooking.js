@@ -78,6 +78,16 @@ export function TFRBooking() {
       });
   }
 
+  const navigateToNextStep = () => {
+    navigate(`/TFR/Booking/${location}`);
+    setStep(step + 1)
+  };
+
+  const navigateToLocation = () => {
+    navigate(routes.BookingTFR);
+    setStep(1)
+  };
+
   return (
     <>
       <QRcode value={qrCode} id="qrcode" className="hidden" />
@@ -88,6 +98,7 @@ export function TFRBooking() {
           setStep={setStep}
           location={location}
           setLocation={setLocation}
+          navigateToNextStep={navigateToNextStep}
         />
       )}
       {step == 2 && (
@@ -98,6 +109,7 @@ export function TFRBooking() {
           setCategories={setCategories}
           setTicket={setTicket}
           location={location}
+          navigateToLocation={navigateToLocation}
         />
       )}
       {step == 3 && (
