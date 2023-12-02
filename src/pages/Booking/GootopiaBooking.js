@@ -90,6 +90,7 @@ export function GootopiaBooking() {
     navigate(`/Gootopia/Booking/`);
     setStep(1)
   };
+  
 
   return (
     <>
