@@ -33,19 +33,19 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.Packages} element={<DessertPackages />} />
         <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
         
-        <Route path="/TheDessertMuseum/Booking" element={<DessertBooking/>} />
+        <Route path={routes.DessertBookingDefault} element={<DessertBooking/>} />
         <Route path={routes.DessertBooking} element={<DessertBooking />} />
 
-        <Route path="/Gootopia/Booking" element={<GootopiaBooking />} />
+        <Route path={routes.BookingGootopiaDefault} element={<GootopiaBooking />} />
         <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />
 
-        <Route path="/TFR/Booking" element={<TFRBooking />} />
+        <Route path={routes.BookingTFRDefault} element={<TFRBooking />} />
         <Route path={routes.BookingTFR} element={<TFRBooking />} />
 
-        <Route path="/TheInflateableIsland/Booking" element={<InflatableBooking />} />
+        <Route path={routes.BookingBakebeDefault} element={<InflatableBooking />} />
         <Route path={routes.BookingInflatable} element={<InflatableBooking />} />
 
-        <Route path="/Bakebe/Booking" element={<BakebeBooking />} />
+        <Route path={routes.BookingBakebeDefault} element={<BakebeBooking />} />
         <Route path={routes.BookingBakebe} element={<BakebeBooking />} />
         
         {/* {TFR} temporary remove */}
@@ -57,7 +57,7 @@ export default function UnauthenticatedScreens() {
         {/* {Bakebe} */}
         <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
 
-        <Route path="*" element={<Login />} />
+        {/* <Route path="*" element={<Login />} /> */}
       </Routes>
     </>
   );
