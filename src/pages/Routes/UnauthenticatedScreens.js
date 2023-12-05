@@ -57,7 +57,7 @@ export default function UnauthenticatedScreens() {
         {/* {Bakebe} */}
         <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
 
-        {/* <Route path="*" element={<Login />} /> */}
+        <Route path="*" element={<Login />} />
       </Routes>
     </>
   );

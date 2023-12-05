@@ -64,7 +64,7 @@ function Landing() {
           navigate(business_unit[checkBusiness], { state: { step: true } });
         }
         else{
-          navigate('')
+          navigate(-1)
         }
       } else {
         toast.error(
