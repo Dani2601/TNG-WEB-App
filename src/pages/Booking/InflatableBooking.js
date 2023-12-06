@@ -65,7 +65,7 @@ export function InflatableBooking() {
   }
 
   const navigateToNextStep = () => {
-    navigate(`/TheInflateableIsland/Booking/${location}`);
+    navigate(`/TheInflatableIsland/Booking/${location}`);
     setStep(step + 1)
   };
 

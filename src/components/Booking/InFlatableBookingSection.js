@@ -7,7 +7,7 @@ export default function InFlatableBookingSection() {
     return (
         <div className='flex flex-col justify-center place-items-center px-4 py-6'>
             <button
-                onClick={() => navigate('/TheInflateableIsland/Booking/')}
+                onClick={() => navigate('/TheInflatableIsland/Booking/')}
                 className="shadow-md text-2xl w-full rounded-md sm:w-auto py-6 px-20 bg-[#ebacb3] hover:bg-[#20422b] text-white hoverEffects"
             >
                 BOOK NOW

@@ -22,9 +22,9 @@ const routes = {
   BookingGootopiaDefault: "/Gootopia/Booking/:locationParams",
 
   //The Inflatable Island
-  LandingInflatableIsland: '/TheInflateableIsland',
-  BookingInflatable: "/TheInflateableIsland/Booking",
-  BookingInflatableDefault: "/TheInflateableIsland/Booking/:locationParams",
+  LandingInflatableIsland: '/TheInflatableIsland',
+  BookingInflatable: "/TheInflatableIsland/Booking",
+  BookingInflatableDefault: "/TheInflatableIsland/Booking/:locationParams",
 
   //TFR
   LandingTFR: "/TFR",
