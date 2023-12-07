@@ -42,7 +42,7 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.BookingTFRDefault} element={<TFRBooking />} />
         <Route path={routes.BookingTFR} element={<TFRBooking />} />
 
-        <Route path={routes.BookingBakebeDefault} element={<InflatableBooking />} />
+        <Route path={routes.BookingInflatableDefault} element={<InflatableBooking />} />
         <Route path={routes.BookingInflatable} element={<InflatableBooking />} />
 
         <Route path={routes.BookingBakebeDefault} element={<BakebeBooking />} />
