@@ -94,7 +94,7 @@ export function BakebeBooking() {
           window.location.href = result.data.invoice_url;
         } else {
           setLoading(false)
-          toast.error("Failed to submit");
+          toast.error(result.errorMsg);
         }
       })
       .catch((e) => {
