@@ -1,14 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-
-import { FaUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Topbar } from "../../components/Navbar";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { editProfile } from "../../functions";
-import { PDFViewer, StyleSheet } from "@react-pdf/renderer";
-import {PDFTicketWithQR} from "../../helper/PDF";
 
 let title = "Profile";
 
