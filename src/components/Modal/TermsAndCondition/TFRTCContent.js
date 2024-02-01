@@ -35,7 +35,7 @@ export default function TISTCContent() {
           The Fun Roof reserves the right to deny entry to any person for any
           reason, including but not limited to, intoxication, disruptive
           behavior, or failure to comply with dress code requirements.
-          Unauthorized entry may be rescheduled for a fee of ₱200.00.
+          Unauthorized entry may be rescheduled for a fee of ₱1,000.00.
         </li>
         <li className="text-sm text-justify">
           The Fun Roof reserves the right to eject any individual who poses a
