@@ -16,6 +16,7 @@ import axios from "axios";
 import { setCart, setToken, setUser } from "../../store/action";
 import ChangePassModal from "../Modal/Profile/ChangePass/ChangePass";
 import { ConfirmationCartModal } from "../Modal/ConfirmationCartModal";
+import PrivacyPolicy from "../Modal/PrivacyANDPolicy/PrivacyPolicy";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -35,6 +36,7 @@ export default function Topbar({ scroll }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [page, setPage] = useState(null);
+  const [policyModal, setPolicyModal] = useState(false)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -108,6 +110,10 @@ export default function Topbar({ scroll }) {
         showModal={isModalVisible}
         handleCloseModal={handleCloseModal}
         handleProceed={handleProceed}
+      />
+      <PrivacyPolicy
+        isOpen={policyModal}
+        onRequestClose={() => setPolicyModal(!policyModal)}
       />
       <div className="bg-[#212121] hidden tablet:block">
         <div className="py-auto">
@@ -227,6 +233,11 @@ export default function Topbar({ scroll }) {
                 </div>
               </div>
             </div>
+              <div>
+                <div onClick={() => setPolicyModal(true)} className="text-white px-4 mt-1 rounded-md cursor-pointer hover:text-[#EFC391]">
+                  <p className="text-sm">Privacy & Policy</p>
+                </div>
+              </div>
             <div
               className="flex w-1/10 justify-center items-center"
               ref={menuRef}
