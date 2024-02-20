@@ -12,7 +12,7 @@ export default function TISTCContent() {
           purposes.
         </li>
         <li className="text-sm text-justify">
-          All patrons must sign a waiver form before they enter Gootopia.
+          All patrons must sign a waiver form before they enter The Fun Roof.
         </li>
         <li className="text-sm text-justify">
           No outside food and drinks are allowed.
