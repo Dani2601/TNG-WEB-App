@@ -5,17 +5,16 @@ import { decryptData } from "../helper/DataEncryption";
 async function loginViaEmail(email, password) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}LoginValidation`,
+      `${process.env.REACT_APP_REST_API}/accounts/login`,
       {
-        Email: email,
-        Password: password,
-        UserType: "C",
+        emailAddress: email,
+        password: password,
       }
     );
 
     if (data?.valid) {
       const decrypt = await decryptData(data.response);
-     // console.log(decrypt)
+      // console.log(decrypt)
       return {
         valid: true,
         token: data.token,
@@ -32,37 +31,46 @@ async function loginViaEmail(email, password) {
   }
 }
 
-async function reauthenticate(token) {
-    try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_REST_API}Reauthenticate`, {},
-        {
-          headers: {
-            "tng-authorization": token
-          }
-        }
-      );
-  
-      return data;
-    } catch (e) {
-      return {
-        valid: false,
-      };
-    }
-  }
-  
-
-async function register(name,mobile,email, address, password) {
+async function reauthenticate(refresh_token) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}CreateCustomer`,
+      `${process.env.REACT_APP_REST_API}/accounts/refresh-token`,
       {
-        Name: name,
-        Email: email,
-        Mobile: mobile,
-        Address: address,
-        Password: password,
-        UserType: "C",
+        refreshToken: refresh_token,
+      }
+    );
+
+    if (data?.valid) {
+      return {
+        valid: true,
+        accessToken: data.accessToken
+      };
+    } else {
+      return {
+        valid: false
+      };
+    }
+  } catch (e) {
+    return {
+      valid: false,
+    };
+  }
+}
+
+
+async function register(fname, lname, mobile, email, address, password, cpassword) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_REST_API}/accounts/register`,
+      {
+        firstName: fname,
+        lastName: lname,
+        emailAddress: email,
+        phone: mobile,
+        homeAddress: address,
+        password: password,
+        confirmPassword: cpassword,
+        status: "Active"
       }
     );
 
@@ -84,7 +92,7 @@ async function register(name,mobile,email, address, password) {
   }
 }
 
-async function editProfile(id,name, mobile, address) {
+async function editProfile(id, name, mobile, address) {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_REST_API}EditCustomer`,
@@ -110,7 +118,7 @@ async function editProfile(id,name, mobile, address) {
   }
 }
 
-async function changePass(id,old, newPass) {
+async function changePass(id, old, newPass) {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_REST_API}ChangePassword`,
@@ -136,4 +144,4 @@ async function changePass(id,old, newPass) {
   }
 }
 
-export { loginViaEmail, register,reauthenticate,editProfile,changePass};
+export { loginViaEmail, register, reauthenticate, editProfile, changePass };
