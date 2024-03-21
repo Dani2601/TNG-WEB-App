@@ -1,9 +1,9 @@
 import axios from "axios";
 
-async function getBranches(user,businessID) {
+async function getBranches(user, businessID) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}FilterBranch`,
+      `${process.env.REACT_APP_REST_API}/business-unit-branches/show-all`,
       {
         UserID: user,
         BusinessUnitID: businessID,
@@ -11,7 +11,7 @@ async function getBranches(user,businessID) {
     );
 
     if (data?.valid) {
-     return data
+      return data
     } else {
       return data;
     }

@@ -31,7 +31,8 @@ const validationSchema = Yup.object().shape({
     .required("Confirm Password is required")
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .label("Confirm Password"),
-  name: Yup.string().required("Name is required"),
+  fname: Yup.string().required("Name is required"),
+  lname: Yup.string().required("Name is required"),
   address: Yup.string().required("Address is required"),
 
   mobile: Yup.string()
@@ -61,15 +62,18 @@ function Register() {
   async function onSubmit(values) {
     try {
       const response = await register(
-        values.name,
+        values.fname,
+        values.lname,
         values.mobile,
         values.email,
         values.address,
-        values.password
+        values.password,
+        values.cpassword,
       );
 
       //console.log("response",response)
-      if (response.valid) {
+      // if (response.valid) {
+      if (response.success) {
         console.log(response);
 
         dispatch(setUser(response.user));
@@ -96,7 +100,7 @@ function Register() {
     setShowCPassword((prev) => !prev);
   }, []);
 
-  console.log("error",formik.errors)
+  console.log("error", formik.errors)
   return (
     <>
       <Topbar
@@ -124,21 +128,39 @@ function Register() {
                     </div>
                     <div className="flex flex-col space-y-2 w-full">
                       <span className="text-cyan-900 mt-8">
-                        Name
+                        First Name
                         <small className="text-red-500 ml-1 text-[20px]">
                           *
                         </small>
                       </span>
                       <input
                         type="text"
-                        name="name"
+                        name="fname"
                         onChange={formik.handleChange}
                         className="px-5 py-2 border-[1px] border-slate-300 rounded-full"
                         required
                       />
-                      {formik.touched.name && formik.errors.name ? (
+                      {formik.touched.fname && formik.errors.fname ? (
                         <div className="flex text-red-500 text-sm">
-                          {formik.errors.name}
+                          {formik.errors.fname}
+                        </div>
+                      ) : null}
+                      <span className="text-cyan-900 mt-8">
+                        Last Name
+                        <small className="text-red-500 ml-1 text-[20px]">
+                          *
+                        </small>
+                      </span>
+                      <input
+                        type="text"
+                        name="lname"
+                        onChange={formik.handleChange}
+                        className="px-5 py-2 border-[1px] border-slate-300 rounded-full"
+                        required
+                      />
+                      {formik.touched.lname && formik.errors.lname ? (
+                        <div className="flex text-red-500 text-sm">
+                          {formik.errors.lname}
                         </div>
                       ) : null}
                       <span className="text-cyan-900">Email</span>

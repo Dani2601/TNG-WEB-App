@@ -28,11 +28,11 @@ const TIS_KEY = process.env.REACT_APP_INFLATABLE_KEY;
 const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
 
 const business_unit = {
-    [BAKEBE_KEY]: routes.BookingBakebe,
-    [GOOTOPIA_KEY]: routes.BookingGootopia,
-    [TFR_KEY]: routes.BookingTFR,
-    [DESSERT_KEY]: routes.DessertBooking,
-    [TIS_KEY]: routes.BookingInflatable
+  [BAKEBE_KEY]: routes.BookingBakebe,
+  [GOOTOPIA_KEY]: routes.BookingGootopia,
+  [TFR_KEY]: routes.BookingTFR,
+  [DESSERT_KEY]: routes.DessertBooking,
+  [TIS_KEY]: routes.BookingInflatable
 }
 
 function Landing() {
@@ -55,7 +55,10 @@ function Landing() {
   async function onSubmit(values) {
     try {
       const response = await loginViaEmail(values.email, values.password);
-      if (response.valid) {
+      console.log(response);
+      // if (response.valid) {
+      if (response.success) {
+        console.log("");
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
         login();
@@ -63,7 +66,7 @@ function Landing() {
           const checkBusiness = cart[0]?.BusinessUnitID;
           navigate(business_unit[checkBusiness], { state: { step: true } });
         }
-        else{
+        else {
           navigate(-1)
         }
       } else {
