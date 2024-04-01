@@ -52,10 +52,10 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
   }
 
   function handleNext() {
-    if(user?.id){
+    if (user?.id) {
       setShowModal(true);
     }
-    else{
+    else {
       setModalVisible(true)
     }
   }
@@ -70,8 +70,12 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
     setShowModal(false);
   }
 
+
   useEffect(() => {
-    getTicketGootopia(user?.id || '123', process.env.REACT_APP_GOOTOPIA_KEY, location)
+    const accessToken = localStorage.getItem('accessToken');
+
+    getTicketGootopia(accessToken, process.env.REACT_APP_GOOTOPIA_KEY, location
+    )
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);
@@ -126,7 +130,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
                   tickets?.sort((a, b) => a.Name.localeCompare(b.Name)).map((item, index) => {
                     return (
                       <>
-                       <div
+                        <div
                           onClick={() => {
                             handleNext();
                             setTicket(item);
@@ -134,36 +138,36 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
                           key={item.id}
                           className="flex flex-col items-center border-[2px] border-gootopia-green h-[300px] w-[200px] rounded-xl hoverEffects"
                         >
-                        <div className="h-[70%] w-full flex flex-col items-center relative">
-                          <div className="relative">
-                            <img
-                              src={item?.Image}
-                              className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
-                              alt={item?.Image}
-                            />
-                          </div>
-                          <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
-                            <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-gootopia-yellowText bg-gootopia-darkPurp shadow-xl">
-                              <p className="mx-auto">PHP{item?.Price}</p>
+                          <div className="h-[70%] w-full flex flex-col items-center relative">
+                            <div className="relative">
+                              <img
+                                src={item?.Image}
+                                className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
+                                alt={item?.Image}
+                              />
                             </div>
-                            {
-                              item?.OldPrice &&
-                              <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-gootopia-pinkText bg-gootopia-darkPurp shadow-xl">
-                                <p className="mx-auto">PHP{item?.OldPrice}</p>
+                            <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
+                              <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-gootopia-yellowText bg-gootopia-darkPurp shadow-xl">
+                                <p className="mx-auto">PHP{item?.Price}</p>
                               </div>
-                            }
+                              {
+                                item?.OldPrice &&
+                                <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-gootopia-pinkText bg-gootopia-darkPurp shadow-xl">
+                                  <p className="mx-auto">PHP{item?.OldPrice}</p>
+                                </div>
+                              }
+                            </div>
                           </div>
-                        </div>
-                        <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
+                          <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
                             <div className=" text-center font-bold tablet:text-[18px] text-tfr-yellow text-[12px] px-2">
-                            {item?.Name}
+                              {item?.Name}
                             </div>
                             <div className=" text-center  text-gootopia-green text-[8px] px-2 tablet:text-[14px]">
                               {item?.Description}
                             </div>
                           </div>
                         </div>
-                        </>
+                      </>
                       // <div className="flex flex-row hoverEffects" key={index}>
                       //   <button
                       //     className=" self-center"

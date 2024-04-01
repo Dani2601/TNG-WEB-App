@@ -1,13 +1,18 @@
 import axios from "axios";
 
-async function getTicketGootopia(user, businessID, branchID) {
+async function getTicketGootopia(accessToken, businessID, branchID) {
   try {
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/tickets/show-all?filter[businessUnitId]=e9ecabdb-d077-4b88-bb84-52c7403766de&filter[businessUnitBranchId]=55de1cf4-0071-474a-a054-b551af5153f3`,
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    console.log(accessToken)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_REST_API}/tickets/show-all?filter[businessUnitId]=${businessID}&filter[businessUnitBranchId]=${branchID}`,
       {
-        UserID: user,
-        BusinessUnitID: businessID,
-        BranchID: branchID,
+        businessUnitId: businessID,
+        businessUnitBranchId: branchID,
       }
     );
 
