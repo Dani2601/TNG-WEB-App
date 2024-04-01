@@ -1,17 +1,20 @@
 import axios from "axios";
 
-async function getBranches(user, businessID) {
+async function getBranches(accessToken, key) {
   try {
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/business-unit-branches/show-all`,
-      {
-        UserID: user,
-        BusinessUnitID: businessID,
-      }
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_REST_API}/business-unit-branches/search/${key}`,
+      { headers }
     );
 
+    console.log(data)
+
     if (data?.valid) {
-      return data
+      return data.businessUnitBranchesArray;
     } else {
       return data;
     }

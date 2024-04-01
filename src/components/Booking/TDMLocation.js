@@ -1,41 +1,62 @@
-import React, {useState} from "react";
-import {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-import {getBranches} from "../../functions/Branches";
-import {useSelector} from "react-redux";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getBranches } from "../../functions/Branches";
+import { useSelector } from "react-redux";
 
-export function TDMLocation({setStep, setLocation, location, navigateToNextStep}) {
+export function TDMLocation({ setStep, setLocation, location, navigateToNextStep }) {
     const navigate = useNavigate();
     const [selectedLocation,
         setSelectedLocation] = useState([]);
-    const {user} = useSelector((state) => state.record);
+    const { user } = useSelector((state) => state.record);
+    const [branch, setBranch] = useState([]);
 
     function handleBack() {
         navigate(-1);
     }
 
     function handleNext() {
-      navigateToNextStep()
+        navigateToNextStep()
     }
 
     async function handleLocation(e) {
         setLocation(e.target.value)
     }
 
+    // useEffect(() => {
+    //     getBranches(user
+    //         ?.id || '123', process.env.REACT_APP_DESSERT_KEY)
+    //         .then((response) => {
+    //         if (response.valid) {
+    //             // Convert the object into an array
+    //             const locationArray = Object.values(response.data);
+    //             setSelectedLocation(locationArray);
+    //         } else {
+    //             // Handle error case
+    //         }
+    //     }).catch((error) => {
+    //         // Handle error case
+    //     });
+    // }, []);
+
     useEffect(() => {
-        getBranches(user
-            ?.id || '123', process.env.REACT_APP_DESSERT_KEY).then((response) => {
-            if (response.valid) {
-                // Convert the object into an array
-                const locationArray = Object.values(response.data);
-                setSelectedLocation(locationArray);
-            } else {
-                // Handle error case
-            }
-        }).catch((error) => {
-            // Handle error case
-        });
+        const accessToken = localStorage.getItem('accessToken');
+        const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
+
+        getBranches(accessToken, DESSERT_KEY)
+            .then((response) => {
+                console.log("branch response", response);
+                if (response.success) {
+                    setBranch(response.businessUnitBranchesArray);
+                } else {
+                    console.error("Failed to fetch branches:", response.error);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching branches:", error);
+            });
     }, []);
+
 
     return (
         <div className="w-full h-[60vh] flex justify-center">
@@ -45,9 +66,9 @@ export function TDMLocation({setStep, setLocation, location, navigateToNextStep}
                     <p className="text-[30px] text-[#FF98C3]">Select Location</p>
                     <p className="text-sm">
                         Please note that our TWO HOUR TOUR starts every 15 minutes.
-                        <br/>
+                        <br />
                         Guests are required to come 20 minutes before their scheduled slot
-                        <br/>
+                        <br />
                         for processing of tickets.
                     </p>
                 </div>
@@ -59,10 +80,8 @@ export function TDMLocation({setStep, setLocation, location, navigateToNextStep}
                         value={selectedLocation.Address} //
                     >
                         <option value="">Select location</option>
-                        {selectedLocation.map((item, index) => (
-                            <option key={index} value={item.id} className="hoverEffects">
-                                {item.Address}
-                            </option>
+                        {branch.map((branchItem) => (
+                            <option key={branchItem.id} value={branchItem.id}>{branchItem.address}</option>
                         ))}
                     </select>
 
