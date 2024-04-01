@@ -32,17 +32,35 @@ export default function InflatableSelectLocation({ step, setStep, setLocation, l
     }
   };
 
+  // useEffect(() => {
+  //   getBranches(user?.id || '1234', process.env.REACT_APP_INFLATABLE_KEY)
+  //     .then((response) => {
+  //       if (response.valid) {
+  //         // const locationArray = Object.values(response.data);
+  //         // setSelectedLocation(locationArray);
+  //         setBranch(response.data);
+  //       } else {
+  //       }
+  //     })
+  //     .catch();
+  // }, []);
+
   useEffect(() => {
-    getBranches(user?.id || '1234', process.env.REACT_APP_INFLATABLE_KEY)
+    const accessToken = localStorage.getItem('accessToken');
+    const INFLATABLE_KEY = process.env.REACT_APP_INFLATABLE_KEY;
+
+    getBranches(accessToken, INFLATABLE_KEY)
       .then((response) => {
-        if (response.valid) {
-          // const locationArray = Object.values(response.data);
-          // setSelectedLocation(locationArray);
-          setBranch(response.data);
+        console.log("branch response", response);
+        if (response.success) {
+          setBranch(response.businessUnitBranchesArray);
         } else {
+          console.error("Failed to fetch branches: Invalid response format");
         }
       })
-      .catch();
+      .catch((error) => {
+        console.error("Error fetching branches:", error);
+      });
   }, []);
 
   return (

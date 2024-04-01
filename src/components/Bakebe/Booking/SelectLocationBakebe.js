@@ -45,21 +45,30 @@ export default function SelectLocationBakebe({
 
 
   useEffect(() => {
-    getBranches(user?.id || '123', process.env.REACT_APP_BAKEBE_KEY)
+    const accessToken = localStorage.getItem('accessToken');
+    const BAKEBE_KEY = process.env.REACT_APP_BAKEBE_KEY;
+
+    // getBranches(user?.id || '123', process.env.REACT_APP_BAKEBE_KEY)
+    getBranches(accessToken, BAKEBE_KEY)
       .then((response) => {
-        if (response.valid) {
-          // const locationArray = Object.values(response.data);
-          // setSelectedLocation(locationArray);
-          setBranch(response.data);
-        } else {
-        }
+        console.log("branch response", response);
+        console.log("branch data", response.branches);
+        setBranch(response.businessUnitBranchesArray);
+        // if (response.success) {
+        //   // const locationArray = Object.values(response.data);
+        //   // setSelectedLocation(locationArray);
+        //   setBranch(response.data);
+        //   console.log("Response data:", response.data);
+
+        // } else {
+        // }
       })
       .catch();
   }, []);
 
   return (
     <BakebeContainer>
-      <BakebeMenubarNonSpa/>
+      <BakebeMenubarNonSpa />
       <div
         className="max-h-full min-h-screen bg-white "
         style={{ fontFamily: "Gotham-Bold, sans-serif" }}
@@ -68,7 +77,7 @@ export default function SelectLocationBakebe({
           <span className=" text-bakebe-orange text-[23px]  tablet:text-[28px] tablet:laptop:LaptopL:Laptop4k mt-8">
             CHOOSE LOCATION
           </span>
-          <span   style={{ fontFamily: "Gotham-Light, sans-serif" }} className="  text-[14px]  my-3 mb-8 tracking-wide">
+          <span style={{ fontFamily: "Gotham-Light, sans-serif" }} className="  text-[14px]  my-3 mb-8 tracking-wide">
             Choose where you want to book your appointment
           </span>
         </div>
@@ -77,22 +86,20 @@ export default function SelectLocationBakebe({
           <div className="bg-slate-200 w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
-                {branch.map((data, index) => (
+                {branch && branch.length > 0 && branch.map((data, index) => (
                   <div className="flex flex-col mr-3 hoverEffects" key={index}>
                     <button
-                      className={`outline-4 self-center ${
-                        selectedBranch === data.id
-                          ? "outline-[15px] text-bakebe-pink"
-                          : ""
-                      }`}
+                      className={`outline-4 self-center ${selectedBranch === data.id
+                        ? "outline-[15px] text-bakebe-pink"
+                        : ""
+                        }`}
                       onClick={() => handleSelectBranch(data)}
                     >
                       <img
-                        className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] bg-black object-cover ${
-                          selectedBranch === data.id
-                            ? "outline text-bakebe-pink"
-                            : ""
-                        }`}
+                        className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] bg-black object-cover ${selectedBranch === data.id
+                          ? "outline text-bakebe-pink"
+                          : ""
+                          }`}
                         src={data?.Image}
                         alt="gootopia"
                       />

@@ -3,7 +3,7 @@ import axios from "axios";
 async function getTicketGootopia(user, businessID, branchID) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}FilterTicketViaBranchNoPackage`,
+      `${process.env.REACT_APP_REST_API}/tickets/show-all?filter[businessUnitId]=e9ecabdb-d077-4b88-bb84-52c7403766de&filter[businessUnitBranchId]=55de1cf4-0071-474a-a054-b551af5153f3`,
       {
         UserID: user,
         BusinessUnitID: businessID,
@@ -39,7 +39,7 @@ async function getTicketBakebe(
   duration
 ) {
   try {
-    const { data } = await axios.post(
+    const { data } = await axios.get(
       `${process.env.REACT_APP_REST_API}FilterBakebeTicketViaBranchNoPackage`,
       {
         UserID: user,
@@ -48,9 +48,9 @@ async function getTicketBakebe(
         Type: type,
         PageSize: parseInt(pageSize),
         PageNumber: pageNumber,
-        Category:category,
-        Difficulty:difficulty,
-        Duration:duration
+        Category: category,
+        Difficulty: difficulty,
+        Duration: duration
       }
     );
 
@@ -94,11 +94,8 @@ async function getTFRBookingsByTicketID(branchID, ticketid, date, subcat) {
 async function getBookingsByTicketID(branchID, ticketid, date) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}ViewBookingsByTicketID`,
+      `${process.env.REACT_APP_REST_API}/tickets/2c311c18-9564-42a2-81cc-9cd67a48d655/search`,
       {
-        BranchID: branchID,
-        TicketID: ticketid,
-        BookingDate: date,
       }
     );
 
@@ -116,16 +113,16 @@ async function getBookingsByTicketID(branchID, ticketid, date) {
 
 async function getBookingsByBranch(branchID, date) {
   try {
-    const { data } = await axios.post(
+    const { data } = await axios.get(
       `${process.env.REACT_APP_REST_API}ViewBookingsByBranch`,
       {
         BranchID: branchID,
         BookingDate: date,
       }
-    ); 
+    );
 
     if (data?.valid) {
-     return data
+      return data
     } else {
       return data;
     }
@@ -136,10 +133,10 @@ async function getBookingsByBranch(branchID, date) {
   }
 }
 
-export { 
+export {
   getBookingsByBranch,
-  getTicketGootopia, 
-  getBookingsByTicketID, 
-  getTicketBakebe, 
-  getTFRBookingsByTicketID 
+  getTicketGootopia,
+  getBookingsByTicketID,
+  getTicketBakebe,
+  getTFRBookingsByTicketID
 };

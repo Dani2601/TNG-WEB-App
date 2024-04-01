@@ -42,18 +42,37 @@ export default function SelectLocation({
 
   //console.log(selectedBranch);
 
+  // useEffect(() => {
+  //   getBranches(user?.id || '123', process.env.REACT_APP_TFR_KEY)
+  //     .then((response) => {
+  //       if (response.valid) {
+  //         // const locationArray = Object.values(response.data);
+  //         // setSelectedLocation(locationArray);
+  //         setBranch(response.data);
+  //       } else {
+  //       }
+  //     })
+  //     .catch();
+  // }, []);
+
   useEffect(() => {
-    getBranches(user?.id || '123', process.env.REACT_APP_TFR_KEY)
+    const accessToken = localStorage.getItem('accessToken');
+    const TFR_KEY = process.env.REACT_APP_TFR_KEY;
+
+    getBranches(accessToken, TFR_KEY)
       .then((response) => {
-        if (response.valid) {
-          // const locationArray = Object.values(response.data);
-          // setSelectedLocation(locationArray);
-          setBranch(response.data);
+        console.log("branch response", response);
+        if (response.success) {
+          setBranch(response.businessUnitBranchesArray);
         } else {
+          console.error("Failed to fetch branches: Invalid response format");
         }
       })
-      .catch();
+      .catch((error) => {
+        console.error("Error fetching branches:", error);
+      });
   }, []);
+
 
   return (
     <TFRContainer>
@@ -72,22 +91,20 @@ export default function SelectLocation({
           <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
-                {branch.map((data, index) => (
+                {branch && branch.length > 0 && branch.map((data, index) => (
                   <div className="flex flex-col mr-3 hoverEffects" key={index}>
                     <button
-                      className={`outline-4 self-center ${
-                        selectedBranch === data.id
-                          ? "outline-[15px] text-tfr-pink"
-                          : ""
-                      }`}
+                      className={`outline-4 self-center ${selectedBranch === data.id
+                        ? "outline-[15px] text-tfr-pink"
+                        : ""
+                        }`}
                       onClick={() => handleSelectBranch(data)}
                     >
                       <img
-                        className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] bg-black object-cover ${
-                          selectedBranch === data.id
-                            ? "outline text-tfr-pink"
-                            : ""
-                        }`}
+                        className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] bg-black object-cover ${selectedBranch === data.id
+                          ? "outline text-tfr-pink"
+                          : ""
+                          }`}
                         src={data?.Image}
                         alt="gootopia"
                       />

@@ -12,6 +12,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('isAuth::::::' + loggedIn)
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -25,7 +26,7 @@ function App() {
         </div>
       ) : (
         <>
-          <Bottombar/>
+          <Bottombar />
           <Cart />
 
           {loggedIn ? <AuthenticatedScreens /> : <UnauthenticatedScreens />}
