@@ -58,10 +58,15 @@ function Landing() {
       console.log(response);
       // if (response.valid) {
       if (response.success) {
-        console.log("");
+        console.log(response);
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
-        login();
+        localStorage.setItem('accessToken', response.token);
+        localStorage.setItem('user', response.user);
+
+        login()
+        console.log(cart);
+        return;
         if (cart?.length > 0) {
           const checkBusiness = cart[0]?.BusinessUnitID;
           navigate(business_unit[checkBusiness], { state: { step: true } });

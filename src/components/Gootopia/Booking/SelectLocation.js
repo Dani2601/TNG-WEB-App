@@ -32,17 +32,35 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
     }
   };
 
+  // useEffect(() => {
+  //   getBranches(user?.id || '123', process.env.REACT_APP_GOOTOPIA_KEY)
+  //     .then((response) => {
+  //       if (response.valid) {
+  //         // const locationArray = Object.values(response.data);
+  //         // setSelectedLocation(locationArray);
+  //         setBranch(response.data);
+  //       } else {
+  //       }
+  //     })
+  //     .catch();
+  // }, []);
+
   useEffect(() => {
-    getBranches(user?.id || '123', process.env.REACT_APP_GOOTOPIA_KEY)
+    const accessToken = localStorage.getItem('accessToken');
+    const INFLATABLE_KEY = process.env.REACT_APP_INFLATABLE_KEY;
+
+    getBranches(accessToken, INFLATABLE_KEY)
       .then((response) => {
-        if (response.valid) {
-          // const locationArray = Object.values(response.data);
-          // setSelectedLocation(locationArray);
-          setBranch(response.data);
+        console.log("branch response", response);
+        if (response.success) {
+          setBranch(response.businessUnitBranchesArray);
         } else {
+          console.error("Failed to fetch branches: Invalid response format");
         }
       })
-      .catch();
+      .catch((error) => {
+        console.error("Error fetching branches:", error);
+      });
   }, []);
 
   return (
@@ -59,27 +77,25 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
           <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3 ">
             <div>
               <div className="flex flex-row">
-              {branch.map((data, index) => (
-              <div className="flex flex-col mr-3 hoverEffects " key={index}>
-                <button
-                  className={`outline-4 self-center  ${
-                    selectedBranch === data.id ? 'outline-[15px] outline-[#E677AA]' : ''
-                  }`}
-                  onClick={() => handleSelectBranch(data)}
-                >
-                  <img
-                    className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${
-                      selectedBranch === data.id ? 'outline outline-[#E677AA]' : ''
-                    }`}
-                    src={data?.Image}
-                    alt="gootopia"
-                  />
-                </button>
-                <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
-                  {data?.Address}
-                </div>
-              </div>
-            ))}
+                {branch.map((data, index) => (
+                  <div className="flex flex-col mr-3 hoverEffects " key={index}>
+                    <button
+                      className={`outline-4 self-center  ${selectedBranch === data.id ? 'outline-[15px] outline-[#E677AA]' : ''
+                        }`}
+                      onClick={() => handleSelectBranch(data)}
+                    >
+                      <img
+                        className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${selectedBranch === data.id ? 'outline outline-[#E677AA]' : ''
+                          }`}
+                        src={data?.Image}
+                        alt="gootopia"
+                      />
+                    </button>
+                    <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
+                      {data?.Address}
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <div className="flex flex-row justify-end">

@@ -80,7 +80,8 @@ export default function TicketModal({
     const response = await changePass(
       user.id,
       values.OldPassword,
-      values.NewPassword
+      values.NewPassword,
+      values.ConfirmPassword,
     );
     if (response.valid) {
       closeEditModal();
@@ -126,16 +127,16 @@ export default function TicketModal({
                 </div>
                 <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="mr-1 font-bold">Hi! {user.Name.split(' ').slice(0, 1).join(' ')}, here's the summary of your booking. </div>
-                 
+
                 </div>
-                  <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px] mr-1">Ticket Code: </div>
-                    {editData?.TicketCode || editData?.Code}
-                  </div>
-                  <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
+                  {editData?.TicketCode || editData?.Code}
+                </div>
+                <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px] mr-1">Transaction Number: </div>
-                    {editData.Code}
-                  </div>
+                  {editData.Code}
+                </div>
                 <div className="flex tablet:flex-row items-start tablet:items-center flex-row justify-center mt-2 tablet:mt-5 tablet:ml-5 ">
                   <div className="tablet:w-[140px] mr-1">TNG Unit: </div>
                   {editData.BusinessUnitName}

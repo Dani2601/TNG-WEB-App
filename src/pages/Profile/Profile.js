@@ -27,23 +27,23 @@ const validationSchema = Yup.object().shape({
 export default function Profile() {
   const { user } = useSelector((state) => state.record);
 
-  const styleForPDFViewer = StyleSheet.create({
-    pdfviewer: {
-      width: "100%",
-      height: "100%"
-    }
-  });
+  // const styleForPDFViewer = StyleSheet.create({
+  //   pdfviewer: {
+  //     width: "100%",
+  //     height: "100%"
+  //   }
+  // });
 
   const onSubmit = async (values) => {
-  
-      const response = await editProfile(user?.id,values.Name,values.Mobile,values.Address);
-      if (response.valid) {
-        // setDataAdded(!dataAdded);
-        // closeEditModal();
-      } else {
-        // toast
-      }
-      // handleUserUpdate(values);
+
+    const response = await editProfile(user?.id, values.Name, values.Mobile, values.Address);
+    if (response.valid) {
+      // setDataAdded(!dataAdded);
+      // closeEditModal();
+    } else {
+      // toast
+    }
+    // handleUserUpdate(values);
   };
 
   const formik = useFormik({
@@ -63,7 +63,7 @@ export default function Profile() {
 
   return (
     <>
-      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
+      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick} />
       <Helmet>
         <title>TNG Admin | Business Unit</title>
       </Helmet>
@@ -92,7 +92,7 @@ export default function Profile() {
               <div className="flex-none modalgradient rounded-lg shadow-lg">
                 <div className=" mb-5 rounded-lg p-5">
                   <div className="mt-5 flex flex-col text-base">
-                  <div className="flex flex-none self-center text-base font-bold">
+                    <div className="flex flex-none self-center text-base font-bold">
                       Hello there! {user?.Name}
                     </div>
                     <hr class="h-[2px] modalgradient border-0 dark:bg-gray-700 mt-4 mb-6"></hr>

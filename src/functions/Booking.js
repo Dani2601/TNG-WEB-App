@@ -3,7 +3,7 @@ import axios from "axios";
 async function addBooking(e) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/transactions/b4edd511-2abe-4bfe-932e-cbbd6e45c401/create`,
+      `${process.env.REACT_APP_REST_API}/transactions/create`,
       e
     );
 
@@ -21,8 +21,8 @@ async function addBooking(e) {
 
 async function viewMyTransaction(e) {
   try {
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/transactions/b4edd511-2abe-4bfe-932e-cbbd6e45c401/showAll`,
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_REST_API}/transactions/showAll/b4edd511-2abe-4bfe-932e-cbbd6e45c401`,
       {
         UserID: e,
       }
@@ -42,8 +42,8 @@ async function viewMyTransaction(e) {
 
 async function viewMyTickets(e) {
   try {
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/tickets/show-all`,
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_REST_API}/ticket-categories/show-all?filter=active`,
       {
         UserID: e,
       }
@@ -64,7 +64,7 @@ async function viewMyTickets(e) {
 async function ViewTransactionViaCode(Code) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/transactions/d9d2aa5b-4a70-4a5e-b0be-1c0ee58ec0cc/search`,
+      `${process.env.REACT_APP_REST_API}/transactions/search/d9d2aa5b-4a70-4a5e-b0be-1c0ee58ec0cc`,
       {
         Code: Code
       }
@@ -85,7 +85,7 @@ async function ViewTransactionViaCode(Code) {
 async function ViewEvents(business) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/events/e9ecabdb-d077-4b88-bb84-52c7403766de/show-all`,
+      `${process.env.REACT_APP_REST_API}/events/show-all/e9ecabdb-d077-4b88-bb84-52c7403766de`,
       {
         Business: business
       }

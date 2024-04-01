@@ -119,10 +119,10 @@ export default function SelectTicketBakebe({
   }
 
   function handleNext() {
-    if(user?.id){
+    if (user?.id) {
       setShowModal(true);
     }
-    else{
+    else {
       setModalVisible(true)
     }
   }
@@ -138,7 +138,8 @@ export default function SelectTicketBakebe({
   }
 
   useEffect(() => {
-    getBranches(user?.id || '123', BAKEBE_KEY)
+    const accessToken = localStorage.getItem('accessToken');
+    getBranches(accessToken, BAKEBE_KEY)
       .then((response) => {
         if (response.valid) {
           // Convert the object into an array
@@ -223,12 +224,12 @@ export default function SelectTicketBakebe({
             return (
               <div class="hoverEffects border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
                 <div className="h-[70%] fd-cl group-hover:opacity-0">
-                   <img
+                  <img
                     src={data.Image}
                     alt={data.Image}
                     className="rounded-t-[30px] h-full w-full object-cover"
-                  /> 
-              
+                  />
+
                 </div>
                 <div className="h-[30%] flex flex-col mx-[10px] gap-2 my-[10px] fd-cl group-hover:opacity-0">
                   <div className="truncate">{data.Name}</div>
@@ -293,7 +294,7 @@ export default function SelectTicketBakebe({
             <div class="border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px]">
               <div className="h-[70%] ">
                 <div className="animate-pulse text-center flex flex-col items-center justify-center bg-slate-200 rounded-t-[30px] h-full w-full object-cover">
-                 
+
                 </div>
               </div>
               <div className="h-[30%] flex flex-col mx-[10px] gap-2 my-[10px] ">
@@ -368,11 +369,11 @@ export default function SelectTicketBakebe({
                       style={{ fontFamily: "Gotham-Light, sans-serif" }}
                       onChange={handleFilterChangeCategory}
 
-                      // onChange={(e) => {
-                      //   handleBusinessUnitSelectChange(e);
-                      // }}
-                      // name="BusinessUnit"
-                      // onClick={() => businessUnits()}
+                    // onChange={(e) => {
+                    //   handleBusinessUnitSelectChange(e);
+                    // }}
+                    // name="BusinessUnit"
+                    // onClick={() => businessUnits()}
                     >
                       <option className="text-[10px]" value="All">
                         All
@@ -398,11 +399,11 @@ export default function SelectTicketBakebe({
                       style={{ fontFamily: "Gotham-Light, sans-serif" }}
                       onChange={handleFilterChangeDifficulty}
 
-                      // onChange={(e) => {
-                      //   handleBusinessUnitSelectChange(e);
-                      // }}
-                      // name="BusinessUnit"
-                      // onClick={() => businessUnits()}
+                    // onChange={(e) => {
+                    //   handleBusinessUnitSelectChange(e);
+                    // }}
+                    // name="BusinessUnit"
+                    // onClick={() => businessUnits()}
                     >
                       <option className="text-[10px]" value="All">
                         All
@@ -426,8 +427,8 @@ export default function SelectTicketBakebe({
                       aria-label="Default select example"
                       style={{ fontFamily: "Gotham-Light, sans-serif" }}
                       onChange={handleFilterChangeDuration}
-                      // name="BusinessUnit"
-                      // onClick={() => businessUnits()}
+                    // name="BusinessUnit"
+                    // onClick={() => businessUnits()}
                     >
                       <option className="text-[10px]" value="All">
                         All
@@ -435,28 +436,28 @@ export default function SelectTicketBakebe({
 
                       {selectedType === "Express"
                         ? durationExpress?.map((item, index) => {
-                            return (
-                              <option
-                                key={index}
-                                className="text-[10px]"
-                                value={item.Value}
-                              >
-                                {item.Name}
-                              </option>
-                            );
-                          })
+                          return (
+                            <option
+                              key={index}
+                              className="text-[10px]"
+                              value={item.Value}
+                            >
+                              {item.Name}
+                            </option>
+                          );
+                        })
                         : durationRegular?.map((item, index) => {
-                            return (
-                              <option
-                                key={index}
-                                className="text-[10px]"
-                                value={item.Value}
-                              >
-                                {" "}
-                                {item.Name}
-                              </option>
-                            );
-                          })}
+                          return (
+                            <option
+                              key={index}
+                              className="text-[10px]"
+                              value={item.Value}
+                            >
+                              {" "}
+                              {item.Name}
+                            </option>
+                          );
+                        })}
                     </select>
                   </div>
 
@@ -485,9 +486,9 @@ export default function SelectTicketBakebe({
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                             ></path>
                           </svg>
@@ -516,8 +517,8 @@ export default function SelectTicketBakebe({
                       onChange={(e) => {
                         handlePageCountChange(e);
                       }}
-                      // name="BusinessUnit"
-                      // onClick={() => businessUnits()}
+                    // name="BusinessUnit"
+                    // onClick={() => businessUnits()}
                     >
                       {pageCount?.map((item, index) => {
                         return (

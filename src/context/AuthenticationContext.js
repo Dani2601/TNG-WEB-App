@@ -12,22 +12,27 @@ const AuthProvider = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const { token } = useSelector((state) => state.record);
+  const token = localStorage.getItem('accessToken')
+  const user = localStorage.getItem('user')
+  // const { token } = useSelector((state) => state.record);
+  console.log(token)
+
 
   useEffect(() => {
-      let userToken = token;
-      if (userToken != null) {
-        setLoading(true)
-        reauthenticate(userToken)
+    let userToken = token;
+    if (userToken != null) {
+      setLoading(true)
+      reauthenticate(userToken)
         .then((res) => {
-          if(res.valid){
-            dispatch(setUser(res.user));
-            dispatch(setToken(res.token));
+          if (res.valid) {
+            console.log(res)
+            dispatch(setUser(user));
+            dispatch(setToken(res.accessToken));
             dispatch(setCart([]));
             setLoggedIn(true);
             setLoading(false);
           }
-          else{
+          else {
             dispatch(setUser(null))
             dispatch(setToken(null))
             dispatch(setCart([]));
@@ -42,28 +47,28 @@ const AuthProvider = (props) => {
           setLoggedIn(false);
           setLoading(false);
         })
-      } else {
-        dispatch(setUser(null));
-        dispatch(setToken(null));
-        dispatch(setCart([]));
-        setLoggedIn(false);
-        setLoading(false);
-      }
+    } else {
+      dispatch(setUser(null));
+      dispatch(setToken(null));
+      dispatch(setCart([]));
+      setLoggedIn(false);
+      setLoading(false);
+    }
   }, []);
-  
+
   const login = () => {
-      setLoggedIn(true);
+    setLoggedIn(true);
   };
 
   const logout = () => {
-      setLoggedIn(false);
+    setLoggedIn(false);
   };
 
   const authContextValue = {
-      login,
-      loading,
-      loggedIn,
-      logout,
+    login,
+    loading,
+    loggedIn,
+    logout,
   };
 
   return <AuthContext.Provider value={authContextValue} {...props} />;
@@ -72,6 +77,6 @@ const AuthProvider = (props) => {
 const useAuth = () => React.useContext(AuthContext);
 
 export {
-    AuthProvider,
-    useAuth
+  AuthProvider,
+  useAuth
 }

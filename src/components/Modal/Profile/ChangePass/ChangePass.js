@@ -70,18 +70,23 @@ export default function ChangePass({
     },
   };
   const { user } = useSelector((state) => state.record);
+  // const { token } = useSelector((state) => state);
   const [errorMsg, setErrorMsg] = useState(null);
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const token = localStorage.getItem('accessToken')
   const dispatch = useDispatch();
-  
+
   const onSubmit = async (values) => {
     const response = await changePass(
-      user.id,
       values.OldPassword,
-      values.NewPassword
+      values.NewPassword,
+      values.ConfirmPassword,
+      token
     );
-    if (response.valid) {
+
+    if (response.message == 'Password updated successfully') {
+      localStorage.setItem('accessToken', response.token);
       closeEditModal();
       toast.success("Password is successfully changed, return to login.");
       setTimeout(() => {
@@ -120,7 +125,7 @@ export default function ChangePass({
                 <div className="flex flex-col items-center justify-center mt-2 tablet:mt-5">
                   <div className="">Old Password:</div>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="Old Password"
                     value={formik.values.OldPassword}
                     onChange={formik.handleChange}
@@ -167,7 +172,7 @@ export default function ChangePass({
                   </div>
                 ) : null}
                 {formik.touched.ConfirmPassword &&
-                formik.errors.ConfirmPassword ? (
+                  formik.errors.ConfirmPassword ? (
                   <div className="flex flex-row justify-center text-center items-center text-red-500 text-sm ">
                     {formik.errors.ConfirmPassword}
                   </div>

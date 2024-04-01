@@ -35,12 +35,13 @@ async function reauthenticate(refresh_token) {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_REST_API}/accounts/refresh-token`,
+
       {
         refreshToken: refresh_token,
       }
     );
 
-    if (data?.valid) {
+    if (data) {
       return {
         valid: true,
         accessToken: data.accessToken
@@ -105,7 +106,7 @@ async function editProfile(id, name, mobile, address) {
       }
     );
 
-    if (data?.valid) {
+    if (data) {
       return data;
     } else {
       return data;
@@ -118,30 +119,41 @@ async function editProfile(id, name, mobile, address) {
   }
 }
 
-async function changePass(id, old, newPass) {
+async function changePass(OldPassword, NewPassword, ConfirmPassword, token) {
   try {
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}ChangePassword`,
+    const response = await axios.put(
+      `${process.env.REACT_APP_REST_API}/accounts/update-password`,
       {
-        id: id,
-        OldPassword: old,
-        NewPassword: newPass,
-
-
+        password: OldPassword,
+        newPassword: NewPassword,
+        confirmPassword: ConfirmPassword
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
     );
 
-    if (data?.valid) {
-      return data;
+    const { data } = response;
+
+    if (data.success && data.token) {
+      return {
+        success: true,
+        token: data.token
+      };
     } else {
-      return data;
+      return {
+        success: false,
+        message: "Password update failed"
+      };
     }
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.error("An error occurred:", error);
     return {
-      valid: false,
+      success: false,
+      message: "An error occurred while updating the password"
     };
   }
 }
-
 export { loginViaEmail, register, reauthenticate, editProfile, changePass };
