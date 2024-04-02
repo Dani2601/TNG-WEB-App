@@ -64,10 +64,10 @@ export default function SelectTicket({
   }
 
   function handleNext() {
-    if(user?.id){
+    if (user?.id) {
       setShowModal(true);
     }
-    else{
+    else {
       setModalVisible(true)
     }
   }
@@ -83,7 +83,8 @@ export default function SelectTicket({
   }
 
   useEffect(() => {
-    getTicketGootopia(user?.id || '123', process.env.REACT_APP_BAKEBE_KEY, location)
+    const accessToken = localStorage.getItem('accessToken');
+    getTicketGootopia(accessToken, process.env.REACT_APP_BAKEBE_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);

@@ -44,7 +44,7 @@ export function TDMBookingDetails({
   setPax,
   bookingDate,
   setBookingDate,
-bookingTime,
+  bookingTime,
   setBookingTime,
   business = "Dessert",
   handleOptionChange,
@@ -130,10 +130,10 @@ bookingTime,
   }
 
   useEffect(() => {
-    if(ticket?.Day.length > 0){
-      setAllowedDays(ticket?.Day)
+    if (ticket?.Day?.length > 0) {
+      setAllowedDays(ticket.Day);
     }
-  }, [ticket])
+  }, [ticket]);
 
   useEffect(() => {
     if (business === "Gootopia") {
@@ -233,14 +233,14 @@ bookingTime,
       ViewEvents(
         ticket?.BusinessUnitID,
       )
-      .then((res) => {
-        if (res.valid) {
-          setEvents(res.data);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+        .then((res) => {
+          if (res.valid) {
+            setEvents(res.data);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }, [ticket, bookingDate, location]);
 
@@ -263,14 +263,14 @@ bookingTime,
               cartItem.BookingTime === item.timeInterval &&
               cartItem.Ticket?.id === ticket?.id
           );
-          
-          
+
+
           if (reservation.length > 0) {
             const sumOfCart = cartReserve.reduce(
               (total, item) => total + item.Pax,
               0
             );
-            
+
             return {
               value: item.timeInterval,
               slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
@@ -304,7 +304,7 @@ bookingTime,
   function handlePax(e) {
     if (business !== "BakeBe") {
       let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
-      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
+      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
         setPax(input);
       }
     } else {
@@ -385,20 +385,20 @@ bookingTime,
   function getCurrentDateInPhilippines() {
     // Get the current date in the Philippines
     const currentDateInPhilippines = moment().utcOffset('+0800');
-    
+
     // Format the current date to the desired format (Aug 09 2023)
     const formattedCurrentDate = currentDateInPhilippines.format('MMM DD YYYY');
-    
+
     return formattedCurrentDate;
   }
-  
+
   const currentDateInPhilippines = getCurrentDateInPhilippines();
 
   const withoutFilters = useMemo(
     () =>
       (ticket?.Category === "Games" &&
         (ticket?.SubCategory === "DrunkenPinball" ||
-        ticket?.SubCategory === "Drunken Pinball" ||
+          ticket?.SubCategory === "Drunken Pinball" ||
           ticket?.SubCategory === "BoomBattleShot" ||
           ticket?.SubCategory === "Boom Battleshot" ||
           ticket?.SubCategory === "ExtremeBasketBall" ||
@@ -414,14 +414,14 @@ bookingTime,
   function isDateInEvent(date) {
     for (const event of events) {
       const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-      if(findTicket){
+      if (findTicket) {
         const startDate = new Date(event.start);
         const endDate = new Date(event.end);
-        
+
         // Extract the date part of the event start and end times
         const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-        
+
         if (date >= eventStartDate && date <= eventEndDate) {
           return "special-date";
         }
@@ -438,7 +438,7 @@ bookingTime,
   };
 
   useEffect(() => {
-    if(!user?.id){
+    if (!user?.id) {
       navigate(routes.Login)
     }
   }, [])
@@ -474,28 +474,28 @@ bookingTime,
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
                 <div className="flex w-full bg-blue-500">
-                <DatePicker
-                  selected={bookingDate}
-                  onChange={handleBookingDate}
-                  wrapperClassName="w-full"
-                  className="h-[36px] w-full shadow-md py-2 px-4"
-                  filterDate={(date) => {
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const allDates = [];
-                    
+                  <DatePicker
+                    selected={bookingDate}
+                    onChange={handleBookingDate}
+                    wrapperClassName="w-full"
+                    className="h-[36px] w-full shadow-md py-2 px-4"
+                    filterDate={(date) => {
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      const allDates = [];
 
-                    return (
-                      date >= today &&
-                      !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                      allowedDays.includes(
-                        date.toLocaleDateString("en-US", { weekday: "long" })
-                      )
-                    );
-                  }}
-                  value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                  dayClassName={customDateStyle}
-                />
+
+                      return (
+                        date >= today &&
+                        !allDates.includes(format(date, "MM/dd/yyyy")) &&
+                        allowedDays.includes(
+                          date.toLocaleDateString("en-US", { weekday: "long" })
+                        )
+                      );
+                    }}
+                    value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                    dayClassName={customDateStyle}
+                  />
                 </div>
               </div>
               <div>
@@ -516,7 +516,7 @@ bookingTime,
 
                       let currentTimeIsWithinEvent = false;
                       let timeParts =
-                      item.value.match(/(\d+):(\d+) (AM|PM)/);
+                        item.value.match(/(\d+):(\d+) (AM|PM)/);
                       let hours = parseInt(timeParts[1]);
                       let minutes = parseInt(timeParts[2]);
                       if (timeParts[3] === "PM" && hours !== 12) {
@@ -527,7 +527,7 @@ bookingTime,
                       currentTimeIsWithinEvent = events.some(
                         (event) => {
                           const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-                          if(findTicket){
+                          if (findTicket) {
                             let startDateTime = new Date(event.start);
                             let endDateTime = new Date(event.end);
                             return (
@@ -538,7 +538,7 @@ bookingTime,
                         }
                       );
 
-                      if(currentTimeIsWithinEvent){
+                      if (currentTimeIsWithinEvent) {
                         return (
                           <option
                             key={index}
@@ -549,7 +549,7 @@ bookingTime,
                           </option>
                         );
                       }
-                      else{
+                      else {
                         if (item?.slot <= 0) {
                           return (
                             <option
@@ -572,7 +572,7 @@ bookingTime,
                             </option>
                           );
                         }
-                        else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
+                        else if (business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
                           return (
                             <option
                               key={index}
@@ -582,7 +582,7 @@ bookingTime,
                               {`${item.label}`}
                             </option>
                           );
-                        } else if ( business === "TFR" && withoutFilters) {
+                        } else if (business === "TFR" && withoutFilters) {
                           return (
                             <option
                               key={index}
@@ -591,7 +591,7 @@ bookingTime,
                               {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
                             </option>
                           );
-                        } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
+                        } else if (business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
                           return (
                             <option
                               key={index}
@@ -601,7 +601,7 @@ bookingTime,
                               {item.label}
                             </option>
                           );
-                        }else {
+                        } else {
                           return (
                             <option key={index} value={JSON.stringify(item)} >
                               {item.label}
@@ -713,15 +713,15 @@ bookingTime,
                           Date:{" "}
                           {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
-                        <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime )? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
+                        <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime) ? (`- ` + convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
                         {
                           ticket?.Promo === 'Buy 1 Take 1' && pax ?
-                          <div>
-                            <p className="text-xs">No. of pass: {pax} (+{pax})</p>
-                            <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
-                          </div>
-                          :
-                          <p className="text-xs">No. of pass: {pax}</p>
+                            <div>
+                              <p className="text-xs">No. of pass: {pax} (+{pax})</p>
+                              <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
+                            </div>
+                            :
+                            <p className="text-xs">No. of pass: {pax}</p>
                         }
                       </div>
                       <div className="flex items-ebd">
@@ -731,35 +731,35 @@ bookingTime,
                   </div>
                   {
                     ticket.Promo === 'Discount' && pax ?
-                    <div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Discount ({ticket?.PromoValue}%)</div>
-                        <div className="font-bold">₱ {(ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                      <div>
+                        <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                          <div className="text-sm font-bold">Discount ({ticket?.PromoValue}%)</div>
+                          <div className="font-bold">₱ {(ticket?.Price * pax) * (parseInt(ticket?.PromoValue) / 100)}</div>
+                        </div>
+                        <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                          <div className="text-sm font-bold">Total</div>
+                          <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue) / 100)}</div>
+                        </div>
                       </div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
-                      </div>
-                    </div>
-                    :
-                    (
-                    ticket.Promo === 'Amount to Reach' && pax ?
-                    <div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Promo Amount (₱ {ticket?.PromoValue})</div>
-                        <div className="font-bold">₱ {(parseInt(ticket?.PromoValue)) * pax}</div>
-                      </div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
-                      </div>
-                    </div>
-                    :
-                    <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                      <div className="text-sm font-bold">Total</div>
-                      <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0))}</div>
-                    </div>
-                    )
+                      :
+                      (
+                        ticket.Promo === 'Amount to Reach' && pax ?
+                          <div>
+                            <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                              <div className="text-sm font-bold">Promo Amount (₱ {ticket?.PromoValue})</div>
+                              <div className="font-bold">₱ {(parseInt(ticket?.PromoValue)) * pax}</div>
+                            </div>
+                            <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                              <div className="text-sm font-bold">Total</div>
+                              <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
+                            </div>
+                          </div>
+                          :
+                          <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                            <div className="text-sm font-bold">Total</div>
+                            <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0))}</div>
+                          </div>
+                      )
                   }
                 </div>
               </div>

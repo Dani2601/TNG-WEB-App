@@ -49,7 +49,7 @@ export default function InflatableSelectTicket({
   const { user, cart } = useSelector((state) => state.record);
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false)
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   function handleBack() {
     if (cart.length > 0) {
@@ -58,12 +58,12 @@ export default function InflatableSelectTicket({
       navigateToLocation()
     }
   }
-  
+
   function handleNext() {
-    if(user?.id){
+    if (user?.id) {
       setShowModal(true);
     }
-    else{
+    else {
       setModalVisible(true)
     }
   }
@@ -79,7 +79,8 @@ export default function InflatableSelectTicket({
   }
 
   useEffect(() => {
-    getTicketGootopia(user?.id || '123', process.env.REACT_APP_INFLATABLE_KEY, location)
+    const accessToken = localStorage.getItem('accessToken');
+    getTicketGootopia(accessToken, process.env.REACT_APP_INFLATABLE_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);
