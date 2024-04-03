@@ -43,8 +43,7 @@ export default function InflatableSelectTicket({
   navigateToLocation
 }) {
   const [showModal, setShowModal] = useState(false);
-  const [tickets, setTickets] = useState([]);
-
+  const [ticketInfo, setTickets] = useState([]);
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
   const [visible, setVisible] = useState(false);
@@ -59,8 +58,9 @@ export default function InflatableSelectTicket({
     }
   }
 
+  const accessToken = localStorage.getItem('accesstoken');
   function handleNext() {
-    if (user?.id) {
+    if (accessToken) {
       setShowModal(true);
     }
     else {
@@ -82,13 +82,16 @@ export default function InflatableSelectTicket({
     const accessToken = localStorage.getItem('accessToken');
     getTicketGootopia(accessToken, process.env.REACT_APP_INFLATABLE_KEY, location)
       .then((response) => {
-        if (response.valid) {
-          setTickets(response.data);
+        if (response.success) {
+          setTickets(response.ticketInfo);
         } else {
+          console.error('Failed to fetch tickets:', response);
         }
       })
-      .catch();
-  }, [location, user]);
+      .catch((error) => {
+        console.error('Error fetching tickets:', error);
+      });
+  }, [location]);
 
   function handleCart() {
     if (cart.length > 0) {
@@ -102,7 +105,7 @@ export default function InflatableSelectTicket({
       <TicketBookingModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}
-        ticket={ticket}
+        ticketInfo={ticket}
         setStep={setStep}
         handleProceed={handleProceed}
       />
@@ -130,56 +133,54 @@ export default function InflatableSelectTicket({
                 Start your adventure by choosing one of our ticket types below
               </div>
               <div className="flex flex-row flex-wrap justify-center cursor-pointer  items-center pb-5 py-4 gap-4 ">
-                {tickets.length > 0 ? (
-                  tickets
-                    ?.sort((a, b) => a.Name.localeCompare(b.Name))
-                    .map((data, index) => {
-                      return (
-                        <div
-                          className="flex flex-row hoverEffects w-[300px] tablet:w-full justify-center"
-                          key={index}
+                {ticketInfo.length > 0 ? (
+                  ticketInfo.map((item) => {
+                    return (
+                      <div
+                        className="flex flex-row hoverEffects w-[300px] tablet:w-full justify-center"
+                        key={item.id}
+                      >
+                        <button
+                          className=" self-center"
+                          onClick={() => {
+                            handleNext();
+                            setTicket(item);
+                          }}
                         >
-                          <button
-                            className=" self-center"
-                            onClick={() => {
-                              handleNext();
-                              setTicket(data);
-                            }}
-                          >
-                            <div className="relative h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg bg-[#EBACB3]">
-                              <div className="absolute top-[20px] inset-x-0   text-left flex justify-center items-center font-poppins overflow-y-auto">
-                                <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
-                                  <div className="flex flex-row justify-center mb-3 shadow-sm border-[1px] border-[#FF98C3] object-cover">
-                                    <img
-                                      src={data?.Image}
-                                      alt="bookingCard"
-                                      className="h-[100px] w-full object-cover tablet:h-[150px]"
-                                    />
+                          <div className="relative h-[224px] w-[320px] tablet:w-[410px] tablet:h-[250px] rounded-lg bg-[#EBACB3]">
+                            <div className="absolute top-[20px] inset-x-0   text-left flex justify-center items-center font-poppins overflow-y-auto">
+                              <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
+                                <div className="flex flex-row justify-center mb-3 shadow-sm border-[1px] border-[#FF98C3] object-cover">
+                                  <img
+                                    src={item?.Image}
+                                    alt="bookingCard"
+                                    className="h-[100px] w-full object-cover tablet:h-[150px]"
+                                  />
+                                </div>
+                                <div className="text-black text-lg tablet:text-[15px] font-bold mb-1">
+                                  {item.ticketName}
+                                </div>
+                                <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
+                                  <div className="text-black  font-bold mr-1  line-through">
+                                    ₱{item.oldPrice}
                                   </div>
-                                  <div className="text-black text-lg tablet:text-[15px] font-bold mb-1">
-                                    {data.Name}
+                                  <div className="text-white font-bold mr-1  ">
+                                    ₱{item.price}
                                   </div>
-                                  <div className="flex flex-row flex-wrap  text-[12px] tablet:text-[12px] mb-2">
-                                    <div className="text-black  font-bold mr-1  line-through">
-                                      ₱{data.OldPrice}
-                                    </div>
-                                    <div className="text-white font-bold mr-1  ">
-                                      ₱{data.Price}
-                                    </div>
-                                    <div className="text-red-500 font-bold mr-1 mb-1">
-                                      {data.Notes} {data.Notes && "%"}
-                                    </div>
+                                  <div className="text-red-500 font-bold mr-1 mb-1">
+                                    {item.notes} {item.notes && "%"}
                                   </div>
-                                  <div className="text-black text-[12px] tablet:text-[12px] ">
-                                    {data.Description}
-                                  </div>
+                                </div>
+                                <div className="text-black text-[12px] tablet:text-[12px] ">
+                                  {item.description}
                                 </div>
                               </div>
                             </div>
-                          </button>
-                        </div>
-                      );
-                    })
+                          </div>
+                        </button>
+                      </div>
+                    );
+                  })
                 ) : (
                   <div>No available Tickets yet.</div>
                 )}

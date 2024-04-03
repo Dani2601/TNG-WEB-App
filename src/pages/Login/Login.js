@@ -63,8 +63,8 @@ function Landing() {
         dispatch(setToken(response.token));
         localStorage.setItem('accessToken', response.token);
         localStorage.setItem('user', response.user);
-
-        login()
+        login();
+        navigate('/');
         console.log(cart);
         return;
         if (cart?.length > 0) {
@@ -158,7 +158,7 @@ function Landing() {
                         </div>
                       </button>
                       <div className="flex flex-row justify-between">
-                        <a className="text-sky-500">Forgot password</a>
+                        {/* <a className="text-sky-500">Forgot password</a> */}
                         <Link to={routes.Register}>
                           <div className="text-sky-500 underline">
                             New user? Register here!

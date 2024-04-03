@@ -15,8 +15,6 @@ const AuthProvider = (props) => {
   const token = localStorage.getItem('accessToken')
   const user = localStorage.getItem('user')
   // const { token } = useSelector((state) => state.record);
-  console.log(token)
-
 
   useEffect(() => {
     let userToken = token;

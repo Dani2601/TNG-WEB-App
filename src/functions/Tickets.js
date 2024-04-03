@@ -31,30 +31,35 @@ async function getTicketGootopia(accessToken, businessID, branchID) {
 }
 
 async function getTicketBakebe(
-  user,
+  accessToken,
   businessID,
   branchID,
   type,
-  pageSize,
+  // pageSize,
   pageNumber,
   category,
   difficulty,
   duration
 ) {
   try {
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
     const { data } = await axios.get(
-      `${process.env.REACT_APP_REST_API}FilterBakebeTicketViaBranchNoPackage`,
+      `${process.env.REACT_APP_REST_API}/tickets/show-all?filter[businessUnitId]=${businessID}&filter[businessUnitBranchId]=${branchID}`,
       {
-        UserID: user,
-        BusinessUnitID: businessID,
-        BranchID: branchID,
-        Type: type,
-        PageSize: parseInt(pageSize),
+        businessUnitId: businessID,
+        businessUnitBranchId: branchID,
+        ticketType: type,
+        // PageSize: parseInt(pageSize),
         PageNumber: pageNumber,
-        Category: category,
-        Difficulty: difficulty,
-        Duration: duration
-      }
+        ticketCategoryId: category,
+        difficulty: difficulty,
+        durationHours: duration
+      },
+      { headers }
     );
 
     if (data?.valid) {
@@ -69,13 +74,13 @@ async function getTicketBakebe(
   }
 }
 
-async function getTFRBookingsByTicketID(branchID, ticketid, date, subcat) {
+async function getTFRBookingsByTicketID(id, branchID, ticketid, date, subcat) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}ViewTFRBookingsByTicketID`,
+      `${process.env.REACT_APP_REST_API}https://api.thenextperiencegroup.com/api/v1/tickets/${id}/search`,
       {
-        BranchID: branchID,
-        TicketID: ticketid,
+        businessUnitBranchId: branchID,
+        id: ticketid,
         BookingDate: date,
         SubCategory: subcat
       }

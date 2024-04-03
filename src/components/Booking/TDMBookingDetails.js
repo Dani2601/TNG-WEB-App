@@ -65,6 +65,7 @@ export function TDMBookingDetails({
   const [allowedDays, setAllowedDays] = useState([])
   const [events, setEvents] = useState([])
   const [stringifyTime, setStringifyTime] = useState("")
+  const accessToken = localStorage.getItem('accessToken');
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -82,17 +83,17 @@ export function TDMBookingDetails({
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
     if (cart.length > 0) {
       let checkItem = cart.find(
         (item) =>
-          item.Ticket?.id === booking?.Ticket?.id &&
+          item.ticket?.accessToken === booking?.ticket?.accessToken &&
           item.BookingDate === booking?.BookingDate &&
           item.BookingTime === booking?.BookingTime
       );
@@ -100,7 +101,7 @@ export function TDMBookingDetails({
         dispatch(
           setCart(
             cart.map((item) => {
-              if (item.Ticket?.id === booking?.Ticket?.id) {
+              if (item.ticket?.accessToken === booking?.ticket?.accessToken) {
                 return {
                   ...item,
                   Pax: item?.Pax + booking?.Pax,
@@ -135,82 +136,120 @@ export function TDMBookingDetails({
     }
   }, [ticket]);
 
+
   useEffect(() => {
     if (business === "Gootopia") {
-      getBranches(user?.id || '123', GOOTOPIA_KEY)
+      getBranches(accessToken, GOOTOPIA_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
+        //     // Convert the object into an array
+        //     const locationArray = Object.values(response.data);
+        //     setSelectedLocation(
+        //       locationArray.find((item) => item?.id === location)
+        //     );
+        //   }
+        // })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "TFR") {
-      getBranches(user?.id || '123', TFR_KEY)
+      getBranches(accessToken, TFR_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "Inflatable") {
-      getBranches(user?.id || '123', TIS_KEY)
+      getBranches(accessToken, TIS_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "BakeBe") {
-      getBranches(user?.id || '123', BAKEBE_KEY)
+      getBranches(accessToken, BAKEBE_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else {
-      getBranches(user?.id || '123', DESSERT_KEY)
+      getBranches(accessToken, DESSERT_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     }
-  }, [business, user, location]);
+  }, [business, accessToken, location]);
 
   useEffect(() => {
-    if (ticket?.id && bookingDate) {
+    if (ticket?.accessToken && bookingDate) {
       getBookingsByBranch(
         location,
         format(bookingDate, "yyyy-MM-dd")
@@ -254,31 +293,31 @@ export function TDMBookingDetails({
   useEffect(() => {
     if (bookingDate) {
       setIntervals(
-        ticket?.CreatedInterval.map((item) => {
+        ticket?.createIntervals.map((item) => {
           let reservation = reserve?.filter(
-            (res) => res.BookingTime === item.timeInterval
+            (res) => res.BookingTime === item.ticketIntervals
           );
           let cartReserve = cart?.filter(
             (cartItem) =>
-              cartItem.BookingTime === item.timeInterval &&
-              cartItem.Ticket?.id === ticket?.id
+              cartItem.BookingTime === item.ticketIntervals &&
+              cartItem.ticket?.accessToken === ticket?.accessToken
           );
 
 
           if (reservation.length > 0) {
             const sumOfCart = cartReserve.reduce(
-              (total, item) => total + item.Pax,
+              (total, item) => total + item.participants,
               0
             );
 
             return {
-              value: item.timeInterval,
+              value: item.ticketIntervals,
               slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
-              label: `${item.timeInterval} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
+              label: `${item.ticketIntervals} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
             };
           } else {
             const sumOfCart = cartReserve.reduce(
-              (total, item) => total + item.Pax,
+              (total, item) => total + item.participants,
               0
             );
 
@@ -304,7 +343,7 @@ export function TDMBookingDetails({
   function handlePax(e) {
     if (business !== "BakeBe") {
       let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
-      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
+      if (input === "" || (input > 0 && (ticket?.promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
         setPax(input);
       }
     } else {
@@ -357,11 +396,11 @@ export function TDMBookingDetails({
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
 
@@ -413,7 +452,7 @@ export function TDMBookingDetails({
 
   function isDateInEvent(date) {
     for (const event of events) {
-      const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
+      const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
       if (findTicket) {
         const startDate = new Date(event.start);
         const endDate = new Date(event.end);
@@ -438,11 +477,10 @@ export function TDMBookingDetails({
   };
 
   useEffect(() => {
-    if (!user?.id) {
-      navigate(routes.Login)
+    if (!accessToken) {
+      navigate(routes.Login);
     }
-  }, [])
-
+  }, []);
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -462,7 +500,7 @@ export function TDMBookingDetails({
                 <small style={{ color: "red" }}>*</small>
               </p>
               <div className="flex items-center">
-                <span className="mr-2 text-sm">{ticket?.Name}</span>
+                <span className="mr-2 text-sm">{ticket?.ticketName}</span>
                 <FiTrash2
                   color="red"
                   className="cursor-pointer"
@@ -484,7 +522,6 @@ export function TDMBookingDetails({
                       today.setHours(0, 0, 0, 0);
                       const allDates = [];
 
-
                       return (
                         date >= today &&
                         !allDates.includes(format(date, "MM/dd/yyyy")) &&
@@ -493,7 +530,7 @@ export function TDMBookingDetails({
                         )
                       );
                     }}
-                    value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                    value={bookingDate ? moment(bookingDate).format("MM/DD/YYYY") : ""}
                     dayClassName={customDateStyle}
                   />
                 </div>
@@ -526,7 +563,7 @@ export function TDMBookingDetails({
                       timeDate.setHours(hours, minutes, 0, 0);
                       currentTimeIsWithinEvent = events.some(
                         (event) => {
-                          const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
+                          const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
                           if (findTicket) {
                             let startDateTime = new Date(event.start);
                             let endDateTime = new Date(event.end);
@@ -561,7 +598,7 @@ export function TDMBookingDetails({
                             </option>
                           );
                         }
-                        else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
+                        else if (ticket?.promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.discountPercentage) + 1))) {
                           return (
                             <option
                               key={index}
@@ -699,14 +736,14 @@ export function TDMBookingDetails({
                 <div className="py-4 px-6">
                   <div className="border-b-2 border-gray-200">
                     <p className="font-bold text-sm mb-2">
-                      Location: {selectedLocation?.Name}
+                      Location: {selectedLocation || 'Error undefined'}
                     </p>
                     <p className="font-bold text-sm mb-3">
-                      Type Of Ticket: {ticket?.Type}
+                      Type Of ticket: {ticket?.ticketType}
                     </p>
                   </div>
                   <div className="pt-4 pb-3 border-b-2 border-gray-200">
-                    <p className="font-bold text-sm">{ticket?.Name}</p>
+                    <p className="font-bold text-sm">{ticket?.ticketName}</p>
                     <div className="flex justify-between py-2">
                       <div className="flex flex-col">
                         <p className="text-xs">
@@ -715,43 +752,43 @@ export function TDMBookingDetails({
                         </p>
                         <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime) ? (`- ` + convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
                         {
-                          ticket?.Promo === 'Buy 1 Take 1' && pax ?
+                          ticket?.promo === 'Buy 1 Take 1' && pax ?
                             <div>
                               <p className="text-xs">No. of pass: {pax} (+{pax})</p>
-                              <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
+                              <p className="text-xs">Promo: <span className="font-semibold">{ticket.promo}</span></p>
                             </div>
                             :
                             <p className="text-xs">No. of pass: {pax}</p>
                         }
                       </div>
                       <div className="flex items-ebd">
-                        <p className="tex-4xl font-bold">₱ {ticket?.Price}</p>
+                        <p className="tex-4xl font-bold">₱ {ticket?.price}</p>
                       </div>
                     </div>
                   </div>
                   {
-                    ticket.Promo === 'Discount' && pax ?
+                    ticket.promo === 'Discount' && pax ?
                       <div>
                         <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                          <div className="text-sm font-bold">Discount ({ticket?.PromoValue}%)</div>
-                          <div className="font-bold">₱ {(ticket?.Price * pax) * (parseInt(ticket?.PromoValue) / 100)}</div>
+                          <div className="text-sm font-bold">Discount ({ticket?.discountPercentage}%)</div>
+                          <div className="font-bold">₱ {(ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
                         </div>
                         <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                           <div className="text-sm font-bold">Total</div>
-                          <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue) / 100)}</div>
+                          <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
                         </div>
                       </div>
                       :
                       (
-                        ticket.Promo === 'Amount to Reach' && pax ?
+                        ticket.promo === 'Amount to Reach' && pax ?
                           <div>
                             <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                              <div className="text-sm font-bold">Promo Amount (₱ {ticket?.PromoValue})</div>
-                              <div className="font-bold">₱ {(parseInt(ticket?.PromoValue)) * pax}</div>
+                              <div className="text-sm font-bold">Promo Amount (₱ {ticket?.discountPercentage})</div>
+                              <div className="font-bold">₱ {(parseInt(ticket?.discountPercentage)) * pax}</div>
                             </div>
                             <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                               <div className="text-sm font-bold">Total</div>
-                              <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
+                              <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.discountPercentage)) * pax)}</div>
                             </div>
                           </div>
                           :
@@ -761,6 +798,7 @@ export function TDMBookingDetails({
                           </div>
                       )
                   }
+
                 </div>
               </div>
               <div className="shadow-md rounded-md">

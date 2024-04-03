@@ -43,6 +43,7 @@ export function SignInModal({ showModal, handleCloseModal, handleProceed }) {
   const { login } = useAuth();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const accessToken = localStorage.getItem('accesssToken');
 
   const [showMenu, setShowMenu] = useState(false);
   const formik = useFormik({
@@ -60,9 +61,9 @@ export function SignInModal({ showModal, handleCloseModal, handleProceed }) {
       // if (response.valid) {
       if (response.success) {
         dispatch(setUser(response.user));
-        dispatch(setToken(response.token));
-        handleProceed()
+        dispatch(setToken(response.accessToken));
         handleCloseModal()
+        handleProceed()
       } else {
         toast.error(
           response.errorMsg.length === undefined
@@ -85,7 +86,7 @@ export function SignInModal({ showModal, handleCloseModal, handleProceed }) {
   }, []);
 
   function handleProceed() {
-    console.log('sign in')
+    navigate('/')
   }
 
   return (
@@ -112,7 +113,7 @@ export function SignInModal({ showModal, handleCloseModal, handleProceed }) {
               </div>
               <div className="flex flex-col space-y-4 w-full">
                 <span className="text-cyan-900 mt-10">
-                  Email or Phone Number
+                  Email Address
                 </span>
                 <input
                   type="text"

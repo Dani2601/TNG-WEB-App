@@ -19,6 +19,7 @@ import { setCart, setToken, setUser } from "../../store/action";
 import ChangePassModal from "../Modal/Profile/ChangePass/ChangePass";
 import { ConfirmationCartModal } from "../Modal/ConfirmationCartModal";
 import { FaUser } from "react-icons/fa";
+import { reauthenticate } from "../../functions";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -57,6 +58,7 @@ export default function Bottombar({ scroll }) {
 
   function _logout() {
     // console.log("trigger")
+    reauthenticate(null);
     dispatch(setToken(null));
     dispatch(setUser(null));
     logout();
@@ -147,13 +149,13 @@ export default function Bottombar({ scroll }) {
                       >
                         Home
                       </Link>
-                      <Link
+                      {/* <Link
                         to={routes.Profile}
                         className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
                         role="menuitem"
                       >
                         Profile
-                      </Link>
+                      </Link> */}
                       <div
                         className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
                         role="menuitem"
@@ -198,11 +200,10 @@ export default function Bottombar({ scroll }) {
             <div
               onClick={() => handleCart(DESSERT_KEY, routes.LandingTFR)}
               className={`cursor-pointer  rounded-full h-[45px] hoverEffectsTopbar
-                ${
-                  location.pathname === routes.LandingTFR ||
+                ${location.pathname === routes.LandingTFR ||
                   location.pathname === routes.BookingTFR
-                    ? "bg-[#664653]"
-                    : ""
+                  ? "bg-[#664653]"
+                  : ""
                 }`}
             >
               <img src={tfrnav} alt="" className="w-full h-full" />
@@ -212,12 +213,11 @@ export default function Bottombar({ scroll }) {
             <div
               onClick={() => handleCart(DESSERT_KEY, routes.LandingDesert)}
               className={`cursor-pointer  rounded-full h-[45px] hoverEffectsTopbar
-                ${
-                  location.pathname === routes.LandingDesert ||
+                ${location.pathname === routes.LandingDesert ||
                   location.pathname === routes.Packages ||
                   location.pathname === routes.DessertBooking
-                    ? "bg-[#664653]"
-                    : ""
+                  ? "bg-[#664653]"
+                  : ""
                 }`}
             >
               <img src={tdmnav} alt="" className="w-full h-full" />
@@ -229,12 +229,11 @@ export default function Bottombar({ scroll }) {
                 handleCart(TIS_KEY, routes.LandingInflatableIsland)
               }
               className={`cursor-pointer rounded-full h-[45px] hoverEffectsTopbar
-                  ${
-                    location.pathname === routes.LandingInflatableIsland ||
-                    location.pathname === routes.BookingInflatable
-                      ? "bg-[#664653]"
-                      : ""
-                  }`}
+                  ${location.pathname === routes.LandingInflatableIsland ||
+                  location.pathname === routes.BookingInflatable
+                  ? "bg-[#664653]"
+                  : ""
+                }`}
             >
               <img
                 src={isnav}
@@ -248,11 +247,10 @@ export default function Bottombar({ scroll }) {
             <div
               onClick={() => handleCart(BAKEBE_KEY, routes.LandingBakebe)}
               className={`cursor-pointer  rounded-full h-[45px] hoverEffectsTopbar
-                ${
-                  location.pathname === routes.LandingBakebe ||
+                ${location.pathname === routes.LandingBakebe ||
                   location.pathname === routes.BookingBakebe
-                    ? "bg-[#664653]"
-                    : ""
+                  ? "bg-[#664653]"
+                  : ""
                 }`}
             >
               {" "}
@@ -264,17 +262,16 @@ export default function Bottombar({ scroll }) {
             <div
               onClick={() => handleCart(GOOTOPIA_KEY, routes.LandingGootopia)}
               className={`cursor-pointer rounded-full h-[45px] hoverEffectsTopbar
-              ${
-                location.pathname === routes.LandingGootopia ||
-                location.pathname === routes.ObstaclesGootopia ||
-                location.pathname === routes.PackagesGootopia ||
-                location.pathname === routes.FaqsGootopia ||
-                location.pathname === routes.ContactsGootopia ||
-                location.pathname === routes.BookingGootopia ||
-                location.pathname === routes.SelectTicketGootopia
+              ${location.pathname === routes.LandingGootopia ||
+                  location.pathname === routes.ObstaclesGootopia ||
+                  location.pathname === routes.PackagesGootopia ||
+                  location.pathname === routes.FaqsGootopia ||
+                  location.pathname === routes.ContactsGootopia ||
+                  location.pathname === routes.BookingGootopia ||
+                  location.pathname === routes.SelectTicketGootopia
                   ? "bg-[#664653]"
                   : ""
-              }`}
+                }`}
             >
               <img
                 alt=""

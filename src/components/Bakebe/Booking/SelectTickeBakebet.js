@@ -118,8 +118,9 @@ export default function SelectTicketBakebe({
     setStep(2);
   }
 
+  const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
-    if (user?.id) {
+    if (accessToken) {
       setShowModal(true);
     }
     else {
@@ -141,42 +142,46 @@ export default function SelectTicketBakebe({
     const accessToken = localStorage.getItem('accessToken');
     getBranches(accessToken, BAKEBE_KEY)
       .then((response) => {
-        if (response.valid) {
-          // Convert the object into an array
-          const locationArray = Object.values(response.data);
-          setSelectedLocation(
-            locationArray.find((item) => item?.id === location)
-          );
+        if (response.success) {
+          // // Convert the object into an array
+          // const locationArray = Object.values(response.data);
+          // setSelectedLocation(
+          //   locationArray.find((item) => item?.id === location)
+          // );
+          setTickets(response.ticketInfo);
         }
       })
       .catch((error) => {
         // Handle error case
       });
-  }, [location, user?.id]);
+  }, [location]);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
     setLoading(true);
+
     getTicketBakebe(
-      user?.id || '123',
+      accessToken,
       process.env.REACT_APP_TFR_KEY,
       location,
-      selectedType,
-      pageSizeFilter,
-      pageNumber,
-      categoryFilter,
-      difficultyFilter,
-      durationFilter
+      // selectedType,
+      // pageSizeFilter,
+      // pageNumber,
+      // categoryFilter,
+      // difficultyFilter,
+      // durationFilter
     )
       .then((response) => {
         if (response.valid) {
-          setTickets(response.data);
-          setDataPageCount(response.pageCount);
+          setTickets(response.ticketInfo);
+          // setDataPageCount(response.pageCount);
           setLoading(false);
         } else {
         }
       })
       .catch(setLoading(false));
-  }, [location, user, categoryFilter, difficultyFilter, durationFilter, pageSizeFilter, selectedType, pageNumber]);
+    // }, [location, user, categoryFilter, difficultyFilter, durationFilter, pageSizeFilter, selectedType, pageNumber]);
+  }, [location]);
 
   const tableData = useMemo(() => {
     if (loading) {
