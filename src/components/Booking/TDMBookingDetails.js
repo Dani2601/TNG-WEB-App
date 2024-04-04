@@ -244,17 +244,12 @@ export function TDMBookingDetails({
     }
   }, [ticket, bookingDate, location]);
 
-  // BOOKING PICK DATE
-  const [dateBooking, setDateBooking] = useState(new Date())
-
   function handleBookingDate(date) {
-    setDateBooking(date)
+    setBookingDate(date);
     setPax("");
     setBookingTime("");
     setStringifyTime("");
   }
-
-  //  End of date picker
 
   useEffect(() => {
     if (bookingDate) {
@@ -342,26 +337,20 @@ export function TDMBookingDetails({
     return max;
   }, [bookingTime, bookingDate, intervals]);
 
-  // Pick time 
-
-  const timeConstants = ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM"]
-  const [timeBook, setTimeBook] = useState(null)
   function handleBookingTime(e) {
-    console.log(e.target.value);
-    setTimeBook(e.target.value)
-    // if (e.target.value) {
-    //   console.log(e.target.value);
-    //   setBookingTime(data?.value);
-    //   setPax(1);
-    //   setDisabled(false);
-    //   setSlotIdentifier(data?.slot);
-    //   setStringifyTime(e.target.value)
-    // } else {
-    //   setBookingTime("");
-    //   setPax(0);
-    //   setDisabled(true);
-    //   setSlotIdentifier(null);
-    // }
+    if (e.target.value) {
+      const data = JSON.parse(e.target.value);
+      setBookingTime(data?.value);
+      setPax(1);
+      setDisabled(false);
+      setSlotIdentifier(data?.slot);
+      setStringifyTime(e.target.value)
+    } else {
+      setBookingTime("");
+      setPax(0);
+      setDisabled(true);
+      setSlotIdentifier(null);
+    }
   }
 
   function handleCart() {
@@ -486,26 +475,26 @@ export function TDMBookingDetails({
                 </p>
                 <div className="flex w-full bg-blue-500">
                   <DatePicker
-                    selected={dateBooking}
+                    selected={bookingDate}
                     onChange={handleBookingDate}
                     wrapperClassName="w-full"
                     className="h-[36px] w-full shadow-md py-2 px-4"
-                  // filterDate={(date) => {
-                  //   const today = new Date();
-                  //   today.setHours(0, 0, 0, 0);
-                  //   const allDates = [];
+                    filterDate={(date) => {
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      const allDates = [];
 
 
-                  //   return (
-                  //     date >= today &&
-                  //     !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                  //     allowedDays.includes(
-                  //       date.toLocaleDateString("en-US", { weekday: "long" })
-                  //     )
-                  //   );
-                  // }}
-                  // value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                  // dayClassName={customDateStyle}
+                      return (
+                        date >= today &&
+                        !allDates.includes(format(date, "MM/dd/yyyy")) &&
+                        allowedDays.includes(
+                          date.toLocaleDateString("en-US", { weekday: "long" })
+                        )
+                      );
+                    }}
+                    value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                    dayClassName={customDateStyle}
                   />
                 </div>
               </div>
@@ -516,12 +505,111 @@ export function TDMBookingDetails({
                 <select
                   onChange={handleBookingTime}
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3"
-                  required
+                  value={stringifyTime}
                 >
-                  <option value="">Select a time</option>
-                  {timeConstants.map((time, index) => (
-                    <option id={index} value={time}>{time}</option>
-                  ))}
+                  <option value={""}>Select a time</option>
+                  {intervals?.length > 0 &&
+                    intervals?.map((item, index) => {
+                      const itemTime = moment(item.value, "h:mm A").tz(
+                        "Asia/Manila"
+                      );
+
+                      let currentTimeIsWithinEvent = false;
+                      let timeParts =
+                        item.value.match(/(\d+):(\d+) (AM|PM)/);
+                      let hours = parseInt(timeParts[1]);
+                      let minutes = parseInt(timeParts[2]);
+                      if (timeParts[3] === "PM" && hours !== 12) {
+                        hours += 12;
+                      }
+                      let timeDate = new Date(bookingDate);
+                      timeDate.setHours(hours, minutes, 0, 0);
+                      currentTimeIsWithinEvent = events.some(
+                        (event) => {
+                          const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
+                          if (findTicket) {
+                            let startDateTime = new Date(event.start);
+                            let endDateTime = new Date(event.end);
+                            return (
+                              timeDate >= startDateTime &&
+                              timeDate <= endDateTime
+                            )
+                          }
+                        }
+                      );
+
+                      if (currentTimeIsWithinEvent) {
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item)}
+                            disabled={true}
+                          >
+                            {item.label}
+                          </option>
+                        );
+                      }
+                      else {
+                        if (item?.slot <= 0) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={true}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        }
+                        else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={true}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        }
+                        else if (business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={itemTime.isBefore(currentTime) ? true : false}
+                            >
+                              {`${item.label}`}
+                            </option>
+                          );
+                        } else if (business === "TFR" && withoutFilters) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                            >
+                              {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
+                            </option>
+                          );
+                        } else if (business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
+                          return (
+                            <option
+                              key={index}
+                              value={JSON.stringify(item)}
+                              disabled={itemTime.isBefore(currentTime) ? true : false}
+                            >
+                              {item.label}
+                            </option>
+                          );
+                        } else {
+                          return (
+                            <option key={index} value={JSON.stringify(item)} >
+                              {item.label}
+                            </option>
+                          );
+                        }
+                      }
+                    })}
                 </select>
               </div>
               <div>
@@ -623,9 +711,9 @@ export function TDMBookingDetails({
                       <div className="flex flex-col">
                         <p className="text-xs">
                           Date:{" "}
-                          {dateBooking ? format(dateBooking, "MM/dd/yyyy") : ""}
+                          {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
-                        <p className="text-xs">Time:{timeBook}</p>
+                        <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime) ? (`- ` + convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
                         {
                           ticket?.Promo === 'Buy 1 Take 1' && pax ?
                             <div>
