@@ -7,6 +7,7 @@ import bookingCard from "../../../assets/Gootopia/Booking/BookingCard.png";
 import routes from "../../../constants/routes";
 import { Link, useNavigate } from "react-router-dom";
 import { TicketBookingModal } from "../../Modal/Gootopia/TicketBookingModal";
+import { TDMModalBooking } from "../../Modal/TDMModalBooking";
 import { getTicketGootopia } from "../../../functions/Tickets";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,6 +43,8 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false)
+  const [selectedTicket, setSelectedTicket] = useState(null);
+
 
 
   function handleBack() {
@@ -79,6 +82,8 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
       .then((response) => {
         if (response.success) {
           setTickets(response.ticketInfo);
+          console.log(ticketInfo)
+          console.log(accessToken)
         } else {
           console.error('Failed to fetch tickets:', response);
         }
@@ -95,12 +100,19 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
     navigateToLocation()
   }
 
+  const handleTicketClick = (index) => {
+    setSelectedTicket(ticketInfo[index]);
+    setShowModal(true); // Show the modal when a ticket is clicked
+    setTicket(selectedTicket);
+  };
+
+  console.log('selectedTicket', selectedTicket)
   return (
     <GootopiaContainer>
       <TicketBookingModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}
-        ticketInfo={ticket}
+        ticket={ticket}
         setStep={setStep}
         handleProceed={handleProceed}
       />

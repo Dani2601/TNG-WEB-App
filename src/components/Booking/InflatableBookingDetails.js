@@ -44,7 +44,7 @@ export function InflatableBookingDetails({
   setPax,
   bookingDate,
   setBookingDate,
-bookingTime,
+  bookingTime,
   setBookingTime,
   business = "Dessert",
   handleOptionChange,
@@ -65,6 +65,7 @@ bookingTime,
   const [allowedDays, setAllowedDays] = useState([])
   const [events, setEvents] = useState([])
   const [stringifyTime, setStringifyTime] = useState("")
+  const accessToken = localStorage.getItem('accessToken');
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -82,18 +83,18 @@ bookingTime,
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       EntranceTime: withoutFilters ? `${format(parse(ticket?.TimeStart, 'HH:mm', new Date()), 'h:mm a')} - ${format(parse(ticket?.TimeEnd, 'HH:mm', new Date()), 'h:mm a')}` : "",
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
     if (cart.length > 0) {
       let checkItem = cart.find(
         (item) =>
-          item.Ticket?.id === booking?.Ticket?.id &&
+          item.ticket?.accessToken === booking?.ticket?.accessToken &&
           item.BookingDate === booking?.BookingDate &&
           item.BookingTime === booking?.BookingTime
       );
@@ -101,7 +102,7 @@ bookingTime,
         dispatch(
           setCart(
             cart.map((item) => {
-              if (item.Ticket?.id === booking?.Ticket?.id) {
+              if (item.ticket?.accessToken === booking?.ticket?.accessToken) {
                 return {
                   ...item,
                   Pax: item?.Pax + booking?.Pax,
@@ -131,87 +132,126 @@ bookingTime,
   }
 
   useEffect(() => {
-    if(ticket?.Day.length > 0){
-      setAllowedDays(ticket?.Day)
+    console.log(ticket)
+    if (ticket?.Day?.length > 0) {
+      setAllowedDays(ticket.Day);
     }
-  }, [ticket])
+  }, [ticket]);
 
   useEffect(() => {
     if (business === "Gootopia") {
-      getBranches(user?.id || '123', GOOTOPIA_KEY)
+      getBranches(accessToken, GOOTOPIA_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
+        //     // Convert the object into an array
+        //     const locationArray = Object.values(response.data);
+        //     setSelectedLocation(
+        //       locationArray.find((item) => item?.id === location)
+        //     );
+        //   }
+        // })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "TFR") {
-      getBranches(user?.id || '123', TFR_KEY)
+      getBranches(accessToken, TFR_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "Inflatable") {
-      getBranches(user?.id || '123', TIS_KEY)
+      getBranches(accessToken, TIS_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "BakeBe") {
-      getBranches(user?.id || '123', BAKEBE_KEY)
+      getBranches(accessToken, BAKEBE_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else {
-      getBranches(user?.id || '123', DESSERT_KEY)
+      getBranches(accessToken, DESSERT_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     }
-  }, [business, user, location]);
+  }, [business, accessToken, location]);
+
 
   useEffect(() => {
-    if (ticket?.id && bookingDate) {
+    if (ticket?.accessToken && bookingDate) {
       getBookingsByBranch(
         location,
         format(bookingDate, "yyyy-MM-dd")
@@ -234,14 +274,14 @@ bookingTime,
       ViewEvents(
         ticket?.BusinessUnitID,
       )
-      .then((res) => {
-        if (res.valid) {
-          setEvents(res.data);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+        .then((res) => {
+          if (res.valid) {
+            setEvents(res.data);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }, [ticket, bookingDate, location]);
 
@@ -255,25 +295,25 @@ bookingTime,
   useEffect(() => {
     if (bookingDate) {
       setIntervals(
-        ticket?.CreatedInterval.map((item) => {
+        ticket?.createIntervals.map((item) => {
           let reservation = reserve?.filter(
-            (res) => res.BookingTime === item.timeInterval
+            (res) => res.BookingTime === item.ticketIntervals
           );
           let cartReserve = cart?.filter(
             (cartItem) =>
-              cartItem.BookingTime === item.timeInterval &&
-              cartItem.Ticket?.id === ticket?.id
+              cartItem.BookingTime === item.ticketIntervals &&
+              cartItem.ticket?.accessToken === ticket?.accessToken
           );
-          
+
           if (reservation.length > 0) {
             const sumOfCart = cartReserve.reduce(
               (total, item) => total + item.Pax,
               0
             );
             return {
-              value: item.timeInterval,
+              value: item.ticketIntervals,
               slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
-              label: `${item.timeInterval} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
+              label: `${item.ticketIntervals} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
             };
           } else {
             const sumOfCart = cartReserve.reduce(
@@ -282,9 +322,9 @@ bookingTime,
             );
 
             return {
-              value: item.timeInterval,
+              value: item.ticketIntervals,
               slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
-              label: `${item.timeInterval} - ${((selectedLocation?.Slots || 0) - sumOfCart) >= 0 ? (selectedLocation?.Slots || 0) - sumOfCart : 0} slot(s)`,
+              label: `${item.ticketIntervals} - ${((selectedLocation?.Slots || 0) - sumOfCart) >= 0 ? (selectedLocation?.Slots || 0) - sumOfCart : 0} slot(s)`,
             };
           }
         })
@@ -304,7 +344,7 @@ bookingTime,
     console.log(e)
     if (business !== "BakeBe") {
       let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
-      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
+      if (input === "" || (input > 0 && (ticket?.promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
         setPax(input);
       }
 
@@ -332,8 +372,8 @@ bookingTime,
   const maxPerInterval = useMemo(() => {
     let max = "";
     if (ticket?.SubCategory === "Entrance") {
-        let intervalData = intervals[0];
-        max = intervalData?.slot - reserve?.length;
+      let intervalData = intervals[0];
+      max = intervalData?.slot - reserve?.length;
     }
     else if (bookingDate && bookingTime && intervals) {
       let intervalData = intervals?.find((item) => item.value === bookingTime);
@@ -362,12 +402,12 @@ bookingTime,
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       EntranceTime: withoutFilters ? `${format(parse(ticket?.TimeStart, 'HH:mm', new Date()), 'h:mm a')} - ${format(parse(ticket?.TimeEnd, 'HH:mm', new Date()), 'h:mm a')}` : "",
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
 
@@ -391,20 +431,20 @@ bookingTime,
   function getCurrentDateInPhilippines() {
     // Get the current date in the Philippines
     const currentDateInPhilippines = moment().utcOffset('+0800');
-    
+
     // Format the current date to the desired format (Aug 09 2023)
     const formattedCurrentDate = currentDateInPhilippines.format('MMM DD YYYY');
-    
+
     return formattedCurrentDate;
   }
-  
+
   const currentDateInPhilippines = getCurrentDateInPhilippines();
 
   const withoutFilters = useMemo(
     () =>
       (ticket?.Category === "Games" &&
         (ticket?.SubCategory === "DrunkenPinball" ||
-        ticket?.SubCategory === "Drunken Pinball" ||
+          ticket?.SubCategory === "Drunken Pinball" ||
           ticket?.SubCategory === "BoomBattleShot" ||
           ticket?.SubCategory === "Boom Battleshot" ||
           ticket?.SubCategory === "ExtremeBasketBall" ||
@@ -419,15 +459,15 @@ bookingTime,
 
   function isDateInEvent(date) {
     for (const event of events) {
-      const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-      if(findTicket){
+      const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
+      if (findTicket) {
         const startDate = new Date(event.start);
         const endDate = new Date(event.end);
-        
+
         // Extract the date part of the event start and end times
         const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-        
+
         if (date >= eventStartDate && date <= eventEndDate) {
           return "special-date";
         }
@@ -444,10 +484,10 @@ bookingTime,
   };
 
   useEffect(() => {
-    if(!user?.id){
-      navigate(routes.Login)
+    if (!accessToken) {
+      navigate(routes.Login);
     }
-  }, [])
+  }, []);
 
   console.log(ticket)
 
@@ -469,7 +509,7 @@ bookingTime,
                 <small style={{ color: "red" }}>*</small>
               </p>
               <div className="flex items-center">
-                <span className="mr-2 text-sm">{ticket?.Name}</span>
+                <span className="mr-2 text-sm">{ticket?.ticketName}</span>
                 <FiTrash2
                   color="red"
                   className="cursor-pointer"
@@ -481,20 +521,20 @@ bookingTime,
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
                 <div className="flex w-full bg-blue-500">
-                <DatePicker
-                  selected={bookingDate}
-                  onChange={handleBookingDate}
-                  wrapperClassName="w-full"
-                  className="h-[36px] w-full shadow-md py-2 px-4"
-                  filterDate={(date) => {
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const allDates = [];
-                    
-                    if (ticket?.SubCategory === "Entrance") {
+                  <DatePicker
+                    selected={bookingDate}
+                    onChange={handleBookingDate}
+                    wrapperClassName="w-full"
+                    className="h-[36px] w-full shadow-md py-2 px-4"
+                    filterDate={(date) => {
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      const allDates = [];
+
+                      if (ticket?.SubCategory === "Entrance") {
                         for (const item of events) {
-                          const findTicket = item?.activity?.find(item => item?.value === ticket?.id)
-                          if(findTicket){
+                          const findTicket = item?.activity?.find(item => item?.value === ticket?.accessToken)
+                          if (findTicket) {
                             const startDate = new Date(item.start);
                             const endDate = new Date(item.end);
                             // Collect all dates that fall within the range of start and end dates in data
@@ -505,19 +545,19 @@ bookingTime,
                             }
                           }
                         }
-                    }
+                      }
 
-                    return (
-                      date >= today &&
-                      !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                      allowedDays.includes(
-                        date.toLocaleDateString("en-US", { weekday: "long" })
-                      )
-                    );
-                  }}
-                  value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                  dayClassName={customDateStyle}
-                />
+                      return (
+                        date >= today &&
+                        !allDates.includes(format(date, "MM/dd/yyyy")) &&
+                        allowedDays.includes(
+                          date.toLocaleDateString("en-US", { weekday: "long" })
+                        )
+                      );
+                    }}
+                    value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                    dayClassName={customDateStyle}
+                  />
                 </div>
               </div>
               {
@@ -537,10 +577,10 @@ bookingTime,
                         const itemTime = moment(item.value, "h:mm A").tz(
                           "Asia/Manila"
                         );
-  
+
                         let currentTimeIsWithinEvent = false;
                         let timeParts =
-                        item.value.match(/(\d+):(\d+) (AM|PM)/);
+                          item.value.match(/(\d+):(\d+) (AM|PM)/);
                         let hours = parseInt(timeParts[1]);
                         let minutes = parseInt(timeParts[2]);
                         if (timeParts[3] === "PM" && hours !== 12) {
@@ -550,8 +590,8 @@ bookingTime,
                         timeDate.setHours(hours, minutes, 0, 0);
                         currentTimeIsWithinEvent = events.some(
                           (event) => {
-                            const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-                            if(findTicket){
+                            const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
+                            if (findTicket) {
                               let startDateTime = new Date(event.start);
                               let endDateTime = new Date(event.end);
                               return (
@@ -561,8 +601,8 @@ bookingTime,
                             }
                           }
                         );
-  
-                        if(currentTimeIsWithinEvent){
+
+                        if (currentTimeIsWithinEvent) {
                           return (
                             <option
                               key={index}
@@ -573,7 +613,7 @@ bookingTime,
                             </option>
                           );
                         }
-                        else{
+                        else {
                           if (item?.slot <= 0) {
                             return (
                               <option
@@ -585,7 +625,7 @@ bookingTime,
                               </option>
                             );
                           }
-                          else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
+                          else if (ticket?.promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
                             return (
                               <option
                                 key={index}
@@ -596,7 +636,7 @@ bookingTime,
                               </option>
                             );
                           }
-                          else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
+                          else if (business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
                             return (
                               <option
                                 key={index}
@@ -606,7 +646,7 @@ bookingTime,
                                 {`${item.label}`}
                               </option>
                             );
-                          } else if ( business === "TFR" && withoutFilters) {
+                          } else if (business === "TFR" && withoutFilters) {
                             return (
                               <option
                                 key={index}
@@ -615,7 +655,7 @@ bookingTime,
                                 {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
                               </option>
                             );
-                          } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
+                          } else if (business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
                             return (
                               <option
                                 key={index}
@@ -625,7 +665,7 @@ bookingTime,
                                 {item.label}
                               </option>
                             );
-                          }else {
+                          } else {
                             return (
                               <option key={index} value={JSON.stringify(item)} >
                                 {item.label}
@@ -651,10 +691,10 @@ bookingTime,
                     onChange={handlePax}
                     disabled={
                       ticket?.SubCategory === "Entrance"
-                      ? false
-                      : bookingTime
-                      ? false
-                      : true
+                        ? false
+                        : bookingTime
+                          ? false
+                          : true
                     }
                     min={1}
                     max={business === "BakeBe" ? 2 : maxPerInterval}
@@ -730,67 +770,67 @@ bookingTime,
                 <div className="py-4 px-6">
                   <div className="border-b-2 border-gray-200">
                     <p className="font-bold text-sm mb-2">
-                      Location: {selectedLocation?.Name}
+                      Location: {selectedLocation || 'Error undefined'}
                     </p>
                     <p className="font-bold text-sm mb-3">
-                      Type Of Ticket: {ticket?.Type}
+                      Type Of Ticket: {ticket?.ticketType}
                     </p>
                   </div>
                   <div className="pt-4 pb-3 border-b-2 border-gray-200">
-                    <p className="font-bold text-sm">{ticket?.Name}</p>
+                    <p className="font-bold text-sm">{ticket?.ticketName}</p>
                     <div className="flex justify-between py-2">
                       <div className="flex flex-col">
                         <p className="text-xs">
                           Date:{" "}
                           {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
-                        <p className="text-xs">Time: {ticket?.SubCategory === 'Entrance' ? `${format(parse(ticket?.TimeStart, 'HH:mm', new Date()), 'h:mm a')} - ${format(parse(ticket?.TimeEnd, 'HH:mm', new Date()), 'h:mm a')}` :` ${bookingTime} ${(withoutFilters && bookingTime )? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
+                        <p className="text-xs">Time: {ticket?.SubCategory === 'Entrance' ? `${format(parse(ticket?.TimeStart, 'HH:mm', new Date()), 'h:mm a')} - ${format(parse(ticket?.TimeEnd, 'HH:mm', new Date()), 'h:mm a')}` : ` ${bookingTime} ${(withoutFilters && bookingTime) ? (`- ` + convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
                         {
-                          ticket?.Promo === 'Buy 1 Take 1' && pax ?
-                          <div>
-                            <p className="text-xs">No. of pass: {pax} (+{pax})</p>
-                            <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
-                          </div>
-                          :
-                          <p className="text-xs">No. of pass: {pax}</p>
+                          ticket?.promo === 'Buy 1 Take 1' && pax ?
+                            <div>
+                              <p className="text-xs">No. of pass: {pax} (+{pax})</p>
+                              <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
+                            </div>
+                            :
+                            <p className="text-xs">No. of pass: {pax}</p>
                         }
                       </div>
                       <div className="flex items-ebd">
-                        <p className="tex-4xl font-bold">₱ {ticket?.Price}</p>
+                        <p className="tex-4xl font-bold">₱ {ticket?.price}</p>
                       </div>
                     </div>
                   </div>
                   {
                     ticket.Promo === 'Discount' && pax ?
-                    <div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Discount ({ticket?.PromoValue}%)</div>
-                        <div className="font-bold">₱ {(ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                      <div>
+                        <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                          <div className="text-sm font-bold">Discount ({ticket?.discountPercentage}%)</div>
+                          <div className="font-bold">₱ {(ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
+                        </div>
+                        <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                          <div className="text-sm font-bold">Total</div>
+                          <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
+                        </div>
                       </div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
-                      </div>
-                    </div>
-                    :
-                    (
-                    ticket.Promo === 'Amount to Reach' && pax ?
-                    <div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Promo Amount (₱ {ticket?.PromoValue})</div>
-                        <div className="font-bold">₱ {(parseInt(ticket?.PromoValue)) * pax}</div>
-                      </div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
-                      </div>
-                    </div>
-                    :
-                    <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                      <div className="text-sm font-bold">Total</div>
-                      <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0))}</div>
-                    </div>
-                    )
+                      :
+                      (
+                        ticket.Promo === 'Amount to Reach' && pax ?
+                          <div>
+                            <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                              <div className="text-sm font-bold">Promo Amount (₱ {ticket?.discountPercentage})</div>
+                              <div className="font-bold">₱ {(parseInt(ticket?.discountPercentage)) * pax}</div>
+                            </div>
+                            <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                              <div className="text-sm font-bold">Total</div>
+                              <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.discountPercentage)) * pax)}</div>
+                            </div>
+                          </div>
+                          :
+                          <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                            <div className="text-sm font-bold">Total</div>
+                            <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0))}</div>
+                          </div>
+                      )
                   }
                 </div>
               </div>

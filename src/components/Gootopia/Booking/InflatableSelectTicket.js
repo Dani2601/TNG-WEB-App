@@ -15,25 +15,25 @@ import { setCart } from "../../../store/action";
 import { ConfirmationCartModal } from "../../Modal/ConfirmationCartModal";
 import { SignInModal } from "../../Modal/SignInModal";
 
-let ticket = [
-  {
-    id: 1,
-    TicketName: "Entrance",
-    OldPrice: "PHP 799.00",
-    NewPrice: "699.00",
-    Discount: "13% OFF",
-    Description: "Your ticket to the Weird and Wonderful World of Gootopia!",
-  },
-  {
-    id: 3,
-    TicketName: "JANUARY BABIES ARE FREE!",
-    OldPrice: "PHP 799.00",
-    NewPrice: "699.00",
-    Discount: "13% OFF",
-    Description:
-      "Just bring 1 paying friend! Valid within JANUARY 2023 ONLY. Celebrants must present their valid ID with date of Birth to avail the promo.",
-  },
-];
+// let ticket = [
+//   {
+//     id: 1,
+//     TicketName: "Entrance",
+//     OldPrice: "PHP 799.00",
+//     NewPrice: "699.00",
+//     Discount: "13% OFF",
+//     Description: "Your ticket to the Weird and Wonderful World of Gootopia!",
+//   },
+//   {
+//     id: 3,
+//     TicketName: "JANUARY BABIES ARE FREE!",
+//     OldPrice: "PHP 799.00",
+//     NewPrice: "699.00",
+//     Discount: "13% OFF",
+//     Description:
+//       "Just bring 1 paying friend! Valid within JANUARY 2023 ONLY. Celebrants must present their valid ID with date of Birth to avail the promo.",
+//   },
+// ];
 
 export default function InflatableSelectTicket({
   setStep,
@@ -43,9 +43,10 @@ export default function InflatableSelectTicket({
   navigateToLocation
 }) {
   const [showModal, setShowModal] = useState(false);
-  const [ticketInfo, setTickets] = useState([]);
+  // const [tickets, setTickets] = useState([]);
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => state.record);
+  const [ticketInfo, setTickets] = useState([]);
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch();
@@ -58,8 +59,9 @@ export default function InflatableSelectTicket({
     }
   }
 
-  const accessToken = localStorage.getItem('accesstoken');
+  const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
+    console.log(accessToken)
     if (accessToken) {
       setShowModal(true);
     }
@@ -105,7 +107,7 @@ export default function InflatableSelectTicket({
       <TicketBookingModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}
-        ticketInfo={ticket}
+        ticket={ticket}
         setStep={setStep}
         handleProceed={handleProceed}
       />
@@ -152,7 +154,7 @@ export default function InflatableSelectTicket({
                               <div className=" w-[280px] h-[204px] tablet:w-[360px] flex flex-col ">
                                 <div className="flex flex-row justify-center mb-3 shadow-sm border-[1px] border-[#FF98C3] object-cover">
                                   <img
-                                    src={item?.Image}
+                                    src={item.image}
                                     alt="bookingCard"
                                     className="h-[100px] w-full object-cover tablet:h-[150px]"
                                   />

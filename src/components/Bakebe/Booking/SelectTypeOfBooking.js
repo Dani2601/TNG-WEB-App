@@ -129,11 +129,10 @@ export default function SelectTypeOfBooking({
                         className="laptopL:px-3 hoverEffects"
                       >
                         <div
-                          className={`bg-white border-[1px]  rounded-[20px] mx-[5%] tablet:w-[400px] laptopL:w-[430px] drop-shadow-xl mb-5 py-3 h-[auto]  ${
-                            selectedType === data.Name
+                          className={`bg-white border-[1px]  rounded-[20px] mx-[5%] tablet:w-[400px] laptopL:w-[430px] drop-shadow-xl mb-5 py-3 h-[auto]  ${selectedType === data.Name
                               ? "border-[2px] border-bakebe-border"
                               : ""
-                          }`}
+                            }`}
                         >
                           <div className=" ">
                             <div className=" flex flex-row justify-center tablet:items-center tablet:h-[270px] ">

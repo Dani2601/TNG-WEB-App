@@ -5,8 +5,13 @@ export function TicketBookingModal({
   showModal,
   handleCloseModal,
   handleProceed,
-  ticketInfo,
+  ticket,
 }) {
+  console.log('Bad', ticket)
+  console.log('Ticket:', ticket);
+  console.log('Old Price:', ticket?.oldPrice);
+  console.log('Price:', ticket?.price);
+
   return (
     <ModalContainer
       isOpen={showModal}
@@ -16,21 +21,27 @@ export function TicketBookingModal({
     >
       <div className="p-4 text-center flex flex-col items-center font-poppins">
         <RiErrorWarningLine color={"#FACEA8"} size={70} />
-        {ticketInfo && (
+        <p className="font-bold">{ticket?.ticketName}</p>
+
+        {ticket?.oldPrice ? (
           <>
-            <p className="font-bold">{ticketInfo.ticketName}</p>
-            {ticketInfo.oldPrice ? (
-              <div className="flex flex-row">
-                <div className="font-bold line-through mr-1">
-                  PHP{ticketInfo.oldPrice}
-                </div>
-                <div className="mr-1">PHP{ticketInfo.price}</div>
+            {" "}
+            <div className="flex flex-row">
+              <div className="font-bold line-through mr-1">
+                PHP{ticket?.oldPrice}
               </div>
-            ) : (
-              <div className="mr-1">PHP{ticketInfo.price}</div>
-            )}
+              <div className=" mr-1">PHP{ticket?.price}</div>
+
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex flex-row">
+              <div className=" mr-1">PHP{ticket?.price}</div>
+            </div>
           </>
         )}
+
         <div className="text-[10px] mt-3">
           Are you sure you want to add this ticket?
         </div>

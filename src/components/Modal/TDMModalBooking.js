@@ -1,10 +1,8 @@
 import { ModalContainer } from './ModalContainer';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
-export function TDMModalBooking({ showModal, handleCloseModal, handleProceed, ticketInfo }) {
-    console.log("ticketInfo:", ticketInfo);
-    const ticket = ticketInfo && ticketInfo.length > 0 ? ticketInfo[0] : null;
-
+export function TDMModalBooking({ showModal, handleCloseModal, handleProceed, ticket }) {
+    console.log(ticket)
     return (
         <ModalContainer
             isOpen={showModal}

@@ -65,11 +65,12 @@ export default function SelectTicket({
 
   const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
-    if (accessToken) {
-      setShowModal(true);
+    if (!accessToken) {
+      setModalVisible(true);
     }
     else {
-      setModalVisible(true)
+      setShowModal(true);
+
     }
   }
 

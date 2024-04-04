@@ -62,8 +62,9 @@ export function SignInModal({ showModal, handleCloseModal, handleProceed }) {
       if (response.success) {
         dispatch(setUser(response.user));
         dispatch(setToken(response.accessToken));
-        handleCloseModal()
         handleProceed()
+        handleCloseModal()
+        login()
       } else {
         toast.error(
           response.errorMsg.length === undefined
@@ -86,7 +87,8 @@ export function SignInModal({ showModal, handleCloseModal, handleProceed }) {
   }, []);
 
   function handleProceed() {
-    navigate('/')
+    // navigate('/')
+    console.log('---- SIGN IN SUCCESSFUL ----')
   }
 
   return (

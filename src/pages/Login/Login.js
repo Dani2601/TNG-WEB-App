@@ -66,9 +66,8 @@ function Landing() {
         login();
         navigate('/');
         console.log(cart);
-        return;
         if (cart?.length > 0) {
-          const checkBusiness = cart[0]?.BusinessUnitID;
+          const checkBusiness = cart[0]?.businessUnitID;
           navigate(business_unit[checkBusiness], { state: { step: true } });
         }
         else {

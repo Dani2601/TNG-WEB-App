@@ -131,6 +131,7 @@ export function TDMBookingDetails({
   }
 
   useEffect(() => {
+    console.log(ticket)
     if (ticket?.Day?.length > 0) {
       setAllowedDays(ticket.Day);
     }
@@ -291,6 +292,8 @@ export function TDMBookingDetails({
   }
 
   useEffect(() => {
+    console.log('Booking')
+    console.log(bookingDate)
     if (bookingDate) {
       setIntervals(
         ticket?.createIntervals.map((item) => {

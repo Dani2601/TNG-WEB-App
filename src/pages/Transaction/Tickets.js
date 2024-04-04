@@ -65,7 +65,7 @@ export default function Tickets() {
 
   const getEditData = (data) => {
     const objData = { Code: data.QRCode, UserID: data.CustomerID, Status: data.Status }
-    
+
     const encrypt = encryptData(objData)
 
     setOpenEditBusinessUnitModal(true);
@@ -90,7 +90,8 @@ export default function Tickets() {
   const PAGE_SIZE = 10;
 
   useEffect(() => {
-    viewMyTickets(user.id)
+    const accesssToken = localStorage.getItem('accessToken')
+    viewMyTickets(accesssToken)
       .then((response) => {
         // console.log(response)
         if (response.valid) {
@@ -115,7 +116,7 @@ export default function Tickets() {
       );
     } else {
       if (record?.length > 0) {
-      //  console.log(record);
+        //  console.log(record);
         return record
           .filter((data) => {
             if (search === null) return data;
@@ -203,8 +204,8 @@ export default function Tickets() {
         />
       )}
       <div className="min-h-screen flex flex-col bluegradient">
-      <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick}/>
-      
+        <Topbar showMenu={showMenu} setShowMenu={setShowMenu} handleMenuClick={handleMenuClick} />
+
         <div className=" p-10 gap-8 mb-auto font-poppins ">
           <div className="text-2xl flex flex-row">
             {title}

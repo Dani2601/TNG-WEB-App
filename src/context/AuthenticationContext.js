@@ -25,7 +25,7 @@ const AuthProvider = (props) => {
           if (res.valid) {
             console.log(res)
             dispatch(setUser(user));
-            dispatch(setToken(res.accessToken));
+            dispatch(setToken(res.token));
             dispatch(setCart([]));
             setLoggedIn(true);
             setLoading(false);

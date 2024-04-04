@@ -8,7 +8,7 @@ import { setCart } from '../../store/action'
 import routes from '../../constants/routes'
 import { useNavigate } from 'react-router-dom'
 
-export function TDMReserveTicket({ setStep, ticket, setTicket, location, navigateToLocation}) {
+export function TDMReserveTicket({ setStep, ticket, setTicket, location, navigateToLocation }) {
     const [showModal, setShowModal] = useState(false)
     const { user, cart } = useSelector(state => state.record)
     const [ticketInfo, setTickets] = useState([])
