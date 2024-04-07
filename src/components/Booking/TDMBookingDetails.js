@@ -86,7 +86,7 @@ export function TDMBookingDetails({
       ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
-      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
+      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.endTime) : "",
       Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
@@ -104,7 +104,7 @@ export function TDMBookingDetails({
               if (item.ticket?.accessToken === booking?.ticket?.accessToken) {
                 return {
                   ...item,
-                  Pax: item?.Pax + booking?.Pax,
+                  Pax: item?.participants + booking?.Pax,
                 };
               } else {
                 return item;
@@ -296,7 +296,7 @@ export function TDMBookingDetails({
     console.log(bookingDate)
     if (bookingDate) {
       setIntervals(
-        ticket?.createIntervals.map((item) => {
+        ticket?.ticketIntervals.map((item) => {
           let reservation = reserve?.filter(
             (res) => res.BookingTime === item.ticketIntervals
           );
@@ -526,11 +526,12 @@ export function TDMBookingDetails({
                       const allDates = [];
 
                       return (
-                        date >= today &&
-                        !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                        allowedDays.includes(
-                          date.toLocaleDateString("en-US", { weekday: "long" })
-                        )
+                        date
+                        // date >= today &&
+                        // !allDates.includes(format(date, "MM/dd/yyyy")) &&
+                        // allowedDays.includes(
+                        //   date.toLocaleDateString("en-US", { weekday: "long" })
+                        // )
                       );
                     }}
                     value={bookingDate ? moment(bookingDate).format("MM/DD/YYYY") : ""}

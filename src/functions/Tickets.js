@@ -119,10 +119,11 @@ async function getBookingsByTicketID(branchID, ticketid, date) {
   }
 }
 
+//No API get all transaction by branch
 async function getBookingsByBranch(branchID, date) {
   try {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_REST_API}ViewBookingsByBranch`,
+      `${process.env.REACT_APP_REST_API}`,
       {
         BranchID: branchID,
         BookingDate: date,
