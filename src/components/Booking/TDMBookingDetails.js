@@ -588,7 +588,7 @@ export function TDMBookingDetails({
                 >
                   <option value={""}>Select a time</option>
                   {/* **************************************************************************************************** */}
-                  {intervals?.length > 0 &&
+                  {/* {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
                       const itemTime = moment(item.value, "h:mm A").tz(
                         "Asia/Manila"
@@ -690,7 +690,97 @@ export function TDMBookingDetails({
                           );
                         }
                       }
+                    })} */}
+
+                  {intervals?.length > 0 &&
+                    intervals?.map((item, index) => {
+                      const itemTime = moment(item.value, "h:mm A").tz("Asia/Manila");
+                      console.log("item.value", item.BookingTime);
+
+                      // Check if item.BookingTime is a valid string before using match
+                      if (typeof item.BookingTime === 'string') {
+                        let timeParts = item.BookingTime.match(/(\d+):(\d+) (AM|PM)/);
+                        if (timeParts) {
+                          let hours = parseInt(timeParts[1]);
+                          let minutes = parseInt(timeParts[2]);
+
+                          if (timeParts[3] === "PM" && hours !== 12) {
+                            hours += 12;
+                          }
+
+                          let timeDate = new Date(bookingDate);
+                          timeDate.setHours(hours, minutes, 0, 0);
+
+                          let currentTimeIsWithinEvent = events.some((event) => {
+                            const findTicket = event?.activity?.find((item) => item?.value === ticket?.accessToken);
+                            if (findTicket) {
+                              let startDateTime = new Date(event.start);
+                              let endDateTime = new Date(event.end);
+                              return timeDate >= startDateTime && timeDate <= endDateTime;
+                            }
+                          });
+
+                          if (currentTimeIsWithinEvent) {
+                            return (
+                              <option key={index} value={JSON.stringify(item)} disabled={true}>
+                                {item.label}
+                              </option>
+                            );
+                          } else {
+                            if (item?.slot <= 0) {
+                              return (
+                                <option key={index} value={JSON.stringify(item)} disabled={true}>
+                                  {item.label}
+                                </option>
+                              );
+                            } else if (ticket?.promo === "Buy 1 Take 1" && item?.slot < parseInt(ticket.discountPercentage) + 1) {
+                              return (
+                                <option key={index} value={JSON.stringify(item)} disabled={true}>
+                                  {item.label}
+                                </option>
+                              );
+                            } else if (business !== "TFR" && formattedBookingDate === currentDateInPhilippines) {
+                              return (
+                                <option
+                                  key={index}
+                                  value={JSON.stringify(item)}
+                                  disabled={itemTime.isBefore(currentTime) ? true : false}
+                                >
+                                  {`${item.label}`}
+                                </option>
+                              );
+                            } else if (business === "TFR" && withoutFilters) {
+                              return (
+                                <option key={index} value={JSON.stringify(item)}>
+                                  {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
+                                </option>
+                              );
+                            } else if (business === "TFR" && !withoutFilters && formattedBookingDate === currentDateInPhilippines) {
+                              return (
+                                <option
+                                  key={index}
+                                  value={JSON.stringify(item)}
+                                  disabled={itemTime.isBefore(currentTime) ? true : false}
+                                >
+                                  {item.label}
+                                </option>
+                              );
+                            } else {
+                              return (
+                                <option key={index} value={JSON.stringify(item)}>
+                                  {item.label}
+                                </option>
+                              );
+                            }
+                          }
+                        }
+                      }
+
+                      // Handle the case where item.BookingTime is not a valid string
+                      console.error("Invalid item.BookingTime:", item.BookingTime);
+                      return null; // Render nothing for this item if BookingTime is invalid
                     })}
+
                 </select>
               </div>
               <div>
