@@ -7,11 +7,6 @@ export function TicketBookingModal({
   handleProceed,
   ticket,
 }) {
-  console.log('Bad', ticket)
-  console.log('Ticket:', ticket);
-  console.log('Old Price:', ticket?.oldPrice);
-  console.log('Price:', ticket?.price);
-
   return (
     <ModalContainer
       isOpen={showModal}

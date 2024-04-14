@@ -120,27 +120,83 @@ async function getBookingsByTicketID(branchID, ticketid, date) {
 }
 
 //No API get all transaction by branch
-async function getBookingsByBranch(branchID, date) {
+// async function getBookingsByBranch(branchID, bookingDate) {
+//   const accessToken = localStorage.getItem('accessToken');
+//   try {
+
+//     const headers = {
+//       Authorization: `Bearer ${accessToken}`,
+//     };
+
+//     const { data } = await axios.get(
+//       `${process.env.REACT_APP_REST_API}/transactions/${branchID}/search-branch`,
+//       {
+//         businessUnitBranchId: branchID,
+//         bookingDate: bookingDate,
+//       },
+//       {
+//         headers
+//       }
+//     );
+
+//     if (data?.valid) {
+//       return {
+//         valid: true,
+//         data: data?.transanctionsArray,
+//       };
+//     } else {
+//       return data;
+//     }
+//   } catch (e) {
+//     return {
+//       valid: false,
+//     };
+//   }
+// }
+
+async function getBookingsByBranch(branchID, bookingDate) {
+  const accessToken = localStorage.getItem('accessToken');
   try {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const params = {
+      businessUnitBranchId: branchID,
+      bookingDate: bookingDate,
+    };
+
     const { data } = await axios.get(
-      `${process.env.REACT_APP_REST_API}`,
+      `${process.env.REACT_APP_REST_API}/transactions/${branchID}/search-branch`,
       {
-        BranchID: branchID,
-        BookingDate: date,
+        headers: headers,
+        params: params,
       }
     );
 
+    console.log('data')
+    console.log(data)
     if (data?.valid) {
-      return data
+
+      return {
+        valid: true,
+        data: data?.transactionsArray, // Corrected typo here: 'transanctionsArray' to 'transactionsArray'
+      };
     } else {
-      return data;
+      return {
+        valid: false,
+        message: data.message, // Assuming there's an error message in the response
+      };
     }
-  } catch (e) {
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
     return {
       valid: false,
+      error: error.message,
     };
   }
 }
+
 
 export {
   getBookingsByBranch,

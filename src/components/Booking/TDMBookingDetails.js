@@ -67,6 +67,16 @@ export function TDMBookingDetails({
   const [stringifyTime, setStringifyTime] = useState("")
   const accessToken = localStorage.getItem('accessToken');
 
+
+  // Function to convert a date to the worded day
+  function getWordedDay(date) {
+    const d = new Date(date);
+
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayOfWeek = d.getDay();
+    return weekdays[dayOfWeek];
+  }
+
   function handleBack() {
     if (business === "BakeBe") {
       setStep(3);
@@ -131,9 +141,8 @@ export function TDMBookingDetails({
   }
 
   useEffect(() => {
-    console.log(ticket)
-    if (ticket?.Day?.length > 0) {
-      setAllowedDays(ticket.Day);
+    if (ticket?.availability?.length > 0) {
+      setAllowedDays(ticket.availability);
     }
   }, [ticket]);
 
@@ -250,13 +259,19 @@ export function TDMBookingDetails({
   }, [business, accessToken, location]);
 
   useEffect(() => {
-    if (ticket?.accessToken && bookingDate) {
-      getBookingsByBranch(
-        location,
-        format(bookingDate, "yyyy-MM-dd")
-      )
+    console.log('HEYYYY')
+    console.log(ticket)
+    console.log('location')
+    console.log(location)
+
+    if (ticket && bookingDate) {
+      // if (ticket?.accessToken && bookingDate) {
+      getBookingsByBranch(location, format(bookingDate, "yyyy-MM-dd"))
+
         .then((res) => {
           if (res.valid) {
+            console.log('BOOKINGS')
+            console.log(res)
             setReserve(res.data);
           } else {
             setReserve([]);
@@ -292,18 +307,18 @@ export function TDMBookingDetails({
   }
 
   useEffect(() => {
-    console.log('Booking')
-    console.log(bookingDate)
+    console.log('date selected')
+    console.log(ticket)
     if (bookingDate) {
       setIntervals(
         ticket?.ticketIntervals.map((item) => {
-          let reservation = reserve?.filter(
-            (res) => res.BookingTime === item.ticketIntervals
-          );
+
+          console.log("reserve")
+          console.log(reserve)
+          let reservation = reserve?.filter((res) => res.BookingTime === item.ticketIntervals);
           let cartReserve = cart?.filter(
             (cartItem) =>
-              cartItem.BookingTime === item.ticketIntervals &&
-              cartItem.ticket?.accessToken === ticket?.accessToken
+              cartItem.BookingTime === item.ticketIntervals && cartItem.ticket?.accessToken === ticket?.accessToken
           );
 
 
@@ -381,11 +396,13 @@ export function TDMBookingDetails({
 
   function handleBookingTime(e) {
     if (e.target.value) {
-      const data = JSON.parse(e.target.value);
-      setBookingTime(data?.value);
+      const ticket = JSON.parse(e.target.value);
+      console.log('ticket booking time')
+      console.log(ticket)
+      setBookingTime(ticket?.BookingTime);
       setPax(1);
       setDisabled(false);
-      setSlotIdentifier(data?.slot);
+      setSlotIdentifier(ticket?.slot);
       setStringifyTime(e.target.value)
     } else {
       setBookingTime("");
@@ -395,6 +412,7 @@ export function TDMBookingDetails({
     }
   }
 
+
   function handleCart() {
     const booking = {
       BusinessUnitID: business_unit[business],
@@ -402,7 +420,7 @@ export function TDMBookingDetails({
       ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
-      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
+      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.endTime) : "",
       Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
@@ -523,17 +541,37 @@ export function TDMBookingDetails({
                     filterDate={(date) => {
                       const today = new Date();
                       today.setHours(0, 0, 0, 0);
-                      const allDates = [];
+                      console.log('==================')
+                      console.log(ticket)
+
+                      // Check if the date is in the list of available dates from the 'ticket' API
+                      const availableDates = ticket?.availability || [];
+                      // const availableDates = [
+                      //   '04/10/2024',
+                      //   '04/11/2024',
+                      //   '04/12/2024',
+                      //   '04/13/2024',
+                      // ]
+                      // console.log(ticket.value)
+                      // console.log('Available Dates')
+                      // console.log(moment(date).format("MM/DD/YYYY"))
+                      // console.log(availableDates.includes(getWordedDay(date)))
 
                       return (
-                        date
+                        date && date >= today && availableDates.includes(getWordedDay(date))
+                        // &&
                         // date >= today &&
-                        // !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                        // allowedDays.includes(
-                        //   date.toLocaleDateString("en-US", { weekday: "long" })
-                        // )
+                        // availableDates.includes(moment(date).format("MM/DD/YYYY"))
                       );
+
+                      // return (
+                      //   date &&
+                      //   date >= today &&
+                      //   availableDates.includes(moment(date).format("MM/DD/YYYY")) &&
+                      //   allowedDays.includes(date.toLocaleDateString("en-US", {weekday: "long" }))
+                      // );
                     }}
+
                     value={bookingDate ? moment(bookingDate).format("MM/DD/YYYY") : ""}
                     dayClassName={customDateStyle}
                   />
@@ -549,17 +587,19 @@ export function TDMBookingDetails({
                   value={stringifyTime}
                 >
                   <option value={""}>Select a time</option>
+                  {/* **************************************************************************************************** */}
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
                       const itemTime = moment(item.value, "h:mm A").tz(
                         "Asia/Manila"
                       );
-
+                      console.log("item.value")
+                      console.log(item.BookingTime)
                       let currentTimeIsWithinEvent = false;
-                      let timeParts =
-                        item.value.match(/(\d+):(\d+) (AM|PM)/);
+                      let timeParts = item.BookingTime.match(/(\d+):(\d+) (AM|PM)/);
                       let hours = parseInt(timeParts[1]);
                       let minutes = parseInt(timeParts[2]);
+
                       if (timeParts[3] === "PM" && hours !== 12) {
                         hours += 12;
                       }

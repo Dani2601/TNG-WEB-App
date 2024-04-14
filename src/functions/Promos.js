@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function getPromos(businessID) {
   try {
-    const { data } = await axios.post(
+    const { data } = await axios.get(
       `${process.env.REACT_APP_REST_API}/promos-and-discounts/show-all?filter=${businessID}`,
       {
         businessUnitId: businessID,
