@@ -541,8 +541,6 @@ export function TDMBookingDetails({
                     filterDate={(date) => {
                       const today = new Date();
                       today.setHours(0, 0, 0, 0);
-                      console.log('==================')
-                      console.log(ticket)
 
                       // Check if the date is in the list of available dates from the 'ticket' API
                       const availableDates = ticket?.availability || [];
@@ -695,11 +693,11 @@ export function TDMBookingDetails({
                   {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
                       const itemTime = moment(item.value, "h:mm A").tz("Asia/Manila");
-                      console.log("item.value", item.BookingTime);
+                      console.log("item.value:", item.value);
 
-                      // Check if item.BookingTime is a valid string before using match
-                      if (typeof item.BookingTime === 'string') {
-                        let timeParts = item.BookingTime.match(/(\d+):(\d+) (AM|PM)/);
+                      // Ensure item.value (BookingTime) is a valid string
+                      if (typeof item.value === 'string') {
+                        let timeParts = item.value.match(/(\d+):(\d+) (AM|PM)/);
                         if (timeParts) {
                           let hours = parseInt(timeParts[1]);
                           let minutes = parseInt(timeParts[2]);
@@ -776,10 +774,11 @@ export function TDMBookingDetails({
                         }
                       }
 
-                      // Handle the case where item.BookingTime is not a valid string
-                      console.error("Invalid item.BookingTime:", item.BookingTime);
+                      // Handle the case where item.value (BookingTime) is not a valid string
+                      console.error("Invalid item.value:", item.value);
                       return null; // Render nothing for this item if BookingTime is invalid
                     })}
+
 
                 </select>
               </div>
