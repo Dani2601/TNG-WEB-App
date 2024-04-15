@@ -17,6 +17,7 @@ import { setCart, setToken, setUser } from "../../store/action";
 import ChangePassModal from "../Modal/Profile/ChangePass/ChangePass";
 import { ConfirmationCartModal } from "../Modal/ConfirmationCartModal";
 import PrivacyPolicy from "../Modal/PrivacyANDPolicy/PrivacyPolicy";
+import { reauthenticate } from "../../functions";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -56,10 +57,11 @@ export default function Topbar({ scroll }) {
 
   function _logout() {
     // console.log("trigger")
+    reauthenticate(null);
     dispatch(setToken(null));
     dispatch(setUser(null));
     logout();
-    navigate(-1);
+    navigate(routes.Login);
   }
 
   // Open edit post Modal
@@ -125,7 +127,7 @@ export default function Topbar({ scroll }) {
               <div>
                 <a
                   className="cursor-pointer"
-                  href="https://www.thenextperience.com/?fbclid=IwAR1ZQYYEJPBpM2kkpqy39uEx9zX22jxPGDlmMZnmXTCz5Tkf2_WxeyLCo9s"
+                  href="https://tng-web-app.vercel.app/"
                   target="_blank"
                 >
                   <img
@@ -144,12 +146,11 @@ export default function Topbar({ scroll }) {
                 <div
                   onClick={() => handleCart(TFR_KEY, routes.LandingTFR)}
                   className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
-              ${
-                location.pathname === routes.LandingTFR ||
-                location.pathname === routes.BookingTFR
-                  ? "bg-[#664653]"
-                  : ""
-              }`}
+              ${location.pathname === routes.LandingTFR ||
+                      location.pathname === routes.BookingTFR
+                      ? "bg-[#664653]"
+                      : ""
+                    }`}
                 >
                   <img src={tfrnav} alt="" className="w-full h-full" />
                 </div>
@@ -159,13 +160,12 @@ export default function Topbar({ scroll }) {
                 <div
                   onClick={() => handleCart(DESSERT_KEY, routes.LandingDesert)}
                   className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
-                ${
-                  location.pathname === routes.LandingDesert ||
-                  location.pathname === routes.Packages ||
-                  location.pathname === routes.DessertBooking
-                    ? "bg-[#664653]"
-                    : ""
-                }`}
+                ${location.pathname === routes.LandingDesert ||
+                      location.pathname === routes.Packages ||
+                      location.pathname === routes.DessertBooking
+                      ? "bg-[#664653]"
+                      : ""
+                    }`}
                 >
                   <img src={tdmnav} alt="" className="w-full h-full" />
                 </div>
@@ -176,12 +176,11 @@ export default function Topbar({ scroll }) {
                     handleCart(TIS_KEY, routes.LandingInflatableIsland)
                   }
                   className={`cursor-pointer rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
-                  ${
-                    location.pathname === routes.LandingInflatableIsland ||
-                    location.pathname === routes.BookingInflatable
+                  ${location.pathname === routes.LandingInflatableIsland ||
+                      location.pathname === routes.BookingInflatable
                       ? "bg-[#664653]"
                       : ""
-                  }`}
+                    }`}
                 >
                   <img
                     src={isnav}
@@ -195,12 +194,11 @@ export default function Topbar({ scroll }) {
                 <div
                   onClick={() => handleCart(BAKEBE_KEY, routes.LandingBakebe)}
                   className={`cursor-pointer  rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
-                ${
-                  location.pathname === routes.LandingBakebe ||
-                  location.pathname === routes.BookingBakebe
-                    ? "bg-[#664653]"
-                    : ""
-                }`}
+                ${location.pathname === routes.LandingBakebe ||
+                      location.pathname === routes.BookingBakebe
+                      ? "bg-[#664653]"
+                      : ""
+                    }`}
                 >
                   {" "}
                   <img alt="" src={bakebenav} className="w-full h-full" />
@@ -213,17 +211,16 @@ export default function Topbar({ scroll }) {
                     handleCart(GOOTOPIA_KEY, routes.LandingGootopia)
                   }
                   className={`cursor-pointer rounded-full h-[35px] laptop:h-[46px] hoverEffectsTopbar
-              ${
-                location.pathname === routes.LandingGootopia ||
-                location.pathname === routes.ObstaclesGootopia ||
-                location.pathname === routes.PackagesGootopia ||
-                location.pathname === routes.FaqsGootopia ||
-                location.pathname === routes.ContactsGootopia ||
-                location.pathname === routes.BookingGootopia ||
-                location.pathname === routes.SelectTicketGootopia
-                  ? "bg-[#664653]"
-                  : ""
-              }`}
+              ${location.pathname === routes.LandingGootopia ||
+                      location.pathname === routes.ObstaclesGootopia ||
+                      location.pathname === routes.PackagesGootopia ||
+                      location.pathname === routes.FaqsGootopia ||
+                      location.pathname === routes.ContactsGootopia ||
+                      location.pathname === routes.BookingGootopia ||
+                      location.pathname === routes.SelectTicketGootopia
+                      ? "bg-[#664653]"
+                      : ""
+                    }`}
                 >
                   <img
                     alt=""
@@ -233,11 +230,11 @@ export default function Topbar({ scroll }) {
                 </div>
               </div>
             </div>
-              <div>
-                <div onClick={() => setPolicyModal(true)} className="text-white px-4 mt-1 rounded-md cursor-pointer hover:text-[#EFC391]">
-                  <p className="text-sm">Privacy & Policy</p>
-                </div>
+            <div>
+              <div onClick={() => setPolicyModal(true)} className="text-white px-4 mt-1 rounded-md cursor-pointer hover:text-[#EFC391]">
+                <p className="text-sm">Privacy & Policy</p>
               </div>
+            </div>
             <div
               className="flex w-1/10 justify-center items-center"
               ref={menuRef}
@@ -265,13 +262,13 @@ export default function Topbar({ scroll }) {
                         >
                           Home
                         </Link>
-                        <Link
+                        {/* <Link
                           to={routes.Profile}
                           className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
                           role="menuitem"
                         >
                           Profile
-                        </Link>
+                        </Link> */}
                         <div
                           className="cursor-pointer text-white flex items-center  py-3 px-4 text-md hover:bg-gray-700"
                           role="menuitem"

@@ -73,8 +73,8 @@ export default function TFRMenubar() {
                   </a>
                   <a
                     // to={routes.ContactsGootopia}
-                    href="#funroof"
                     className="text-center  rounded-md text-sm font-medium"
+                    href="#find"
                   >
                     CONTACT
                   </a>
@@ -100,9 +100,8 @@ export default function TFRMenubar() {
           </div>
         </div>
         <div
-          className={`${
-            isOpen ? "" : "hidden"
-          } md:hidden w-full h-screen z-50 text-tfr-pink`}
+          className={`${isOpen ? "" : "hidden"
+            } md:hidden w-full h-screen z-50 text-tfr-pink`}
         >
           <div className="flex flex-col items-center px-2 pt-2 pb-3 space-y-1 sm:px-3 ">
             <a

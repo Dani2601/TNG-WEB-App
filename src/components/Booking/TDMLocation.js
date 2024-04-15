@@ -45,9 +45,11 @@ export function TDMLocation({ setStep, setLocation, location, navigateToNextStep
 
         getBranches(accessToken, DESSERT_KEY)
             .then((response) => {
-                console.log("branch response", response);
                 if (response.success) {
                     setBranch(response.businessUnitBranchesArray);
+                    console.log(response.businessUnitBranchesArray)
+                    console.log("setBranch")
+                    console.log(setBranch)
                 } else {
                     console.error("Failed to fetch branches:", response.error);
                 }

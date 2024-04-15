@@ -16,23 +16,23 @@ export function TicketBookingModal({
     >
       <div className="p-4 text-center flex flex-col items-center font-poppins">
         <RiErrorWarningLine color={"#FACEA8"} size={70} />
-        <p className="font-bold">{ticket?.Name}</p>
+        <p className="font-bold">{ticket?.ticketName}</p>
 
-        {ticket?.OldPrice ? (
+        {ticket?.oldPrice ? (
           <>
             {" "}
             <div className="flex flex-row">
               <div className="font-bold line-through mr-1">
-                PHP{ticket?.OldPrice}
+                PHP{ticket?.oldPrice}
               </div>
-              <div className=" mr-1">PHP{ticket?.Price}</div>
-     
+              <div className=" mr-1">PHP{ticket?.price}</div>
+
             </div>
           </>
         ) : (
           <>
             <div className="flex flex-row">
-              <div className=" mr-1">PHP{ticket?.Price}</div>
+              <div className=" mr-1">PHP{ticket?.price}</div>
             </div>
           </>
         )}

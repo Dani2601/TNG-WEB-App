@@ -44,7 +44,7 @@ export function TDMBookingDetails({
   setPax,
   bookingDate,
   setBookingDate,
-bookingTime,
+  bookingTime,
   setBookingTime,
   business = "Dessert",
   handleOptionChange,
@@ -65,6 +65,17 @@ bookingTime,
   const [allowedDays, setAllowedDays] = useState([])
   const [events, setEvents] = useState([])
   const [stringifyTime, setStringifyTime] = useState("")
+  const accessToken = localStorage.getItem('accessToken');
+
+
+  // Function to convert a date to the worded day
+  function getWordedDay(date) {
+    const d = new Date(date);
+
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayOfWeek = d.getDay();
+    return weekdays[dayOfWeek];
+  }
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -82,17 +93,17 @@ bookingTime,
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
-      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.endTime) : "",
+      Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
     if (cart.length > 0) {
       let checkItem = cart.find(
         (item) =>
-          item.Ticket?.id === booking?.Ticket?.id &&
+          item.ticket?.accessToken === booking?.ticket?.accessToken &&
           item.BookingDate === booking?.BookingDate &&
           item.BookingTime === booking?.BookingTime
       );
@@ -100,10 +111,10 @@ bookingTime,
         dispatch(
           setCart(
             cart.map((item) => {
-              if (item.Ticket?.id === booking?.Ticket?.id) {
+              if (item.ticket?.accessToken === booking?.ticket?.accessToken) {
                 return {
                   ...item,
-                  Pax: item?.Pax + booking?.Pax,
+                  Pax: item?.participants + booking?.Pax,
                 };
               } else {
                 return item;
@@ -130,93 +141,137 @@ bookingTime,
   }
 
   useEffect(() => {
-    if(ticket?.Day.length > 0){
-      setAllowedDays(ticket?.Day)
+    if (ticket?.availability?.length > 0) {
+      setAllowedDays(ticket.availability);
     }
-  }, [ticket])
+  }, [ticket]);
+
 
   useEffect(() => {
     if (business === "Gootopia") {
-      getBranches(user?.id || '123', GOOTOPIA_KEY)
+      getBranches(accessToken, GOOTOPIA_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
+        //     // Convert the object into an array
+        //     const locationArray = Object.values(response.data);
+        //     setSelectedLocation(
+        //       locationArray.find((item) => item?.id === location)
+        //     );
+        //   }
+        // })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "TFR") {
-      getBranches(user?.id || '123', TFR_KEY)
+      getBranches(accessToken, TFR_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "Inflatable") {
-      getBranches(user?.id || '123', TIS_KEY)
+      getBranches(accessToken, TIS_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else if (business === "BakeBe") {
-      getBranches(user?.id || '123', BAKEBE_KEY)
+      getBranches(accessToken, BAKEBE_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     } else {
-      getBranches(user?.id || '123', DESSERT_KEY)
+      getBranches(accessToken, DESSERT_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
           // Handle error case
         });
     }
-  }, [business, user, location]);
+  }, [business, accessToken, location]);
 
   useEffect(() => {
-    if (ticket?.id && bookingDate) {
-      getBookingsByBranch(
-        location,
-        format(bookingDate, "yyyy-MM-dd")
-      )
+    console.log('HEYYYY')
+    console.log(ticket)
+    console.log('location')
+    console.log(location)
+
+    if (ticket && bookingDate) {
+      // if (ticket?.accessToken && bookingDate) {
+      getBookingsByBranch(location, format(bookingDate, "yyyy-MM-dd"))
+
         .then((res) => {
           if (res.valid) {
+            console.log('BOOKINGS')
+            console.log(res)
             setReserve(res.data);
           } else {
             setReserve([]);
@@ -233,14 +288,14 @@ bookingTime,
       ViewEvents(
         ticket?.BusinessUnitID,
       )
-      .then((res) => {
-        if (res.valid) {
-          setEvents(res.data);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+        .then((res) => {
+          if (res.valid) {
+            setEvents(res.data);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }, [ticket, bookingDate, location]);
 
@@ -252,33 +307,35 @@ bookingTime,
   }
 
   useEffect(() => {
+    console.log('date selected')
+    console.log(ticket)
     if (bookingDate) {
       setIntervals(
-        ticket?.CreatedInterval.map((item) => {
-          let reservation = reserve?.filter(
-            (res) => res.BookingTime === item.timeInterval
-          );
+        ticket?.ticketIntervals.map((item) => {
+
+          console.log("reserve")
+          console.log(reserve)
+          let reservation = reserve?.filter((res) => res.BookingTime === item.ticketIntervals);
           let cartReserve = cart?.filter(
             (cartItem) =>
-              cartItem.BookingTime === item.timeInterval &&
-              cartItem.Ticket?.id === ticket?.id
+              cartItem.BookingTime === item.ticketIntervals && cartItem.ticket?.accessToken === ticket?.accessToken
           );
-          
-          
+
+
           if (reservation.length > 0) {
             const sumOfCart = cartReserve.reduce(
-              (total, item) => total + item.Pax,
+              (total, item) => total + item.participants,
               0
             );
-            
+
             return {
-              value: item.timeInterval,
+              value: item.ticketIntervals,
               slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
-              label: `${item.timeInterval} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
+              label: `${item.ticketIntervals} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
             };
           } else {
             const sumOfCart = cartReserve.reduce(
-              (total, item) => total + item.Pax,
+              (total, item) => total + item.participants,
               0
             );
 
@@ -304,7 +361,7 @@ bookingTime,
   function handlePax(e) {
     if (business !== "BakeBe") {
       let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
-      if (input === "" || (input > 0 && (ticket?.Promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval) )) { // Check if input is empty or within the allowed range
+      if (input === "" || (input > 0 && (ticket?.promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
         setPax(input);
       }
     } else {
@@ -339,11 +396,13 @@ bookingTime,
 
   function handleBookingTime(e) {
     if (e.target.value) {
-      const data = JSON.parse(e.target.value);
-      setBookingTime(data?.value);
+      const ticket = JSON.parse(e.target.value);
+      console.log('ticket booking time')
+      console.log(ticket)
+      setBookingTime(ticket?.BookingTime);
       setPax(1);
       setDisabled(false);
-      setSlotIdentifier(data?.slot);
+      setSlotIdentifier(ticket?.slot);
       setStringifyTime(e.target.value)
     } else {
       setBookingTime("");
@@ -353,15 +412,16 @@ bookingTime,
     }
   }
 
+
   function handleCart() {
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
-      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
-      Pax: ticket?.Promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
+      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.endTime) : "",
+      Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
 
@@ -385,20 +445,20 @@ bookingTime,
   function getCurrentDateInPhilippines() {
     // Get the current date in the Philippines
     const currentDateInPhilippines = moment().utcOffset('+0800');
-    
+
     // Format the current date to the desired format (Aug 09 2023)
     const formattedCurrentDate = currentDateInPhilippines.format('MMM DD YYYY');
-    
+
     return formattedCurrentDate;
   }
-  
+
   const currentDateInPhilippines = getCurrentDateInPhilippines();
 
   const withoutFilters = useMemo(
     () =>
       (ticket?.Category === "Games" &&
         (ticket?.SubCategory === "DrunkenPinball" ||
-        ticket?.SubCategory === "Drunken Pinball" ||
+          ticket?.SubCategory === "Drunken Pinball" ||
           ticket?.SubCategory === "BoomBattleShot" ||
           ticket?.SubCategory === "Boom Battleshot" ||
           ticket?.SubCategory === "ExtremeBasketBall" ||
@@ -413,15 +473,15 @@ bookingTime,
 
   function isDateInEvent(date) {
     for (const event of events) {
-      const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-      if(findTicket){
+      const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
+      if (findTicket) {
         const startDate = new Date(event.start);
         const endDate = new Date(event.end);
-        
+
         // Extract the date part of the event start and end times
         const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-        
+
         if (date >= eventStartDate && date <= eventEndDate) {
           return "special-date";
         }
@@ -438,11 +498,10 @@ bookingTime,
   };
 
   useEffect(() => {
-    if(!user?.id){
-      navigate(routes.Login)
+    if (!accessToken) {
+      navigate(routes.Login);
     }
-  }, [])
-
+  }, []);
 
   return (
     <div className="w-full py-10 flex justify-center">
@@ -462,7 +521,7 @@ bookingTime,
                 <small style={{ color: "red" }}>*</small>
               </p>
               <div className="flex items-center">
-                <span className="mr-2 text-sm">{ticket?.Name}</span>
+                <span className="mr-2 text-sm">{ticket?.ticketName}</span>
                 <FiTrash2
                   color="red"
                   className="cursor-pointer"
@@ -474,28 +533,46 @@ bookingTime,
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
                 <div className="flex w-full bg-blue-500">
-                <DatePicker
-                  selected={bookingDate}
-                  onChange={handleBookingDate}
-                  wrapperClassName="w-full"
-                  className="h-[36px] w-full shadow-md py-2 px-4"
-                  filterDate={(date) => {
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const allDates = [];
-                    
+                  <DatePicker
+                    selected={bookingDate}
+                    onChange={handleBookingDate}
+                    wrapperClassName="w-full"
+                    className="h-[36px] w-full shadow-md py-2 px-4"
+                    filterDate={(date) => {
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
 
-                    return (
-                      date >= today &&
-                      !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                      allowedDays.includes(
-                        date.toLocaleDateString("en-US", { weekday: "long" })
-                      )
-                    );
-                  }}
-                  value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                  dayClassName={customDateStyle}
-                />
+                      // Check if the date is in the list of available dates from the 'ticket' API
+                      const availableDates = ticket?.availability || [];
+                      // const availableDates = [
+                      //   '04/10/2024',
+                      //   '04/11/2024',
+                      //   '04/12/2024',
+                      //   '04/13/2024',
+                      // ]
+                      // console.log(ticket.value)
+                      // console.log('Available Dates')
+                      // console.log(moment(date).format("MM/DD/YYYY"))
+                      // console.log(availableDates.includes(getWordedDay(date)))
+
+                      return (
+                        date && date >= today && availableDates.includes(getWordedDay(date))
+                        // &&
+                        // date >= today &&
+                        // availableDates.includes(moment(date).format("MM/DD/YYYY"))
+                      );
+
+                      // return (
+                      //   date &&
+                      //   date >= today &&
+                      //   availableDates.includes(moment(date).format("MM/DD/YYYY")) &&
+                      //   allowedDays.includes(date.toLocaleDateString("en-US", {weekday: "long" }))
+                      // );
+                    }}
+
+                    value={bookingDate ? moment(bookingDate).format("MM/DD/YYYY") : ""}
+                    dayClassName={customDateStyle}
+                  />
                 </div>
               </div>
               <div>
@@ -508,17 +585,19 @@ bookingTime,
                   value={stringifyTime}
                 >
                   <option value={""}>Select a time</option>
-                  {intervals?.length > 0 &&
+                  {/* **************************************************************************************************** */}
+                  {/* {intervals?.length > 0 &&
                     intervals?.map((item, index) => {
                       const itemTime = moment(item.value, "h:mm A").tz(
                         "Asia/Manila"
                       );
-
+                      console.log("item.value")
+                      console.log(item.BookingTime)
                       let currentTimeIsWithinEvent = false;
-                      let timeParts =
-                      item.value.match(/(\d+):(\d+) (AM|PM)/);
+                      let timeParts = item.BookingTime.match(/(\d+):(\d+) (AM|PM)/);
                       let hours = parseInt(timeParts[1]);
                       let minutes = parseInt(timeParts[2]);
+
                       if (timeParts[3] === "PM" && hours !== 12) {
                         hours += 12;
                       }
@@ -526,8 +605,8 @@ bookingTime,
                       timeDate.setHours(hours, minutes, 0, 0);
                       currentTimeIsWithinEvent = events.some(
                         (event) => {
-                          const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-                          if(findTicket){
+                          const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
+                          if (findTicket) {
                             let startDateTime = new Date(event.start);
                             let endDateTime = new Date(event.end);
                             return (
@@ -538,7 +617,7 @@ bookingTime,
                         }
                       );
 
-                      if(currentTimeIsWithinEvent){
+                      if (currentTimeIsWithinEvent) {
                         return (
                           <option
                             key={index}
@@ -549,7 +628,7 @@ bookingTime,
                           </option>
                         );
                       }
-                      else{
+                      else {
                         if (item?.slot <= 0) {
                           return (
                             <option
@@ -561,7 +640,7 @@ bookingTime,
                             </option>
                           );
                         }
-                        else if (ticket?.Promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.PromoValue) + 1))) {
+                        else if (ticket?.promo === 'Buy 1 Take 1' && (item?.slot < (parseInt(ticket.discountPercentage) + 1))) {
                           return (
                             <option
                               key={index}
@@ -572,7 +651,7 @@ bookingTime,
                             </option>
                           );
                         }
-                        else if ( business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
+                        else if (business !== "TFR" && (formattedBookingDate === currentDateInPhilippines)) {
                           return (
                             <option
                               key={index}
@@ -582,7 +661,7 @@ bookingTime,
                               {`${item.label}`}
                             </option>
                           );
-                        } else if ( business === "TFR" && withoutFilters) {
+                        } else if (business === "TFR" && withoutFilters) {
                           return (
                             <option
                               key={index}
@@ -591,7 +670,7 @@ bookingTime,
                               {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
                             </option>
                           );
-                        } else if ( business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
+                        } else if (business === "TFR" && !withoutFilters && (formattedBookingDate === currentDateInPhilippines)) {
                           return (
                             <option
                               key={index}
@@ -601,7 +680,7 @@ bookingTime,
                               {item.label}
                             </option>
                           );
-                        }else {
+                        } else {
                           return (
                             <option key={index} value={JSON.stringify(item)} >
                               {item.label}
@@ -609,7 +688,98 @@ bookingTime,
                           );
                         }
                       }
+                    })} */}
+
+                  {intervals?.length > 0 &&
+                    intervals?.map((item, index) => {
+                      const itemTime = moment(item.value, "h:mm A").tz("Asia/Manila");
+                      console.log("item.value:", item.value);
+
+                      // Ensure item.value (BookingTime) is a valid string
+                      if (typeof item.value === 'string') {
+                        let timeParts = item.value.match(/(\d+):(\d+) (AM|PM)/);
+                        if (timeParts) {
+                          let hours = parseInt(timeParts[1]);
+                          let minutes = parseInt(timeParts[2]);
+
+                          if (timeParts[3] === "PM" && hours !== 12) {
+                            hours += 12;
+                          }
+
+                          let timeDate = new Date(bookingDate);
+                          timeDate.setHours(hours, minutes, 0, 0);
+
+                          let currentTimeIsWithinEvent = events.some((event) => {
+                            const findTicket = event?.activity?.find((item) => item?.value === ticket?.accessToken);
+                            if (findTicket) {
+                              let startDateTime = new Date(event.start);
+                              let endDateTime = new Date(event.end);
+                              return timeDate >= startDateTime && timeDate <= endDateTime;
+                            }
+                          });
+
+                          if (currentTimeIsWithinEvent) {
+                            return (
+                              <option key={index} value={JSON.stringify(item)} disabled={true}>
+                                {item.label}
+                              </option>
+                            );
+                          } else {
+                            if (item?.slot <= 0) {
+                              return (
+                                <option key={index} value={JSON.stringify(item)} disabled={true}>
+                                  {item.label}
+                                </option>
+                              );
+                            } else if (ticket?.promo === "Buy 1 Take 1" && item?.slot < parseInt(ticket.discountPercentage) + 1) {
+                              return (
+                                <option key={index} value={JSON.stringify(item)} disabled={true}>
+                                  {item.label}
+                                </option>
+                              );
+                            } else if (business !== "TFR" && formattedBookingDate === currentDateInPhilippines) {
+                              return (
+                                <option
+                                  key={index}
+                                  value={JSON.stringify(item)}
+                                  disabled={itemTime.isBefore(currentTime) ? true : false}
+                                >
+                                  {`${item.label}`}
+                                </option>
+                              );
+                            } else if (business === "TFR" && withoutFilters) {
+                              return (
+                                <option key={index} value={JSON.stringify(item)}>
+                                  {`${item.value} - ${convertToNormalTime(ticket.TimeEnd)} - ${item.slot} slot(s)`}
+                                </option>
+                              );
+                            } else if (business === "TFR" && !withoutFilters && formattedBookingDate === currentDateInPhilippines) {
+                              return (
+                                <option
+                                  key={index}
+                                  value={JSON.stringify(item)}
+                                  disabled={itemTime.isBefore(currentTime) ? true : false}
+                                >
+                                  {item.label}
+                                </option>
+                              );
+                            } else {
+                              return (
+                                <option key={index} value={JSON.stringify(item)}>
+                                  {item.label}
+                                </option>
+                              );
+                            }
+                          }
+                        }
+                      }
+
+                      // Handle the case where item.value (BookingTime) is not a valid string
+                      console.error("Invalid item.value:", item.value);
+                      return null; // Render nothing for this item if BookingTime is invalid
                     })}
+
+
                 </select>
               </div>
               <div>
@@ -699,68 +869,69 @@ bookingTime,
                 <div className="py-4 px-6">
                   <div className="border-b-2 border-gray-200">
                     <p className="font-bold text-sm mb-2">
-                      Location: {selectedLocation?.Name}
+                      Location: {selectedLocation || 'Error undefined'}
                     </p>
                     <p className="font-bold text-sm mb-3">
-                      Type Of Ticket: {ticket?.Type}
+                      Type Of ticket: {ticket?.ticketType}
                     </p>
                   </div>
                   <div className="pt-4 pb-3 border-b-2 border-gray-200">
-                    <p className="font-bold text-sm">{ticket?.Name}</p>
+                    <p className="font-bold text-sm">{ticket?.ticketName}</p>
                     <div className="flex justify-between py-2">
                       <div className="flex flex-col">
                         <p className="text-xs">
                           Date:{" "}
                           {bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
                         </p>
-                        <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime )? (`- `+ convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
+                        <p className="text-xs">Time:{` ${bookingTime} ${(withoutFilters && bookingTime) ? (`- ` + convertToNormalTime(ticket.TimeEnd)) : ""}`}</p>
                         {
-                          ticket?.Promo === 'Buy 1 Take 1' && pax ?
-                          <div>
-                            <p className="text-xs">No. of pass: {pax} (+{pax})</p>
-                            <p className="text-xs">Promo: <span className="font-semibold">{ticket.Promo}</span></p>
-                          </div>
-                          :
-                          <p className="text-xs">No. of pass: {pax}</p>
+                          ticket?.promo === 'Buy 1 Take 1' && pax ?
+                            <div>
+                              <p className="text-xs">No. of pass: {pax} (+{pax})</p>
+                              <p className="text-xs">Promo: <span className="font-semibold">{ticket.promo}</span></p>
+                            </div>
+                            :
+                            <p className="text-xs">No. of pass: {pax}</p>
                         }
                       </div>
                       <div className="flex items-ebd">
-                        <p className="tex-4xl font-bold">₱ {ticket?.Price}</p>
+                        <p className="tex-4xl font-bold">₱ {ticket?.price}</p>
                       </div>
                     </div>
                   </div>
                   {
-                    ticket.Promo === 'Discount' && pax ?
-                    <div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Discount ({ticket?.PromoValue}%)</div>
-                        <div className="font-bold">₱ {(ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
+                    ticket.promo === 'Discount' && pax ?
+                      <div>
+                        <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                          <div className="text-sm font-bold">Discount ({ticket?.discountPercentage}%)</div>
+                          <div className="font-bold">₱ {(ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
+                        </div>
+                        <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                          <div className="text-sm font-bold">Total</div>
+                          <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
+                        </div>
                       </div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.Price * pax) * (parseInt(ticket?.PromoValue)/100)}</div>
-                      </div>
-                    </div>
-                    :
-                    (
-                    ticket.Promo === 'Amount to Reach' && pax ?
-                    <div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Promo Amount (₱ {ticket?.PromoValue})</div>
-                        <div className="font-bold">₱ {(parseInt(ticket?.PromoValue)) * pax}</div>
-                      </div>
-                      <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                        <div className="text-sm font-bold">Total</div>
-                        <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.PromoValue)) * pax)}</div>
-                      </div>
-                    </div>
-                    :
-                    <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
-                      <div className="text-sm font-bold">Total</div>
-                      <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0))}</div>
-                    </div>
-                    )
+                      :
+                      (
+                        ticket.promo === 'Amount to Reach' && pax ?
+                          <div>
+                            <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                              <div className="text-sm font-bold">Promo Amount (₱ {ticket?.discountPercentage})</div>
+                              <div className="font-bold">₱ {(parseInt(ticket?.discountPercentage)) * pax}</div>
+                            </div>
+                            <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                              <div className="text-sm font-bold">Total</div>
+                              <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - ((parseInt(ticket?.discountPercentage)) * pax)}</div>
+                            </div>
+                          </div>
+                          :
+                          <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
+                            <div className="text-sm font-bold">Total</div>
+                            <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0))}</div>
+                          </div>
+                      )
                   }
+
                 </div>
               </div>
               <div className="shadow-md rounded-md">

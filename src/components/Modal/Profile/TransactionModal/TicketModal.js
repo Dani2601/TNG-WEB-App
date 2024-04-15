@@ -75,10 +75,11 @@ export default function TicketModal({
   const navigate = useNavigate();
   const { logout } = useAuth();
   const dispatch = useDispatch();
+  const accesssToken = localStorage.getItem('accessToken')
 
   const onSubmit = async (values) => {
     const response = await changePass(
-      user.id,
+      accesssToken,
       values.OldPassword,
       values.NewPassword,
       values.ConfirmPassword,
