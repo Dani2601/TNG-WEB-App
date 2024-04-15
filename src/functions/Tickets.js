@@ -1,21 +1,24 @@
 import axios from "axios";
 
-async function getTicketGootopia(user, businessID, branchID) {
+async function getTicketGootopia(accessToken, businessID, branchID) {
   try {
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}/tickets/show-all?filter[businessUnitId]=e9ecabdb-d077-4b88-bb84-52c7403766de&filter[businessUnitBranchId]=55de1cf4-0071-474a-a054-b551af5153f3`,
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_REST_API}/tickets/show-all?filter[businessUnitId]=${businessID}&filter[businessUnitBranchId]=${branchID}`,
       {
-        UserID: user,
-        BusinessUnitID: businessID,
-        BranchID: branchID,
-      }
+        businessUnitId: businessID,
+        businessUnitBranchId: branchID,
+      }, { headers }
     );
 
     if (data?.valid) {
       return {
         valid: true,
-        data: data?.data,
-        pageCount: data?.pageCount,
+        data: data?.ticketInfo,
       };
     } else {
       return data;
@@ -28,30 +31,35 @@ async function getTicketGootopia(user, businessID, branchID) {
 }
 
 async function getTicketBakebe(
-  user,
+  accessToken,
   businessID,
   branchID,
   type,
-  pageSize,
+  // pageSize,
   pageNumber,
   category,
   difficulty,
   duration
 ) {
   try {
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
     const { data } = await axios.get(
-      `${process.env.REACT_APP_REST_API}FilterBakebeTicketViaBranchNoPackage`,
+      `${process.env.REACT_APP_REST_API}/tickets/show-all?filter[businessUnitId]=${businessID}&filter[businessUnitBranchId]=${branchID}`,
       {
-        UserID: user,
-        BusinessUnitID: businessID,
-        BranchID: branchID,
-        Type: type,
-        PageSize: parseInt(pageSize),
+        businessUnitId: businessID,
+        businessUnitBranchId: branchID,
+        ticketType: type,
+        // PageSize: parseInt(pageSize),
         PageNumber: pageNumber,
-        Category: category,
-        Difficulty: difficulty,
-        Duration: duration
-      }
+        ticketCategoryId: category,
+        difficulty: difficulty,
+        durationHours: duration
+      },
+      { headers }
     );
 
     if (data?.valid) {
@@ -66,13 +74,13 @@ async function getTicketBakebe(
   }
 }
 
-async function getTFRBookingsByTicketID(branchID, ticketid, date, subcat) {
+async function getTFRBookingsByTicketID(id, branchID, ticketid, date, subcat) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}ViewTFRBookingsByTicketID`,
+      `${process.env.REACT_APP_REST_API}https://api.thenextperiencegroup.com/api/v1/tickets/${id}/search`,
       {
-        BranchID: branchID,
-        TicketID: ticketid,
+        businessUnitBranchId: branchID,
+        id: ticketid,
         BookingDate: date,
         SubCategory: subcat
       }
@@ -111,27 +119,84 @@ async function getBookingsByTicketID(branchID, ticketid, date) {
   }
 }
 
-async function getBookingsByBranch(branchID, date) {
+//No API get all transaction by branch
+// async function getBookingsByBranch(branchID, bookingDate) {
+//   const accessToken = localStorage.getItem('accessToken');
+//   try {
+
+//     const headers = {
+//       Authorization: `Bearer ${accessToken}`,
+//     };
+
+//     const { data } = await axios.get(
+//       `${process.env.REACT_APP_REST_API}/transactions/${branchID}/search-branch`,
+//       {
+//         businessUnitBranchId: branchID,
+//         bookingDate: bookingDate,
+//       },
+//       {
+//         headers
+//       }
+//     );
+
+//     if (data?.valid) {
+//       return {
+//         valid: true,
+//         data: data?.transanctionsArray,
+//       };
+//     } else {
+//       return data;
+//     }
+//   } catch (e) {
+//     return {
+//       valid: false,
+//     };
+//   }
+// }
+
+async function getBookingsByBranch(branchID, bookingDate) {
+  const accessToken = localStorage.getItem('accessToken');
   try {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const params = {
+      businessUnitBranchId: branchID,
+      bookingDate: bookingDate,
+    };
+
     const { data } = await axios.get(
-      `${process.env.REACT_APP_REST_API}ViewBookingsByBranch`,
+      `${process.env.REACT_APP_REST_API}/transactions/${branchID}/search-branch`,
       {
-        BranchID: branchID,
-        BookingDate: date,
+        headers: headers,
+        params: params,
       }
     );
 
+    console.log('data')
+    console.log(data)
     if (data?.valid) {
-      return data
+
+      return {
+        valid: true,
+        data: data?.transactionsArray, // Corrected typo here: 'transanctionsArray' to 'transactionsArray'
+      };
     } else {
-      return data;
+      return {
+        valid: false,
+        message: data.message, // Assuming there's an error message in the response
+      };
     }
-  } catch (e) {
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
     return {
       valid: false,
+      error: error.message,
     };
   }
 }
+
 
 export {
   getBookingsByBranch,

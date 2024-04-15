@@ -15,8 +15,6 @@ const AuthProvider = (props) => {
   const token = localStorage.getItem('accessToken')
   const user = localStorage.getItem('user')
   // const { token } = useSelector((state) => state.record);
-  console.log(token)
-
 
   useEffect(() => {
     let userToken = token;
@@ -27,7 +25,7 @@ const AuthProvider = (props) => {
           if (res.valid) {
             console.log(res)
             dispatch(setUser(user));
-            dispatch(setToken(res.accessToken));
+            dispatch(setToken(res.token));
             dispatch(setCart([]));
             setLoggedIn(true);
             setLoading(false);

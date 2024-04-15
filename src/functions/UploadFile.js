@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//No API client side uploading file
 async function uploadPDFFile(file, container, filename) {
     try {
       const { data } = await axios.post(

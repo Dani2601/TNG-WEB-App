@@ -78,8 +78,8 @@ function Register() {
 
         dispatch(setUser(response.user));
         dispatch(setToken(response.token));
-        login();
-        navigate(routes.Home);
+        toast.success("Account Created Successfully");
+        navigate(routes.Login);
       } else {
         toast.error(response.errorMsg);
       }

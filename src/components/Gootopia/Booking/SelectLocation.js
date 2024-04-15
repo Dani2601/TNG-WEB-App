@@ -47,9 +47,9 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
-    const INFLATABLE_KEY = process.env.REACT_APP_INFLATABLE_KEY;
+    const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
 
-    getBranches(accessToken, INFLATABLE_KEY)
+    getBranches(accessToken, GOOTOPIA_KEY)
       .then((response) => {
         console.log("branch response", response);
         if (response.success) {

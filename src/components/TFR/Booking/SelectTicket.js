@@ -16,25 +16,25 @@ import TFRMenubarNonSpa from "../../Navbar/TFRMenubarNonSpa";
 import routes from "../../../constants/routes";
 import { SignInModal } from "../../Modal/SignInModal";
 
-let ticket = [
-  {
-    id: 1,
-    TicketName: "Entrance",
-    OldPrice: "PHP 799.00",
-    NewPrice: "699.00",
-    Discount: "13% OFF",
-    Description: "Your ticket to the Weird and Wonderful World of Gootopia!",
-  },
-  {
-    id: 3,
-    TicketName: "JANUARY BABIES ARE FREE!",
-    OldPrice: "PHP 799.00",
-    NewPrice: "699.00",
-    Discount: "13% OFF",
-    Description:
-      "Just bring 1 paying friend! Valid within JANUARY 2023 ONLY. Celebrants must present their valid ID with date of Birth to avail the promo.",
-  },
-];
+// let ticket = [
+//   {
+//     id: 1,
+//     TicketName: "Entrance",
+//     OldPrice: "PHP 799.00",
+//     NewPrice: "699.00",
+//     Discount: "13% OFF",
+//     Description: "Your ticket to the Weird and Wonderful World of Gootopia!",
+//   },
+//   {
+//     id: 3,
+//     TicketName: "JANUARY BABIES ARE FREE!",
+//     OldPrice: "PHP 799.00",
+//     NewPrice: "699.00",
+//     Discount: "13% OFF",
+//     Description:
+//       "Just bring 1 paying friend! Valid within JANUARY 2023 ONLY. Celebrants must present their valid ID with date of Birth to avail the promo.",
+//   },
+// ];
 
 export default function SelectTicket({
   setStep,
@@ -63,12 +63,14 @@ export default function SelectTicket({
     }
   }
 
+  const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
-    if(user?.id){
-      setShowModal(true);
+    if (!accessToken) {
+      setModalVisible(true);
     }
-    else{
-      setModalVisible(true)
+    else {
+      setShowModal(true);
+
     }
   }
 
@@ -83,7 +85,8 @@ export default function SelectTicket({
   }
 
   useEffect(() => {
-    getTicketGootopia(user?.id || '123', process.env.REACT_APP_BAKEBE_KEY, location)
+    const accessToken = localStorage.getItem('accessToken');
+    getTicketGootopia(accessToken, process.env.REACT_APP_TFR_KEY, location)
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);
@@ -91,7 +94,7 @@ export default function SelectTicket({
         }
       })
       .catch();
-  }, [location, user]);
+  }, [location]);
 
   function handleCart() {
     if (cart.length > 0) {

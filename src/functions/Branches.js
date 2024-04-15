@@ -11,8 +11,6 @@ async function getBranches(accessToken, key) {
       { headers }
     );
 
-    console.log(data)
-
     if (data?.valid) {
       return data.businessUnitBranchesArray;
     } else {
