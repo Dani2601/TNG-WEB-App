@@ -24,7 +24,6 @@ export function TDMReserveTicket({ setStep, ticket, setTicket, location, navigat
             navigateToLocation()
         }
     }
-
     const accessToken = localStorage.getItem('accessToken')
     function handleNext() {
         if (accessToken) {
@@ -58,7 +57,6 @@ export function TDMReserveTicket({ setStep, ticket, setTicket, location, navigat
                 console.error('Error fetching tickets:', error);
             });
     }, [location]);
-
     function handleCart() {
         if (cart.length > 0) {
             dispatch(setCart([]))
@@ -101,6 +99,7 @@ export function TDMReserveTicket({ setStep, ticket, setTicket, location, navigat
                 <div className='flex justify-center gap-5'>
                     <button onClick={handleBack} className='shadow-md text-sm py-2 px-6 border-[#FF98C3] border-2 text-[#FF98C3]'>Back</button>
                     <button onClick={(item) => { handleNext(); setTicket(item); }} disabled={!ticket} className='shadow-md text-sm py-2 px-6 bg-[#FF98C3] text-white'>Proceed to Booking</button>
+
                 </div>
             </div>
         </div>

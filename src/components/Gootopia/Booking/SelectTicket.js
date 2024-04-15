@@ -57,8 +57,10 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
 
   const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
+
     console.log(accessToken)
     if (accessToken) {
+
       setShowModal(true);
     }
     else {
@@ -76,9 +78,12 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
     setShowModal(false);
   }
 
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
+
     getTicketGootopia(accessToken, process.env.REACT_APP_GOOTOPIA_KEY, location)
+
       .then((response) => {
         if (response.success) {
           setTickets(response.ticketInfo);
@@ -175,6 +180,8 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
                           <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
                             <div className="text-center font-bold tablet:text-[18px] text-tfr-yellow text-[12px] px-2">
                               {item.ticketName}
+
+
                             </div>
                             <div className="text-center text-gootopia-green text-[8px] px-2 tablet:text-[14px]">
                               {item.description}

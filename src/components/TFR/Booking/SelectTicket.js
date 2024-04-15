@@ -65,6 +65,7 @@ export default function SelectTicket({
 
   const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
+
     if (!accessToken) {
       setModalVisible(true);
     }
@@ -84,9 +85,11 @@ export default function SelectTicket({
     setShowModal(false);
   }
 
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     getTicketGootopia(accessToken, process.env.REACT_APP_TFR_KEY, location)
+
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);

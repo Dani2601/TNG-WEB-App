@@ -12,7 +12,9 @@ async function getTicketGootopia(accessToken, businessID, branchID) {
       {
         businessUnitId: businessID,
         businessUnitBranchId: branchID,
+
       }, { headers }
+
     );
 
     if (data?.valid) {

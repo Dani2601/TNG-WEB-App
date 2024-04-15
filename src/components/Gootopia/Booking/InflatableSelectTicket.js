@@ -59,6 +59,7 @@ export default function InflatableSelectTicket({
     }
   }
 
+
   const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
     console.log(accessToken)
@@ -80,9 +81,11 @@ export default function InflatableSelectTicket({
     setShowModal(false);
   }
 
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     getTicketGootopia(accessToken, process.env.REACT_APP_INFLATABLE_KEY, location)
+
       .then((response) => {
         if (response.success) {
           setTickets(response.ticketInfo);
