@@ -132,7 +132,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
         handleProceed={handleProceed}
       />
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
-        <img class="w-full" src={dripping} alt="gootopialanding" />
+        <img class="w-full" src={dripping} alt="" />
         <div className="flex flex-row justify-center">
           <span className="font-flavors text-gootopia-pinkText text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
             SELECT A TICKET
@@ -250,7 +250,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
           <img
             class="w-full rotate-180 "
             src={dripping}
-            alt="gootopialanding "
+            alt="Gootopia "
           />
         </div>
       </div>
