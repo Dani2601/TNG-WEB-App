@@ -259,23 +259,24 @@ export function TDMBookingDetails({
   }, [business, accessToken, location]);
 
 
-  const getBookings = async () => {
+  const getBookings = async (date) => {
+    let result
     if (ticket && bookingDate) {
-      await getBookingsByBranch(location, format(bookingDate, "yyyy-MM-dd"))
+      await getBookingsByBranch(location, format(date, "yyyy-MM-dd"))
         .then((res) => {
-          console.log('1.) reservations')
-          console.log(res.data)
           if (res.valid) {
-            setReserve(res.data);
+            result =  res.data;
           } else {
-            setReserve([]);
+            result = [];
           }
         })
         .catch((e) => {
           console.log(e);
         });
     }
+    return result
   }
+
 
   // useEffect(() => {
   //   if (ticket && bookingDate) {
@@ -312,71 +313,76 @@ export function TDMBookingDetails({
     }
   }, [ticket, location]);
 
-  function handleBookingDate(date) {
-    setBookingDate(date);
+  async function handleBookingDate(date) {
+    await setBookingDate(date);
+    const data = await getBookings(date);
+    intervalsSet(date)
     setPax("");
     setBookingTime("");
     setStringifyTime("");
   }
 
-  useEffect(() => {
+  function findTime(times, reserves) {
+    let count = 0;
+    reserves.forEach((data) => {
+        if (data.BookingTime == times) {
+            count++;
+        }
+    });
+    return { count };
+}
 
-    const intervalsSet = async () =>{
+  const intervalsSet = async (date, data) =>{
+    if (date) {
       console.log(ticket)
-      if (bookingDate) {
-        setIntervals(
-          ticket?.ticketIntervals.map((item) => {
-            getBookings()
-            return {
-              value: item.time,
-              slot: item.slots,
-              label: `${item.time} - ${item.slots} slot(s)`,
-            };
-            // console.log('2.) items')
-            // console.log(item)
-            // console.log('3.) reservations from setter ')
-            // console.log(reserve)
-            // let reservation = reserve?.filter((res) => res.BookingTime === item.time);
-            // let cartReserve = cart?.filter(
-            //   (cartItem) =>
-            //     cartItem.BookingTime === item.ticketIntervals && cartItem.ticket?.accessToken === ticket?.accessToken
-            // );
-  
-  
-            // if (reservation.length > 0) {
-            //   const sumOfCart = cartReserve.reduce(
-            //     (total, item) => total + item.participants,
-            //     0
-            //   );
-  
-            //   return {
-            //     value: item.ticketIntervals,
-            //     slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
-            //     label: `${item.ticketIntervals} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
-            //   };
-            // } else {
-            //   const sumOfCart = cartReserve.reduce(
-            //     (total, item) => total + item.participants,
-            //     0
-            //   );
-  
-            //   return {
-            //     value: item.timeInterval,
-            //     slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
-            //     label: `${item.timeInterval} - ${((selectedLocation?.Slots || 0) - sumOfCart) >= 0 ? (selectedLocation?.Slots || 0) - sumOfCart : 0} slot(s)`,
-            //   };
-            // }
-          })
-        );
-      } else {
-        setIntervals([]);
-      }
-    }
-    
-    intervalsSet();
-    console.log(intervals)
 
-  }, [bookingDate]);
+      setIntervals(
+        ticket?.ticketIntervals.map((item) => {
+          return {
+            value: item,
+            slot:  item.slots,
+            label: `${item.time} - ${ item.slots}  slot(s)`,
+          };
+          // console.log('2.) items')
+          // console.log(item)
+          // console.log('3.) reservations from setter ')
+          // console.log(reserve)
+          // let reservation = reserve?.filter((res) => res.BookingTime === item.time);
+          // let cartReserve = cart?.filter(
+          //   (cartItem) =>
+          //     cartItem.BookingTime === item.ticketIntervals && cartItem.ticket?.accessToken === ticket?.accessToken
+          // );
+
+
+          // if (reservation.length > 0) {
+          //   const sumOfCart = cartReserve.reduce(
+          //     (total, item) => total + item.participants,
+          //     0
+          //   );
+
+          //   return {
+          //     value: item.ticketIntervals,
+          //     slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
+          //     label: `${item.ticketIntervals} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
+          //   };
+          // } else {
+          //   const sumOfCart = cartReserve.reduce(
+          //     (total, item) => total + item.participants,
+          //     0
+          //   );
+
+          //   return {
+          //     value: item.timeInterval,
+          //     slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
+          //     label: `${item.timeInterval} - ${((selectedLocation?.Slots || 0) - sumOfCart) >= 0 ? (selectedLocation?.Slots || 0) - sumOfCart : 0} slot(s)`,
+          //   };
+          // }
+        })
+      );
+    } else {
+      setIntervals([]);
+    }
+  }
 
   function handleClear() {
     setBookingDate(null);
@@ -385,19 +391,21 @@ export function TDMBookingDetails({
   }
 
   function handlePax(e) {
-    if (business !== "BakeBe") {
-      let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
-      if (input === "" || (input > 0 && (ticket?.promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
-        setPax(input);
-      }
-    } else {
-      let intervalData = intervals?.find((item) => item?.value === bookingTime);
-      if (intervalData?.slot <= 1) {
-        setDisabled(true);
-      } else {
-        setDisabled(false);
-      }
-    }
+    console.log(e.target.value)
+    setPax(e.target.value)
+    // if (business !== "BakeBe") {
+    //   let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
+    //   if (input === "" || (input > 0 && (ticket?.promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
+    //     setPax(input);
+    //   }
+    // } else {
+    //   let intervalData = intervals?.find((item) => item?.value === bookingTime);
+    //   if (intervalData?.slot <= 1) {
+    //     setDisabled(true);
+    //   } else {
+    //     setDisabled(false);
+    //   }
+    // }
   }
 
   function handlePersons(e) {
@@ -421,9 +429,10 @@ export function TDMBookingDetails({
   }, [bookingTime, bookingDate, intervals]);
 
   function handleBookingTime(e) {
+    console.log(e.target.value)
     if (e.target.value) {
       const ticket = JSON.parse(e.target.value);
-      setBookingTime(ticket?.BookingTime);
+      setBookingTime(ticket.time);
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(ticket?.slot);
@@ -936,7 +945,7 @@ export function TDMBookingDetails({
                         }
                       </div>
                       <div className="flex items-ebd">
-                        <p className="tex-4xl font-bold">₱ {ticket?.price}</p>
+                        <p className="tex-4xl font-bold">₱ {ticket?.price.toLocaleString()}</p>
                       </div>
                     </div>
                   </div>
@@ -945,11 +954,12 @@ export function TDMBookingDetails({
                       <div>
                         <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                           <div className="text-sm font-bold">Discount ({ticket?.discountPercentage}%)</div>
-                          <div className="font-bold">₱ {(ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
+                          <div className="font-bold">₱ {((ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)).toLocaleString()}</div>
                         </div>
                         <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                           <div className="text-sm font-bold">Total</div>
-                          <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div>
+                          {/* <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div> */}
+                          <div className="font-bold">₱ {((ticket?.price * pax) - ((ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100))).toLocaleString()}</div>
                         </div>
                       </div>
                       :
