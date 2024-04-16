@@ -88,7 +88,7 @@ export default function InflatableSelectLocation({ step, setStep, setLocation, l
                       selectedBranch === data.id ? 'outline outline-[#20422b]' : ''
                     }`}
                     src={data?.Image}
-                    alt="gootopia"
+                    alt=""
                   />
                 </button>
                 <div className="text-[#20422b] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">

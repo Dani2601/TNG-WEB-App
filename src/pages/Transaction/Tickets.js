@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 // import Footer from "../../components/Footer/index";
 import SkeletonTable from "../../components/Animation/SkeletonLoader";
 import { getDate } from "../../helper";
+import { getDateTime } from "../../helper";
 import DataTable from "../../components/DataTable";
 import Pagination from "../../components/Pagination";
 import Status from "../../components/Status/Status";
@@ -19,8 +20,8 @@ import { encryptData } from "../../helper/DataEncryption";
 import TicketModal from "../../components/Modal/Profile/TransactionModal/TicketModal";
 
 const tableHeader = [
-  "Ticket Number",
-  "Transaction Number",
+  "Ticket Name",
+  "Transaction Code",
   "TNG",
   "Branch",
   "Booking Date",
@@ -63,8 +64,18 @@ export default function Tickets() {
     isToAddData(false);
   };
 
+  function getTime(bookingTime) {
+    const [hours24, minutes, seconds] = bookingTime.split(':');
+    const hours = parseInt(hours24, 10);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const hours12 = hours % 12 || 12;
+    const formattedTime = `${hours12}:${minutes.padStart(2, '0')} ${period}`;
+
+    return formattedTime;
+  }
+
   const getEditData = (data) => {
-    const objData = { Code: data.QRCode, UserID: data.CustomerID, Status: data.Status }
+    const objData = { transactionCode: data.qrCode, UserID: data.customer.Id, Status: data.status }
 
     const encrypt = encryptData(objData)
 
@@ -90,85 +101,93 @@ export default function Tickets() {
   const PAGE_SIZE = 10;
 
   useEffect(() => {
-    const accesssToken = localStorage.getItem('accessToken')
-    viewMyTickets(accesssToken)
-      .then((response) => {
-        // console.log(response)
-        if (response.valid) {
-          setRecord(response.data);
-          // setDataPageCount(response.pageCount)
-        } else {
-        }
-      })
-      .catch();
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      viewMyTickets(accessToken)
+        .then((response) => {
+          if (response && response.success) {
+            setRecord(response.transactionsArray);
+            console.log(record)
+          } else {
+            console.log('Failed to fetch ticket data');
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching ticket data:', error);
+        })
+        .finally(() => {
+          setLoading(false); // Set loading state to false when done fetching
+        });
+    }
   }, []);
 
+
   const tableData = useMemo(() => {
-    if (!loading) {
+    if (loading) {
       return (
-        <>
-          <tr className="border-b max-w-96">
-            {tableHeader.map((data, index) => {
-              return <SkeletonTable key={index} />;
-            })}
-          </tr>
-        </>
+        <tr className="border-b max-w-96">
+          {tableHeader.map((data, index) => (
+            <SkeletonTable key={index} />
+          ))}
+        </tr>
       );
     } else {
       if (record?.length > 0) {
-        //  console.log(record);
         return record
           .filter((data) => {
             if (search === null) return data;
             else if (
-              data.Code.toLowerCase().includes(search.toLowerCase()) ||
-              data.BookingDate.toLowerCase().includes(search.toLowerCase())
+              data.ticketName.toLowerCase().includes(search.toLowerCase()) ||
+              data.bookingDate.toLowerCase().includes(search.toLowerCase())
             ) {
               return data;
             }
           })
           .map((data, index) => {
-            // console.log(data);
+            // Parse and format the booking date
+            const formattedBookingDate = data.bookingDate ? getDate(data.bookingDate) : "N/A"; // Use your date formatting logic here
+            console.log('Data')
+            console.log(data)
             return (
               <tr className="border-b max-w-96" key={index}>
                 <td
                   onClick={() => getEditData(data)}
-                  className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]"
+                  className="font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]"
                 >
                   <p
                     data-tip="Click to view details"
                     data-for="memo"
-                    className=" font-poppins cursor-pointer hover:text-BrrringYellow "
+                    className="font-poppins cursor-pointer hover:text-BrrringYellow"
                     onMouseEnter={() => showTooltip(true)}
                     onMouseLeave={() => {
                       showTooltip(false);
                       setTimeout(() => showTooltip(true));
                     }}
                   >
-                    {data?.TicketCode || data?.Code}
+                    {data?.ticket.name || data?.qrCode.qrCode}
                   </p>
                 </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.Code}
+                <td className="font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {data.transactionCode}
                 </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.BusinessUnitName}
+                <td className="font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {data?.businessUnit.name}
                 </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.Branch}
+                <td className="font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {data?.businessUnitBranch.name}
                 </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.BookingDate}
+                <td className="font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {formattedBookingDate}
                 </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.BookingTime}
+                <td className="font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {getTime(data.bookingTime)}
                 </td>
-                <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {getDate(data.CreatedTS)}
+                <td className="font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
+                  {getDate(data.createdAt)} {/* Assuming CreatedTS needs formatting */}
                 </td>
-                <td className=" font-poppins px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px] flex justify-center">
+                <td className="font-poppins px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px] flex justify-center">
                   <span className="w-20 h-7 text-center flex justify-center items-center rounded-lg text-slate-50">
-                    <Status status={data.Status} />
+                    <Status status={data.status} />
                   </span>
                 </td>
               </tr>

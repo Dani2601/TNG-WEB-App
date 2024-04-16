@@ -88,7 +88,7 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
                         className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${selectedBranch === data.id ? 'outline outline-[#E677AA]' : ''
                           }`}
                         src={data?.Image}
-                        alt="gootopia"
+                        alt=""
                       />
                     </button>
                     <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
@@ -127,7 +127,7 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
           <img
             class="w-full rotate-180 "
             src={dripping}
-            alt="gootopialanding "
+            alt=""
           />
         </div>
       </div>

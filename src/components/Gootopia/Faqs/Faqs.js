@@ -230,10 +230,10 @@ export default function Faqs() {
           <img
             class="laptop:w-[800px] w-[300px] tablet:w-[600px]"
             src={abouts}
-            alt="gootopialanding "
+            alt="Gootopia "
           />
         </div>
-        <img class="w-full rotate-180 " src={dripping} alt="gootopialanding " />
+        <img class="w-full rotate-180 " src={dripping} alt="Gootopia " />
       </div>
     </GootopiaContainer>
   );
