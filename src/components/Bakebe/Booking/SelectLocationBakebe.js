@@ -101,7 +101,7 @@ export default function SelectLocationBakebe({
                           : ""
                           }`}
                         src={data?.Image}
-                        alt="gootopia"
+                        alt=""
                       />
                     </button>
                     <div className="text-bakebe-pink text-[12px] tablet:text-[14px] w-[75px] tablet:w-[120px] text-center font-poppins font-bold self-center mt-1">

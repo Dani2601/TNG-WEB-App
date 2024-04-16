@@ -106,7 +106,7 @@ export default function SelectLocation({
                           : ""
                           }`}
                         src={data?.Image}
-                        alt="gootopia"
+                        alt=""
                       />
                     </button>
                     <div className="text-tfr-pink text-[12px] tablet:text-[14px] w-[75px] tablet:w-[120px] h-auto text-center font-poppins font-bold self-center mt-1">
