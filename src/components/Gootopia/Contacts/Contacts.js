@@ -85,7 +85,7 @@ export default function Faqs() {
                     <img
                       class="w-[139px] laptop:w-[200px]"
                       src={connect}
-                      alt="gootopialanding "
+                      alt="Gootopia "
                     />
                   </div>
                   <a
@@ -120,7 +120,7 @@ export default function Faqs() {
             <img
               class="w-full rotate-180 laptop4k:mt-[200px]"
               src={dripping}
-              alt="gootopialanding "
+              alt="Gootopia "
             />
           </div>
         </Form>

@@ -98,7 +98,7 @@ export default function SelectCategory({
                             : ""
                         }`}
                         src={banner2}
-                        alt="gootopia"
+                        alt=""
                       /> */}
                       <div className="flex flex-col w-full h-full items-center py-1 px-1">
                         <div className="text-tfr-pink my-auto text-[12px] tablet:text-[14px] font-poppins font-bold self-center h-[40%]">
