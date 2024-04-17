@@ -61,6 +61,7 @@ export function TDMBookingDetails({
   const [numberOfPersons, setNumberOfPersons] = useState(1);
   const [disabled, setDisabled] = useState(false);
   const [slotIdentifier, setSlotIdentifier] = useState(null);
+  const [bookingTimeId, setBookingTimeId] = useState(null);
   const [paxCount, setPaxCount] = useState(null)
   const [allowedDays, setAllowedDays] = useState([])
   const [events, setEvents] = useState([])
@@ -96,6 +97,7 @@ export function TDMBookingDetails({
       ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
+      bookingTimeId: bookingTimeId,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.endTime) : "",
       Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
@@ -433,6 +435,7 @@ export function TDMBookingDetails({
     if (e.target.value) {
       const ticket = JSON.parse(e.target.value);
       setBookingTime(ticket.time);
+      setBookingTimeId(ticket.id);
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(ticket?.slot);
