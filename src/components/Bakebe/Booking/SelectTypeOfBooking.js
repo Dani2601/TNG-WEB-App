@@ -130,8 +130,8 @@ export default function SelectTypeOfBooking({
                       >
                         <div
                           className={`bg-white border-[1px]  rounded-[20px] mx-[5%] tablet:w-[400px] laptopL:w-[430px] drop-shadow-xl mb-5 py-3 h-[auto]  ${selectedType === data.Name
-                              ? "border-[2px] border-bakebe-border"
-                              : ""
+                            ? "border-[2px] border-bakebe-border"
+                            : ""
                             }`}
                         >
                           <div className=" ">

@@ -90,17 +90,17 @@ export function TFRBookingDetails({
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
-      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
+      BookingEndTime: withoutFilters ? convertToNormalTime(ticket.endTime) : "",
       Pax: ticket?.Promo === "Buy 1 Take 1" ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
     };
     if (cart.length > 0) {
       let checkItem = cart.find(
         (item) =>
-          item.Ticket?.id === booking?.Ticket?.id &&
+          item.ticket?.accessToken === booking?.ticket?.accessToken &&
           item.BookingDate === booking?.BookingDate &&
           item.BookingTime === booking?.BookingTime
       );
@@ -108,7 +108,7 @@ export function TFRBookingDetails({
         dispatch(
           setCart(
             cart.map((item) => {
-              if (item.Ticket?.id === booking?.Ticket?.id) {
+              if (item.ticket?.accessToken === booking?.ticket?.accessToken) {
                 return {
                   ...item,
                   Pax: item?.Pax + booking?.Pax,
@@ -158,7 +158,7 @@ export function TFRBookingDetails({
   }, [ticket]);
 
   useEffect(() => {
-    if(!user?.id){
+    if (!user?.id) {
       navigate(routes.Login)
     }
   }, [])
@@ -238,13 +238,13 @@ export function TFRBookingDetails({
   }, [business, user, location]);
 
   useEffect(() => {
-    if (ticket?.id && bookingDate) {
+    if (ticket?.accessToken && bookingDate) {
       if (ticket?.SubCategory === "Drinking Deck Tables") {
         let ecount = 4;
         setDescription("Up to 4 pax");
         getBookingsByTicketID(
           location,
-          ticket?.id,
+          ticket?.accessToken,
           format(bookingDate, "yyyy-MM-dd")
         )
           .then((res) => {
@@ -264,7 +264,7 @@ export function TFRBookingDetails({
         setDescription("6-4 pax");
         getBookingsByTicketID(
           location,
-          ticket?.id,
+          ticket?.accessToken,
           format(bookingDate, "yyyy-MM-dd")
         )
           .then((res) => {
@@ -284,7 +284,7 @@ export function TFRBookingDetails({
         setDescription("4-6 pax");
         getBookingsByTicketID(
           location,
-          ticket?.id,
+          ticket?.accessToken,
           format(bookingDate, "yyyy-MM-dd")
         )
           .then((res) => {
@@ -304,7 +304,7 @@ export function TFRBookingDetails({
         setDescription("Up to 4 pax");
         getBookingsByTicketID(
           location,
-          ticket?.id,
+          ticket?.accessToken,
           format(bookingDate, "yyyy-MM-dd")
         )
           .then((res) => {
@@ -322,7 +322,7 @@ export function TFRBookingDetails({
       } else {
         getBookingsByTicketID(
           location,
-          ticket?.id,
+          ticket?.accessToken,
           format(bookingDate, "yyyy-MM-dd")
         )
           .then((res) => {
@@ -357,7 +357,7 @@ export function TFRBookingDetails({
             let cartReserve = cart?.filter(
               (cartItem) =>
                 cartItem.BookingTime === item.timeInterval &&
-                cartItem.Ticket?.id === ticket?.id
+                cartItem.ticket?.accessToken === ticket?.accessToken
             );
             if (reservation.length > 0) {
               const sumOfCart = cartReserve.reduce(
@@ -392,7 +392,7 @@ export function TFRBookingDetails({
             let cartReserve = cart?.filter(
               (cartItem) =>
                 cartItem.BookingTime === item.timeInterval &&
-                cartItem.Ticket?.id === ticket?.id
+                cartItem.ticket?.accessToken === ticket?.accessToken
             );
             if (reservation.length > 0) {
               const sumOfCart = cartReserve.reduce(
@@ -427,7 +427,7 @@ export function TFRBookingDetails({
             let cartReserve = cart?.filter(
               (cartItem) =>
                 cartItem.BookingTime === item.timeInterval &&
-                cartItem.Ticket?.id === ticket?.id
+                cartItem.ticket?.accessToken === ticket?.accessToken
             );
             if (reservation.length > 0) {
               const sumOfCart = cartReserve.reduce(
@@ -462,7 +462,7 @@ export function TFRBookingDetails({
             let cartReserve = cart?.filter(
               (cartItem) =>
                 cartItem.BookingTime === item.timeInterval &&
-                cartItem.Ticket?.id === ticket?.id
+                cartItem.ticket?.accessToken === ticket?.accessToken
             );
             if (reservation.length > 0) {
               const sumOfCart = cartReserve.reduce(
@@ -618,7 +618,7 @@ export function TFRBookingDetails({
         ticket?.SubCategory === "Entrance") ||
       ticket?.Category === "Table Bookings" ||
       ticket?.Category === "EntranceWithoutTimeSlot" ||
-      ticket?.Category === "Entrance Without Time Slot"||
+      ticket?.Category === "Entrance Without Time Slot" ||
       ticket?.Category === "GamesWithoutTimeSlot" ||
       ticket?.Category === "Games Without Time Slot",
     [ticket]
@@ -626,15 +626,15 @@ export function TFRBookingDetails({
 
   function isDateInEvent(date) {
     for (const event of events) {
-      const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-      if(findTicket){
+      const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
+      if (findTicket) {
         const startDate = new Date(event.start);
         const endDate = new Date(event.end);
-        
+
         // Extract the date part of the event start and end times
         const eventStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         const eventEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-        
+
         if (date >= eventStartDate && date <= eventEndDate) {
           return "special-date";
         }
@@ -692,8 +692,8 @@ export function TFRBookingDetails({
 
                       if (ticket?.SubCategory === "Entrance") {
                         for (const item of events) {
-                          const findTicket = item?.activity?.find(item => item?.value === ticket?.id)
-                          if(findTicket){
+                          const findTicket = item?.activity?.find(item => item?.value === ticket?.accessToken)
+                          if (findTicket) {
                             const startDate = new Date(item.start);
                             const endDate = new Date(item.end);
                             // Collect all dates that fall within the range of start and end dates in data
@@ -739,7 +739,7 @@ export function TFRBookingDetails({
 
                         let currentTimeIsWithinEvent = false;
                         let timeParts =
-                        item.value.match(/(\d+):(\d+) (AM|PM)/);
+                          item.value.match(/(\d+):(\d+) (AM|PM)/);
                         let hours = parseInt(timeParts[1]);
                         let minutes = parseInt(timeParts[2]);
                         if (timeParts[3] === "PM" && hours !== 12) {
@@ -749,8 +749,8 @@ export function TFRBookingDetails({
                         timeDate.setHours(hours, minutes, 0, 0);
                         currentTimeIsWithinEvent = events?.some(
                           (event) => {
-                            const findTicket = event?.activity?.find(item => item?.value === ticket?.id)
-                            if(findTicket){
+                            const findTicket = event?.activity?.find(item => item?.value === ticket?.accessToken)
+                            if (findTicket) {
                               let startDateTime = new Date(event.start);
                               let endDateTime = new Date(event.end);
                               return (
@@ -760,7 +760,7 @@ export function TFRBookingDetails({
                             }
                           }
                         );
-                        
+
                         if (currentTimeIsWithinEvent) {
                           return (
                             <option
@@ -772,7 +772,7 @@ export function TFRBookingDetails({
                             </option>
                           );
                         } else {
-                          
+
                           if (item?.slot <= 0) {
                             return (
                               <option
@@ -870,8 +870,8 @@ export function TFRBookingDetails({
                       ticket?.SubCategory === "Entrance"
                         ? false
                         : bookingTime
-                        ? false
-                        : true
+                          ? false
+                          : true
                     }
                     min={1}
                     max={maxPerInterval}
@@ -965,22 +965,21 @@ export function TFRBookingDetails({
                         <p className="text-xs">
                           Time:
                           {ticket?.Category === "Table Bookings" ||
-                          ticket?.SubCategory === "DrunkenPinball" ||
-                          ticket?.SubCategory === "Entrance" ||
-                          ticket?.SubCategory === "Drunken Pinball" ||
-                          ticket?.SubCategory === "BoomBattleShot" ||
-                          ticket?.SubCategory === "Boom Battleshot" ||
-                          ticket?.SubCategory === "ExtremeBasketBall" ||
-                          ticket?.SubCategory === "Extreme Basketball" ||
-                          ticket?.SubCategory === "StarBlaster" ||
-                          ticket?.SubCategory === "Star Blaster" ||
-                          ticket?.SubCategory === "Ring The Bell"
+                            ticket?.SubCategory === "DrunkenPinball" ||
+                            ticket?.SubCategory === "Entrance" ||
+                            ticket?.SubCategory === "Drunken Pinball" ||
+                            ticket?.SubCategory === "BoomBattleShot" ||
+                            ticket?.SubCategory === "Boom Battleshot" ||
+                            ticket?.SubCategory === "ExtremeBasketBall" ||
+                            ticket?.SubCategory === "Extreme Basketball" ||
+                            ticket?.SubCategory === "StarBlaster" ||
+                            ticket?.SubCategory === "Star Blaster" ||
+                            ticket?.SubCategory === "Ring The Bell"
                             ? "Opening hours"
-                            : `${bookingTime} ${
-                                withoutFilters && bookingTime
-                                  ? `- ` + convertToNormalTime(ticket.TimeEnd)
-                                  : ""
-                              }`}
+                            : `${bookingTime} ${withoutFilters && bookingTime
+                              ? `- ` + convertToNormalTime(ticket.TimeEnd)
+                              : ""
+                            }`}
                         </p>
 
                         {ticket?.Promo === "Buy 1 Take 1" && pax ? (
@@ -1036,8 +1035,8 @@ export function TFRBookingDetails({
                           ₱{" "}
                           {total -
                             ticket?.Price *
-                              pax *
-                              (parseInt(ticket?.PromoValue) / 100)}
+                            pax *
+                            (parseInt(ticket?.PromoValue) / 100)}
                         </div>
                       </div>
                     </div>
@@ -1086,8 +1085,8 @@ export function TFRBookingDetails({
               Back
             </button>
             {bookingDate &&
-            (ticket?.SubCategory === "Entrance" || bookingTime) &&
-            pax > 0 ? (
+              (ticket?.SubCategory === "Entrance" || bookingTime) &&
+              pax > 0 ? (
               <button
                 onClick={handleNext}
                 className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
