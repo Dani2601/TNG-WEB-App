@@ -178,7 +178,7 @@ async function getBookingsByBranch(branchID, bookingDate) {
 
     console.log('data')
     console.log(data)
-    if (data?.valid) {
+    if (data?.success) {
 
       return {
         valid: true,
