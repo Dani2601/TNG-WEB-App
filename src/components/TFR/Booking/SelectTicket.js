@@ -56,10 +56,10 @@ export default function SelectTicket({
   function handleBack() {
     if (cart.length > 0) {
       setVisible(true);
-      setCategories("Games");
+      setCategories(ticket?.ticketCategory.name);
     } else {
       navigateToLocation()
-      setCategories("Games");
+      setCategories(ticket?.ticketCategory.name);
     }
   }
 
@@ -91,12 +91,15 @@ export default function SelectTicket({
     getTicketGootopia(accessToken, process.env.REACT_APP_TFR_KEY, location)
 
       .then((response) => {
-        if (response.valid) {
-          setTickets(response.data);
+        if (response.success) {
+          setTickets(response.ticketInfo);
         } else {
+          console.error('Failed to fetch tickets:', response);
         }
       })
-      .catch();
+      .catch((error) => {
+        console.error('Error fetching tickets:', error);
+      });
   }, [location]);
 
   function handleCart() {
@@ -107,7 +110,7 @@ export default function SelectTicket({
   }
 
   const handleCategories = useCallback(
-    (e) => setCategories(e.target.value),
+    (e) => setCategories(ticket?.ticketCategory.name),
     [setCategories]
   );
 
@@ -169,11 +172,11 @@ export default function SelectTicket({
             </div>
             <div className="flex flex-row flex-wrap justify-center">
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
-                {tickets.length > 0 ? (
+                {tickets && tickets.length > 0? (
                   tickets
-                    ?.filter((item) => item.Category === "Entrance And Events")
-                    .sort((a, b) => a.Name.localeCompare(b.Name))
-                    .map((item, index) => {
+                    ?.filter((item) => item.ticketCategory.name === "Entrance And Events")
+                    .sort((a, b) => a.ticketName.localeCompare(b.ticketName))
+                    .map((item) => {
                       return (
                         <div
                           onClick={() => {
@@ -193,21 +196,21 @@ export default function SelectTicket({
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
                               <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-tfr-yellow bg-[#4e4e4e] shadow-xl">
-                                <p className="mx-auto">PHP{item?.Price}</p>
+                                <p className="mx-auto">PHP{item?.price}</p>
                               </div>
-                              {item?.OldPrice && (
+                              {item?.oldPrice && (
                                 <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-tfr-pink bg-[#4e4e4e] shadow-xl">
-                                  <p className="mx-auto">PHP{item?.OldPrice}</p>
+                                  <p className="mx-auto">PHP{item?.oldPrice}</p>
                                 </div>
                               )}
                             </div>
                           </div>
                           <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
                             <div className=" text-center  text-tfr-yellow text-[12px] px-2">
-                              {item?.Name}
+                              {item?.ticketName}
                             </div>
                             <div className=" text-center  text-slate-400 text-[8px] px-2">
-                              {item?.Description}
+                              {item?.description}
                             </div>
                           </div>
                         </div>
@@ -242,11 +245,11 @@ export default function SelectTicket({
             </div>
             <div className="flex flex-row flex-wrap justify-center">
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
-                {tickets.length > 0 ? (
+                {tickets && tickets.length > 0? (
                   tickets
-                    ?.filter((item) => item.Category === "Games")
-                    .sort((a, b) => a.Name.localeCompare(b.Name))
-                    .map((item, index) => {
+                    ?.filter((item) => item.ticketCategory.name === "Games")
+                    .sort((a, b) => a.ticketName.localeCompare(b.ticketName))
+                    .map((item) => {
                       return (
                         <div
                           onClick={() => {
@@ -266,21 +269,21 @@ export default function SelectTicket({
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
                               <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-tfr-yellow bg-[#4e4e4e] shadow-xl">
-                                <p className="mx-auto">PHP{item?.Price}</p>
+                                <p className="mx-auto">PHP{item?.price}</p>
                               </div>
-                              {item?.OldPrice && (
+                              {item?.oldPrice && (
                                 <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-tfr-pink bg-[#4e4e4e] shadow-xl">
-                                  <p className="mx-auto">PHP{item?.OldPrice}</p>
+                                  <p className="mx-auto">PHP{item?.oldPrice}</p>
                                 </div>
                               )}
                             </div>
                           </div>
                           <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
                             <div className=" text-center  text-tfr-yellow text-[12px] px-2">
-                              {item?.Name}
+                              {item?.ticketName}
                             </div>
                             <div className=" text-center  text-slate-400 text-[8px] px-2">
-                              {item?.Description}
+                              {item?.description}
                             </div>
                           </div>
                         </div>
@@ -315,11 +318,11 @@ export default function SelectTicket({
             </div>
             <div className="flex flex-row flex-wrap justify-center ">
               <div className="cursor-pointer flex flex-wrap justify-center items-center pb-5 tablet:pb-10 py-4 gap-4 tablet:mx-[10%]">
-                {tickets.length > 0 ? (
+                {tickets && tickets.length > 0? (
                   tickets
-                    ?.filter((item) => item.Category === "Table Bookings")
-                    .sort((a, b) => a.Name.localeCompare(b.Name))
-                    .map((item, index) => {
+                    ?.filter((item) => item.ticketCategory.name === "Table Bookings")
+                    .sort((a, b) => a.ticketName.localeCompare(b.ticketName))
+                    .map((item) => {
                       return (
                         <div
                           onClick={() => {
@@ -339,21 +342,21 @@ export default function SelectTicket({
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
                               <div className="font-bold text-center flex justity-center w-full place-items-center items-center text-tfr-yellow bg-[#4e4e4e] shadow-xl">
-                                <p className="mx-auto">PHP{item?.Price}</p>
+                                <p className="mx-auto">PHP{item?.price}</p>
                               </div>
-                              {item?.OldPrice && (
+                              {item?.oldPrice && (
                                 <div className="font-bold text-center flex justity-center w-full place-items-center items-center line-through text-tfr-pink bg-[#4e4e4e] shadow-xl">
-                                  <p className="mx-auto">PHP{item?.OldPrice}</p>
+                                  <p className="mx-auto">PHP{item?.oldPrice}</p>
                                 </div>
                               )}
                             </div>
                           </div>
                           <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
                             <div className=" text-center  text-tfr-yellow text-[12px] px-2">
-                              {item?.Name}
+                              {item?.ticketName}
                             </div>
                             <div className=" text-center  text-slate-400 text-[8px] px-2">
-                              {item?.Description}
+                              {item?.description}
                             </div>
                           </div>
                         </div>
