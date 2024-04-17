@@ -74,7 +74,7 @@ export default function Games() {
                   className="relative w-[150px] h-[141px] tablet:w-[260px] tablet:h-[244px] mx-4 my-4 object-cover overflow-hidden"
                 >
                   <img
-                    src={item.Image}
+                    src={item.image}
                     alt="tfr"
                     className="relative w-full h-full"
                   />

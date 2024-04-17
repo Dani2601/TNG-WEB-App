@@ -63,6 +63,8 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
       });
   }, []);
 
+  console.log("Branches State:", branch);
+
   return (
     <GootopiaContainer>
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
@@ -78,7 +80,7 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
             <div>
               <div className="flex flex-row">
                 {branch.map((data, index) => (
-                  <div className="flex flex-col mr-3 hoverEffects " key={index}>
+                  <div className="flex flex-col mr-3 hoverEffects " key={index} >
                     <button
                       className={`outline-4 self-center  ${selectedBranch === data.id ? 'outline-[15px] outline-[#E677AA]' : ''
                         }`}
@@ -87,12 +89,13 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
                       <img
                         className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${selectedBranch === data.id ? 'outline outline-[#E677AA]' : ''
                           }`}
-                        src={data?.Image}
+                        src={data?.image}
                         alt=""
+
                       />
                     </button>
                     <div className="text-[#CA1D6D] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
-                      {data?.Address}
+                      {data?.address}
                     </div>
                   </div>
                 ))}
@@ -131,6 +134,6 @@ export default function SelectLocation({ step, setStep, setLocation, location, n
           />
         </div>
       </div>
-    </GootopiaContainer>
+    </GootopiaContainer >
   );
 }

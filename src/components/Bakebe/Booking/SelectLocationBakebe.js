@@ -100,12 +100,12 @@ export default function SelectLocationBakebe({
                           ? "outline text-bakebe-pink"
                           : ""
                           }`}
-                        src={data?.Image}
+                        src={data?.image}
                         alt=""
                       />
                     </button>
                     <div className="text-bakebe-pink text-[12px] tablet:text-[14px] w-[75px] tablet:w-[120px] text-center font-poppins font-bold self-center mt-1">
-                      {data?.Address}
+                      {data?.address}
                     </div>
                   </div>
                 ))}

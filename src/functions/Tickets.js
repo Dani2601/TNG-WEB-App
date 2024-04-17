@@ -37,7 +37,7 @@ async function getTicketBakebe(
   businessID,
   branchID,
   type,
-  // pageSize,
+  pageSize,
   pageNumber,
   category,
   difficulty,
@@ -55,7 +55,7 @@ async function getTicketBakebe(
         businessUnitId: businessID,
         businessUnitBranchId: branchID,
         ticketType: type,
-        // PageSize: parseInt(pageSize),
+        PageSize: parseInt(pageSize),
         PageNumber: pageNumber,
         ticketCategoryId: category,
         difficulty: difficulty,
@@ -64,6 +64,7 @@ async function getTicketBakebe(
       { headers }
     );
 
+    console.log('API Response:', data);
     if (data?.valid) {
       return data;
     } else {
@@ -79,7 +80,7 @@ async function getTicketBakebe(
 async function getTFRBookingsByTicketID(id, branchID, ticketid, date, subcat) {
   try {
     const { data } = await axios.post(
-      `${process.env.REACT_APP_REST_API}https://api.thenextperiencegroup.com/api/v1/tickets/${id}/search`,
+      `${process.env.REACT_APP_REST_API}/tickets/${id}/search`,
       {
         businessUnitBranchId: branchID,
         id: ticketid,

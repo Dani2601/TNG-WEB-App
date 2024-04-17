@@ -186,9 +186,9 @@ export default function SelectTicket({
                           <div className="h-[70%] w-full flex flex-col items-center relative">
                             <div className="relative">
                               <img
-                                src={item?.Image}
+                                src={item?.image}
                                 className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
-                                alt={item?.Image}
+                                alt={item?.image}
                               />
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
@@ -259,9 +259,9 @@ export default function SelectTicket({
                           <div className="h-[70%] w-full flex flex-col items-center relative">
                             <div className="relative">
                               <img
-                                src={item?.Image}
+                                src={item?.image}
                                 className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
-                                alt={item?.Image}
+                                alt={item?.image}
                               />
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
@@ -332,9 +332,9 @@ export default function SelectTicket({
                           <div className="h-[70%] w-full flex flex-col items-center relative">
                             <div className="relative">
                               <img
-                                src={item?.Image}
+                                src={item?.image}
                                 className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
-                                alt={item?.Image}
+                                alt={item?.image}
                               />
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
