@@ -164,24 +164,23 @@ export default function SelectTicketBakebe({
       accessToken,
       process.env.REACT_APP_TFR_KEY,
       location,
-      // selectedType,
-      // pageSizeFilter,
-      // pageNumber,
-      // categoryFilter,
-      // difficultyFilter,
-      // durationFilter
+      selectedType,
+      pageSizeFilter,
+      pageNumber,
+      categoryFilter,
+      difficultyFilter,
+      durationFilter
     )
       .then((response) => {
         if (response.valid) {
           setTickets(response.ticketInfo);
-          // setDataPageCount(response.pageCount);
+          setDataPageCount(response.pageCount);
           setLoading(false);
         } else {
         }
       })
       .catch(setLoading(false));
-    // }, [location, user, categoryFilter, difficultyFilter, durationFilter, pageSizeFilter, selectedType, pageNumber]);
-  }, [location]);
+  }, [location, user, categoryFilter, difficultyFilter, durationFilter, pageSizeFilter, selectedType, pageNumber]);
 
   const tableData = useMemo(() => {
     if (loading) {
@@ -221,27 +220,27 @@ export default function SelectTicketBakebe({
         return tickets
           .filter((data) => {
             if (search === null) return data;
-            else if (data.Name.toLowerCase().includes(search.toLowerCase())) {
+            else if (data.ticketType.toLowerCase().includes(search.toLowerCase())) {
               return data;
             }
-          }).sort((a, b) => a.Name.localeCompare(b.Name))
+          }).sort((a, b) => a.ticketType.localeCompare(b.ticketType))
           .map((data, index) => {
             return (
               <div class="hoverEffects border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
                 <div className="h-[70%] fd-cl group-hover:opacity-0">
                   <img
-                    src={data.Image}
-                    alt={data.Image}
+                    src={data.image}
+                    alt={data.image}
                     className="rounded-t-[30px] h-full w-full object-cover"
                   />
 
                 </div>
                 <div className="h-[30%] flex flex-col mx-[10px] gap-2 my-[10px] fd-cl group-hover:opacity-0">
-                  <div className="truncate">{data.Name}</div>
+                  <div className="truncate">{data.ticketName}</div>
                   <div className="flex flex-row flex-wrap justify-between gap-2 text-bakebe-brown text-[12px] laptop:mx-[2%]">
                     <div className="flex flex-row truncate items-center">
                       <img src={clock} className="mr-1" />{" "}
-                      {convertToHoursMinutes(data.Hours)}
+                      {convertToHoursMinutes(data.durationHours)}
                     </div>
                     <div className="flex flex-row items-center">
                       <img src={timer} className="mr-1" />
@@ -253,13 +252,13 @@ export default function SelectTicketBakebe({
                 <div class="absolute opacity-0 fd-sh group-hover:opacity-100">
                   <div class="py-4 border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
                     <div className="h-[10%] px-3 ">
-                      <div className="truncate">{data.Name}</div>
+                      <div className="truncate">{data.ticketName}</div>
                     </div>
                     <div className="h-[20%] flex flex-col mx-[10px] gap-2 my-[10px] ">
                       <div className="flex flex-col laptop:flex-row flex-wrap justify-between gap-2 text-bakebe-brown text-[12px] laptop:mx-[2%]">
                         <div className="flex flex-row truncate items-center">
                           <img src={clock} className="mr-1" />{" "}
-                          {convertToHoursMinutes(data.Hours)}
+                          {convertToHoursMinutes(data.durationHours)}
                         </div>
                         <div className="flex flex-row items-center">
                           <img src={timer} className="mr-1" />
@@ -447,7 +446,7 @@ export default function SelectTicketBakebe({
                               className="text-[10px]"
                               value={item.Value}
                             >
-                              {item.Name}
+                              {item.ticketName}
                             </option>
                           );
                         })
@@ -456,10 +455,10 @@ export default function SelectTicketBakebe({
                             <option
                               key={index}
                               className="text-[10px]"
-                              value={item.Value}
+                              value={item.price}
                             >
                               {" "}
-                              {item.Name}
+                              {item.ticketName}
                             </option>
                           );
                         })}
@@ -551,43 +550,43 @@ export default function SelectTicketBakebe({
                 </div>
 
                 {/* <div
-                  className="flex flex-col pt-[3%] tablet:pt-0 tablet:justify-between"
-                  style={{ fontFamily: "Gotham-Light, sans-serif" }}
-                >
-                  <div className="flex flex-row items-center gap-2 flex-wrap pb-[3%] tablet:justify-between">
-                    <div className="">Showing 1 to 20 of 54</div>
-                    <div className="flex flex-row items-center">
-                      <div className="mr-2">Go to Page:</div>
-                      <div className="">
-                        {" "}
-                        <select
-                          className="shadow-lg focus:outline-none  bg-white border rounded-[5px]  p-[12px] w-[137px] "
-                          aria-label="Default select example"
-                          style={{ fontFamily: "Gotham-Light, sans-serif" }}
+                    className="flex flex-col pt-[3%] tablet:pt-0 tablet:justify-between"
+                    style={{ fontFamily: "Gotham-Light, sans-serif" }}
+                  >
+                    <div className="flex flex-row items-center gap-2 flex-wrap pb-[3%] tablet:justify-between">
+                      <div className="">Showing 1 to 20 of 54</div>
+                      <div className="flex flex-row items-center">
+                        <div className="mr-2">Go to Page:</div>
+                        <div className="">
+                          {" "}
+                          <select
+                            className="shadow-lg focus:outline-none  bg-white border rounded-[5px]  p-[12px] w-[137px] "
+                            aria-label="Default select example"
+                            style={{ fontFamily: "Gotham-Light, sans-serif" }}
 
-                          // onChange={(e) => {
-                          //   handleBusinessUnitSelectChange(e);
-                          // }}
-                          // name="BusinessUnit"
-                          // onClick={() => businessUnits()}
-                        >
-                          {pageCount?.map((item, index) => {
-                            return (
-                              <option
-                                key={index}
-                                className="text-[10px]"
-                                value={item}
-                              >
-                                {" "}
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
+                            // onChange={(e) => {
+                            //   handleBusinessUnitSelectChange(e);
+                            // }}
+                            // name="BusinessUnit"
+                            // onClick={() => businessUnits()}
+                          >
+                            {pageCount?.map((item, index) => {
+                              return (
+                                <option
+                                  key={index}
+                                  className="text-[10px]"
+                                  value={item}
+                                >
+                                  {" "}
+                                  {item}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div> */}
+                  </div> */}
               </div>
             </div>
             <div className="text-[13px] laptopL:text-[16px] laptopL:w-[25%] mx-[8%] py-[6%] laptopL:py-0 laptopL:mx-0 w-full">

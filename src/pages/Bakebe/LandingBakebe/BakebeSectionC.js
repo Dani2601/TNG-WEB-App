@@ -90,7 +90,7 @@ export default function BakebeSectionC() {
                         <div className="min-w-[274px] max-w-[630px] mobileL:h-[219px] laptop:h-[276px] laptopL:w-[430px] rounded-[50px] bg-white flex flex-row ">
                           <div className="w-[40%]">
                             <img
-                              src={item?.Image}
+                              src={item?.image}
                               className="h-full w-full object-cover rounded-tl-[50px] rounded-bl-[50px] "
                             />
                           </div>

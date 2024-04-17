@@ -21,10 +21,11 @@ async function addBooking(e) {
 
 async function viewMyTransaction(e) {
   try {
+    const accessToken = localStorage.getItem('accessToken')
     const { data } = await axios.get(
-      `${process.env.REACT_APP_REST_API}/transactions/showAll/b4edd511-2abe-4bfe-932e-cbbd6e45c401`,
+      `${process.env.REACT_APP_REST_API}/transactions/show-all`,
       {
-        UserID: e,
+        accessToken
       }
     );
 
@@ -42,15 +43,16 @@ async function viewMyTransaction(e) {
 
 async function viewMyTickets(e) {
   try {
+    const accessToken = localStorage.getItem('accessToken')
     const { data } = await axios.get(
-      `${process.env.REACT_APP_REST_API}/ticket-categories/show-all?filter=active`,
+      `${process.env.REACT_APP_REST_API}/transactions/show-all`,
       {
-        UserID: e,
+        accessToken
       }
     );
 
     if (data?.valid) {
-      return data;
+      return data.transactionsArray;
     } else {
       return data;
     }

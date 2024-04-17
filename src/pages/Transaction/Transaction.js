@@ -63,7 +63,7 @@ export default function Transaction() {
 
   const getEditData = (data) => {
     const objData = [
-      { Code: data.Code, UserID: data.CustomerID, Status: data.Status },
+      { Code: data.transactionCode, UserID: data.customer.id, Status: data.status },
     ];
 
     const encrypt = encryptData(objData);
@@ -90,38 +90,43 @@ export default function Transaction() {
   const PAGE_SIZE = 10;
 
   useEffect(() => {
-    viewMyTransaction(user.id)
-      .then((response) => {
-        // console.log(response)
-        if (response.valid) {
-          setRecord(response.data);
-          // setDataPageCount(response.pageCount)
-        } else {
-        }
-      })
-      .catch();
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      viewMyTransaction(accessToken)
+        .then((response) => {
+          if (response && response.success) {
+            setRecord(response.transactionsArray);
+            console.log(record)
+          } else {
+            console.log('Failed to fetch ticket data');
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching ticket data:', error);
+        })
+        .finally(() => {
+          setLoading(false); // Set loading state to false when done fetching
+        });
+    }
   }, []);
 
   const tableData = useMemo(() => {
-    if (!loading) {
+    if (loading) {
       return (
-        <>
-          <tr className="border-b max-w-96">
-            {tableHeader.map((data, index) => {
-              return <SkeletonTable key={index} />;
-            })}
-          </tr>
-        </>
+        <tr className="border-b max-w-96">
+          {tableHeader.map((data, index) => (
+            <SkeletonTable key={index} />
+          ))}
+        </tr>
       );
     } else {
       if (record?.length > 0) {
-        // console.log(record);
         return record
           .filter((data) => {
             if (search === null) return data;
             else if (
-              data.Code.toLowerCase().includes(search.toLowerCase()) ||
-              data.BookingDate.toLowerCase().includes(search.toLowerCase())
+              data.ticketName.toLowerCase().includes(search.toLowerCase()) ||
+              data.bookingDate.toLowerCase().includes(search.toLowerCase())
             ) {
               return data;
             }
@@ -152,24 +157,24 @@ export default function Transaction() {
                       setTimeout(() => showTooltip(true));
                     }}
                   >
-                    {data.Code}
+                    {data.transactionCode}
                   </p>
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.BusinessUnitName}
+                  {data.businessUnit.name}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {data.Branch}
+                  {data.businessUnitBranch.name}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  ₱ {data.TotalPrice}
+                  ₱ {data.total_price}
                 </td>
                 <td className=" font-poppins text-center px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px]">
-                  {getDate(data.CreatedTS)}
+                  {getDate(data.createdAt)}
                 </td>
                 <td className=" font-poppins px-6 py-4 text-sm font-medium text-gray-900 max-w-[300px] flex justify-center">
                   <span className="w-20 h-7 text-center flex justify-center items-center rounded-lg text-slate-50">
-                    <PaymentStatus status={data.Status} />
+                    <PaymentStatus status={data.status} />
                   </span>
                 </td>
 

@@ -65,6 +65,7 @@ export default function SelectTicket({
 
   const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
+
     if (!accessToken) {
       setModalVisible(true);
     }
@@ -84,9 +85,11 @@ export default function SelectTicket({
     setShowModal(false);
   }
 
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     getTicketGootopia(accessToken, process.env.REACT_APP_TFR_KEY, location)
+
       .then((response) => {
         if (response.valid) {
           setTickets(response.data);
@@ -183,9 +186,9 @@ export default function SelectTicket({
                           <div className="h-[70%] w-full flex flex-col items-center relative">
                             <div className="relative">
                               <img
-                                src={item?.Image}
+                                src={item?.image}
                                 className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
-                                alt={item?.Image}
+                                alt={item?.image}
                               />
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
@@ -256,9 +259,9 @@ export default function SelectTicket({
                           <div className="h-[70%] w-full flex flex-col items-center relative">
                             <div className="relative">
                               <img
-                                src={item?.Image}
+                                src={item?.image}
                                 className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
-                                alt={item?.Image}
+                                alt={item?.image}
                               />
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">
@@ -329,9 +332,9 @@ export default function SelectTicket({
                           <div className="h-[70%] w-full flex flex-col items-center relative">
                             <div className="relative">
                               <img
-                                src={item?.Image}
+                                src={item?.image}
                                 className="relative w-[196px]  h-[178px]  object-cover rounded-2xl"
-                                alt={item?.Image}
+                                alt={item?.image}
                               />
                             </div>
                             <div className="absolute inset-x-0 bottom-[-7px] flex flex-col items-center justify-center gap-1 px-4">

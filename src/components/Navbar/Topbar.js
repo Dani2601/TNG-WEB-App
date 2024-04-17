@@ -127,7 +127,7 @@ export default function Topbar({ scroll }) {
               <div>
                 <a
                   className="cursor-pointer"
-                  href="https://tng-web-app.vercel.app/"
+                  href="/"
                   target="_blank"
                 >
                   <img

@@ -75,27 +75,25 @@ export default function InflatableSelectLocation({ step, setStep, setLocation, l
           <div className="bg-white w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
-              {branch.map((data, index) => (
-              <div className="flex flex-col mr-3 hoverEffects" key={index}>
-                <button
-                  className={`outline-4 self-center ${
-                    selectedBranch === data.id ? 'outline-[15px] outline-[#20422b]' : ''
-                  }`}
-                  onClick={() => handleSelectBranch(data)}
-                >
-                  <img
-                    className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${
-                      selectedBranch === data.id ? 'outline outline-[#20422b]' : ''
-                    }`}
-                    src={data?.Image}
-                    alt="gootopia"
-                  />
-                </button>
-                <div className="text-[#20422b] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
-                  {data?.Address}
-                </div>
-              </div>
-            ))}
+                {branch.map((data, index) => (
+                  <div className="flex flex-col mr-3 hoverEffects" key={index}>
+                    <button
+                      className={`outline-4 self-center ${selectedBranch === data.id ? 'outline-[15px] outline-[#20422b]' : ''
+                        }`}
+                      onClick={() => handleSelectBranch(data)}
+                    >
+                      <img
+                        className={`rounded-[7px] w-[75px] h-[75px] tablet:w-[120px] tablet:h-[120px] ${selectedBranch === data.id ? 'outline outline-[#20422b]' : ''
+                          }`}
+                        src={data?.image}
+                        alt=""
+                      />
+                    </button>
+                    <div className="text-[#20422b] text-[12px] tablet:text-[14px] font-poppins font-bold self-center mt-1">
+                      {data?.address}
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <div className="flex flex-row justify-end">

@@ -57,8 +57,10 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
 
   const accessToken = localStorage.getItem('accessToken')
   function handleNext() {
+
     console.log(accessToken)
     if (accessToken) {
+
       setShowModal(true);
     }
     else {
@@ -76,9 +78,12 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
     setShowModal(false);
   }
 
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
+
     getTicketGootopia(accessToken, process.env.REACT_APP_GOOTOPIA_KEY, location)
+
       .then((response) => {
         if (response.success) {
           setTickets(response.ticketInfo);
@@ -127,7 +132,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
         handleProceed={handleProceed}
       />
       <div className="max-h-full min-h-screen bg-gootopia-purp ">
-        <img class="w-full" src={dripping} alt="gootopialanding" />
+        <img class="w-full" src={dripping} alt="" />
         <div className="flex flex-row justify-center">
           <span className="font-flavors text-gootopia-pinkText text-[23px]  tablet:text-[50px] tablet:laptop:LaptopL:Laptop4k my-8">
             SELECT A TICKET
@@ -175,6 +180,8 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
                           <div className="h-[30%] w-full flex flex-col gap-2 items-center pt-4 overflow-x-auto">
                             <div className="text-center font-bold tablet:text-[18px] text-tfr-yellow text-[12px] px-2">
                               {item.ticketName}
+
+
                             </div>
                             <div className="text-center text-gootopia-green text-[8px] px-2 tablet:text-[14px]">
                               {item.description}
@@ -243,7 +250,7 @@ export default function SelectTicket({ setStep, location, setTicket, ticket, nav
           <img
             class="w-full rotate-180 "
             src={dripping}
-            alt="gootopialanding "
+            alt="Gootopia "
           />
         </div>
       </div>
