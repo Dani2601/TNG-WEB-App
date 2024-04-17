@@ -65,6 +65,7 @@ export function InflatableBookingDetails({
   const [allowedDays, setAllowedDays] = useState([])
   const [events, setEvents] = useState([])
   const [stringifyTime, setStringifyTime] = useState("")
+  const [bookingTimeId, setBookingTimeId] = useState(null);
   const accessToken = localStorage.getItem('accessToken');
 
   function handleBack() {
@@ -86,6 +87,7 @@ export function InflatableBookingDetails({
       ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
+      bookingTimeId: bookingTimeId,
       EntranceTime: withoutFilters ? `${format(parse(ticket?.TimeStart, 'HH:mm', new Date()), 'h:mm a')} - ${format(parse(ticket?.TimeEnd, 'HH:mm', new Date()), 'h:mm a')}` : "",
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
       Pax: ticket?.promo === 'Buy 1 Take 1' ? parseInt(pax * 2) : parseInt(pax),
@@ -287,52 +289,73 @@ export function InflatableBookingDetails({
 
   function handleBookingDate(date) {
     setBookingDate(date);
+    intervalsSet(date)
     setPax("");
     setBookingTime("");
     setStringifyTime("");
   }
 
-  useEffect(() => {
-    if (bookingDate) {
+  const intervalsSet = async (date, data) =>{
+    if (date) {
+      console.log('interval sett')
+      console.log(ticket)
+      console.log('interval sett')
+
       setIntervals(
-        ticket?.createIntervals.map((item) => {
-          let reservation = reserve?.filter(
-            (res) => res.BookingTime === item.ticketIntervals
-          );
-          let cartReserve = cart?.filter(
-            (cartItem) =>
-              cartItem.BookingTime === item.ticketIntervals &&
-              cartItem.ticket?.accessToken === ticket?.accessToken
-          );
-
-          if (reservation.length > 0) {
-            const sumOfCart = cartReserve.reduce(
-              (total, item) => total + item.Pax,
-              0
-            );
-            return {
-              value: item.ticketIntervals,
-              slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
-              label: `${item.ticketIntervals} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
-            };
-          } else {
-            const sumOfCart = cartReserve.reduce(
-              (total, item) => total + item.Pax,
-              0
-            );
-
-            return {
-              value: item.ticketIntervals,
-              slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
-              label: `${item.ticketIntervals} - ${((selectedLocation?.Slots || 0) - sumOfCart) >= 0 ? (selectedLocation?.Slots || 0) - sumOfCart : 0} slot(s)`,
-            };
-          }
+        ticket?.ticketIntervals.map((item) => {
+          return {
+            value: item,
+            slot:  item.slots,
+            label: `${item.time} - ${ item.slots}  slot(s)`,
+          };
         })
       );
     } else {
       setIntervals([]);
     }
-  }, [bookingDate, ticket, reserve]);
+  }
+
+  // useEffect(() => {
+  //   if (bookingDate && ticket) {
+  //     setIntervals(
+  //       ticket?.createIntervals?.map((item) => {
+  //         let reservation = reserve?.filter(
+  //           (res) => res.BookingTime === item.ticketIntervals
+  //         );
+  //         let cartReserve = cart?.filter(
+  //           (cartItem) =>
+  //             cartItem.BookingTime === item.ticketIntervals &&
+  //             cartItem.ticket?.accessToken === ticket?.accessToken
+  //         );
+
+  //         if (reservation.length > 0) {
+  //           const sumOfCart = cartReserve.reduce(
+  //             (total, item) => total + item.Pax,
+  //             0
+  //           );
+  //           return {
+  //             value: item.ticketIntervals,
+  //             slot: ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0))),
+  //             label: `${item.ticketIntervals} - ${((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) >= 0 ? ((parseInt(selectedLocation?.Slots || 0) - (sumOfCart + (reservation.length || 0)))) : 0} slot(s)`,
+  //           };
+  //         } else {
+  //           const sumOfCart = cartReserve.reduce(
+  //             (total, item) => total + item.Pax,
+  //             0
+  //           );
+
+  //           return {
+  //             value: item.ticketIntervals,
+  //             slot: ((parseInt(selectedLocation?.Slots || 0) - sumOfCart) <= 0 ? 0 : parseInt(selectedLocation?.Slots || 0) - sumOfCart),
+  //             label: `${item.ticketIntervals} - ${((selectedLocation?.Slots || 0) - sumOfCart) >= 0 ? (selectedLocation?.Slots || 0) - sumOfCart : 0} slot(s)`,
+  //           };
+  //         }
+  //       })
+  //     );
+  //   } else {
+  //     setIntervals([]);
+  //   }
+  // }, [bookingDate, ticket, reserve]);
 
   function handleClear() {
     setBookingDate(null);
@@ -371,11 +394,11 @@ export function InflatableBookingDetails({
 
   const maxPerInterval = useMemo(() => {
     let max = "";
-    if (ticket?.SubCategory === "Entrance") {
-      let intervalData = intervals[0];
-      max = intervalData?.slot - reserve?.length;
-    }
-    else if (bookingDate && bookingTime && intervals) {
+    // if (ticket?.SubCategory === "Entrance") {
+    //   let intervalData = intervals[0];
+    //   max = intervalData?.slot - reserve?.length;
+    // }
+    if (bookingDate && bookingTime && intervals) {
       let intervalData = intervals?.find((item) => item.value === bookingTime);
       max = intervalData?.slot;
     }
@@ -383,9 +406,11 @@ export function InflatableBookingDetails({
   }, [bookingTime, bookingDate, intervals]);
 
   function handleBookingTime(e) {
+    console.log(e.target.value)
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
-      setBookingTime(data?.value);
+      setBookingTime(data.time);
+      setBookingTimeId(data.id);
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
@@ -521,43 +546,45 @@ export function InflatableBookingDetails({
                   PICK A DATE: <small style={{ color: "red" }}>*</small>
                 </p>
                 <div className="flex w-full bg-blue-500">
-                  <DatePicker
-                    selected={bookingDate}
-                    onChange={handleBookingDate}
-                    wrapperClassName="w-full"
-                    className="h-[36px] w-full shadow-md py-2 px-4"
-                    filterDate={(date) => {
-                      const today = new Date();
-                      today.setHours(0, 0, 0, 0);
-                      const allDates = [];
-
-                      if (ticket?.SubCategory === "Entrance") {
-                        for (const item of events) {
-                          const findTicket = item?.activity?.find(item => item?.value === ticket?.accessToken)
-                          if (findTicket) {
-                            const startDate = new Date(item.start);
-                            const endDate = new Date(item.end);
-                            // Collect all dates that fall within the range of start and end dates in data
-                            const currentDate = new Date(startDate);
-                            while (currentDate <= endDate) {
-                              allDates.push(format(currentDate, "MM/dd/yyyy"));
-                              currentDate.setDate(currentDate.getDate() + 1);
-                            }
+                <DatePicker
+                  selected={bookingDate}
+                  onChange={handleBookingDate}
+                  wrapperClassName="w-full"
+                  className="h-[36px] w-full shadow-md py-2 px-4"
+                  filterDate={(date) => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const allDates = [];
+                    
+                    if (ticket && ticket.ticketSubCategory === "Entrance" && events) {
+                      for (const item of events) {
+                        const findTicket = item.activity.find(
+                          (activity) => activity.value === ticket.accessToken
+                        );
+                        if (findTicket) {
+                          const startDate = new Date(item.start);
+                          const endDate = new Date(item.end);
+                          // Collect all dates that fall within the range of start and end dates in data
+                          const currentDate = new Date(startDate);
+                          while (currentDate <= endDate) {
+                            allDates.push(format(currentDate, "MM/dd/yyyy"));
+                            currentDate.setDate(currentDate.getDate() + 1);
                           }
                         }
                       }
+                    }
+                    
+                    const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
+                    return (
+                      date >= today &&
+                      (!allDates.includes(format(date, "MM/dd/yyyy")) ||
+                        !allowedDays.includes(dayOfWeek))
+                    );
+                  }}
+                  value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
+                  dayClassName={customDateStyle}
+                />
 
-                      return (
-                        date >= today &&
-                        !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                        allowedDays.includes(
-                          date.toLocaleDateString("en-US", { weekday: "long" })
-                        )
-                      );
-                    }}
-                    value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
-                    dayClassName={customDateStyle}
-                  />
                 </div>
               </div>
               {
@@ -573,6 +600,19 @@ export function InflatableBookingDetails({
                   >
                     <option value={""}>Select a time</option>
                     {intervals?.length > 0 &&
+                      intervals?.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item.value)}
+                            disabled={false}
+                          >
+                            {item.label}
+                          </option>
+                        );
+                      })
+                  }
+                    {/* {intervals?.length > 0 &&
                       intervals?.map((item, index) => {
                         const itemTime = moment(item.value, "h:mm A").tz(
                           "Asia/Manila"
@@ -673,7 +713,7 @@ export function InflatableBookingDetails({
                             );
                           }
                         }
-                      })}
+                      })} */}
                   </select>
                 </div>
               }
