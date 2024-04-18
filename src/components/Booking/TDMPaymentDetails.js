@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { getBranches } from "../../functions/Branches";
 import { addHours, format, isValid, parse } from "date-fns";
 import { CiTrash } from "react-icons/ci";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaCheck } from "react-icons/fa";
 import { setCart } from "../../store/action";
 import { verifyCouponCode } from "../../functions/Coupon";
 import { toast } from "react-toastify";
@@ -18,6 +18,7 @@ import routes from "../../constants/routes";
 import { TCModalContainer } from "../Modal/TermsAndCondition";
 import { getBookingsByTicketID } from "../../functions/Tickets";
 import { WaiverModalContainer } from "../Modal/Waiver";
+import gootopianav from "../../assets/Header/gootopianav.png";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -37,7 +38,9 @@ export function TDMPaymentDetails({
   bookingType="",
   setLoading,
   loading,
-  selectedOption=""
+  selectedOption="",
+  success,
+  response
 }) {
 
   const navigate = useNavigate();
@@ -64,6 +67,11 @@ export function TDMPaymentDetails({
   const dispatch = useDispatch()
   const [code, setCode] = useState('')
   const [reserve, setReserve] = useState([])
+
+  const formatter = new Intl.NumberFormat('en-PH', {
+    style: 'currency',
+    currency: 'PHP'
+  });
 
   const total = cart?.reduce((total, item) => {
     if(item.ticket.promo === 'Buy 1 Take 1'){
@@ -391,6 +399,12 @@ export function TDMPaymentDetails({
   //   }
   // }, [])
 
+  useEffect(() => {
+    if (success) {
+      setShowModal(false);
+    }
+  });
+
   return (
     <div className="w-full py-10 flex justify-center">
       { 
@@ -408,176 +422,263 @@ export function TDMPaymentDetails({
           <img src={nx} className="w-[60px] object-contain" />
           <img src={tnglogo} className="w-[400px] object-cover" />
         </div>
-        <div className="flex flex-col">
-          <p className="text-center font-bold text-lg mb-10 mt-5">
-            PAYMENT DETAILS
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex p-5 gap-3 flex-col w-full sm:w-[40vw] bg-gradient-to-b from-[#E890A1] via-[#E9959F] to-[#EFC391]">
-              <p className="font-bold">Personal Details</p>
-              <div>
-                <p className="text-sm">
-                  Full Name <small style={{ color: "red" }}>*</small>
-                </p>
-                <input
-                  type="text"
-                  value={fullname}
-                  onChange={(e) => setFullname(e.target.value)}
-                  placeholder="Full Name"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                />
+        {success ? (
+          <div className="flex flex-col items-center">
+            <p className="text-center font-bold text-lg mb-10 mt-5">
+              BOOKING RECEIPT
+            </p>
+            <div className="relative flex py-2 px-5 flex-col w-full sm:w-[25vw] rounded-3xl" style={{background: '#f3f3f3'}}>
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full p-2 border-white border-solid border-4" 
+                  style={{background: '#bdca7a'}}>
+                <FaCheck size={23} color="white" className="cursor-pointer" />
               </div>
-              <div>
-                <p className="text-sm">
-                  Contact Number <small style={{ color: "red" }}>*</small>
-                </p>
-                <input
-                  type="number"
-                  value={contact}
-                  onChange={(e) => setContact(e.target.value)}
-                  placeholder="Contact Number"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                />
+              <div className="item-center justify-center text-center p-5">
+                <p className="font-bold text-pink-400 text-2xl">Thank You!</p>
+                <p className="font-semibold  text-slate-400">Your transaction was successful</p>
               </div>
-              <div className="border-b-2 border-black pb-4">
-                <p className="text-sm">
-                  Email Address <small style={{ color: "red" }}>*</small>
-                </p>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email Address"
-                  className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                />
+              <div className="border-slate-300 border-dashed border-2" />
+              <div className="p-5">
+                <div className="flex flex-row justify-between py-5">
+                  <div className="flex flex-col">
+                    <p className="text-xs font-semibold text-slate-400">DATE</p>
+                    <p className="text-sm font-semibold">{format(new Date(response.createdAt), "dd MMMM yyyy (h:mm a)")}</p>
+                  </div>
+                  <div className="flex flex-col text-right">
+                    <p className="text-xs font-semibold text-slate-400">TO</p>
+                    <p className="text-sm font-semibold">{fullname}</p>
+                  </div>
+                </div>
+                <div className="flex flex-row justify-between py-5">
+                  <div className="flex flex-col">
+                    <p className="text-xs font-semibold text-slate-400">NO. OF PAX</p>
+                    <p className="text-sm font-semibold">{response.pax}</p>
+                  </div>
+                  <div className="flex flex-col text-right">
+                    <p className="text-xs font-semibold text-slate-400">CONTACT NUMBER</p>
+                    <p className="text-sm font-semibold">{contact}</p>
+                  </div>
+                </div>
+                <div className="flex flex-row justify-between py-5">
+                  <div className="flex flex-col">
+                    <p className="text-xs font-semibold text-slate-400">TOTAL AMOUNT</p>
+                    <p className="text-xl font-semibold" style={{color: '#7e8a42'}}>{formatter.format(grandTotal)}</p>
+                  </div>
+                  <div className="flex flex-col text-right justify-center ">
+                    <div className="border border-slate-400 py-1 px-4">
+                      <p className="text-xs text-slate-400">Completed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border-slate-300 border-dashed border-2" />
+              <div className="py-2 px-1">
+                <div className="flex flex-row gap-2 items-center justify-center py-5 rounded-xl" style={{background: '#e1e1e1'}}>
+                  <div 
+                    className={`cursor-pointer rounded-full h-[20px] laptop:h-[31px] inline-block bg-black`}
+                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+                    >
+                    <img
+                      alt=""
+                      src={gootopianav}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div 
+                    className={`cursor-pointer rounded-full h-[35px] laptop:h-[46px] inline-block bg-black`}
+                    >
+                    <img
+                      alt=""
+                      src={gootopianav}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div 
+                    className={`cursor-pointer rounded-full h-[20px] laptop:h-[31px] inline-block bg-black`}
+                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+                    >
+                    <img
+                      alt=""
+                      src={gootopianav}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col w-full sm:w-[40vw]">
-              <div className="shadow-md rounded-md">
-                <div className="w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]" />
-                <div className="py-4 px-6">
-                  <div className="border-b-2 border-gray-200">
-                    <p className="font-bold text-sm mb-2">
-                      Location: {cart[0]?.Location}
-                    </p>
-                  </div>
-                    {
-                      cart?.map((item, index) => {
-                        return(
-                          <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
-                            <div className="flex justify-between items-center">
-                              <p className="font-bold text-sm">{item?.ticket?.ticketName}</p>
-                              <FaTrash size={10} color="red" className="cursor-pointer" onClick={() => handleRemoveItem(index)}/>
-                            </div>
-                            <div className="flex justify-between py-2">
-                              <div className="flex flex-col">
-                                <p className="text-xs">Type of ticket: {item?.ticket?.ticketType}</p>
-                                <p className="text-xs">
-                                  Date:{" "} {item?.BookingDate && isValid(new Date(item.BookingDate))
-                                  ? format(new Date(item.BookingDate), "MM/dd/yyyy")
-                                  : ""}
-                                </p>
-                                <p className="text-xs">Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>
-                                {
-                                  item?.Ticket?.Promo === 'Buy 1 Take 1' ?
-                                  <div>
-                                    <p className="text-xs">No. of pass: {item?.Pax/2} (+{item?.Pax/2})</p>
-                                    <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo}</span></p>
-                                  </div>
-                                  :
-                                  (
-                                    item?.Ticket?.Promo ?
+          </div>
+        ) : (
+          <div className="flex flex-col">
+            <p className="text-center font-bold text-lg mb-10 mt-5">
+              PAYMENT DETAILS
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex p-5 gap-3 flex-col w-full sm:w-[40vw] bg-gradient-to-b from-[#E890A1] via-[#E9959F] to-[#EFC391]">
+                <p className="font-bold">Personal Details</p>
+                <div>
+                  <p className="text-sm">
+                    Full Name <small style={{ color: "red" }}>*</small>
+                  </p>
+                  <input
+                    type="text"
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
+                    placeholder="Full Name"
+                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm">
+                    Contact Number <small style={{ color: "red" }}>*</small>
+                  </p>
+                  <input
+                    type="number"
+                    value={contact}
+                    onChange={(e) => setContact(e.target.value)}
+                    placeholder="Contact Number"
+                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  />
+                </div>
+                <div className="border-b-2 border-black pb-4">
+                  <p className="text-sm">
+                    Email Address <small style={{ color: "red" }}>*</small>
+                  </p>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email Address"
+                    className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col w-full sm:w-[40vw]">
+                <div className="shadow-md rounded-md">
+                  <div className="w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]" />
+                  <div className="py-4 px-6">
+                    <div className="border-b-2 border-gray-200">
+                      <p className="font-bold text-sm mb-2">
+                        Location: {cart[0]?.Location}
+                      </p>
+                    </div>
+                      {
+                        cart?.map((item, index) => {
+                          return(
+                            <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
+                              <div className="flex justify-between items-center">
+                                <p className="font-bold text-sm">{item?.ticket?.ticketName}</p>
+                                <FaTrash size={10} color="red" className="cursor-pointer" onClick={() => handleRemoveItem(index)}/>
+                              </div>
+                              <div className="flex justify-between py-2">
+                                <div className="flex flex-col">
+                                  <p className="text-xs">Type of ticket: {item?.ticket?.ticketType}</p>
+                                  <p className="text-xs">
+                                    Date:{" "} {item?.BookingDate && isValid(new Date(item.BookingDate))
+                                    ? format(new Date(item.BookingDate), "MM/dd/yyyy")
+                                    : ""}
+                                  </p>
+                                  <p className="text-xs">Time:{` ${item?.BookingTime} ${(item?.BookingEndTime)? (`- `+ item?.BookingEndTime) : ""}`}</p>
+                                  {
+                                    item?.Ticket?.Promo === 'Buy 1 Take 1' ?
                                     <div>
-                                      <p className="text-xs">No. of pass: {item?.Pax}</p>
-                                      <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo === 'Discount' ? `${item?.Ticket?.PromoValue}%` : `₱${item?.Ticket?.PromoValue}`} {item?.Ticket?.Promo}</span></p>
+                                      <p className="text-xs">No. of pass: {item?.Pax/2} (+{item?.Pax/2})</p>
+                                      <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo}</span></p>
                                     </div>
                                     :
-                                    <div>
-                                      <p className="text-xs">No. of pass: {item?.Pax}</p>
-                                    </div>
-                                  )
-                                }
-                                {
-                                  selectedOption &&
-                                  <p className="text-xs">Booking Type: {selectedOption}</p>
-                                }
-                              </div>
-                              <div className="flex flex-col items-end">
-                                <p className="tex-4xl font-bold text-right">
-                                  ₱ {item?.ticket?.price}
-                                </p>
+                                    (
+                                      item?.Ticket?.Promo ?
+                                      <div>
+                                        <p className="text-xs">No. of pass: {item?.Pax}</p>
+                                        <p className="text-xs">Promo: <span className="font-semibold">{item?.Ticket?.Promo === 'Discount' ? `${item?.Ticket?.PromoValue}%` : `₱${item?.Ticket?.PromoValue}`} {item?.Ticket?.Promo}</span></p>
+                                      </div>
+                                      :
+                                      <div>
+                                        <p className="text-xs">No. of pass: {item?.Pax}</p>
+                                      </div>
+                                    )
+                                  }
+                                  {
+                                    selectedOption &&
+                                    <p className="text-xs">Booking Type: {selectedOption}</p>
+                                  }
+                                </div>
+                                <div className="flex flex-col items-end">
+                                  <p className="tex-4xl font-bold text-right">
+                                    ₱ {item?.ticket?.price}
+                                  </p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })
-                    }
-                  <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
-                    <div className="flex justify-between">
-                      <div className="text-sm font-bold">Sub Total</div>
-                      <div className="font-bold">₱ {total}</div>
+                          )
+                        })
+                      }
+                    <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
+                      <div className="flex justify-between">
+                        <div className="text-sm font-bold">Sub Total</div>
+                        <div className="font-bold">₱ {total}</div>
+                      </div>
+                      <div className="flex justify-between">
+                        <div className="text-sm font-bold">Total Discount</div>
+                        <div className="font-bold">₱ {discount}</div>
+                      </div>
+                      <div className="flex justify-between">
+                        <div className="text-sm font-bold">Grand Total</div>
+                        <div className="font-bold">₱ {grandTotal}</div>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <div className="text-sm font-bold">Total Discount</div>
-                      <div className="font-bold">₱ {discount}</div>
+                    <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
+                      <p>Coupon</p>
+                      <input
+                        type="text"
+                        value={code || (coupon?.data?.Code || "")}
+                        disabled={coupon?.data?.Code ? true : false}
+                        placeholder="Enter your coupon here"
+                        onChange={(e) => setCode(e.target.value)}
+                        className={`${coupon?.data?.Code && 'bg-gray-200'} w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3`}
+                      />
+                      {
+                        !coupon ?
+                        <button
+                        disabled={!code}
+                        onClick={handleVerify}
+                        className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
+                        >
+                        Verify
+                        </button>
+                        :
+                        <button
+                        onClick={handleCancelCoupon}
+                        className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
+                        >
+                        Cancel
+                        </button>
+                      }
                     </div>
-                    <div className="flex justify-between">
-                      <div className="text-sm font-bold">Grand Total</div>
-                      <div className="font-bold">₱ {grandTotal}</div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col border-b-2 border-gray-200 pt-4 pb-3 gap-2">
-                    <p>Coupon</p>
-                    <input
-                      type="text"
-                      value={code || (coupon?.data?.Code || "")}
-                      disabled={coupon?.data?.Code ? true : false}
-                      placeholder="Enter your coupon here"
-                      onChange={(e) => setCode(e.target.value)}
-                      className={`${coupon?.data?.Code && 'bg-gray-200'} w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3`}
-                    />
-                    {
-                      !coupon ?
-                      <button
-                      disabled={!code}
-                      onClick={handleVerify}
-                      className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
-                      >
-                      Verify
-                      </button>
-                      :
-                      <button
-                      onClick={handleCancelCoupon}
-                      className="bg-gradient-to-r from-[#57B3E8] to-[#50CDC4] shadow-md text-sm w-full py-2 px-6 text-white"
-                      >
-                      Cancel
-                      </button>
-                    }
                   </div>
                 </div>
-              </div>
-              <div className="shadow-md rounded-md">
-                <div className="w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]" />
-                <div className="flex justify-center py-4 px-6">
-                  {/* <p className="text-xs">
-                    Please note that our TWO HOUR TOUR starts every 15 minutes.
-                    Guests are required to come 20 minutes before their
-                    scheduled slot for processing of tickets.
-                  </p> */}
+                <div className="shadow-md rounded-md">
+                  <div className="w-full h-2 bg-gradient-to-r from-[#50CDC4] to-[#57B3E8]" />
+                  <div className="flex justify-center py-4 px-6">
+                    {/* <p className="text-xs">
+                      Please note that our TWO HOUR TOUR starts every 15 minutes.
+                      Guests are required to come 20 minutes before their
+                      scheduled slot for processing of tickets.
+                    </p> */}
+                  </div>
                 </div>
               </div>
             </div>
+            <div className="flex justify-center flex-wrap gap-5 py-5 w-60 self-center">
+              <button
+                disabled={cart.length > 0 ? false : true}
+                onClick={() => setShowModal(true)}
+                className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
+              >
+                Checkout
+              </button>
+            </div>
           </div>
-          <div className="flex justify-center flex-wrap gap-5 py-5 w-60 self-center">
-            <button
-              disabled={cart.length > 0 ? false : true}
-              onClick={() => setShowModal(true)}
-              className="shadow-md text-sm w-full sm:w-auto py-2 px-6 bg-[#58B4E9] text-white"
-            >
-              Checkout
-            </button>
-          </div>
-        </div>
+        )}
+        
       </div>
     </div>
   );
