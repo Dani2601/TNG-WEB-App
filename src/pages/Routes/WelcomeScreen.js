@@ -41,48 +41,38 @@ export default function WelcomeScreen() {
                 <Route path={routes.Home} element={<Landing />} />
 
                 <Route path={routes.Login} element={<Login />} />
-                {/* <Route path={routes.Register} element={<Register />} /> */}
+                <Route path={routes.Register} element={<Register />} />
 
                 {/* DessertMusuem */}
                 <Route path={routes.LandingDesert} element={<LandingDesert />} />
                 <Route path={routes.Packages} element={<DessertPackages />} />
+                <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
+
                 <Route path={routes.DessertBookingDefault} element={<DessertBooking />} />
                 <Route path={routes.DessertBooking} element={<DessertBooking />} />
 
-                {/* Gootopia */}
-                <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
-                <Route path={routes.ObstaclesGootopia} element={<Obstacles />} />
-                <Route path={routes.PackagesGootopia} element={<Packages />} />
-                <Route path={routes.FaqsGootopia} element={<FAQS />} />
-                <Route path={routes.ContactsGootopia} element={<Contacts />} />
-
-                {/* <Route path={routes.SelectLocationGootopia} element={<SelectLocation />} />
-        <Route path={routes.SelectTicketGootopia} element={<SelectTicket />} /> */}
                 <Route path={routes.BookingGootopiaDefault} element={<GootopiaBooking />} />
                 <Route path={routes.BookingGootopia} element={<GootopiaBooking />} />
-                <Route path={routes.PaymentSuccess} element={<PaymentSuccess />} />
-                <Route path={routes.PaymentFailed} element={<PaymentFailed />} />
 
-                {/* {TFR} temporary remove*/}
-                <Route path={routes.LandingTFR} element={<LandingTFR />} />
                 <Route path={routes.BookingTFRDefault} element={<TFRBooking />} />
                 <Route path={routes.BookingTFR} element={<TFRBooking />} />
 
-                {/* {Bakebe} */}
-                <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
+                <Route path={routes.BookingInflatableDefault} element={<InflatableBooking />} />
+                <Route path={routes.BookingInflatable} element={<InflatableBooking />} />
+
                 <Route path={routes.BookingBakebeDefault} element={<BakebeBooking />} />
                 <Route path={routes.BookingBakebe} element={<BakebeBooking />} />
 
-                {/* Infatable */}
-                <Route path={routes.LandingInflatableIsland} element={<LandingInflatableIsland />} />
-                <Route path={routes.BookingInflatableDefault} element={<InflatableBooking />} />
-                <Route path={routes.BookingInflatable} element={<InflatableBooking />} />
-                {/* 
-        <Route path={routes.Profile} element={<Profile />} />
-        <Route path={routes.Transaction} element={<Transaction />} />
-        <Route path={routes.Tickets} element={<Tickets />} /> */}
+                {/* {TFR} temporary remove */}
+                <Route path={routes.LandingTFR} element={<LandingTFR />} />
 
+                {/* {TFR} */}
+                <Route path={routes.LandingInflatableIsland} element={<LandingInflatableIsland />} />
+
+                {/* {Bakebe} */}
+                <Route path={routes.LandingBakebe} element={<LandingBakebe />} />
                 {/* <Route path="*" element={<PageNotFound />} /> */}
+                <Route path="*" element={<Login />} />
             </Routes>
         </>
     );
