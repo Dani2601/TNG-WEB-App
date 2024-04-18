@@ -66,7 +66,7 @@ async function getTicketBakebe(
 
     console.log('API Response:', data);
     if (data?.valid) {
-      return data;
+      return data.ticketInfo;
     } else {
       return data;
     }

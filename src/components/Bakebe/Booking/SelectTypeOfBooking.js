@@ -77,16 +77,21 @@ export default function SelectTypeOfBooking({
     }
   };
 
-  // useEffect(() => {
-  //   getTicketGootopia(user.id, process.env.REACT_APP_BAKEBE_KEY, location)
-  //     .then((response) => {
-  //       if (response.valid) {
-  //         setTickets(response.data);
-  //       } else {
-  //       }
-  //     })
-  //     .catch();
-  // }, [location, user]);
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    getTicketGootopia(accessToken, process.env.REACT_APP_BAKEBE_KEY, location)
+
+      .then((response) => {
+        if (response.success) {
+          setTickets(response.ticketInfo);
+        } else {
+          console.error('Failed to fetch tickets:', response);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching tickets:', error);
+      });
+  }, [location]);
 
   return (
     <BakebeContainer>

@@ -23,50 +23,50 @@ import { getDifficulty } from "../../../constants/input";
 import DataTable from "../../DataTable";
 import TicketCard from "../../Card/Bakebe/TicketCard";
 import { SignInModal } from "../../Modal/SignInModal";
-let ticket = [
-  {
-    id: 1,
-    TicketName: "Entrance",
-    OldPrice: "PHP 799.00",
-    NewPrice: "699.00",
-    Discount: "13% OFF",
-    Description: "Your ticket to the Weird and Wonderful World of Gootopia!",
-  },
-  {
-    id: 3,
-    TicketName: "JANUARY BABIES ARE FREE!",
-    OldPrice: "PHP 799.00",
-    NewPrice: "699.00",
-    Discount: "13% OFF",
-    Description:
-      "Just bring 1 paying friend! Valid within JANUARY 2023 ONLY. Celebrants must present their valid ID with date of Birth to avail the promo.",
-  },
-];
+// let ticket = [
+//   {
+//     id: 1,
+//     TicketName: "Entrance",
+//     OldPrice: "PHP 799.00",
+//     NewPrice: "699.00",
+//     Discount: "13% OFF",
+//     Description: "Your ticket to the Weird and Wonderful World of Gootopia!",
+//   },
+//   {
+//     id: 3,
+//     TicketName: "JANUARY BABIES ARE FREE!",
+//     OldPrice: "PHP 799.00",
+//     NewPrice: "699.00",
+//     Discount: "13% OFF",
+//     Description:
+//       "Just bring 1 paying friend! Valid within JANUARY 2023 ONLY. Celebrants must present their valid ID with date of Birth to avail the promo.",
+//   },
+// ];
 
-let category = [
-  "Cake",
-  "Cupcakes",
-  "Macaroon",
-  "Puff, Tarts & Cookies",
-  "Pet Treats",
-  "Crispnuts",
-];
+// let category = [
+//   "Cake",
+//   "Cupcakes",
+//   "Macaroon",
+//   "Puff, Tarts & Cookies",
+//   "Pet Treats",
+//   "Crispnuts",
+// ];
 
-let durationRegular = [
-  { Name: "5 hours", Value: "05:00" },
-  { Name: "3 hours and 15 minutes", Value: "03:15" },
-  { Name: "3 hours", Value: "03:00" },
-  { Name: "2 hours and 45 minutes", Value: "02:45" },
-  { Name: "2 hours and 30 minutes", Value: "02:30" },
-  { Name: "2 hours", Value: "02:00" },
-  { Name: "1 hour and 45 minutes", Value: "01:45" },
-  { Name: "1 hour and 30 minutes", Value: "01:30" },
-];
+// let durationRegular = [
+//   { Name: "5 hours", Value: "05:00" },
+//   { Name: "3 hours and 15 minutes", Value: "03:15" },
+//   { Name: "3 hours", Value: "03:00" },
+//   { Name: "2 hours and 45 minutes", Value: "02:45" },
+//   { Name: "2 hours and 30 minutes", Value: "02:30" },
+//   { Name: "2 hours", Value: "02:00" },
+//   { Name: "1 hour and 45 minutes", Value: "01:45" },
+//   { Name: "1 hour and 30 minutes", Value: "01:30" },
+// ];
 
-let durationExpress = [
-  { Name: "1 hour", Value: "01:00" },
-  { Name: "1 hour and 30 minutes", Value: "01:30" },
-];
+// let durationExpress = [
+//   { Name: "1 hour", Value: "01:00" },
+//   { Name: "1 hour and 30 minutes", Value: "01:30" },
+// ];
 
 let pageCount = [10, 15, 20];
 
@@ -77,7 +77,7 @@ export default function SelectTicketBakebe({
   location,
   setTicket,
   ticket,
-  selectedType,
+  ticketType,
 }) {
   const { user } = useSelector((state) => state.record);
   const [showModal, setShowModal] = useState(false);
@@ -96,7 +96,7 @@ export default function SelectTicketBakebe({
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleFilterChangeCategory = (event) => {
-    setCategoryFilter(event.target.value);
+    setCategoryFilter(ticket.ticketCategory);
     setPageNumber(1);
   };
 
@@ -162,9 +162,9 @@ export default function SelectTicketBakebe({
 
     getTicketBakebe(
       accessToken,
-      process.env.REACT_APP_TFR_KEY,
+      process.env.REACT_APP_BAKEBE_KEY,
       location,
-      selectedType,
+      ticketType,
       pageSizeFilter,
       pageNumber,
       categoryFilter,
@@ -174,13 +174,13 @@ export default function SelectTicketBakebe({
       .then((response) => {
         if (response.valid) {
           setTickets(response.ticketInfo);
-          setDataPageCount(response.pageCount);
+          // setDataPageCount(response.pageCount);
           setLoading(false);
         } else {
         }
       })
       .catch(setLoading(false));
-  }, [location, user, categoryFilter, difficultyFilter, durationFilter, pageSizeFilter, selectedType, pageNumber]);
+  }, [location, user, categoryFilter, difficultyFilter, durationFilter, pageSizeFilter, ticketType, pageNumber]);
 
   const tableData = useMemo(() => {
     if (loading) {
@@ -220,10 +220,10 @@ export default function SelectTicketBakebe({
         return tickets
           .filter((data) => {
             if (search === null) return data;
-            else if (data.ticketType.toLowerCase().includes(search.toLowerCase())) {
+            else if (data.ticketName.toLowerCase().includes(search.toLowerCase())) {
               return data;
             }
-          }).sort((a, b) => a.ticketType.localeCompare(b.ticketType))
+          }).sort((a, b) => a.ticketName.localeCompare(b.ticketName))
           .map((data, index) => {
             return (
               <div class="hoverEffects border-[0.5px] group container border-[#eeeeee] flex flex-col shadow-xl rounded-[30px] h-[322px]  w-[133px] mobileM:w-[167px] mobileL:w-[189px] tablet:w-[220px]  laptop:w-[290px] laptop4k:w-[350px] laptop:h-[270px] content-div">
@@ -262,7 +262,7 @@ export default function SelectTicketBakebe({
                         </div>
                         <div className="flex flex-row items-center">
                           <img src={timer} className="mr-1" />
-                          {data.Difficulty.slice(0, 1)}
+                          {data.difficulty.slice(0, 1)}
                         </div>
                       </div>
                     </div>
@@ -273,7 +273,7 @@ export default function SelectTicketBakebe({
                           fontFamily: "Gotham-Light, sans-serif",
                         }}
                       >
-                        {data.Description}
+                        {data.description}
                       </div>
                     </div>
                     <div className="h-[20%] px-3 self-center -mt-[3%] laptop:-mt-[7%]">
@@ -383,10 +383,10 @@ export default function SelectTicketBakebe({
                         All
                       </option>
 
-                      {category?.map((item, index) => {
+                      {ticket.ticketCategory?.map((item, index) => {
                         return (
                           <option
-                            key={index}
+                            key={ticket.id}
                             className="text-[10px]"
                             value={item}
                           >
@@ -415,7 +415,7 @@ export default function SelectTicketBakebe({
                       {difficultyCount?.map((item, index) => {
                         return (
                           <option
-                            key={index}
+                            key={ticket.id}
                             className="text-[10px]"
                             value={item}
                           >
@@ -438,27 +438,27 @@ export default function SelectTicketBakebe({
                         All
                       </option>
 
-                      {selectedType === "Express"
-                        ? durationExpress?.map((item, index) => {
+                      {ticket.ticketType === "Express"
+                        ? ticket.durationHours?.map((item, index) => {
                           return (
                             <option
-                              key={index}
+                              key={ticket.id}
                               className="text-[10px]"
                               value={item.Value}
                             >
-                              {item.ticketName}
+                              {item.Name}
                             </option>
                           );
                         })
-                        : durationRegular?.map((item, index) => {
+                        : ticket.durationHours?.map((item, index) => {
                           return (
                             <option
-                              key={index}
+                              key={ticket.id}
                               className="text-[10px]"
-                              value={item.price}
+                              value={item.Value}
                             >
                               {" "}
-                              {item.ticketName}
+                              {item.Name}
                             </option>
                           );
                         })}
@@ -527,7 +527,7 @@ export default function SelectTicketBakebe({
                       {pageCount?.map((item, index) => {
                         return (
                           <option
-                            key={index}
+                            key={ticket.id}
                             className="text-[10px]"
                             value={item}
                           >
@@ -550,43 +550,43 @@ export default function SelectTicketBakebe({
                 </div>
 
                 {/* <div
-                    className="flex flex-col pt-[3%] tablet:pt-0 tablet:justify-between"
-                    style={{ fontFamily: "Gotham-Light, sans-serif" }}
-                  >
-                    <div className="flex flex-row items-center gap-2 flex-wrap pb-[3%] tablet:justify-between">
-                      <div className="">Showing 1 to 20 of 54</div>
-                      <div className="flex flex-row items-center">
-                        <div className="mr-2">Go to Page:</div>
-                        <div className="">
-                          {" "}
-                          <select
-                            className="shadow-lg focus:outline-none  bg-white border rounded-[5px]  p-[12px] w-[137px] "
-                            aria-label="Default select example"
-                            style={{ fontFamily: "Gotham-Light, sans-serif" }}
+                  className="flex flex-col pt-[3%] tablet:pt-0 tablet:justify-between"
+                  style={{ fontFamily: "Gotham-Light, sans-serif" }}
+                >
+                  <div className="flex flex-row items-center gap-2 flex-wrap pb-[3%] tablet:justify-between">
+                    <div className="">Showing 1 to 20 of 54</div>
+                    <div className="flex flex-row items-center">
+                      <div className="mr-2">Go to Page:</div>
+                      <div className="">
+                        {" "}
+                        <select
+                          className="shadow-lg focus:outline-none  bg-white border rounded-[5px]  p-[12px] w-[137px] "
+                          aria-label="Default select example"
+                          style={{ fontFamily: "Gotham-Light, sans-serif" }}
 
-                            // onChange={(e) => {
-                            //   handleBusinessUnitSelectChange(e);
-                            // }}
-                            // name="BusinessUnit"
-                            // onClick={() => businessUnits()}
-                          >
-                            {pageCount?.map((item, index) => {
-                              return (
-                                <option
-                                  key={index}
-                                  className="text-[10px]"
-                                  value={item}
-                                >
-                                  {" "}
-                                  {item}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
+                          // onChange={(e) => {
+                          //   handleBusinessUnitSelectChange(e);
+                          // }}
+                          // name="BusinessUnit"
+                          // onClick={() => businessUnits()}
+                        >
+                          {pageCount?.map((item, index) => {
+                            return (
+                              <option
+                                key={ticket.id}
+                                className="text-[10px]"
+                                value={item}
+                              >
+                                {" "}
+                                {item}
+                              </option>
+                            );
+                          })}
+                        </select>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
+                </div> */}
               </div>
             </div>
             <div className="text-[13px] laptopL:text-[16px] laptopL:w-[25%] mx-[8%] py-[6%] laptopL:py-0 laptopL:mx-0 w-full">
@@ -596,7 +596,7 @@ export default function SelectTicketBakebe({
                     Location
                   </div>
                   <div className="text-bakebe-footerpink">
-                    {selectedLocation?.Name}
+                    {selectedLocation?.address}
                   </div>
                 </div>
                 <hr class="h-px bg-gray-200 border-0 my-5 laptopL:w-[250px]"></hr>
@@ -604,7 +604,7 @@ export default function SelectTicketBakebe({
                   <div style={{ fontFamily: "Gotham-Light, sans-serif" }}>
                     Type Of Booking
                   </div>
-                  <div className="text-bakebe-footerpink">{selectedType}</div>
+                  <div className="text-bakebe-footerpink">{ticket.ticketType}</div>
                 </div>
                 <hr class="h-px bg-gray-200 border-0 my-5 laptopL:w-[250px]"></hr>
               </div>
