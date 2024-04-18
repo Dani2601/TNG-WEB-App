@@ -35,6 +35,8 @@ export function InflatableBooking() {
   const dispatch = useDispatch()
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [loading, setLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [successResponse, setSuccessResponse] = useState({})
   
   const locationR = useLocation();
 
@@ -51,8 +53,10 @@ export function InflatableBooking() {
   function submit(e) {
     addBooking(e)
       .then((result) => {
-        if (result.valid) {
-          window.location.href = result.data.invoice_url;
+        if (result.success) {
+          setIsSuccess(true);
+          setSuccessResponse(result.transaction);
+          // window.location.href = result.data.invoice_url;
         } else {
           setLoading(false)
           toast.error(result.errorMsg);
@@ -128,6 +132,8 @@ export function InflatableBooking() {
             business={business}
             setLoading={setLoading}
             loading={loading}
+            success={isSuccess}
+            response={successResponse}
           />
         </TISContainer>
       )}
