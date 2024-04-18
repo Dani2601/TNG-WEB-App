@@ -66,11 +66,11 @@ export function InflatablePaymentDetails({
   const [reserve, setReserve] = useState([])
 
   const total = cart?.reduce((total, item) => {
-    if(item.Ticket.Promo === 'Buy 1 Take 1'){
-      return total + item.Ticket.Price * (item.Pax / 2)
+    if(item.ticket.promo === 'Buy 1 Take 1'){
+      return total + item.ticket.price * (item.Pax / 2)
     }
     else{
-      return total + item.Ticket.Price * item.Pax
+      return total + item.ticket.price * item.Pax
     }
   }, 0);
 
@@ -91,35 +91,36 @@ export function InflatablePaymentDetails({
     let pdfFileName = `${new Date().valueOf()}/pdf/${new Date().valueOf()}`;
 
     setSubmitData({
-      CustomerID: user?.id,
-      BusinessUnitID: cart[0]?.BusinessUnitID,
-      BranchID: cart[0]?.Location?.id,
-      Items: cart.map((item) => (
-        {
-          TicketID: item?.Ticket?.id,
-          BookingDate: item?.BookingDate,
-          BookingTime: item?.BookingTime,
-          EntranceTime: item?.EntranceTime ? item?.EntranceTime : "",
-          BookingEndTime: item?.BookingEndTime ? item?.BookingEndTime : "",
-          Pax: item?.Pax,
-          Status: "Unused"
-        }
-      )),
-      BookingType: bookingType,
-      Payment: {
-        Discount: discount
-      },
-      Coupon: coupon?.data?.id || "",
-      PDFFile : pdfFileName,  
-      TotalPrice: grandTotal,
+      // CustomerID: user?.id,
+      businessUnitId: cart[0]?.BusinessUnitID,
+      businessUnitBranchId: cart[0]?.ticket?.businessUnitBranch?.id,
+      bookingDate: cart[0]?.BookingDate,
+      bookingTimeId: cart[0]?.bookingTimeId,
+      pax: cart[0]?.Pax,
+      ticketId: cart[0]?.ticket?.id,
+      bookingType: 'online',
+      // BranchID: cart[0]?.Location?.id,
+      // Payment: {
+      //   Discount: discount
+      // },
+      // Coupon: coupon?.data?.id || "",
+      // PDFFile : pdfFileName,
+      total_price: grandTotal,
+      price: total,
+      phoneNumber: contact,
+      emailAddress: email,
+      firstName: fullname?.split(' ')[0],
+      lastName: fullname?.split(' ').slice(-1)[0],
+      reservation: true,
+      paymentMethod: 'zendit',
     });
   }
 
   useEffect(() => {
     if (user) {
-      setFullname(user?.Name);
-      setContact(user?.Mobile);
-      setEmail(user?.Email);
+      // setFullname(user?.Name);
+      setContact(user?.phone);
+      setEmail(user?.email_address);
     }
   }, [user]);
 
@@ -385,11 +386,11 @@ export function InflatablePaymentDetails({
     setShowModal(false)
   }
 
-  useEffect(() => {
-    if(!user?.id){
-      navigate(routes.Login)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if(!user?.id){
+  //     navigate(routes.Login)
+  //   }
+  // }, [])
 
   console.log(cart)
 
@@ -424,9 +425,10 @@ export function InflatablePaymentDetails({
                 <input
                   type="text"
                   value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
                   placeholder="Full Name"
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                  disabled                />
+                />
               </div>
               <div>
                 <p className="text-sm">
@@ -435,9 +437,10 @@ export function InflatablePaymentDetails({
                 <input
                   type="number"
                   value={contact}
+                  onChange={(e) => setContact(e.target.value)}
                   placeholder="Contact Number"
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                  disabled                />
+                />
               </div>
               <div className="border-b-2 border-black pb-4">
                 <p className="text-sm">
@@ -446,9 +449,10 @@ export function InflatablePaymentDetails({
                 <input
                   type="email"
                   value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address"
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                  disabled                />
+                />
               </div>
             </div>
             <div className="flex flex-col w-full sm:w-[40vw]">
@@ -457,7 +461,7 @@ export function InflatablePaymentDetails({
                 <div className="py-4 px-6">
                   <div className="border-b-2 border-gray-200">
                     <p className="font-bold text-sm mb-2">
-                      Location: {cart[0]?.Location?.Name}
+                      Location: {cart[0]?.Location}
                     </p>
                   </div>
                     {
@@ -465,12 +469,12 @@ export function InflatablePaymentDetails({
                         return(
                           <div key={index} className="pt-4 pb-3 border-b-2 border-gray-200">
                             <div className="flex justify-between items-center">
-                              <p className="font-bold text-sm">{item?.Ticket?.Name}</p>
+                              <p className="font-bold text-sm">{item?.Ticket?.ticketName}</p>
                               <FaTrash size={10} color="red" className="cursor-pointer" onClick={() => handleRemoveItem(index)}/>
                             </div>
                             <div className="flex justify-between py-2">
                               <div className="flex flex-col">
-                                <p className="text-xs">Type of ticket: {item?.Ticket?.Type}</p>
+                                <p className="text-xs">Type of ticket: {item?.ticket?.ticketType}</p>
                                 <p className="text-xs">
                                   Date:{" "} {item?.BookingDate && isValid(new Date(item.BookingDate))
                                   ? format(new Date(item.BookingDate), "MM/dd/yyyy")
@@ -507,7 +511,7 @@ export function InflatablePaymentDetails({
                               </div>
                               <div className="flex flex-col items-end">
                                 <p className="tex-4xl font-bold text-right">
-                                  ₱ {item?.Ticket?.Price}
+                                  ₱ {item?.ticket?.price}
                                 </p>
                               </div>
                             </div>
