@@ -74,6 +74,7 @@ export function TFRBookingDetails({
   const [description, setDescription] = useState(null);
   const [events, setEvents] = useState([]);
   const [stringifyTime, setStringifyTime] = useState("")
+  const [bookingTimeId, setBookingTimeId] = useState(null);
 
   function handleBack() {
     if (business === "BakeBe") {
@@ -93,6 +94,7 @@ export function TFRBookingDetails({
       ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
+      bookingTimeId: bookingTimeId,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.endTime) : "",
       Pax: ticket?.Promo === "Buy 1 Take 1" ? parseInt(pax * 2) : parseInt(pax),
       Option: selectedOption,
@@ -152,16 +154,16 @@ export function TFRBookingDetails({
   }, [ticket, bookingDate, location]);
 
   useEffect(() => {
-    if (ticket?.Day.length > 0) {
+    if (ticket?.Day?.length > 0) {
       setAllowedDays(ticket?.Day);
     }
   }, [ticket]);
 
-  useEffect(() => {
-    if (!user?.id) {
-      navigate(routes.Login)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!user?.id) {
+  //     navigate(routes.Login)
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (business === "Gootopia") {
@@ -181,12 +183,18 @@ export function TFRBookingDetails({
     } else if (business === "TFR") {
       getBranches(user?.id || '123', TFR_KEY)
         .then((response) => {
-          if (response.valid) {
-            // Convert the object into an array
-            const locationArray = Object.values(response.data);
-            setSelectedLocation(
-              locationArray.find((item) => item?.id === location)
-            );
+          if (response.success) {
+            const businessUnitBranchesArray = response.businessUnitBranchesArray;
+            if (businessUnitBranchesArray.length > 0) {
+              const businessUnitBranch = businessUnitBranchesArray[0];
+              if (businessUnitBranch) {
+                setSelectedLocation(businessUnitBranch.branchName);
+              } else {
+                setSelectedLocation("Not selected");
+              }
+            } else {
+              setSelectedLocation("Not selected");
+            }
           }
         })
         .catch((error) => {
@@ -341,158 +349,179 @@ export function TFRBookingDetails({
 
   function handleBookingDate(date) {
     setBookingDate(date);
+    intervalsSet(date)
     setBookingTime("")
     setPax("");
     setStringifyTime("");
   }
 
-  useEffect(() => {
-    if (bookingDate) {
-      if (ticket?.SubCategory === "Halloween Event") {
-        setIntervals(
-          ticket?.CreatedInterval.map((item) => {
-            let reservation = reserve?.filter(
-              (res) => res.BookingTime === item.timeInterval
-            );
-            let cartReserve = cart?.filter(
-              (cartItem) =>
-                cartItem.BookingTime === item.timeInterval &&
-                cartItem.ticket?.accessToken === ticket?.accessToken
-            );
-            if (reservation.length > 0) {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
-              return {
-                value: item.timeInterval,
-                slot: ((parseInt(200) - reservation?.length) <= 0 ? 0 : parseInt(200) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${((parseInt(200) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(200) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
-              };
-            } else {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
+  const intervalsSet = async (date, data) =>{
+    if (date) {
+      console.log('interval sett')
+      console.log(ticket)
+      console.log('interval sett')
 
-              return {
-                value: item.timeInterval,
-                slot: ((parseInt(200) - sumOfCart) <= 0 ? 0 : parseInt(200) - sumOfCart),
-                label: `${item.timeInterval} - ${((200 - sumOfCart) >= 0 ? (200 - sumOfCart) : 0)} slot(s)`,
-              };
-            }
-          })
-        );
-      } else if (ticket?.SubCategory === "Drinking Deck Tables") {
-        setIntervals(
-          ticket?.CreatedInterval.map((item) => {
-            let reservation = reserve?.filter(
-              (res) => res.BookingTime === item.timeInterval
-            );
-            let cartReserve = cart?.filter(
-              (cartItem) =>
-                cartItem.BookingTime === item.timeInterval &&
-                cartItem.ticket?.accessToken === ticket?.accessToken
-            );
-            if (reservation.length > 0) {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
-              return {
-                value: item.timeInterval,
-                slot: (parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) <= 0 ? 0 : parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
-              };
-            } else {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
-
-              return {
-                value: item.timeInterval,
-                slot: ((parseInt(item?.slot) - sumOfCart) <= 0 ? 0 : parseInt(item?.slot) - sumOfCart),
-                label: `${item.timeInterval} - ${((item?.slot - sumOfCart) >= 0 ? (item?.slot - sumOfCart) : 0)} slot(s)`,
-              };
-            }
-          })
-        );
-      } else if (ticket?.SubCategory === "Cabanas") {
-        setIntervals(
-          ticket?.CreatedInterval.map((item) => {
-            let reservation = reserve?.filter(
-              (res) => res.BookingTime === item.timeInterval
-            );
-            let cartReserve = cart?.filter(
-              (cartItem) =>
-                cartItem.BookingTime === item.timeInterval &&
-                cartItem.ticket?.accessToken === ticket?.accessToken
-            );
-            if (reservation.length > 0) {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
-              return {
-                value: item.timeInterval,
-                slot: ((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
-              };
-            } else {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
-
-              return {
-                value: item.timeInterval,
-                slot: ((parseInt(item?.slot) - sumOfCart) <= 0 ? 0 : parseInt(item?.slot) - sumOfCart),
-                label: `${item.timeInterval} - ${((item?.slot - sumOfCart) >= 0 ? item?.slot - sumOfCart : 0)} slot(s)`,
-              };
-            }
-          })
-        );
-      } else {
-        setIntervals(
-          ticket?.CreatedInterval.map((item) => {
-            let reservation = reserve?.filter(
-              (res) => res.BookingTime === item.timeInterval
-            );
-            let cartReserve = cart?.filter(
-              (cartItem) =>
-                cartItem.BookingTime === item.timeInterval &&
-                cartItem.ticket?.accessToken === ticket?.accessToken
-            );
-            if (reservation.length > 0) {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
-              return {
-                value: item.timeInterval,
-                slot: ((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item.slot) - (sumOfCart + (reservation.length || 0))),
-                label: `${item.timeInterval} - ${((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? (parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) : 0)} slot(s)`,
-              };
-            } else {
-              const sumOfCart = cartReserve.reduce(
-                (total, item) => total + item.Pax,
-                0
-              );
-
-              return {
-                value: item.timeInterval,
-                slot: ((parseInt(item.slot) - sumOfCart) <= 0 ? 0 : parseInt(item.slot) - sumOfCart),
-                label: `${item.timeInterval} - ${((item.slot - sumOfCart) >= 0 ? item.slot - sumOfCart : 0)} slot(s)`,
-              };
-            }
-          })
-        );
-      }
+      setIntervals(
+        ticket?.ticketIntervals.map((item) => {
+          return {
+            value: item,
+            slot:  item.slots,
+            label: `${item.time} - ${ item.slots}  slot(s)`,
+          };
+        })
+      );
     } else {
       setIntervals([]);
     }
-  }, [bookingDate, ticket, reserve]);
+  }
+
+  // useEffect(() => {
+  //   if (bookingDate) {
+  //     if (ticket?.SubCategory === "Halloween Event") {
+  //       setIntervals(
+  //         ticket?.CreatedInterval.map((item) => {
+  //           let reservation = reserve?.filter(
+  //             (res) => res.BookingTime === item.timeInterval
+  //           );
+  //           let cartReserve = cart?.filter(
+  //             (cartItem) =>
+  //               cartItem.BookingTime === item.timeInterval &&
+  //               cartItem.ticket?.accessToken === ticket?.accessToken
+  //           );
+  //           if (reservation.length > 0) {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: ((parseInt(200) - reservation?.length) <= 0 ? 0 : parseInt(200) - (sumOfCart + (reservation.length || 0))),
+  //               label: `${item.timeInterval} - ${((parseInt(200) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(200) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
+  //             };
+  //           } else {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: ((parseInt(200) - sumOfCart) <= 0 ? 0 : parseInt(200) - sumOfCart),
+  //               label: `${item.timeInterval} - ${((200 - sumOfCart) >= 0 ? (200 - sumOfCart) : 0)} slot(s)`,
+  //             };
+  //           }
+  //         })
+  //       );
+  //     } else if (ticket?.SubCategory === "Drinking Deck Tables") {
+  //       setIntervals(
+  //         ticket?.CreatedInterval.map((item) => {
+  //           let reservation = reserve?.filter(
+  //             (res) => res.BookingTime === item.timeInterval
+  //           );
+  //           let cartReserve = cart?.filter(
+  //             (cartItem) =>
+  //               cartItem.BookingTime === item.timeInterval &&
+  //               cartItem.ticket?.accessToken === ticket?.accessToken
+  //           );
+  //           if (reservation.length > 0) {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: (parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) <= 0 ? 0 : parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))),
+  //               label: `${item.timeInterval} - ${((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
+  //             };
+  //           } else {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: ((parseInt(item?.slot) - sumOfCart) <= 0 ? 0 : parseInt(item?.slot) - sumOfCart),
+  //               label: `${item.timeInterval} - ${((item?.slot - sumOfCart) >= 0 ? (item?.slot - sumOfCart) : 0)} slot(s)`,
+  //             };
+  //           }
+  //         })
+  //       );
+  //     } else if (ticket?.SubCategory === "Cabanas") {
+  //       setIntervals(
+  //         ticket?.CreatedInterval.map((item) => {
+  //           let reservation = reserve?.filter(
+  //             (res) => res.BookingTime === item.timeInterval
+  //           );
+  //           let cartReserve = cart?.filter(
+  //             (cartItem) =>
+  //               cartItem.BookingTime === item.timeInterval &&
+  //               cartItem.ticket?.accessToken === ticket?.accessToken
+  //           );
+  //           if (reservation.length > 0) {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: ((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))),
+  //               label: `${item.timeInterval} - ${((parseInt(item?.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? parseInt(item?.slot) - (sumOfCart + (reservation.length || 0)) : 0)} slot(s)`,
+  //             };
+  //           } else {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: ((parseInt(item?.slot) - sumOfCart) <= 0 ? 0 : parseInt(item?.slot) - sumOfCart),
+  //               label: `${item.timeInterval} - ${((item?.slot - sumOfCart) >= 0 ? item?.slot - sumOfCart : 0)} slot(s)`,
+  //             };
+  //           }
+  //         })
+  //       );
+  //     } else {
+  //       setIntervals(
+  //         ticket?.CreatedInterval.map((item) => {
+  //           let reservation = reserve?.filter(
+  //             (res) => res.BookingTime === item.timeInterval
+  //           );
+  //           let cartReserve = cart?.filter(
+  //             (cartItem) =>
+  //               cartItem.BookingTime === item.timeInterval &&
+  //               cartItem.ticket?.accessToken === ticket?.accessToken
+  //           );
+  //           if (reservation.length > 0) {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: ((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) <= 0 ? 0 : parseInt(item.slot) - (sumOfCart + (reservation.length || 0))),
+  //               label: `${item.timeInterval} - ${((parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) >= 0 ? (parseInt(item.slot) - (sumOfCart + (reservation.length || 0))) : 0)} slot(s)`,
+  //             };
+  //           } else {
+  //             const sumOfCart = cartReserve.reduce(
+  //               (total, item) => total + item.Pax,
+  //               0
+  //             );
+
+  //             return {
+  //               value: item.timeInterval,
+  //               slot: ((parseInt(item.slot) - sumOfCart) <= 0 ? 0 : parseInt(item.slot) - sumOfCart),
+  //               label: `${item.timeInterval} - ${((item.slot - sumOfCart) >= 0 ? item.slot - sumOfCart : 0)} slot(s)`,
+  //             };
+  //           }
+  //         })
+  //       );
+  //     }
+  //   } else {
+  //     setIntervals([]);
+  //   }
+  // }, [bookingDate, ticket, reserve]);
 
   function handleClear() {
     setBookingDate(null);
@@ -536,10 +565,11 @@ export function TFRBookingDetails({
 
   const maxPerInterval = useMemo(() => {
     let max = "";
-    if (ticket?.SubCategory === "Entrance") {
-      let intervalData = intervals[0];
-      max = intervalData?.slot - reserve?.length;
-    } else if (bookingDate && bookingTime && intervals) {
+    // if (ticket?.SubCategory === "Entrance") {
+    //   let intervalData = intervals[0];
+    //   max = intervalData?.slot - reserve?.length;
+    // } 
+    if (bookingDate && bookingTime && intervals) {
       let intervalData = intervals?.find((item) => item.value === bookingTime);
       max = intervalData?.slot;
     }
@@ -549,7 +579,8 @@ export function TFRBookingDetails({
   function handleBookingTime(e) {
     if (e.target.value) {
       const data = JSON.parse(e.target.value);
-      setBookingTime(data?.value);
+      setBookingTime(data.time);
+      setBookingTimeId(data.id);
       setPax(1);
       setDisabled(false);
       setSlotIdentifier(data?.slot);
@@ -566,7 +597,7 @@ export function TFRBookingDetails({
     const booking = {
       BusinessUnitID: business_unit[business],
       Location: selectedLocation,
-      Ticket: ticket,
+      ticket: ticket,
       BookingDate: bookingDate ? format(bookingDate, "yyyy-MM-dd") : "",
       BookingTime: bookingTime,
       BookingEndTime: withoutFilters ? convertToNormalTime(ticket.TimeEnd) : "",
@@ -668,7 +699,7 @@ export function TFRBookingDetails({
                 <small style={{ color: "red" }}>*</small>
               </p>
               <div className="flex items-center">
-                <span className="mr-2 text-sm">{ticket?.Name}</span>
+                <span className="mr-2 text-sm">{ticket?.ticketName}</span>
                 <FiTrash2
                   color="red"
                   className="cursor-pointer"
@@ -706,12 +737,11 @@ export function TFRBookingDetails({
                         }
                       }
 
+                      const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
                       return (
                         date >= today &&
-                        !allDates.includes(format(date, "MM/dd/yyyy")) &&
-                        allowedDays.includes(
-                          date.toLocaleDateString("en-US", { weekday: "long" })
-                        )
+                        (!allDates.includes(format(date, "MM/dd/yyyy")) ||
+                          !allowedDays.includes(dayOfWeek))
                       );
                     }}
                     value={bookingDate ? format(bookingDate, "MM/dd/yyyy") : ""}
@@ -732,6 +762,19 @@ export function TFRBookingDetails({
                   >
                     <option value={""}>Select a time</option>
                     {intervals?.length > 0 &&
+                      intervals?.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            value={JSON.stringify(item.value)}
+                            disabled={false}
+                          >
+                            {item.label}
+                          </option>
+                        );
+                      })
+                    }
+                    {/* {intervals?.length > 0 &&
                       intervals?.map((item, index) => {
                         const itemTime = moment(item.value, "h:mm A").tz(
                           "Asia/Manila"
@@ -850,7 +893,7 @@ export function TFRBookingDetails({
                             );
                           }
                         }
-                      })}
+                      })} */}
                   </select>
                 </div>
               )}
@@ -947,14 +990,14 @@ export function TFRBookingDetails({
                 <div className="py-4 px-6">
                   <div className="border-b-2 border-gray-200">
                     <p className="font-bold text-sm mb-2">
-                      Location: {selectedLocation?.Name}
+                      Location: {selectedLocation}
                     </p>
                     <p className="font-bold text-sm mb-3">
-                      Type Of Ticket: {ticket?.Type}
+                      Type Of Ticket: {ticket?.ticketType}
                     </p>
                   </div>
                   <div className="pt-4 pb-3 border-b-2 border-gray-200">
-                    <p className="font-bold text-sm">{ticket?.Name}</p>
+                    <p className="font-bold text-sm">{ticket?.ticketName}</p>
                     <div className="flex justify-between py-2">
                       <div className="flex flex-col">
                         <p className="text-xs">
@@ -1012,7 +1055,7 @@ export function TFRBookingDetails({
                         )}
                       </div>
                       <div className="flex items-ebd">
-                        <p className="tex-4xl font-bold">₱ {ticket?.Price}</p>
+                        <p className="tex-4xl font-bold">₱ {ticket?.price}</p>
                       </div>
                     </div>
                   </div>
