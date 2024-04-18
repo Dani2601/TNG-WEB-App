@@ -127,7 +127,7 @@ export default function Topbar({ scroll }) {
               <div>
                 <a
                   className="cursor-pointer"
-                  href="/"
+                  href={routes.Home}
                   target="_blank"
                 >
                   <img

@@ -14,7 +14,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import "./index.css";
 import "tw-elements";
-import "react-toastify/dist/ReactToastify.min.css"; 
+import "react-toastify/dist/ReactToastify.min.css";
+import { AuthenticatedScreens, UnauthenticatedScreens } from "./pages/Routes";
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
