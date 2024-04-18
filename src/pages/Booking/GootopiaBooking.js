@@ -34,6 +34,8 @@ export function GootopiaBooking() {
   const [selectedOption, setSelectedOption] = useState('Individual');
   const locationR = useLocation();
   const [loading, setLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [successResponse, setSuccessResponse] = useState({})
   const { locationParams } = useParams();
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export function GootopiaBooking() {
   
   const total = useMemo(() => {
     if(ticket){
-      let price = ticket?.Price
+      let price = ticket?.price
       return price * pax
     }
     return 0
@@ -67,8 +69,10 @@ export function GootopiaBooking() {
   function submit(e) {
     addBooking(e)
       .then((result) => {
-        if (result.valid) {
-          window.location.href = result.data.invoice_url;
+        if (result.success) {
+          setIsSuccess(true);
+          setSuccessResponse(result.transaction);
+          // window.location.href = result.data.invoice_url;
         } else {
           setLoading(false)
           toast.error(result.errorMsg);
@@ -152,6 +156,8 @@ export function GootopiaBooking() {
             total={total}
             setLoading={setLoading}
             loading={loading}
+            success={isSuccess}
+            response={successResponse}
           />
         </GootopiaContainer>
       )}
