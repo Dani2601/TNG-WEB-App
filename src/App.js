@@ -34,15 +34,15 @@ function App() {
             {/* Default route - Display the WelcomeScreen (landing page) */}
             <Route path="/" element={<WelcomeScreen />} />
 
-            {/* Unauthenticated routes */}
-            <Route path="/login" element={<UnauthenticatedScreens />} />
-            <Route path="/register" element={<UnauthenticatedScreens />} />
-            
             {/* Authenticated routes */}
             <Route path="/home" element={<AuthenticatedScreens />} />
 
-
+            {/* Unauthenticated routes */}
+            <Route path="/login" element={<UnauthenticatedScreens />} />
+            <Route path="/register" element={<UnauthenticatedScreens />} />
           </Routes>
+          
+          {loggedIn ? <AuthenticatedScreens /> : <UnauthenticatedScreens />}
         </>
       )}
     </div>
