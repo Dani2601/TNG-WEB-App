@@ -130,7 +130,7 @@ export default function Packages() {
                         <div>
                           <img
                             class="h-[285px] tablet:h-[308px] mb-5 hoverPackageEffects cursor-pointer"
-                            src={item.Image}
+                            src={item.image}
                             alt="gootopialanding"
                           />
                         </div>

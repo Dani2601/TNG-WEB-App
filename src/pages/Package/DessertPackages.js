@@ -116,7 +116,7 @@ export default function DessertPackages() {
                         <div>
                           <img
                             class="h-[500px] tablet:h-[500px] mb-5 hoverPackageEffects cursor-pointer"
-                            src={item.Image}
+                            src={item.image}
                             alt="events"
                           />
                         </div>

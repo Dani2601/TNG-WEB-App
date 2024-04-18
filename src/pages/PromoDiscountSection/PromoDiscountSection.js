@@ -48,7 +48,7 @@ export function PromoDiscountSection(id) {
                 <div className="bg-white rounded-lg m-h-64 p-2 transform hover:translate-y-2 hover:shadow-xl transition duration-300 ">
                   <figure className="mb-2">
                     <img
-                      src={item.Image}
+                      src={item.image}
                       alt="package"
                       className="h-64 ml-auto mr-auto rounded-2xl"
                     />

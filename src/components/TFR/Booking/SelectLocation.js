@@ -105,12 +105,12 @@ export default function SelectLocation({
                           ? "outline text-tfr-pink"
                           : ""
                           }`}
-                        src={data?.Image}
+                        src={data?.image}
                         alt=""
                       />
                     </button>
                     <div className="text-tfr-pink text-[12px] tablet:text-[14px] w-[75px] tablet:w-[120px] h-auto text-center font-poppins font-bold self-center mt-1">
-                      {data?.Address}
+                      {data?.address}
                     </div>
                   </div>
                 ))}
