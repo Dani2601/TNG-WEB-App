@@ -31,8 +31,6 @@ function App() {
           <Cart />
 
           <Routes>
-            {/* Default route - Display the WelcomeScreen (landing page) */}
-            <Route path="/" element={<WelcomeScreen />} />
 
             {/* Authenticated routes */}
             <Route path="/home" element={<AuthenticatedScreens />} />
@@ -41,7 +39,7 @@ function App() {
             <Route path="/login" element={<UnauthenticatedScreens />} />
             <Route path="/register" element={<UnauthenticatedScreens />} />
           </Routes>
-          
+
           {loggedIn ? <AuthenticatedScreens /> : <UnauthenticatedScreens />}
         </>
       )}

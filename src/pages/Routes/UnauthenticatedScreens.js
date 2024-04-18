@@ -17,6 +17,7 @@ import { GootopiaBooking } from "../Booking/GootopiaBooking";
 import { TFRBooking } from "../Booking/TFRBooking";
 import { InflatableBooking } from "../Booking/InflatableBooking";
 import { BakebeBooking } from "../Booking/BakebeBooking";
+import Landing from "../Landing/Landing";
 
 export default function UnauthenticatedScreens() {
   return (
@@ -25,6 +26,8 @@ export default function UnauthenticatedScreens() {
         <title>The Next Experience</title>
       </Helmet>
       <Routes>
+        <Route path={routes.Home} element={<Landing />} />
+
         <Route path={routes.Login} element={<Login />} />
         <Route path={routes.Register} element={<Register />} />
 
@@ -32,8 +35,8 @@ export default function UnauthenticatedScreens() {
         <Route path={routes.LandingDesert} element={<LandingDesert />} />
         <Route path={routes.Packages} element={<DessertPackages />} />
         <Route path={routes.LandingGootopia} element={<LandingGootopia />} />
-        
-        <Route path={routes.DessertBookingDefault} element={<DessertBooking/>} />
+
+        <Route path={routes.DessertBookingDefault} element={<DessertBooking />} />
         <Route path={routes.DessertBooking} element={<DessertBooking />} />
 
         <Route path={routes.BookingGootopiaDefault} element={<GootopiaBooking />} />
@@ -47,10 +50,10 @@ export default function UnauthenticatedScreens() {
 
         <Route path={routes.BookingBakebeDefault} element={<BakebeBooking />} />
         <Route path={routes.BookingBakebe} element={<BakebeBooking />} />
-        
+
         {/* {TFR} temporary remove */}
         <Route path={routes.LandingTFR} element={<LandingTFR />} />
-        
+
         {/* {TFR} */}
         <Route path={routes.LandingInflatableIsland} element={<LandingInflatableIsland />} />
 
