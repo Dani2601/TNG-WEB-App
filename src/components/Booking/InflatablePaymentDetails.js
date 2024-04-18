@@ -386,11 +386,11 @@ export function InflatablePaymentDetails({
     setShowModal(false)
   }
 
-  useEffect(() => {
-    if(!user?.id){
-      navigate(routes.Login)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if(!user?.id){
+  //     navigate(routes.Login)
+  //   }
+  // }, [])
 
   console.log(cart)
 
@@ -437,9 +437,10 @@ export function InflatablePaymentDetails({
                 <input
                   type="number"
                   value={contact}
+                  onChange={(e) => setContact(e.target.value)}
                   placeholder="Contact Number"
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                  disabled                />
+                />
               </div>
               <div className="border-b-2 border-black pb-4">
                 <p className="text-sm">
@@ -448,9 +449,10 @@ export function InflatablePaymentDetails({
                 <input
                   type="email"
                   value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address"
                   className="w-full shadow-md py-2 px-4 border-2 border-gray-400 mb-3 bg-white"
-                  disabled                />
+                />
               </div>
             </div>
             <div className="flex flex-col w-full sm:w-[40vw]">
