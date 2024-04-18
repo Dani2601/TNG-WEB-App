@@ -19,6 +19,7 @@ import { TCModalContainer } from "../Modal/TermsAndCondition";
 import { getBookingsByTicketID } from "../../functions/Tickets";
 import { WaiverModalContainer } from "../Modal/Waiver";
 import gootopianav from "../../assets/Header/gootopianav.png";
+import { formatter } from "../../helper/Currency";
 
 const DESSERT_KEY = process.env.REACT_APP_DESSERT_KEY;
 const GOOTOPIA_KEY = process.env.REACT_APP_GOOTOPIA_KEY;
@@ -67,11 +68,6 @@ export function TDMPaymentDetails({
   const dispatch = useDispatch()
   const [code, setCode] = useState('')
   const [reserve, setReserve] = useState([])
-
-  const formatter = new Intl.NumberFormat('en-PH', {
-    style: 'currency',
-    currency: 'PHP'
-  });
 
   const total = cart?.reduce((total, item) => {
     if(item.ticket.promo === 'Buy 1 Take 1'){
