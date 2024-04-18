@@ -30,16 +30,6 @@ function App() {
           <Bottombar />
           <Cart />
 
-          <Routes>
-
-            {/* Authenticated routes */}
-            <Route path="/home" element={<AuthenticatedScreens />} />
-
-            {/* Unauthenticated routes */}
-            <Route path="/login" element={<UnauthenticatedScreens />} />
-            <Route path="/register" element={<UnauthenticatedScreens />} />
-          </Routes>
-
           {loggedIn ? <AuthenticatedScreens /> : <UnauthenticatedScreens />}
         </>
       )}
