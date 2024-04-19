@@ -40,7 +40,8 @@ export function TFRBooking() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { user, cart } = useSelector((state) => state.record);
-
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [successResponse, setSuccessResponse] = useState({})
 
   const locationR = useLocation();
 
@@ -56,7 +57,7 @@ export function TFRBooking() {
 
   const total = useMemo(() => {
     if (ticket) {
-      let price = ticket?.Price;
+      let price = ticket?.price;
       return price * pax;
     }
     return 0;
@@ -65,8 +66,10 @@ export function TFRBooking() {
   function submit(e) {
     addBooking(e)
       .then((result) => {
-        if (result.valid) {
-          window.location.href = result.data.invoice_url;
+        if (result.success) {
+          setIsSuccess(true);
+          setSuccessResponse(result.transaction);
+          // window.location.href = result.data.invoice_url;
         } else {
           setLoading(false);
           toast.error(result.errorMsg);
@@ -156,6 +159,8 @@ export function TFRBooking() {
             total={total}
             setLoading={setLoading}
             loading={loading}
+            success={isSuccess}
+            response={successResponse}
           />
         </TFRContainer>
       )}
