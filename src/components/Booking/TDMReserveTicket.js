@@ -72,7 +72,7 @@ export function TDMReserveTicket({ setStep, ticket, setTicket, location, navigat
                 handleProceed={handleCart} />
             <TDMModalBooking
                 showModal={showModal}
-                ticketInfo={ticket}
+                ticket={ticket}
                 handleCloseModal={handleCloseModal}
                 setStep={setStep}
                 handleProceed={handleProceed} />
@@ -98,7 +98,7 @@ export function TDMReserveTicket({ setStep, ticket, setTicket, location, navigat
                 </div>
                 <div className='flex justify-center gap-5'>
                     <button onClick={handleBack} className='shadow-md text-sm py-2 px-6 border-[#FF98C3] border-2 text-[#FF98C3]'>Back</button>
-                    <button onClick={(item) => { handleNext(); setTicket(item); }} disabled={!ticket} className='shadow-md text-sm py-2 px-6 bg-[#FF98C3] text-white'>Proceed to Booking</button>
+                    <button onClick={() => { handleNext(); setTicket(ticket); }} disabled={!ticket} className='shadow-md text-sm py-2 px-6 bg-[#FF98C3] text-white'>Proceed to Booking</button>
 
                 </div>
             </div>

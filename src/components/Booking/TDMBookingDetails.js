@@ -577,6 +577,8 @@ export function TDMBookingDetails({
                     filterDate={(date) => {
                       const today = new Date();
                       today.setHours(0, 0, 0, 0);
+                      const allDates = [];
+
 
                       // Check if the date is in the list of available dates from the 'ticket' API
                       const availableDates = ticket?.availability || [];
@@ -591,12 +593,12 @@ export function TDMBookingDetails({
                       // console.log(moment(date).format("MM/DD/YYYY"))
                       // console.log(availableDates.includes(getWordedDay(date)))
 
-                      return (
-                        date && date >= today && availableDates.includes(getWordedDay(date))
-                        // &&
-                        // date >= today &&
-                        // availableDates.includes(moment(date).format("MM/DD/YYYY"))
-                      );
+                      // return (
+                      //   date && date >= today && availableDates.includes(getWordedDay(date))
+                      //   // &&
+                      //   // date >= today &&
+                      //   // availableDates.includes(moment(date).format("MM/DD/YYYY"))
+                      // );
 
                       // return (
                       //   date &&
@@ -604,6 +606,13 @@ export function TDMBookingDetails({
                       //   availableDates.includes(moment(date).format("MM/DD/YYYY")) &&
                       //   allowedDays.includes(date.toLocaleDateString("en-US", {weekday: "long" }))
                       // );
+
+                      const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
+                      return (
+                        date >= today &&
+                        (!allDates.includes(format(date, "MM/dd/yyyy")) ||
+                          !allowedDays.includes(dayOfWeek))
+                      );
                     }}
 
                     value={bookingDate ? moment(bookingDate).format("MM/DD/YYYY") : ""}
@@ -922,7 +931,7 @@ export function TDMBookingDetails({
                 <div className="py-4 px-6">
                   <div className="border-b-2 border-gray-200">
                     <p className="font-bold text-sm mb-2">
-                      Location: {selectedLocation || 'Error undefined'}
+                      Location: {selectedLocation}
                     </p>
                     <p className="font-bold text-sm mb-3">
                       Type Of ticket: {ticket?.ticketType}
@@ -948,7 +957,7 @@ export function TDMBookingDetails({
                         }
                       </div>
                       <div className="flex items-ebd">
-                        <p className="tex-4xl font-bold">₱ {ticket?.price.toLocaleString()}</p>
+                        <p className="tex-4xl font-bold">₱ {ticket?.price}</p>
                       </div>
                     </div>
                   </div>
@@ -957,12 +966,12 @@ export function TDMBookingDetails({
                       <div>
                         <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                           <div className="text-sm font-bold">Discount ({ticket?.discountPercentage}%)</div>
-                          <div className="font-bold">₱ {((ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)).toLocaleString()}</div>
+                          <div className="font-bold">₱ {((ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100))}</div>
                         </div>
                         <div className="flex justify-between pt-4 pb-3 border-b-2 border-gray-200">
                           <div className="text-sm font-bold">Total</div>
                           {/* <div className="font-bold">₱ {(total + ((business === 'BakeBe' && selectedOption === 'Share' && numberOfPersons === 2) ? 500 : 0)) - (ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)}</div> */}
-                          <div className="font-bold">₱ {((ticket?.price * pax) - ((ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100))).toLocaleString()}</div>
+                          <div className="font-bold">₱ {((ticket?.price * pax) - ((ticket?.price * pax) * (parseInt(ticket?.discountPercentage) / 100)))}</div>
                         </div>
                       </div>
                       :
