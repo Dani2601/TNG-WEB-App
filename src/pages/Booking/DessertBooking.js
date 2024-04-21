@@ -26,6 +26,8 @@ export function DessertBooking() {
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [successResponse, setSuccessResponse] = useState({})
   const { locationParams } = useParams();
 
   // useEffect(() => {
@@ -64,8 +66,10 @@ export function DessertBooking() {
   function submit(e) {
     addBooking(e)
       .then((result) => {
-        if (result.valid) {
-          window.location.href = result.data.invoice_url;
+        if (result.success) {
+          setIsSuccess(true);
+          setSuccessResponse(result.transaction);
+          // window.location.href = result.data.invoice_url;
         } else {
           setLoading(false);
           toast.error(result.errorMsg);
@@ -115,6 +119,8 @@ export function DessertBooking() {
           bookingType={selectedOption}
           setLoading={setLoading}
           loading={loading}
+          success={isSuccess}
+          response={successResponse}
         />
       )}
     </DesertMuseumContainer>
