@@ -393,8 +393,15 @@ export function TDMBookingDetails({
   }
 
   function handlePax(e) {
-    console.log(e.target.value)
-    setPax(e.target.value)
+    // console.log(e.target.value)
+    if (business === "BakeBe") {
+      let input = e !== "" ? parseInt(e) : ""; // Parse input as integer if not empty
+      if (input === "" || (input > 0 && (ticket?.promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range
+        setPax(input);
+      }
+    } else {
+      setPax(e.target.value)
+    }
     // if (business !== "BakeBe") {
     //   let input = e.target?.value !== "" ? parseInt(e.target?.value) : ""; // Parse input as integer if not empty
     //   if (input === "" || (input > 0 && (ticket?.promo === 'Buy 1 Take 1' ? (input * 2) <= maxPerInterval : input <= maxPerInterval))) { // Check if input is empty or within the allowed range

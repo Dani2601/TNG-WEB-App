@@ -138,23 +138,23 @@ export default function SelectTicketBakebe({
     setShowModal(false);
   }
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    getBranches(accessToken, BAKEBE_KEY)
-      .then((response) => {
-        if (response.success) {
-          // // Convert the object into an array
-          // const locationArray = Object.values(response.data);
-          // setSelectedLocation(
-          //   locationArray.find((item) => item?.id === location)
-          // );
-          setTickets(response.ticketInfo);
-        }
-      })
-      .catch((error) => {
-        // Handle error case
-      });
-  }, [location]);
+  // useEffect(() => {
+  //   const accessToken = localStorage.getItem('accessToken');
+  //   getBranches(accessToken, BAKEBE_KEY)
+  //     .then((response) => {
+  //       if (response.success) {
+  //         // // Convert the object into an array
+  //         // const locationArray = Object.values(response.data);
+  //         // setSelectedLocation(
+  //         //   locationArray.find((item) => item?.id === location)
+  //         // );
+  //         setTickets(response.ticketInfo);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // Handle error case
+  //     });
+  // }, [location]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -172,7 +172,7 @@ export default function SelectTicketBakebe({
       durationFilter
     )
       .then((response) => {
-        if (response.valid) {
+        if (response.success) {
           setTickets(response.ticketInfo);
           // setDataPageCount(response.pageCount);
           setLoading(false);
@@ -240,11 +240,11 @@ export default function SelectTicketBakebe({
                   <div className="flex flex-row flex-wrap justify-between gap-2 text-bakebe-brown text-[12px] laptop:mx-[2%]">
                     <div className="flex flex-row truncate items-center">
                       <img src={clock} className="mr-1" />{" "}
-                      {convertToHoursMinutes(data.durationHours)}
+                      {data.durationHours} : {data.durationMinutes}
                     </div>
                     <div className="flex flex-row items-center">
                       <img src={timer} className="mr-1" />
-                      {data.Difficulty.slice(0, 1)}
+                      {data.Difficulty}
                     </div>
                   </div>
                 </div>
@@ -258,11 +258,11 @@ export default function SelectTicketBakebe({
                       <div className="flex flex-col laptop:flex-row flex-wrap justify-between gap-2 text-bakebe-brown text-[12px] laptop:mx-[2%]">
                         <div className="flex flex-row truncate items-center">
                           <img src={clock} className="mr-1" />{" "}
-                          {convertToHoursMinutes(data.durationHours)}
+                          {data.durationHours} : {data.durationMinutes}
                         </div>
                         <div className="flex flex-row items-center">
                           <img src={timer} className="mr-1" />
-                          {data.difficulty.slice(0, 1)}
+                          {data.difficulty}
                         </div>
                       </div>
                     </div>
@@ -383,7 +383,7 @@ export default function SelectTicketBakebe({
                         All
                       </option>
 
-                      {ticket.ticketCategory?.map((item, index) => {
+                      {/* {ticket.ticketCategory?.map((item, index) => {
                         return (
                           <option
                             key={ticket.id}
@@ -394,7 +394,17 @@ export default function SelectTicketBakebe({
                             {item}
                           </option>
                         );
-                      })}
+                      })} */}
+                      {ticket.ticketCategory && (
+                        <option
+                          key={ticket.ticketCategory.id}
+                          className="text-[10px]"
+                          value={ticket.ticketCategory.name}
+                        >
+                          {" "}
+                          {ticket.ticketCategory.name}
+                        </option>
+                      )}
                     </select>
 
                     <select
@@ -438,7 +448,7 @@ export default function SelectTicketBakebe({
                         All
                       </option>
 
-                      {ticket.ticketType === "Express"
+                      {/* {ticket.ticketType === "Express"
                         ? ticket.durationHours?.map((item, index) => {
                           return (
                             <option
@@ -461,7 +471,7 @@ export default function SelectTicketBakebe({
                               {item.Name}
                             </option>
                           );
-                        })}
+                        })} */}
                     </select>
                   </div>
 

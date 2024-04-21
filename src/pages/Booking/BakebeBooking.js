@@ -40,6 +40,8 @@ export function BakebeBooking() {
   const [qrCode, setQRCode] = useState("default");
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [successResponse, setSuccessResponse] = useState({})
   const { locationParams } = useParams();
 
   const locationR = useLocation();
@@ -90,8 +92,10 @@ export function BakebeBooking() {
   function submit(e) {
     addBooking(e)
       .then((result) => {
-        if (result.valid) {
-          window.location.href = result.data.invoice_url;
+        if (result.success) {
+          setIsSuccess(true);
+          setSuccessResponse(result.transaction);
+          // window.location.href = result.data.invoice_url;
         } else {
           setLoading(false)
           toast.error(result.errorMsg);
@@ -192,6 +196,8 @@ export function BakebeBooking() {
             setLoading={setLoading}
             loading={loading}
             selectedOption={selectedOption}
+            success={isSuccess}
+            response={successResponse}
           />
         </BakebeContainer>
       )}

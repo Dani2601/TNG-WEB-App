@@ -52,18 +52,15 @@ export default function SelectLocationBakebe({
     getBranches(accessToken, BAKEBE_KEY)
       .then((response) => {
         console.log("branch response", response);
-        console.log("branch data", response.branches);
-        setBranch(response.businessUnitBranchesArray);
-        // if (response.success) {
-        //   // const locationArray = Object.values(response.data);
-        //   // setSelectedLocation(locationArray);
-        //   setBranch(response.data);
-        //   console.log("Response data:", response.data);
-
-        // } else {
-        // }
+        if (response.success) {
+          setBranch(response.businessUnitBranchesArray);
+        } else {
+          console.error("Failed to fetch branches: Invalid response format");
+        }
       })
-      .catch();
+      .catch((error) => {
+        console.error("Error fetching branches:", error);
+      });
   }, []);
 
   return (
@@ -86,7 +83,7 @@ export default function SelectLocationBakebe({
           <div className="bg-slate-200 w-[300px] tablet:w-[400px] rounded-md p-3">
             <div>
               <div className="flex flex-row">
-                {branch && branch.length > 0 && branch.map((data, index) => (
+                {branch.map((data, index) => (
                   <div className="flex flex-col mr-3 hoverEffects" key={index}>
                     <button
                       className={`outline-4 self-center ${selectedBranch === data.id
